@@ -1,0 +1,4154 @@
+{
+  "D:\\laragon\\www\\test\\wow-plugins\\!Swatter\\!Swatter.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7750766,
+    "ast_hash": "b68d133654952522b04f33a2f64bca3e",
+    "semantic_hash": "b68d133654952522b04f33a2f64bca3e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\!Swatter\\Support\\LibRevision.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7750869,
+    "ast_hash": "6e2a357cb28316ea2987eb5c406f3866",
+    "semantic_hash": "6e2a357cb28316ea2987eb5c406f3866"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\!Swatter\\Swatter.lua": {
+    "mtime": 1790578464.5449147,
+    "seen": 1790600851.77509,
+    "ast_hash": "86406d4db0d0757741702f916803c067",
+    "semantic_hash": "86406d4db0d0757741702f916803c067"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\ARL.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7750912,
+    "ast_hash": "a89232d7629233e79b7acb3f64e71f87",
+    "semantic_hash": "a89232d7629233e79b7acb3f64e71f87"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\AckisRecipeList.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7750936,
+    "ast_hash": "91e6ba206b955ba673650b1038f2e24e",
+    "semantic_hash": "91e6ba206b955ba673650b1038f2e24e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Colour.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7750947,
+    "ast_hash": "a361a970f1c0da925901b2a9dbcb30d7",
+    "semantic_hash": "a361a970f1c0da925901b2a9dbcb30d7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Config.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7750967,
+    "ast_hash": "c406540bf9def85d884a485a76db113f",
+    "semantic_hash": "c406540bf9def85d884a485a76db113f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Alchemy.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775098,
+    "ast_hash": "9bc8e9c47a184037845f875d50773c35",
+    "semantic_hash": "9bc8e9c47a184037845f875d50773c35"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Blacksmithing.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7750998,
+    "ast_hash": "e91e1c4f2f1d196c850238302f62ff21",
+    "semantic_hash": "e91e1c4f2f1d196c850238302f62ff21"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Cooking.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751014,
+    "ast_hash": "343d932f20d3922c3c891cb9856589b9",
+    "semantic_hash": "343d932f20d3922c3c891cb9856589b9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Custom.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775103,
+    "ast_hash": "bba5d1483f2477f7329bb920d6fcabf0",
+    "semantic_hash": "bba5d1483f2477f7329bb920d6fcabf0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Enchanting.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751052,
+    "ast_hash": "675e0b4f73e5149bdf3aa26a0dbd467e",
+    "semantic_hash": "675e0b4f73e5149bdf3aa26a0dbd467e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Engineering.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751067,
+    "ast_hash": "1d58738dba6ed377255d83300da0c381",
+    "semantic_hash": "1d58738dba6ed377255d83300da0c381"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\FirstAid.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751079,
+    "ast_hash": "ea6673bd4ea1ee40efab73dba9a606ce",
+    "semantic_hash": "ea6673bd4ea1ee40efab73dba9a606ce"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Inscription.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775109,
+    "ast_hash": "aa6a2cbd34044ecc3dd31966cc8e922f",
+    "semantic_hash": "aa6a2cbd34044ecc3dd31966cc8e922f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Jewelcrafting.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775111,
+    "ast_hash": "795fd7d2f3d8f3e144e4a47e1e884ca2",
+    "semantic_hash": "795fd7d2f3d8f3e144e4a47e1e884ca2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Leatherworking.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751122,
+    "ast_hash": "f6d6c110e86cdc48e45ef4ecb8a57457",
+    "semantic_hash": "f6d6c110e86cdc48e45ef4ecb8a57457"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Mob.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751138,
+    "ast_hash": "cfe35c8cd89cd848ae253a0c09130be1",
+    "semantic_hash": "cfe35c8cd89cd848ae253a0c09130be1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Quest.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775115,
+    "ast_hash": "19a197295fe87f8287a0543f0d9fee35",
+    "semantic_hash": "19a197295fe87f8287a0543f0d9fee35"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Reputation.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751162,
+    "ast_hash": "42101c6bc1660a6e3bfaba84faf01da6",
+    "semantic_hash": "42101c6bc1660a6e3bfaba84faf01da6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Runeforging.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751176,
+    "ast_hash": "ab12ed30ee62022d38a0e73ccb3c1840",
+    "semantic_hash": "ab12ed30ee62022d38a0e73ccb3c1840"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Seasonal.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751188,
+    "ast_hash": "82bce807a699c76637f1b8f9c09c9caf",
+    "semantic_hash": "82bce807a699c76637f1b8f9c09c9caf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Smelting.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751222,
+    "ast_hash": "9c5266fab949646dbd05809b54adfa85",
+    "semantic_hash": "9c5266fab949646dbd05809b54adfa85"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Tailoring.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751236,
+    "ast_hash": "a4e5bb9854e22804803a649bade9d314",
+    "semantic_hash": "a4e5bb9854e22804803a649bade9d314"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Trainer.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751248,
+    "ast_hash": "db77f3a5ffe4057d9266ab14b7fbb783",
+    "semantic_hash": "db77f3a5ffe4057d9266ab14b7fbb783"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Database\\Vendor.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775126,
+    "ast_hash": "7c0e7869ff3bf2214dc2ee2cd46d5750",
+    "semantic_hash": "7c0e7869ff3bf2214dc2ee2cd46d5750"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Datamine.lua": {
+    "mtime": 1790578478.566924,
+    "seen": 1790600851.775127,
+    "ast_hash": "8aa8a917110143e756760530d06af97e",
+    "semantic_hash": "8aa8a917110143e756760530d06af97e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Frame.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751284,
+    "ast_hash": "6f693c6e674de08e53cac0d03f20e7ab",
+    "semantic_hash": "6f693c6e674de08e53cac0d03f20e7ab"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\deDE.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751293,
+    "ast_hash": "8a4e32b11e3d9358a63e16cba166a7c7",
+    "semantic_hash": "8a4e32b11e3d9358a63e16cba166a7c7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\enUS.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751305,
+    "ast_hash": "607ca668eb45c4bb9bad31937b4b15bf",
+    "semantic_hash": "607ca668eb45c4bb9bad31937b4b15bf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\esES.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751317,
+    "ast_hash": "d950b0e64e1482334f7917d264d48d37",
+    "semantic_hash": "d950b0e64e1482334f7917d264d48d37"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\esMX.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775133,
+    "ast_hash": "389d040d53cd899857a73974bdfeb4fc",
+    "semantic_hash": "389d040d53cd899857a73974bdfeb4fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\frFR.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751346,
+    "ast_hash": "5b1febc20118373120628af1a7bd5f69",
+    "semantic_hash": "5b1febc20118373120628af1a7bd5f69"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\koKR.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751358,
+    "ast_hash": "5d2d50d363c1fca92ffafc906eba0fa5",
+    "semantic_hash": "5d2d50d363c1fca92ffafc906eba0fa5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\ruRU.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751367,
+    "ast_hash": "e90e4ab9d8f1aea9cc20393bcea63400",
+    "semantic_hash": "e90e4ab9d8f1aea9cc20393bcea63400"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\testenUS.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775138,
+    "ast_hash": "f75d278dfdae7a3c484345653ab3f125",
+    "semantic_hash": "f75d278dfdae7a3c484345653ab3f125"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\zhCN.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775139,
+    "ast_hash": "bdceda45454611d231f67e77e94894b2",
+    "semantic_hash": "bdceda45454611d231f67e77e94894b2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Locales\\zhTW.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.77514,
+    "ast_hash": "254ccffeb1207766228d733536f3b381",
+    "semantic_hash": "254ccffeb1207766228d733536f3b381"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\Player.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775142,
+    "ast_hash": "b375f3f35070f318046b4c333dc86884",
+    "semantic_hash": "b375f3f35070f318046b4c333dc86884"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceAddon-3.0\\AceAddon-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751431,
+    "ast_hash": "1590728ab62fccb29e9a9563bc519f38",
+    "semantic_hash": "1590728ab62fccb29e9a9563bc519f38"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceConfig-3.0\\AceConfig-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775144,
+    "ast_hash": "6443663b1c56ddfa17178964f16c387e",
+    "semantic_hash": "6443663b1c56ddfa17178964f16c387e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceConfig-3.0\\AceConfigCmd-3.0\\AceConfigCmd-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751455,
+    "ast_hash": "1ce5f06387428c8a6b7d6487d4a705ae",
+    "semantic_hash": "1ce5f06387428c8a6b7d6487d4a705ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceConfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751465,
+    "ast_hash": "99bfa994c9c22581bb89b38da53380f4",
+    "semantic_hash": "99bfa994c9c22581bb89b38da53380f4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceConfig-3.0\\AceConfigRegistry-3.0\\AceConfigRegistry-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775149,
+    "ast_hash": "a0520b24267564c798f423138bb9a1bf",
+    "semantic_hash": "a0520b24267564c798f423138bb9a1bf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceConsole-3.0\\AceConsole-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.77515,
+    "ast_hash": "eb3531b8fcc6248cbf9a09017d88c801",
+    "semantic_hash": "eb3531b8fcc6248cbf9a09017d88c801"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceDB-3.0\\AceDB-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751517,
+    "ast_hash": "aef06862da3b5977cddfbae99baeb852",
+    "semantic_hash": "aef06862da3b5977cddfbae99baeb852"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceDBOptions-3.0\\AceDBOptions-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775153,
+    "ast_hash": "f360d46c61975b6c15c351238add33f4",
+    "semantic_hash": "f360d46c61975b6c15c351238add33f4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceEvent-3.0\\AceEvent-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775154,
+    "ast_hash": "14fd1867c43f7c123eee55246a6949eb",
+    "semantic_hash": "14fd1867c43f7c123eee55246a6949eb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\AceGUI-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751558,
+    "ast_hash": "6a8a3d7e1dbf2013cf23fe7a5e7a79c6",
+    "semantic_hash": "6a8a3d7e1dbf2013cf23fe7a5e7a79c6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-BlizOptionsGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775157,
+    "ast_hash": "02bd598d07d239c105d6a29d0e85f7a4",
+    "semantic_hash": "02bd598d07d239c105d6a29d0e85f7a4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Button.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751582,
+    "ast_hash": "6fcc6e3244758a1f4816f521500a0e2e",
+    "semantic_hash": "6fcc6e3244758a1f4816f521500a0e2e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-CheckBox.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751596,
+    "ast_hash": "104ac264f1f6c4e33090e5cef30bddc4",
+    "semantic_hash": "104ac264f1f6c4e33090e5cef30bddc4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-ColorPicker.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751606,
+    "ast_hash": "8c37de29e33d3022cf9144a530826d6a",
+    "semantic_hash": "8c37de29e33d3022cf9144a530826d6a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown-Items.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751617,
+    "ast_hash": "4dd4bd48cc3cdd631e61c5bfd6ed703f",
+    "semantic_hash": "4dd4bd48cc3cdd631e61c5bfd6ed703f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775163,
+    "ast_hash": "025f5b28426581729e38de77e61241f5",
+    "semantic_hash": "025f5b28426581729e38de77e61241f5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDownGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751641,
+    "ast_hash": "b172ef8b97bc0827fdff8cf16f7738bf",
+    "semantic_hash": "b172ef8b97bc0827fdff8cf16f7738bf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-EditBox.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751656,
+    "ast_hash": "c2c4dfdeed2b937201c19646a3c2a7a2",
+    "semantic_hash": "c2c4dfdeed2b937201c19646a3c2a7a2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Frame.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751665,
+    "ast_hash": "b26da46d558e4dcbae761d05deee93fb",
+    "semantic_hash": "b26da46d558e4dcbae761d05deee93fb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Heading.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751675,
+    "ast_hash": "d57f18802454bc7feb0211fec3e099ac",
+    "semantic_hash": "d57f18802454bc7feb0211fec3e099ac"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Icon.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751684,
+    "ast_hash": "85374a12ee525f7c43525e4953e98f36",
+    "semantic_hash": "85374a12ee525f7c43525e4953e98f36"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-InlineGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751698,
+    "ast_hash": "d6b1ed4bbdf46b6408777a47955e2f06",
+    "semantic_hash": "d6b1ed4bbdf46b6408777a47955e2f06"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-InteractiveLabel.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775171,
+    "ast_hash": "4d70d07d6e85bca54fa58ab85b713a87",
+    "semantic_hash": "4d70d07d6e85bca54fa58ab85b713a87"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Keybinding.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775172,
+    "ast_hash": "39410c21afe94ecb458fee8344b0fcc5",
+    "semantic_hash": "39410c21afe94ecb458fee8344b0fcc5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Label.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751732,
+    "ast_hash": "60ce0fbc1aa0ce0b1fb87447ed2a2ec8",
+    "semantic_hash": "60ce0fbc1aa0ce0b1fb87447ed2a2ec8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-MultiLineEditBox.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751744,
+    "ast_hash": "3a01adfac885b6fca597bed5099eb46b",
+    "semantic_hash": "3a01adfac885b6fca597bed5099eb46b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-ScrollFrame.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751756,
+    "ast_hash": "6cf2b2392829cd84176da200cf174de9",
+    "semantic_hash": "6cf2b2392829cd84176da200cf174de9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-SimpleGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751768,
+    "ast_hash": "7606c8e4d1570670a8fd8c2c325472ff",
+    "semantic_hash": "7606c8e4d1570670a8fd8c2c325472ff"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Slider.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775178,
+    "ast_hash": "f8daa21791423aaa6c7cd7c4a192e9db",
+    "semantic_hash": "f8daa21791423aaa6c7cd7c4a192e9db"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-TabGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751796,
+    "ast_hash": "4e81f9fd66854353b2b73d47f47b7976",
+    "semantic_hash": "4e81f9fd66854353b2b73d47f47b7976"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-TreeGroup.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751803,
+    "ast_hash": "491cf055879581efe95e19a7782e03e2",
+    "semantic_hash": "491cf055879581efe95e19a7782e03e2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Window.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775182,
+    "ast_hash": "e65a12142006d24cec63603fb20d1a39",
+    "semantic_hash": "e65a12142006d24cec63603fb20d1a39"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\AceLocale-3.0\\AceLocale-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751834,
+    "ast_hash": "95d432268bc07a693bb3483696ee9324",
+    "semantic_hash": "95d432268bc07a693bb3483696ee9324"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751846,
+    "ast_hash": "8efa85be4d373506de782b2c21f06a03",
+    "semantic_hash": "8efa85be4d373506de782b2c21f06a03"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibAboutPanel\\LibAboutPanel.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751858,
+    "ast_hash": "9806e4ffcc06fb1bcfb8b46a231c409e",
+    "semantic_hash": "9806e4ffcc06fb1bcfb8b46a231c409e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibAboutPanel\\LibAboutPanel.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775187,
+    "ast_hash": "60b390bf2a8ea9b49a42811883042249",
+    "semantic_hash": "60b390bf2a8ea9b49a42811883042249"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibAboutPanel\\libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775188,
+    "ast_hash": "8efa85be4d373506de782b2c21f06a03",
+    "semantic_hash": "8efa85be4d373506de782b2c21f06a03"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibAboutPanel\\libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751892,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibAboutPanel\\libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751904,
+    "ast_hash": "cc04e90cc2a01e762683be793c42d57f",
+    "semantic_hash": "cc04e90cc2a01e762683be793c42d57f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Boss-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751913,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751925,
+    "ast_hash": "194dafd42728ca56998d798c0ba72b7a",
+    "semantic_hash": "194dafd42728ca56998d798c0ba72b7a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751937,
+    "ast_hash": "a9aa91780f9902e24081d0bc6986d5e5",
+    "semantic_hash": "a9aa91780f9902e24081d0bc6986d5e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Boss-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751944,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Faction-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751954,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751963,
+    "ast_hash": "df74f97fc208355453bb17433c083c44",
+    "semantic_hash": "df74f97fc208355453bb17433c083c44"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751975,
+    "ast_hash": "66f6850e3dd7aec0c98e21880e92948d",
+    "semantic_hash": "66f6850e3dd7aec0c98e21880e92948d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Faction-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7751985,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Zone-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775201,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775202,
+    "ast_hash": "f5d8afdea2515dfd9993710e4b9d6d6c",
+    "semantic_hash": "f5d8afdea2515dfd9993710e4b9d6d6c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752032,
+    "ast_hash": "c430378de23cdd953be934ff98204b3f",
+    "semantic_hash": "c430378de23cdd953be934ff98204b3f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibBabble-Zone-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752047,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibQTip-1.0\\LibQTip-1.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752056,
+    "ast_hash": "cb0f68232c1e28f4f02df440dccf3024",
+    "semantic_hash": "cb0f68232c1e28f4f02df440dccf3024"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibQTip-1.0\\LibQTip-1.0.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752068,
+    "ast_hash": "353ee14b26dc496bb444b2be0e4bfd16",
+    "semantic_hash": "353ee14b26dc496bb444b2be0e4bfd16"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibQTip-1.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775208,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibQTip-1.0\\LibStub\\LibStub.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775209,
+    "ast_hash": "cc04e90cc2a01e762683be793c42d57f",
+    "semantic_hash": "cc04e90cc2a01e762683be793c42d57f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibSharedMedia-3.0\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.77521,
+    "ast_hash": "5a421a1b3ecb9c65598aca164014346f",
+    "semantic_hash": "5a421a1b3ecb9c65598aca164014346f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibSharedMedia-3.0\\LibSharedMedia-3.0.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.775211,
+    "ast_hash": "e1f8c2323d68007e51655b5e6ba6ab80",
+    "semantic_hash": "e1f8c2323d68007e51655b5e6ba6ab80"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibSharedMedia-3.0\\LibSharedMedia-3.0\\LibSharedMedia-3.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752123,
+    "ast_hash": "3b8295e4c195874ab369fe560ba6f431",
+    "semantic_hash": "3b8295e4c195874ab369fe560ba6f431"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibSharedMedia-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752132,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752144,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752154,
+    "ast_hash": "cc04e90cc2a01e762683be793c42d57f",
+    "semantic_hash": "cc04e90cc2a01e762683be793c42d57f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\AckisRecipeList_QuickScan.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752166,
+    "ast_hash": "145fa332f4911301452d7c9edccd4d56",
+    "semantic_hash": "145fa332f4911301452d7c9edccd4d56"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\Libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752178,
+    "ast_hash": "8efa85be4d373506de782b2c21f06a03",
+    "semantic_hash": "8efa85be4d373506de782b2c21f06a03"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\Libs\\LibDataBroker-1.1\\LibDataBroker-1.1.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752187,
+    "ast_hash": "06cfccd8556a94f2927b75440e4138e1",
+    "semantic_hash": "06cfccd8556a94f2927b75440e4138e1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\Libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752197,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\Libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752204,
+    "ast_hash": "cc04e90cc2a01e762683be793c42d57f",
+    "semantic_hash": "cc04e90cc2a01e762683be793c42d57f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\QuickScan.lua": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7752216,
+    "ast_hash": "ca1fdf7f258227f543432109ae72914f",
+    "semantic_hash": "ca1fdf7f258227f543432109ae72914f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AllStats\\AllStats.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752228,
+    "ast_hash": "aada3b37a3d7fb0a087ea32a42108783",
+    "semantic_hash": "aada3b37a3d7fb0a087ea32a42108783"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AllStats\\AllStats.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752237,
+    "ast_hash": "e36f6ae2e4b4cef00bf9032a0c483c44",
+    "semantic_hash": "e36f6ae2e4b4cef00bf9032a0c483c44"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Altoholic.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775225,
+    "ast_hash": "23a38012beaa97c156d79f025296c1fd",
+    "semantic_hash": "23a38012beaa97c156d79f025296c1fd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Altoholic.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775226,
+    "ast_hash": "367fb95ff9ed007d53d42d4c13d5fb64",
+    "semantic_hash": "367fb95ff9ed007d53d42d4c13d5fb64"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Characters.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752268,
+    "ast_hash": "bdc7ac271301d26f2fb11736dfe22135",
+    "semantic_hash": "bdc7ac271301d26f2fb11736dfe22135"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Comm.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752283,
+    "ast_hash": "0f40c79c73efe33cc157116509890b64",
+    "semantic_hash": "0f40c79c73efe33cc157116509890b64"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Core.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752292,
+    "ast_hash": "c3dbbd3a3a514951a28a76f4618963d8",
+    "semantic_hash": "c3dbbd3a3a514951a28a76f4618963d8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\AccountSharing.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752302,
+    "ast_hash": "05b9067432dcf48ba3a0dacdf2869c64",
+    "semantic_hash": "05b9067432dcf48ba3a0dacdf2869c64"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\AccountSummary.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775231,
+    "ast_hash": "5fd3a23cccd79f7a9d36cadb89851c69",
+    "semantic_hash": "5fd3a23cccd79f7a9d36cadb89851c69"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Activity.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775232,
+    "ast_hash": "a4c881654766a6e950a0ddca7217783f",
+    "semantic_hash": "a4c881654766a6e950a0ddca7217783f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\AuctionHouse.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775233,
+    "ast_hash": "b28394621fd2df4d85d18e0d9449f758",
+    "semantic_hash": "b28394621fd2df4d85d18e0d9449f758"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\BagUsage.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775234,
+    "ast_hash": "190d0f31a08e431ff5ea9a39e1c0fd75",
+    "semantic_hash": "190d0f31a08e431ff5ea9a39e1c0fd75"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Calendar.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752352,
+    "ast_hash": "41a4e4768168c967ae84e8ee3b7c79bb",
+    "semantic_hash": "41a4e4768168c967ae84e8ee3b7c79bb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Containers.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752361,
+    "ast_hash": "6cca8ca365a0ba08be83fe9eaa0eb19b",
+    "semantic_hash": "6cca8ca365a0ba08be83fe9eaa0eb19b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Currencies.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775237,
+    "ast_hash": "779e72f52daa001dbd64a17c5025220d",
+    "semantic_hash": "779e72f52daa001dbd64a17c5025220d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Equipment.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775238,
+    "ast_hash": "3ffe038009bf12a7938963b6af88d6e5",
+    "semantic_hash": "3ffe038009bf12a7938963b6af88d6e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\GuildBank.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752392,
+    "ast_hash": "fa0589bca8bc48b88465c6e3d5a52a28",
+    "semantic_hash": "fa0589bca8bc48b88465c6e3d5a52a28"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\GuildBankTabs.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752402,
+    "ast_hash": "077f35c060a4f86b45c2c733132eac2b",
+    "semantic_hash": "077f35c060a4f86b45c2c733132eac2b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\GuildMembers.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752411,
+    "ast_hash": "5b71ca4f1a637b2d56a22dc91ebea6a9",
+    "semantic_hash": "5b71ca4f1a637b2d56a22dc91ebea6a9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\GuildProfessions.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775242,
+    "ast_hash": "109f11d64397f4a56fb0dfdb59217f2b",
+    "semantic_hash": "109f11d64397f4a56fb0dfdb59217f2b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Mails.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775243,
+    "ast_hash": "4523cd88a0c6a7160324d4e419f6ab3f",
+    "semantic_hash": "4523cd88a0c6a7160324d4e419f6ab3f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Pets.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775244,
+    "ast_hash": "fd62748734c5c6c671c1182697945e82",
+    "semantic_hash": "fd62748734c5c6c671c1182697945e82"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Quests.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775245,
+    "ast_hash": "f951894e15ded91c7331636af603199e",
+    "semantic_hash": "f951894e15ded91c7331636af603199e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Recipes.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752461,
+    "ast_hash": "c821709a5dc7eebe1d42e2641b2fe613",
+    "semantic_hash": "c821709a5dc7eebe1d42e2641b2fe613"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Reputations.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775247,
+    "ast_hash": "f8b957e3b8110cb476a377951c2a0bc5",
+    "semantic_hash": "f8b957e3b8110cb476a377951c2a0bc5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Search.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775248,
+    "ast_hash": "3299b3eef40364177b03eadc4df472bc",
+    "semantic_hash": "3299b3eef40364177b03eadc4df472bc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Skills.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752495,
+    "ast_hash": "74a0205282eca2959f7b29923445695f",
+    "semantic_hash": "74a0205282eca2959f7b29923445695f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\TabCharacters.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752502,
+    "ast_hash": "bebd5829546828dfd4fe83bd3269e10e",
+    "semantic_hash": "bebd5829546828dfd4fe83bd3269e10e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\TabGuildBank.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752512,
+    "ast_hash": "2c1f47a285533e7598aaa00330b1047c",
+    "semantic_hash": "2c1f47a285533e7598aaa00330b1047c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\TabOptions.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752523,
+    "ast_hash": "94c81f65824696dd43417ed588ad5375",
+    "semantic_hash": "94c81f65824696dd43417ed588ad5375"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\TabSearch.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752533,
+    "ast_hash": "2fbeeaf53e4262b59db33ce7034b6fe3",
+    "semantic_hash": "2fbeeaf53e4262b59db33ce7034b6fe3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\TabSummary.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752547,
+    "ast_hash": "7df669b7311cf806c0327fee6bdb8ed5",
+    "semantic_hash": "7df669b7311cf806c0327fee6bdb8ed5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Frames\\Talents.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775256,
+    "ast_hash": "951b0cf39f4c0e23613a95f9eb676e08",
+    "semantic_hash": "951b0cf39f4c0e23613a95f9eb676e08"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\ItemFilters.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752566,
+    "ast_hash": "be3de9d47204282f19d2d613f029e933",
+    "semantic_hash": "be3de9d47204282f19d2d613f029e933"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\deDE.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752576,
+    "ast_hash": "3db84f5fd3bbf0e7048e2883e6017cef",
+    "semantic_hash": "3db84f5fd3bbf0e7048e2883e6017cef"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\enUS.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752588,
+    "ast_hash": "4e4cd248b38a0153fc8cf161ee2aa261",
+    "semantic_hash": "4e4cd248b38a0153fc8cf161ee2aa261"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\esES.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.77526,
+    "ast_hash": "17217f11620db3f6e048125d599e7373",
+    "semantic_hash": "17217f11620db3f6e048125d599e7373"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\esMX.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775261,
+    "ast_hash": "80dd46d4bb9b7ce8d8266861618ab61c",
+    "semantic_hash": "80dd46d4bb9b7ce8d8266861618ab61c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\frFR.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752619,
+    "ast_hash": "7189408ec14acf67253fd1e6a189a545",
+    "semantic_hash": "7189408ec14acf67253fd1e6a189a545"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\koKR.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775263,
+    "ast_hash": "9e72b8a6a3855bca2cb44bb56281c8b2",
+    "semantic_hash": "9e72b8a6a3855bca2cb44bb56281c8b2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\repoenUS.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775264,
+    "ast_hash": "425b9bf10b013c08f59d81bb0e8a1e9e",
+    "semantic_hash": "425b9bf10b013c08f59d81bb0e8a1e9e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\ruRU.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775265,
+    "ast_hash": "6629cee06dcb7f6aa26b58d48cc6a238",
+    "semantic_hash": "6629cee06dcb7f6aa26b58d48cc6a238"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\zhCN.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775266,
+    "ast_hash": "a3afc8a9ac4172bb06a31e0d4e564c8e",
+    "semantic_hash": "a3afc8a9ac4172bb06a31e0d4e564c8e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Locales\\zhTW.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752671,
+    "ast_hash": "b215cf26f04cc0870c7cd547f0dfa5bd",
+    "semantic_hash": "b215cf26f04cc0870c7cd547f0dfa5bd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Loots.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775268,
+    "ast_hash": "d12bdfec2d085cc25fdb59e2fd0435ec",
+    "semantic_hash": "d12bdfec2d085cc25fdb59e2fd0435ec"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Profiler.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775269,
+    "ast_hash": "d4f8efa9d4c37a06578cccf92c1cccb6",
+    "semantic_hash": "d4f8efa9d4c37a06578cccf92c1cccb6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\RecipeDB.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.77527,
+    "ast_hash": "06a9eb76414d3bbe8d19edf6ac758c3d",
+    "semantic_hash": "06a9eb76414d3bbe8d19edf6ac758c3d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752712,
+    "ast_hash": "38a66f2766f9d2de596f859fd2bc4066",
+    "semantic_hash": "38a66f2766f9d2de596f859fd2bc4066"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_deDE.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752721,
+    "ast_hash": "2f729b822dff9ef9cb2f12018742a854",
+    "semantic_hash": "2f729b822dff9ef9cb2f12018742a854"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_frFR.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752736,
+    "ast_hash": "dce50ffa85cb595937242f00ef7a5117",
+    "semantic_hash": "dce50ffa85cb595937242f00ef7a5117"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_koKR.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752745,
+    "ast_hash": "5a5624bf115fba09a5e4b418d9fe0707",
+    "semantic_hash": "5a5624bf115fba09a5e4b418d9fe0707"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_ruRU.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752752,
+    "ast_hash": "f7a1f8ce60d66a7fcd6a31507c16a78d",
+    "semantic_hash": "f7a1f8ce60d66a7fcd6a31507c16a78d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_zhCN.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752762,
+    "ast_hash": "cdd1186d74ce3a79869bd95f7eb03db1",
+    "semantic_hash": "cdd1186d74ce3a79869bd95f7eb03db1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Suggestions_zhTW.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752957,
+    "ast_hash": "f1ad61361a65d811c23e27c99796bcd0",
+    "semantic_hash": "f1ad61361a65d811c23e27c99796bcd0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Tasks.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775297,
+    "ast_hash": "2d9e6051a82b94c3770e864140dfa8e5",
+    "semantic_hash": "2d9e6051a82b94c3770e864140dfa8e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Tooltip.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752979,
+    "ast_hash": "c22c657c5fc504a3bcd9633801c772d8",
+    "semantic_hash": "c22c657c5fc504a3bcd9633801c772d8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceConfig-3.0\\AceConfig-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7752988,
+    "ast_hash": "6443663b1c56ddfa17178964f16c387e",
+    "semantic_hash": "6443663b1c56ddfa17178964f16c387e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceConfig-3.0\\AceConfigCmd-3.0\\AceConfigCmd-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753,
+    "ast_hash": "1ce5f06387428c8a6b7d6487d4a705ae",
+    "semantic_hash": "1ce5f06387428c8a6b7d6487d4a705ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceConfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753012,
+    "ast_hash": "13d12c4a785dd5de39a07e714ab0cd0b",
+    "semantic_hash": "13d12c4a785dd5de39a07e714ab0cd0b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceConfig-3.0\\AceConfigRegistry-3.0\\AceConfigRegistry-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753022,
+    "ast_hash": "2d60231b5793711fafd7bfd90e102d18",
+    "semantic_hash": "2d60231b5793711fafd7bfd90e102d18"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceDBOptions-3.0\\AceDBOptions-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753031,
+    "ast_hash": "27edfe7f902173cbe4889bb26f9edcb2",
+    "semantic_hash": "27edfe7f902173cbe4889bb26f9edcb2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\AceGUI-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775304,
+    "ast_hash": "121433e2a84e290b06fff9411dcb325d",
+    "semantic_hash": "121433e2a84e290b06fff9411dcb325d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-BlizOptionsGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753053,
+    "ast_hash": "2482c1f342051ead0ddb24dfeb93f847",
+    "semantic_hash": "2482c1f342051ead0ddb24dfeb93f847"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-DropDownGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775306,
+    "ast_hash": "fd4b8da4bb47da2772e6695b7bc00846",
+    "semantic_hash": "fd4b8da4bb47da2772e6695b7bc00846"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-Frame.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775307,
+    "ast_hash": "e09c075dc9a2c173d126d8f3702566e5",
+    "semantic_hash": "e09c075dc9a2c173d126d8f3702566e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-InlineGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753124,
+    "ast_hash": "3267bb3963ba190fe7cb5c8baf448bf0",
+    "semantic_hash": "3267bb3963ba190fe7cb5c8baf448bf0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-ScrollFrame.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753136,
+    "ast_hash": "08a1c3aa951e2ecb47657bd1062a9257",
+    "semantic_hash": "08a1c3aa951e2ecb47657bd1062a9257"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-SimpleGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753146,
+    "ast_hash": "4020315396cfad5e310e63ff11136a79",
+    "semantic_hash": "4020315396cfad5e310e63ff11136a79"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-TabGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753158,
+    "ast_hash": "85cad9119131ffbbb33d6018ec5dc30c",
+    "semantic_hash": "85cad9119131ffbbb33d6018ec5dc30c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-TreeGroup.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753167,
+    "ast_hash": "ed88028b22418f098514377d36072871",
+    "semantic_hash": "ed88028b22418f098514377d36072871"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIContainer-Window.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753174,
+    "ast_hash": "2e15db377c49b54738faba32dc882d23",
+    "semantic_hash": "2e15db377c49b54738faba32dc882d23"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Button.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753189,
+    "ast_hash": "b1c92e82464e08f6b67f08fb6af6b563",
+    "semantic_hash": "b1c92e82464e08f6b67f08fb6af6b563"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-CheckBox.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753198,
+    "ast_hash": "e141d6c1751a397133e836fb05d71b96",
+    "semantic_hash": "e141d6c1751a397133e836fb05d71b96"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-ColorPicker.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753208,
+    "ast_hash": "01659b6f77abd7e42e995a17dac16474",
+    "semantic_hash": "01659b6f77abd7e42e995a17dac16474"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown-Items.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775322,
+    "ast_hash": "2144752501dfb35f59a65a692d24cf0b",
+    "semantic_hash": "2144752501dfb35f59a65a692d24cf0b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753232,
+    "ast_hash": "8c228eb0c2a43fc2224edaba525425f8",
+    "semantic_hash": "8c228eb0c2a43fc2224edaba525425f8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-EditBox.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775324,
+    "ast_hash": "ec7807e71df6ecd132e35988cbf3f05a",
+    "semantic_hash": "ec7807e71df6ecd132e35988cbf3f05a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Heading.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753253,
+    "ast_hash": "b563e8b6a1df1c20d745e17c706d87b7",
+    "semantic_hash": "b563e8b6a1df1c20d745e17c706d87b7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Icon.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753263,
+    "ast_hash": "26f49df2b7e7698df606acfe7de75891",
+    "semantic_hash": "26f49df2b7e7698df606acfe7de75891"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-InteractiveLabel.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753272,
+    "ast_hash": "8b6d8b82f8bb85b7aac7c12eb1124cfd",
+    "semantic_hash": "8b6d8b82f8bb85b7aac7c12eb1124cfd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Keybinding.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753282,
+    "ast_hash": "8391379aa019df0eef60aeb60857022c",
+    "semantic_hash": "8391379aa019df0eef60aeb60857022c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Label.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753294,
+    "ast_hash": "58be61f9ad0587aa72ffa8f21a657cf8",
+    "semantic_hash": "58be61f9ad0587aa72ffa8f21a657cf8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-MultiLineEditBox.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753303,
+    "ast_hash": "577e515484fa60b87e6a2af783f86a97",
+    "semantic_hash": "577e515484fa60b87e6a2af783f86a97"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Slider.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753313,
+    "ast_hash": "053bc5bea5c488c02293e5436d4fac5f",
+    "semantic_hash": "053bc5bea5c488c02293e5436d4fac5f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Boss-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753322,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753334,
+    "ast_hash": "7db3131cb89844017c86ce48a89cfc82",
+    "semantic_hash": "7db3131cb89844017c86ce48a89cfc82"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753344,
+    "ast_hash": "8ee33d4773b5e866a6a46d50521d93cf",
+    "semantic_hash": "8ee33d4773b5e866a6a46d50521d93cf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Boss-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753353,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Faction-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753365,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753375,
+    "ast_hash": "42f106bf6b96cea0d7824616664d30ea",
+    "semantic_hash": "42f106bf6b96cea0d7824616664d30ea"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753384,
+    "ast_hash": "dce14bbf563ceeac29b91949abd16e2e",
+    "semantic_hash": "dce14bbf563ceeac29b91949abd16e2e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Faction-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753396,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Inventory-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753406,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753415,
+    "ast_hash": "5a2c8254844c258eab1dd285d25888ae",
+    "semantic_hash": "5a2c8254844c258eab1dd285d25888ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753427,
+    "ast_hash": "7f9fa62e7cbba7988ec7b3fcf8dbfc91",
+    "semantic_hash": "7f9fa62e7cbba7988ec7b3fcf8dbfc91"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Inventory-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753437,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Zone-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753444,
+    "ast_hash": "3a6cf14a1f92b61e2140dd66be2f33fc",
+    "semantic_hash": "3a6cf14a1f92b61e2140dd66be2f33fc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753453,
+    "ast_hash": "4db5211440892bbc9b1095ce843013ec",
+    "semantic_hash": "4db5211440892bbc9b1095ce843013ec"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753465,
+    "ast_hash": "f305e3790f03d2ae3c2d3dcf98b90314",
+    "semantic_hash": "f305e3790f03d2ae3c2d3dcf98b90314"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibBabble-Zone-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753477,
+    "ast_hash": "93abc8a68c559035f6aae51eed7ff89a",
+    "semantic_hash": "93abc8a68c559035f6aae51eed7ff89a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibDataBroker-1.1\\LibDataBroker-1.1.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753487,
+    "ast_hash": "06cfccd8556a94f2927b75440e4138e1",
+    "semantic_hash": "06cfccd8556a94f2927b75440e4138e1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibTradeLinks-1.0\\LibTradeLinks-1.0.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753499,
+    "ast_hash": "ad28fb621dd1708ca4c1b81395cfe5fd",
+    "semantic_hash": "ad28fb621dd1708ca4c1b81395cfe5fd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\libs\\LibTradeLinks-1.0\\currentData.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753513,
+    "ast_hash": "b102c0d8dce71c1bfa5a348368465107",
+    "semantic_hash": "b102c0d8dce71c1bfa5a348368465107"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic_Achievements\\Achievements.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753525,
+    "ast_hash": "7ebb443b214ab8e5aea91c97bc896791",
+    "semantic_hash": "7ebb443b214ab8e5aea91c97bc896791"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic_Achievements\\Altoholic_Achievements.toc": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753537,
+    "ast_hash": "4aa89d81a230ce9ac3be68b247dd69ee",
+    "semantic_hash": "4aa89d81a230ce9ac3be68b247dd69ee"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic_Achievements\\TabAchievements.lua": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7753546,
+    "ast_hash": "3d818fb0cbd054c03bb0de8f9be3512a",
+    "semantic_hash": "3d818fb0cbd054c03bb0de8f9be3512a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\AtlasLootFu.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753556,
+    "ast_hash": "9112e9ad2a1ff77d75cee805c187adc3",
+    "semantic_hash": "9112e9ad2a1ff77d75cee805c187adc3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\AtlasLootFu.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753568,
+    "ast_hash": "32d33927d1d65248f0aba0aec32bd02b",
+    "semantic_hash": "32d33927d1d65248f0aba0aec32bd02b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceAddon-2.0\\AceAddon-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753577,
+    "ast_hash": "4c50db2f7297d62c8363173dba90b08a",
+    "semantic_hash": "4c50db2f7297d62c8363173dba90b08a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceAddon-2.0\\AceAddon-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775359,
+    "ast_hash": "c9c12a6a620d169b77a9329c34e4a622",
+    "semantic_hash": "c9c12a6a620d169b77a9329c34e4a622"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceDB-2.0\\AceDB-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.77536,
+    "ast_hash": "ebdc0ea2e43141a0e7af4f9fe5bf2d00",
+    "semantic_hash": "ebdc0ea2e43141a0e7af4f9fe5bf2d00"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceDB-2.0\\AceDB-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775361,
+    "ast_hash": "a27c0803af2fee8bd590891d9bd3b5fd",
+    "semantic_hash": "a27c0803af2fee8bd590891d9bd3b5fd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceEvent-2.0\\AceEvent-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775362,
+    "ast_hash": "ab9cb6a323f916a3a61d70fdc38acaed",
+    "semantic_hash": "ab9cb6a323f916a3a61d70fdc38acaed"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceEvent-2.0\\AceEvent-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775363,
+    "ast_hash": "bc16fabf4eab4f5725ca25301b8f7d84",
+    "semantic_hash": "bc16fabf4eab4f5725ca25301b8f7d84"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceLibrary\\AceLibrary.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753642,
+    "ast_hash": "8dfb7e76b2d192aacb5e55d6089803fa",
+    "semantic_hash": "8dfb7e76b2d192aacb5e55d6089803fa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceLibrary\\AceLibrary.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753654,
+    "ast_hash": "47c06b71fb126a261936d91adf64ed07",
+    "semantic_hash": "47c06b71fb126a261936d91adf64ed07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceOO-2.0\\AceOO-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753663,
+    "ast_hash": "0b3714f5706f1d0789b537223cc7c55e",
+    "semantic_hash": "0b3714f5706f1d0789b537223cc7c55e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\AceOO-2.0\\AceOO-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753677,
+    "ast_hash": "5c2fca937089448731ec91c1d4d09748",
+    "semantic_hash": "5c2fca937089448731ec91c1d4d09748"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\FuBarPlugin-2.0\\FuBarPlugin-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753687,
+    "ast_hash": "b930c4d328f366b47f56e5159c63dd06",
+    "semantic_hash": "b930c4d328f366b47f56e5159c63dd06"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\Tablet-2.0\\AceLibrary\\AceLibrary.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753696,
+    "ast_hash": "8dfb7e76b2d192aacb5e55d6089803fa",
+    "semantic_hash": "8dfb7e76b2d192aacb5e55d6089803fa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\Tablet-2.0\\AceLibrary\\AceLibrary.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775371,
+    "ast_hash": "47c06b71fb126a261936d91adf64ed07",
+    "semantic_hash": "47c06b71fb126a261936d91adf64ed07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\Tablet-2.0\\Dewdrop-2.0\\Dewdrop-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753723,
+    "ast_hash": "6611ec564c9aa4c0bbbb1069b51877a3",
+    "semantic_hash": "6611ec564c9aa4c0bbbb1069b51877a3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Libs\\Tablet-2.0\\Tablet-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753732,
+    "ast_hash": "1d189d5232a87ff98d51020197bde525",
+    "semantic_hash": "1d189d5232a87ff98d51020197bde525"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLootFu\\Locales.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7753742,
+    "ast_hash": "d32dfed7a8900f079a1201ff21de6422",
+    "semantic_hash": "d32dfed7a8900f079a1201ff21de6422"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Add_Ons\\classpriority.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753754,
+    "ast_hash": "be3b33ac653e39d04b1747978f2b8f71",
+    "semantic_hash": "be3b33ac653e39d04b1747978f2b8f71"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Add_Ons\\dkp.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753763,
+    "ast_hash": "55559ae6f72e52994a1d146cd6c34e81",
+    "semantic_hash": "55559ae6f72e52994a1d146cd6c34e81"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\AtlasLayout\\Battlegrounds.en.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753775,
+    "ast_hash": "964b253e0dcae76bf00590ea24c3f913",
+    "semantic_hash": "964b253e0dcae76bf00590ea24c3f913"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\AtlasLayout\\instances.en.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753785,
+    "ast_hash": "7892d03a85008fff692b6014dc009f33",
+    "semantic_hash": "7892d03a85008fff692b6014dc009f33"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\AtlasLayout\\worldbosses.en.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753794,
+    "ast_hash": "022505ba239435ba57678df52b4ea0cc",
+    "semantic_hash": "022505ba239435ba57678df52b4ea0cc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\AtlasLoot.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753804,
+    "ast_hash": "1b2995ab690f95de5c7916bab28fb923",
+    "semantic_hash": "1b2995ab690f95de5c7916bab28fb923"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\AtlasIntegration.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753816,
+    "ast_hash": "eeaedc153fc49767864acf1ba8f5c56c",
+    "semantic_hash": "eeaedc153fc49767864acf1ba8f5c56c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\AtlasLoot.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753825,
+    "ast_hash": "247d90b3f15566d909fbf6d539681fda",
+    "semantic_hash": "247d90b3f15566d909fbf6d539681fda"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\ExtraText.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753837,
+    "ast_hash": "5e71ce18830a92ba612915f32f0e5fa4",
+    "semantic_hash": "5e71ce18830a92ba612915f32f0e5fa4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\Filter.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775385,
+    "ast_hash": "38ad5d3a9cecc58b2157003efb998418",
+    "semantic_hash": "38ad5d3a9cecc58b2157003efb998418"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\HooksandAPI.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775386,
+    "ast_hash": "2a846413f78f80ea248f8cda4d723856",
+    "semantic_hash": "2a846413f78f80ea248f8cda4d723856"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\Launchers.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753873,
+    "ast_hash": "4aa31cb1ac5fed7bae26006df0135c61",
+    "semantic_hash": "4aa31cb1ac5fed7bae26006df0135c61"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\LootButtons.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753887,
+    "ast_hash": "ff860768f6ce6d04b49a6bd3ed3c7e1c",
+    "semantic_hash": "ff860768f6ce6d04b49a6bd3ed3c7e1c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\Options.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.77539,
+    "ast_hash": "278ebd5df3ba23b9c8875a8668d77516",
+    "semantic_hash": "278ebd5df3ba23b9c8875a8668d77516"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\Search.lua": {
+    "mtime": 1790580361.9286618,
+    "seen": 1790600851.7753909,
+    "ast_hash": "78d97e58bb701414521bd5092d99b780",
+    "semantic_hash": "78d97e58bb701414521bd5092d99b780"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\TextParsing.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753923,
+    "ast_hash": "db7af16b58b63c0a2cf23d9f5d1f2b10",
+    "semantic_hash": "db7af16b58b63c0a2cf23d9f5d1f2b10"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Core\\WishList.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753932,
+    "ast_hash": "24682f8fb738361f378864feef488c07",
+    "semantic_hash": "24682f8fb738361f378864feef488c07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\DefaultFrame\\AtlaslootDefaultFrame.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775395,
+    "ast_hash": "fbb5927929634fb750bc55faf420c372",
+    "semantic_hash": "fbb5927929634fb750bc55faf420c372"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\DefaultFrame\\DewDropDown.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775396,
+    "ast_hash": "0fd39abfb3c81bbeb68c97563639efc6",
+    "semantic_hash": "0fd39abfb3c81bbeb68c97563639efc6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceAddon-3.0\\AceAddon-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775397,
+    "ast_hash": "365830dc62b73e9ec9d7649cf8271afd",
+    "semantic_hash": "365830dc62b73e9ec9d7649cf8271afd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceComm-3.0\\AceComm-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7753978,
+    "ast_hash": "c35d07ab816a8c768d70543198f9663c",
+    "semantic_hash": "c35d07ab816a8c768d70543198f9663c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceComm-3.0\\ChatThrottleLib.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775399,
+    "ast_hash": "adbe358821c699e0d5a258f705cfa5e6",
+    "semantic_hash": "adbe358821c699e0d5a258f705cfa5e6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceDB-3.0\\AceDB-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754,
+    "ast_hash": "7809704ddca88cf5528fb7c5f612df23",
+    "semantic_hash": "7809704ddca88cf5528fb7c5f612df23"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceLibrary\\AceLibrary.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775401,
+    "ast_hash": "8dfb7e76b2d192aacb5e55d6089803fa",
+    "semantic_hash": "8dfb7e76b2d192aacb5e55d6089803fa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceLibrary\\AceLibrary.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754023,
+    "ast_hash": "47c06b71fb126a261936d91adf64ed07",
+    "semantic_hash": "47c06b71fb126a261936d91adf64ed07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceLocale-3.0\\AceLocale-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754035,
+    "ast_hash": "4ac8fd98e6059ff0a62f4a3c08390269",
+    "semantic_hash": "4ac8fd98e6059ff0a62f4a3c08390269"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\AceSerializer-3.0\\AceSerializer-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754045,
+    "ast_hash": "47a6ca96a434f29f6421a8d740effdc8",
+    "semantic_hash": "47a6ca96a434f29f6421a8d740effdc8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754056,
+    "ast_hash": "737029dba21212f1a7552b928194d10c",
+    "semantic_hash": "737029dba21212f1a7552b928194d10c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\DewdropLib\\AceLibrary\\AceLibrary.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754066,
+    "ast_hash": "8dfb7e76b2d192aacb5e55d6089803fa",
+    "semantic_hash": "8dfb7e76b2d192aacb5e55d6089803fa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\DewdropLib\\AceLibrary\\AceLibrary.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754078,
+    "ast_hash": "47c06b71fb126a261936d91adf64ed07",
+    "semantic_hash": "47c06b71fb126a261936d91adf64ed07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\DewdropLib\\Dewdrop-2.0\\Dewdrop-2.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775409,
+    "ast_hash": "6611ec564c9aa4c0bbbb1069b51877a3",
+    "semantic_hash": "6611ec564c9aa4c0bbbb1069b51877a3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\DewdropLib\\DewdropLib.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754102,
+    "ast_hash": "dfea189e3748faa47fe1f4e9bf9f41ab",
+    "semantic_hash": "dfea189e3748faa47fe1f4e9bf9f41ab"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibAboutPanel\\LibAboutPanel.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754111,
+    "ast_hash": "14a5e6170e5e51b76899b444bba746ee",
+    "semantic_hash": "14a5e6170e5e51b76899b444bba746ee"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibAboutPanel\\LibAboutPanel.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754126,
+    "ast_hash": "9e66e716988d1b30b760bb29c320dafc",
+    "semantic_hash": "9e66e716988d1b30b760bb29c320dafc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibAboutPanel\\libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754135,
+    "ast_hash": "0c926dcc6524448bd9f5c42d7b3bc442",
+    "semantic_hash": "0c926dcc6524448bd9f5c42d7b3bc442"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibAboutPanel\\libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754147,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibAboutPanel\\libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775416,
+    "ast_hash": "f151f74a80a52128063c9aa12c9636dd",
+    "semantic_hash": "f151f74a80a52128063c9aa12c9636dd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Boss-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775417,
+    "ast_hash": "6071c18aa78cdd63520f28426ad40487",
+    "semantic_hash": "6071c18aa78cdd63520f28426ad40487"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754183,
+    "ast_hash": "75ae60fd45137091a1993a4d375eb3c9",
+    "semantic_hash": "75ae60fd45137091a1993a4d375eb3c9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Boss-3.0\\LibBabble-Boss-3.0.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754216,
+    "ast_hash": "8287d67348302439f21f03822fe7f344",
+    "semantic_hash": "8287d67348302439f21f03822fe7f344"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Boss-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775423,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Faction-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775424,
+    "ast_hash": "6071c18aa78cdd63520f28426ad40487",
+    "semantic_hash": "6071c18aa78cdd63520f28426ad40487"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754252,
+    "ast_hash": "ca5bcc293aaa9eed9821cd769fe024cf",
+    "semantic_hash": "ca5bcc293aaa9eed9821cd769fe024cf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Faction-3.0\\LibBabble-Faction-3.0.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754266,
+    "ast_hash": "cf86d329f8b98daf2ec9cbb975b87b00",
+    "semantic_hash": "cf86d329f8b98daf2ec9cbb975b87b00"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Faction-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775428,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Inventory-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775429,
+    "ast_hash": "6071c18aa78cdd63520f28426ad40487",
+    "semantic_hash": "6071c18aa78cdd63520f28426ad40487"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754302,
+    "ast_hash": "9a989c47efee1c105926f32297bf3f55",
+    "semantic_hash": "9a989c47efee1c105926f32297bf3f55"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754316,
+    "ast_hash": "258fe60c6fd50f8bfe3b1f0c7f9d54a7",
+    "semantic_hash": "258fe60c6fd50f8bfe3b1f0c7f9d54a7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Inventory-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754326,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Zone-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775434,
+    "ast_hash": "6071c18aa78cdd63520f28426ad40487",
+    "semantic_hash": "6071c18aa78cdd63520f28426ad40487"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754352,
+    "ast_hash": "95a32be662b596f03d7eb5f160a157d6",
+    "semantic_hash": "95a32be662b596f03d7eb5f160a157d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Zone-3.0\\LibBabble-Zone-3.0.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754366,
+    "ast_hash": "e8ab864b783cac563c04909d016b4e83",
+    "semantic_hash": "e8ab864b783cac563c04909d016b4e83"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibBabble-Zone-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754378,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibDataBroker-1.1\\LibDataBroker-1.1.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754388,
+    "ast_hash": "2f6e0e26d308cad550acf22c5812687d",
+    "semantic_hash": "2f6e0e26d308cad550acf22c5812687d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.77544,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775441,
+    "ast_hash": "f151f74a80a52128063c9aa12c9636dd",
+    "semantic_hash": "f151f74a80a52128063c9aa12c9636dd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\LibBabble.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775442,
+    "ast_hash": "cfa3d07ab569efbcc54db2e643823c5c",
+    "semantic_hash": "cfa3d07ab569efbcc54db2e643823c5c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.cn.lua": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7754428,
+    "ast_hash": "07e941cf92b30bc583407c63e59a21bf",
+    "semantic_hash": "07e941cf92b30bc583407c63e59a21bf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.de.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775444,
+    "ast_hash": "c14d941d3915f17b3a00edce5f38fc77",
+    "semantic_hash": "c14d941d3915f17b3a00edce5f38fc77"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.en.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775445,
+    "ast_hash": "8cfebd7af2bab83bbf11eb06cb75fab9",
+    "semantic_hash": "8cfebd7af2bab83bbf11eb06cb75fab9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.es.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754462,
+    "ast_hash": "c35e46554454a3c6ffd3cc4f570f644a",
+    "semantic_hash": "c35e46554454a3c6ffd3cc4f570f644a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.fr.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754474,
+    "ast_hash": "880e7cd135f176e9d1eac9d5d923f1ae",
+    "semantic_hash": "880e7cd135f176e9d1eac9d5d923f1ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.kr.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754483,
+    "ast_hash": "81556fb68320a1beaf80ad99665c20c0",
+    "semantic_hash": "81556fb68320a1beaf80ad99665c20c0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.mx.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754495,
+    "ast_hash": "0dc28762db572fbf020f03142b98eeec",
+    "semantic_hash": "0dc28762db572fbf020f03142b98eeec"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.ru.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754507,
+    "ast_hash": "f66adf0a79d60b73ab35c1823afb9283",
+    "semantic_hash": "f66adf0a79d60b73ab35c1823afb9283"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Locales\\constants.tw.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775452,
+    "ast_hash": "2a86bf5ee94505bccff13bd4d69b250f",
+    "semantic_hash": "2a86bf5ee94505bccff13bd4d69b250f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Menus\\CraftingMenus.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754529,
+    "ast_hash": "bd8f12d6a82aa28ea5be2f0ab11a2f41",
+    "semantic_hash": "bd8f12d6a82aa28ea5be2f0ab11a2f41"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Menus\\PvPMenus.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775454,
+    "ast_hash": "8a5fef81cb505639188b1fc1e05ca15a",
+    "semantic_hash": "8a5fef81cb505639188b1fc1e05ca15a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Menus\\RepMenus.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775455,
+    "ast_hash": "58417f56b0c9732f17f8cc926337ef05",
+    "semantic_hash": "58417f56b0c9732f17f8cc926337ef05"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Menus\\SetMenus.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754562,
+    "ast_hash": "79febe7a3cbface593c4929561a2faaa",
+    "semantic_hash": "79febe7a3cbface593c4929561a2faaa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Menus\\WorldEventMenus.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754574,
+    "ast_hash": "0e74905a62c9d01df893af573def3496",
+    "semantic_hash": "0e74905a62c9d01df893af573def3496"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.cn.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754593,
+    "ast_hash": "8dd7c66193f441b9850b9bfd209c5b38",
+    "semantic_hash": "8dd7c66193f441b9850b9bfd209c5b38"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.de.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754607,
+    "ast_hash": "d063c90070770e48b1831787fd0bfb82",
+    "semantic_hash": "d063c90070770e48b1831787fd0bfb82"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.en.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754617,
+    "ast_hash": "a6fded78b0b6b6cc6cc306384ea5357a",
+    "semantic_hash": "a6fded78b0b6b6cc6cc306384ea5357a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.es.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754629,
+    "ast_hash": "d14ceaf849e6e2e40be543cbc5cc1571",
+    "semantic_hash": "d14ceaf849e6e2e40be543cbc5cc1571"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.fr.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754638,
+    "ast_hash": "ab596cdd74f8cd4ac2a552c65dfeaf84",
+    "semantic_hash": "ab596cdd74f8cd4ac2a552c65dfeaf84"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\TableRegister\\loottables.tw.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754653,
+    "ast_hash": "494208e811e644839cf3737904ee9220",
+    "semantic_hash": "494208e811e644839cf3737904ee9220"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_BurningCrusade\\AtlasLoot_BurningCrusade.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754664,
+    "ast_hash": "37f6276337db3aad0317b9001ed7c151",
+    "semantic_hash": "37f6276337db3aad0317b9001ed7c151"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_BurningCrusade\\burningcrusade.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754676,
+    "ast_hash": "ca0f66e7853c9cc0f7d3e04b06f9ba8c",
+    "semantic_hash": "ca0f66e7853c9cc0f7d3e04b06f9ba8c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_BurningCrusade\\localization.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754686,
+    "ast_hash": "52a466045fb6f62b5502e4134dac9b39",
+    "semantic_hash": "52a466045fb6f62b5502e4134dac9b39"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_Crafting\\AtlasLoot_Crafting.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754695,
+    "ast_hash": "d555854127eb5a8466819f1ad71336fe",
+    "semantic_hash": "d555854127eb5a8466819f1ad71336fe"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_Crafting\\crafting.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754705,
+    "ast_hash": "d3b5d050d9952cec8fe3632fe700d7f8",
+    "semantic_hash": "d3b5d050d9952cec8fe3632fe700d7f8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_Crafting\\localization.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754717,
+    "ast_hash": "a16b96c97f67c2d6f93bbed59bc7f138",
+    "semantic_hash": "a16b96c97f67c2d6f93bbed59bc7f138"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_OriginalWoW\\AtlasLoot_OriginalWoW.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754729,
+    "ast_hash": "56551c5eb89d1473c1027afb04918e8a",
+    "semantic_hash": "56551c5eb89d1473c1027afb04918e8a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_OriginalWoW\\localization.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775474,
+    "ast_hash": "f2f14b46fb4e95154f64523cdb095f94",
+    "semantic_hash": "f2f14b46fb4e95154f64523cdb095f94"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_OriginalWoW\\originalwow.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754753,
+    "ast_hash": "50eb5022e9c484358d584c6491c7bdde",
+    "semantic_hash": "50eb5022e9c484358d584c6491c7bdde"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WorldEvents\\AtlasLoot_WorldEvents.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754767,
+    "ast_hash": "a3eff72e21e3dab4a0f1aabebd4794bd",
+    "semantic_hash": "a3eff72e21e3dab4a0f1aabebd4794bd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WorldEvents\\localization.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754781,
+    "ast_hash": "b63c7e5e8ac1f80c9c1df32db59433a5",
+    "semantic_hash": "b63c7e5e8ac1f80c9c1df32db59433a5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WorldEvents\\worldevents.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754793,
+    "ast_hash": "e7af334ee6451c8b34f43cd73b31eca4",
+    "semantic_hash": "e7af334ee6451c8b34f43cd73b31eca4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WrathoftheLichKing\\AtlasLoot_WrathoftheLichKing.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754803,
+    "ast_hash": "50df10ac25219302ec54884afb930dc9",
+    "semantic_hash": "50df10ac25219302ec54884afb930dc9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WrathoftheLichKing\\localization.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754817,
+    "ast_hash": "7bbc5e6daf3886f0b024a9b50e8963bf",
+    "semantic_hash": "7bbc5e6daf3886f0b024a9b50e8963bf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot_WrathoftheLichKing\\wrathofthelichking.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754827,
+    "ast_hash": "2039370d2570f09fb9e0f9a31b2611f3",
+    "semantic_hash": "2039370d2570f09fb9e0f9a31b2611f3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Auc-Advanced.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754836,
+    "ast_hash": "4bc8b6dcb16b1ed1a945ea6dbb288558",
+    "semantic_hash": "4bc8b6dcb16b1ed1a945ea6dbb288558"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreAPI.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754846,
+    "ast_hash": "cb8e5167710a74d4abd5220f8c8e68e6",
+    "semantic_hash": "cb8e5167710a74d4abd5220f8c8e68e6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreBuy.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775486,
+    "ast_hash": "543484f66c7a8c73b1f85ad6c1c5a90a",
+    "semantic_hash": "543484f66c7a8c73b1f85ad6c1c5a90a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreConfig.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775487,
+    "ast_hash": "9c65abdcff9f3a47fa5eafd9bf09fd1a",
+    "semantic_hash": "9c65abdcff9f3a47fa5eafd9bf09fd1a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreConst.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775488,
+    "ast_hash": "d5b3364c646b5d57311cd24ff244f24f",
+    "semantic_hash": "d5b3364c646b5d57311cd24ff244f24f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreMain.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775489,
+    "ast_hash": "f6c235ed3cbfdf2d188737f0d90165eb",
+    "semantic_hash": "f6c235ed3cbfdf2d188737f0d90165eb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreManifest.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.77549,
+    "ast_hash": "cb9cd392d2756469855f821a7fd18fca",
+    "semantic_hash": "cb9cd392d2756469855f821a7fd18fca"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CorePost.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775491,
+    "ast_hash": "9b0959fe8462e29f6640ea6aec3075f3",
+    "semantic_hash": "9b0959fe8462e29f6640ea6aec3075f3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreScan.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754922,
+    "ast_hash": "85fe1673e3bbe5970613ccc31bc3c977",
+    "semantic_hash": "85fe1673e3bbe5970613ccc31bc3c977"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreSettings.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754931,
+    "ast_hash": "33e8750cf2bc9aa7c4b3d51a3a7dce0d",
+    "semantic_hash": "33e8750cf2bc9aa7c4b3d51a3a7dce0d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreStrings.lua": {
+    "mtime": 1790578781.299851,
+    "seen": 1790600851.7754939,
+    "ast_hash": "82f5cd1d0f47097e2aa797dcfde23011",
+    "semantic_hash": "82f5cd1d0f47097e2aa797dcfde23011"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\CoreUtil.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754962,
+    "ast_hash": "dd03d25576e9a74154c4bcf667347838",
+    "semantic_hash": "dd03d25576e9a74154c4bcf667347838"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Babylonian\\Babylonian.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754972,
+    "ast_hash": "b9b31d14e39d76a7ddef4a982044e30c",
+    "semantic_hash": "b9b31d14e39d76a7ddef4a982044e30c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Babylonian\\Babylonian.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754982,
+    "ast_hash": "105a8eb32823942daae562b78abbe345",
+    "semantic_hash": "105a8eb32823942daae562b78abbe345"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Babylonian\\Support\\LibRevision.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7754996,
+    "ast_hash": "6e2a357cb28316ea2987eb5c406f3866",
+    "semantic_hash": "6e2a357cb28316ea2987eb5c406f3866"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\Configator.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755005,
+    "ast_hash": "54ac42d07694e2a92d49ee8db80fee74",
+    "semantic_hash": "54ac42d07694e2a92d49ee8db80fee74"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\Configator.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755015,
+    "ast_hash": "69679a3a0d8224233d103d910d25d9f0",
+    "semantic_hash": "69679a3a0d8224233d103d910d25d9f0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\PanelScroller.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775503,
+    "ast_hash": "0207deb37372c8cfcaa1e19124b5a597",
+    "semantic_hash": "0207deb37372c8cfcaa1e19124b5a597"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\ScrollSheet.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755036,
+    "ast_hash": "7289d5ed9ab4a317f9ce76a41b139d0e",
+    "semantic_hash": "7289d5ed9ab4a317f9ce76a41b139d0e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\SelectBox.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755048,
+    "ast_hash": "3b031bafd49211a5f9c3aec071504979",
+    "semantic_hash": "3b031bafd49211a5f9c3aec071504979"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\Support\\LibRevision.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755082,
+    "ast_hash": "6e2a357cb28316ea2987eb5c406f3866",
+    "semantic_hash": "6e2a357cb28316ea2987eb5c406f3866"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\DebugLib\\DebugLib.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755089,
+    "ast_hash": "ba9a7a067af2a32684a52204b1386d4e",
+    "semantic_hash": "ba9a7a067af2a32684a52204b1386d4e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\DebugLib\\DebugLib.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.77551,
+    "ast_hash": "023a8c374e25be782c202dcbd9101704",
+    "semantic_hash": "023a8c374e25be782c202dcbd9101704"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\DebugLib\\Support\\LibRevision.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755113,
+    "ast_hash": "6e2a357cb28316ea2987eb5c406f3866",
+    "semantic_hash": "6e2a357cb28316ea2987eb5c406f3866"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\LibExtraTip.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755122,
+    "ast_hash": "f7ed4a069ff29d82aa4737a8fb5390be",
+    "semantic_hash": "f7ed4a069ff29d82aa4737a8fb5390be"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\LibExtraTip.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755136,
+    "ast_hash": "10d116ca1b27b2890f0887e060dad8bd",
+    "semantic_hash": "10d116ca1b27b2890f0887e060dad8bd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\LibMoneyFrame.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755148,
+    "ast_hash": "70670225b2a1bda5ad06a02e57cf53a3",
+    "semantic_hash": "70670225b2a1bda5ad06a02e57cf53a3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\LibStub.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755158,
+    "ast_hash": "01feca5e3ab4cc0c24967a67a2a9bc8b",
+    "semantic_hash": "01feca5e3ab4cc0c24967a67a2a9bc8b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\contrib\\processDoc.sh": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775517,
+    "ast_hash": "1637eb63d487d5651e8b55add49641cd",
+    "semantic_hash": "1637eb63d487d5651e8b55add49641cd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\TipHelper\\TipHelper.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775518,
+    "ast_hash": "b8d497fc9de730830648ad3cb69a2b53",
+    "semantic_hash": "b8d497fc9de730830648ad3cb69a2b53"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\TipHelper\\nTipHelper.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775519,
+    "ast_hash": "a636e1789e513bd9939512240f70c012",
+    "semantic_hash": "a636e1789e513bd9939512240f70c012"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Filter-Outlier\\Auc-Filter-Outlier.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755203,
+    "ast_hash": "615a4b28a75c1a854b5db5ec9bd3f321",
+    "semantic_hash": "615a4b28a75c1a854b5db5ec9bd3f321"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Filter-Outlier\\OutlierFilter.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755213,
+    "ast_hash": "959f8cb148ea7d53c00619af87472b99",
+    "semantic_hash": "959f8cb148ea7d53c00619af87472b99"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Match-Undercut\\Auc-Match-Undercut.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755225,
+    "ast_hash": "b4d31e7aa34a1eabc92a2db9bb4a3333",
+    "semantic_hash": "b4d31e7aa34a1eabc92a2db9bb4a3333"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Match-Undercut\\Undercut.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755237,
+    "ast_hash": "30f4ad6ff9efc8168d3fc91b427a301f",
+    "semantic_hash": "30f4ad6ff9efc8168d3fc91b427a301f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Stat-Sales\\Auc-Stat-Sales.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755246,
+    "ast_hash": "d1a62d0519d7536372c914db880214a3",
+    "semantic_hash": "d1a62d0519d7536372c914db880214a3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Stat-Sales\\BeanCount.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755253,
+    "ast_hash": "88af38c60ce3d06dc8ef7dbca0dad6bb",
+    "semantic_hash": "88af38c60ce3d06dc8ef7dbca0dad6bb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Stat-WOWEcon\\Auc-Stat-WOWEcon.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755263,
+    "ast_hash": "b2a2d2674300e7c678956b7153b1b561",
+    "semantic_hash": "b2a2d2674300e7c678956b7153b1b561"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Stat-WOWEcon\\WOWEcon.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755275,
+    "ast_hash": "2817f5a87e69d4f13f5e483a12866ad3",
+    "semantic_hash": "2817f5a87e69d4f13f5e483a12866ad3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AHWindowControl\\Auc-Util-AHWindowControl.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755284,
+    "ast_hash": "25f4d4260af7aa749ba9163d56441a68",
+    "semantic_hash": "25f4d4260af7aa749ba9163d56441a68"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AHWindowControl\\Auc-Util-AHWindowControl.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755294,
+    "ast_hash": "917985cebc4f6cc9e0577962566e6464",
+    "semantic_hash": "917985cebc4f6cc9e0577962566e6464"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Appraiser\\Appraiser.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755306,
+    "ast_hash": "07581f34599e650167055ff769e6ff92",
+    "semantic_hash": "07581f34599e650167055ff769e6ff92"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Appraiser\\AprFrame.lua": {
+    "mtime": 1790579081.309453,
+    "seen": 1790600851.7755315,
+    "ast_hash": "5ffadbf0d99e5a60bfdd1bef320e871d",
+    "semantic_hash": "5ffadbf0d99e5a60bfdd1bef320e871d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Appraiser\\AprSettings.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755325,
+    "ast_hash": "06c09e07bfc910ada477a2e292c09326",
+    "semantic_hash": "06c09e07bfc910ada477a2e292c09326"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Appraiser\\Auc-Util-Appraiser.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755337,
+    "ast_hash": "52173bd570a28354ac76df125361d6f9",
+    "semantic_hash": "52173bd570a28354ac76df125361d6f9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\AskPrice.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755346,
+    "ast_hash": "88ab65e9687b06ae716b88eba5520b0b",
+    "semantic_hash": "88ab65e9687b06ae716b88eba5520b0b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\Auc-Util-AskPrice.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755358,
+    "ast_hash": "480c68deb51daaccf1755dcd147c88f7",
+    "semantic_hash": "480c68deb51daaccf1755dcd147c88f7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\ChatThrottleLib\\ChatThrottleLib.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775537,
+    "ast_hash": "f82f2a9793545a2a6ecad707f62d3f6d",
+    "semantic_hash": "f82f2a9793545a2a6ecad707f62d3f6d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\ChatThrottleLib\\ChatThrottleLib.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775538,
+    "ast_hash": "508df7d4ccb80b3ae49428b368ede260",
+    "semantic_hash": "508df7d4ccb80b3ae49428b368ede260"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\ChatThrottleLib\\ChatThrottleStats.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755387,
+    "ast_hash": "be9e2de235d705eca4b44268a58de816",
+    "semantic_hash": "be9e2de235d705eca4b44268a58de816"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AutoMagic\\Auc-Util-AutoMagic.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755396,
+    "ast_hash": "e82e66e8437344fd60c2538c8592c94f",
+    "semantic_hash": "e82e66e8437344fd60c2538c8592c94f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AutoMagic\\Auc-Util-AutoMagic.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755408,
+    "ast_hash": "4505b651b3c39eea030a8b122629726b",
+    "semantic_hash": "4505b651b3c39eea030a8b122629726b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AutoMagic\\ConfirmSellUI.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755418,
+    "ast_hash": "fa16ed79834578ac5fc89bf33ca92da6",
+    "semantic_hash": "fa16ed79834578ac5fc89bf33ca92da6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AutoMagic\\Core.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755427,
+    "ast_hash": "4aba7aaeadeb45c1099ec1c39b243481",
+    "semantic_hash": "4aba7aaeadeb45c1099ec1c39b243481"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AutoMagic\\Mail-GUI.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755437,
+    "ast_hash": "2c950fac00be74297a8dffff85596eed",
+    "semantic_hash": "2c950fac00be74297a8dffff85596eed"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-CompactUI\\Auc-Util-CompactUI.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755446,
+    "ast_hash": "8372a2c1ee98ade58a7e307717aadfdb",
+    "semantic_hash": "8372a2c1ee98ade58a7e307717aadfdb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-CompactUI\\CompactUI.lua": {
+    "mtime": 1790579085.8062172,
+    "seen": 1790600851.7755456,
+    "ast_hash": "0c2dc6e3839ac5edd99cbad1d61b3787",
+    "semantic_hash": "0c2dc6e3839ac5edd99cbad1d61b3787"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-EasyBuyout\\Auc-Util-EasyBuyout.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755468,
+    "ast_hash": "902662c098c798b701d09820be53891f",
+    "semantic_hash": "902662c098c798b701d09820be53891f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-EasyBuyout\\EasyBuyout.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775548,
+    "ast_hash": "8b3e1a8794cfb57cfd68a7bf3bca6f1b",
+    "semantic_hash": "8b3e1a8794cfb57cfd68a7bf3bca6f1b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Example\\Auc-Util-Example.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775549,
+    "ast_hash": "8638e7e874cfb28c04098530b8ac6d2e",
+    "semantic_hash": "8638e7e874cfb28c04098530b8ac6d2e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Example\\Example.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755497,
+    "ast_hash": "11b6dabf2bc3ac118dbd18a87b6e284b",
+    "semantic_hash": "11b6dabf2bc3ac118dbd18a87b6e284b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-GlypherPost\\Auc-Util-GlypherPost.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755506,
+    "ast_hash": "31aaf1ab20b318497076371e3859d68a",
+    "semantic_hash": "31aaf1ab20b318497076371e3859d68a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-GlypherPost\\GlypherPost.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755518,
+    "ast_hash": "b8c980bf5cf14fe8e7d7f1c3fcef0cab",
+    "semantic_hash": "b8c980bf5cf14fe8e7d7f1c3fcef0cab"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Glypher\\Auc-Util-Glypher.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755527,
+    "ast_hash": "69e455e0245aece582f3dc4eb3888ee3",
+    "semantic_hash": "69e455e0245aece582f3dc4eb3888ee3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Glypher\\Glypher.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775554,
+    "ast_hash": "5100e9ca324aa9a48ab4d34ea2d97e15",
+    "semantic_hash": "5100e9ca324aa9a48ab4d34ea2d97e15"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ItemSuggest\\Auc-Util-ItemSuggest.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755551,
+    "ast_hash": "dfe611b6d1004a87b0597dd6b35b0319",
+    "semantic_hash": "dfe611b6d1004a87b0597dd6b35b0319"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ItemSuggest\\Auc-Util-ItemSuggest.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775556,
+    "ast_hash": "a015466f40ff8e39106a5e6286c0f2d9",
+    "semantic_hash": "a015466f40ff8e39106a5e6286c0f2d9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-PriceLevel\\Auc-Util-PriceLevel.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755573,
+    "ast_hash": "d88afe4e27efbbac690d1d85b579783d",
+    "semantic_hash": "d88afe4e27efbbac690d1d85b579783d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-PriceLevel\\PriceLevel.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755585,
+    "ast_hash": "c2594412c3cbecc1cf7271566f561cff",
+    "semantic_hash": "c2594412c3cbecc1cf7271566f561cff"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanButton\\Auc-Util-ScanButton.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755597,
+    "ast_hash": "84bc683b1f1c4b7e89ce4a4f440a1f07",
+    "semantic_hash": "84bc683b1f1c4b7e89ce4a4f440a1f07"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanButton\\ScanButton.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755606,
+    "ast_hash": "52099b3423456feacfc696e43371d5b4",
+    "semantic_hash": "52099b3423456feacfc696e43371d5b4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanFinish\\Auc-Util-ScanFinish.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755618,
+    "ast_hash": "8c458c5beeed02b3c9e729973636592b",
+    "semantic_hash": "8c458c5beeed02b3c9e729973636592b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanFinish\\ScanFinish.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755628,
+    "ast_hash": "77c4b2be65b1d7cb67c2d2a75d135664",
+    "semantic_hash": "77c4b2be65b1d7cb67c2d2a75d135664"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanProgress\\Auc-Util-ScanProgress.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755637,
+    "ast_hash": "34ee2cadc2afe6bca21b5da0b804a6c9",
+    "semantic_hash": "34ee2cadc2afe6bca21b5da0b804a6c9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanProgress\\ScanProgress.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775565,
+    "ast_hash": "d58c18bb472432d9a5f245046d319278",
+    "semantic_hash": "d58c18bb472432d9a5f245046d319278"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanStart\\Auc-Util-ScanStart.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775566,
+    "ast_hash": "6fc4ce6647750cf6cacc6aa45a6e5deb",
+    "semantic_hash": "6fc4ce6647750cf6cacc6aa45a6e5deb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanStart\\ScanStart.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775567,
+    "ast_hash": "6841a489d3f16c0958362719cc70697f",
+    "semantic_hash": "6841a489d3f16c0958362719cc70697f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\Auc-Util-SearchUI.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755682,
+    "ast_hash": "daf45e0a455fe72cf0d651c126eea372",
+    "semantic_hash": "daf45e0a455fe72cf0d651c126eea372"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\FilterItemAuctionHistory.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755694,
+    "ast_hash": "476ea3c3ac28e06f6cfc7e7475c787cb",
+    "semantic_hash": "476ea3c3ac28e06f6cfc7e7475c787cb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\FilterItemLevel.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755704,
+    "ast_hash": "372975a0a94082f2efdd06584683c4b2",
+    "semantic_hash": "372975a0a94082f2efdd06584683c4b2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\FilterItemPrice.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755718,
+    "ast_hash": "ad08271fab3a3503b993fcc4014258ae",
+    "semantic_hash": "ad08271fab3a3503b993fcc4014258ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\FilterItemQuality.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755725,
+    "ast_hash": "7fdfa521605b5eccfdcbddb3d0e24a3f",
+    "semantic_hash": "7fdfa521605b5eccfdcbddb3d0e24a3f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\FilterTimeLeft.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755735,
+    "ast_hash": "4084197a59c9a151163c03d5b723836f",
+    "semantic_hash": "4084197a59c9a151163c03d5b723836f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearchMain.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755744,
+    "ast_hash": "ba1f3dc9831ec38349f949a4d0bf3674",
+    "semantic_hash": "ba1f3dc9831ec38349f949a4d0bf3674"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearchRealTime.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755756,
+    "ast_hash": "542a903ddd8645aa1bdff3ca3b97e218",
+    "semantic_hash": "542a903ddd8645aa1bdff3ca3b97e218"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherArbitrage.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755766,
+    "ast_hash": "71f34a7b8c710364e13fb5f0bd088f95",
+    "semantic_hash": "71f34a7b8c710364e13fb5f0bd088f95"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherConverter.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755778,
+    "ast_hash": "4415521d37d8e7cca0c1672cef0d1886",
+    "semantic_hash": "4415521d37d8e7cca0c1672cef0d1886"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherDisenchant.lua": {
+    "mtime": 1790578482.5776136,
+    "seen": 1790600851.775579,
+    "ast_hash": "d2b008d0757a5b48edff4b8e0667fd3e",
+    "semantic_hash": "d2b008d0757a5b48edff4b8e0667fd3e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherEnchantMats.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.77558,
+    "ast_hash": "ac09447de951c0f83d69ec96e42d5318",
+    "semantic_hash": "ac09447de951c0f83d69ec96e42d5318"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherGeneral.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755811,
+    "ast_hash": "2bbb19967ce9491c8beb0d2fb68b1f68",
+    "semantic_hash": "2bbb19967ce9491c8beb0d2fb68b1f68"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherMilling.lua": {
+    "mtime": 1790578489.9031253,
+    "seen": 1790600851.7755823,
+    "ast_hash": "95b150d567ffa350708d247cc33e0caa",
+    "semantic_hash": "95b150d567ffa350708d247cc33e0caa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherProspect.lua": {
+    "mtime": 1790578486.2481847,
+    "seen": 1790600851.7755835,
+    "ast_hash": "702cba261d8ff3840c81794694714ce6",
+    "semantic_hash": "702cba261d8ff3840c81794694714ce6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherResale.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755845,
+    "ast_hash": "33183992b8f3fccbbe64f324cbe0f51d",
+    "semantic_hash": "33183992b8f3fccbbe64f324cbe0f51d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherSnatch.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755857,
+    "ast_hash": "8850eaff04b98afc86dd730f22748a8f",
+    "semantic_hash": "8850eaff04b98afc86dd730f22748a8f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\SearcherVendor.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755868,
+    "ast_hash": "da981162f4718f50653c6a0c25ed93a8",
+    "semantic_hash": "da981162f4718f50653c6a0c25ed93a8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SimpleAuction\\Auc-Util-SimpleAuction.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775588,
+    "ast_hash": "19bfc4e643349a027a540f481602eca3",
+    "semantic_hash": "19bfc4e643349a027a540f481602eca3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SimpleAuction\\AucSimple.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755892,
+    "ast_hash": "a3a54d2048feeac421b88ae479efbd93",
+    "semantic_hash": "a3a54d2048feeac421b88ae479efbd93"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SimpleAuction\\SimpFrame.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755902,
+    "ast_hash": "45dd08f69bf70450ba9960522eaa1f30",
+    "semantic_hash": "45dd08f69bf70450ba9960522eaa1f30"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-VendMarkup\\Auc-Util-VendMarkup.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755914,
+    "ast_hash": "8d70b11f2624991da5f68be2f91e2c60",
+    "semantic_hash": "8d70b11f2624991da5f68be2f91e2c60"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-VendMarkup\\vendMarkup.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755926,
+    "ast_hash": "46d381733e6b7155202792ff5ac98905",
+    "semantic_hash": "46d381733e6b7155202792ff5ac98905"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\autorun.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755935,
+    "ast_hash": "4ed33b51cac01c06ecf5204e65e4c6ce",
+    "semantic_hash": "4ed33b51cac01c06ecf5204e65e4c6ce"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Support\\LibGroupStore.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755945,
+    "ast_hash": "0c78121c6ae6817b1d58bb99307805ae",
+    "semantic_hash": "0c78121c6ae6817b1d58bb99307805ae"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Support\\LibRevision.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7755957,
+    "ast_hash": "6e2a357cb28316ea2987eb5c406f3866",
+    "semantic_hash": "6e2a357cb28316ea2987eb5c406f3866"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Support\\LibTickTock.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775597,
+    "ast_hash": "134f1a63b3a2aec3ff2f06da7c157556",
+    "semantic_hash": "134f1a63b3a2aec3ff2f06da7c157556"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Filter-Basic\\Auc-Filter-Basic.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775598,
+    "ast_hash": "3715fa4597f5de65e22408d202c7a339",
+    "semantic_hash": "3715fa4597f5de65e22408d202c7a339"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Filter-Basic\\BasicFilter.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775599,
+    "ast_hash": "81dff2993feb79a1744711f41edd87a2",
+    "semantic_hash": "81dff2993feb79a1744711f41edd87a2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-ScanData\\Auc-ScanData.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756004,
+    "ast_hash": "114f9524bda290e965ea8ce9a5657a29",
+    "semantic_hash": "114f9524bda290e965ea8ce9a5657a29"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-ScanData\\ScanData.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756016,
+    "ast_hash": "b335cedf7d4850e0e9bb91146e9052e3",
+    "semantic_hash": "b335cedf7d4850e0e9bb91146e9052e3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-ScanData\\StringRope.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756026,
+    "ast_hash": "f13045710244ff829bff918b33851da4",
+    "semantic_hash": "f13045710244ff829bff918b33851da4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Histogram\\Auc-Stat-Histogram.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775604,
+    "ast_hash": "12c15832f477d16a14bdbb2feac3376c",
+    "semantic_hash": "12c15832f477d16a14bdbb2feac3376c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Histogram\\StatHistogram.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775605,
+    "ast_hash": "383d4d15514293d67b7ba942d3a43e00",
+    "semantic_hash": "383d4d15514293d67b7ba942d3a43e00"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Purchased\\Auc-Stat-Purchased.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756062,
+    "ast_hash": "06c803f2c927098d2fa08486562cc78c",
+    "semantic_hash": "06c803f2c927098d2fa08486562cc78c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Purchased\\StatPurchased.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756073,
+    "ast_hash": "0f8feb755deef9db4bc626863d17a126",
+    "semantic_hash": "0f8feb755deef9db4bc626863d17a126"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Simple\\Auc-Stat-Simple.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756083,
+    "ast_hash": "24f292eb3c78f8628fbb4c2bb7d9d377",
+    "semantic_hash": "24f292eb3c78f8628fbb4c2bb7d9d377"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-Simple\\StatSimple.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756095,
+    "ast_hash": "c628627c3bcd1417be9fe9b5b92c3d22",
+    "semantic_hash": "c628627c3bcd1417be9fe9b5b92c3d22"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-StdDev\\Auc-Stat-StdDev.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775611,
+    "ast_hash": "d9783871c62f14cf38cd511511706d12",
+    "semantic_hash": "d9783871c62f14cf38cd511511706d12"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-StdDev\\StatStdDev.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756119,
+    "ast_hash": "f6b3c7b7b2db2e4d8b8b2d70fdec6a7f",
+    "semantic_hash": "f6b3c7b7b2db2e4d8b8b2d70fdec6a7f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-iLevel\\Auc-Stat-iLevel.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756128,
+    "ast_hash": "6aa398e62916952373f703c368885632",
+    "semantic_hash": "6aa398e62916952373f703c368885632"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Stat-iLevel\\iLevel.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775614,
+    "ast_hash": "42184e398329b8d09cecac1f151661d9",
+    "semantic_hash": "42184e398329b8d09cecac1f151661d9"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Util-FixAH\\Auc-Util-FixAH.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756152,
+    "ast_hash": "8cd7651ffcc6c84139dd645df108ce25",
+    "semantic_hash": "8cd7651ffcc6c84139dd645df108ce25"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Util-FixAH\\MessageAPIFix.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756164,
+    "ast_hash": "b7242add037c3f1ed4cdb402a7a5d591",
+    "semantic_hash": "b7242add037c3f1ed4cdb402a7a5d591"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Util-FixAH\\PageOneReturn.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756176,
+    "ast_hash": "1329afd700c31b869917b12527c8c1a2",
+    "semantic_hash": "1329afd700c31b869917b12527c8c1a2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-Filtering.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756183,
+    "ast_hash": "488518ead1125be9848d80d8d1a22b9a",
+    "semantic_hash": "488518ead1125be9848d80d8d1a22b9a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-Options.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756195,
+    "ast_hash": "5d8588a9350bd92b26d0e59f7bd46b01",
+    "semantic_hash": "5d8588a9350bd92b26d0e59f7bd46b01"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-Skins.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756207,
+    "ast_hash": "437f58ef6060c9b801a043a38fe5c853",
+    "semantic_hash": "437f58ef6060c9b801a043a38fe5c853"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-deDE.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775622,
+    "ast_hash": "675e408708d80014b7a682f91b74b67f",
+    "semantic_hash": "675e408708d80014b7a682f91b74b67f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-enUS.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775623,
+    "ast_hash": "37e7d2b421aaf4fe9d5dc01aa9ce25c8",
+    "semantic_hash": "37e7d2b421aaf4fe9d5dc01aa9ce25c8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-esES.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756245,
+    "ast_hash": "7e5c0e6baa230f23f87918f49e3b25b2",
+    "semantic_hash": "7e5c0e6baa230f23f87918f49e3b25b2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-frFR.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756255,
+    "ast_hash": "b9ee96470576d072b4219ffbedb27897",
+    "semantic_hash": "b9ee96470576d072b4219ffbedb27897"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-koKR.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756264,
+    "ast_hash": "feaa1576d5507ab06462b9d96741c67d",
+    "semantic_hash": "feaa1576d5507ab06462b9d96741c67d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-ruRU.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756276,
+    "ast_hash": "25a92230cf47b5087b33eaf0ab74c99e",
+    "semantic_hash": "25a92230cf47b5087b33eaf0ab74c99e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-zhCN.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775629,
+    "ast_hash": "fc85d562ee0e837d2b52c003fee8ac76",
+    "semantic_hash": "fc85d562ee0e837d2b52c003fee8ac76"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins-zhTW.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.77563,
+    "ast_hash": "671a7d5af4f3cc904c81bd3a7fe494c6",
+    "semantic_hash": "671a7d5af4f3cc904c81bd3a7fe494c6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756312,
+    "ast_hash": "3a3cfcb35adffb59011eac5f7655d176",
+    "semantic_hash": "3a3cfcb35adffb59011eac5f7655d176"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins.toc": {
+    "mtime": 1790579338.0164423,
+    "seen": 1790600851.7756324,
+    "ast_hash": "446677163a02439b6bdb50f3b399dc9f",
+    "semantic_hash": "446677163a02439b6bdb50f3b399dc9f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Baggins_ItemOps.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756333,
+    "ast_hash": "8d35b5dad66f6572b6593ed6a9b8f8fe",
+    "semantic_hash": "8d35b5dad66f6572b6593ed6a9b8f8fe"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceAddon-2.0\\AceAddon-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756348,
+    "ast_hash": "daced2bc3f4503251a7d4e4c3a33f9a5",
+    "semantic_hash": "daced2bc3f4503251a7d4e4c3a33f9a5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceAddon-2.0\\AceAddon-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756357,
+    "ast_hash": "4267dd86afb3341d418efc934bd2e42c",
+    "semantic_hash": "4267dd86afb3341d418efc934bd2e42c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceConsole-2.0\\AceConsole-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775637,
+    "ast_hash": "538fa22755f9f961f5e9619a837199ba",
+    "semantic_hash": "538fa22755f9f961f5e9619a837199ba"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceConsole-2.0\\AceConsole-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775638,
+    "ast_hash": "5ad38e7621675482789381078677a73f",
+    "semantic_hash": "5ad38e7621675482789381078677a73f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceDB-2.0\\AceDB-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775639,
+    "ast_hash": "ebdc0ea2e43141a0e7af4f9fe5bf2d00",
+    "semantic_hash": "ebdc0ea2e43141a0e7af4f9fe5bf2d00"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceDB-2.0\\AceDB-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756402,
+    "ast_hash": "ff312a1783652ea445abe18187b3afeb",
+    "semantic_hash": "ff312a1783652ea445abe18187b3afeb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceDebug-2.0\\AceDebug-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756417,
+    "ast_hash": "b56fcde20f03949426be85def197285b",
+    "semantic_hash": "b56fcde20f03949426be85def197285b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceDebug-2.0\\AceDebug-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756426,
+    "ast_hash": "92a0714fd3de66584e255c088843ffdd",
+    "semantic_hash": "92a0714fd3de66584e255c088843ffdd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceEvent-2.0\\AceEvent-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756433,
+    "ast_hash": "ab9cb6a323f916a3a61d70fdc38acaed",
+    "semantic_hash": "ab9cb6a323f916a3a61d70fdc38acaed"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceEvent-2.0\\AceEvent-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775645,
+    "ast_hash": "06387675e00e55c5c438289390421e43",
+    "semantic_hash": "06387675e00e55c5c438289390421e43"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceHook-2.1\\AceHook-2.1.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775646,
+    "ast_hash": "1fe7ddc8a065c38fc1b98b57dcfe8533",
+    "semantic_hash": "1fe7ddc8a065c38fc1b98b57dcfe8533"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceHook-2.1\\AceHook-2.1.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775647,
+    "ast_hash": "82befda86225b55957a2226b2ca97996",
+    "semantic_hash": "82befda86225b55957a2226b2ca97996"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceLibrary\\AceLibrary.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775648,
+    "ast_hash": "8dfb7e76b2d192aacb5e55d6089803fa",
+    "semantic_hash": "8dfb7e76b2d192aacb5e55d6089803fa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceLibrary\\AceLibrary.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756493,
+    "ast_hash": "21d8fcc8f4a80b52aa4ccb8f6484cabc",
+    "semantic_hash": "21d8fcc8f4a80b52aa4ccb8f6484cabc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceLocale-2.2\\AceLocale-2.2.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756503,
+    "ast_hash": "1512368249f54522555af8328e906417",
+    "semantic_hash": "1512368249f54522555af8328e906417"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceLocale-2.2\\AceLocale-2.2.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756512,
+    "ast_hash": "affa7b8b933609134e19db54cee9352c",
+    "semantic_hash": "affa7b8b933609134e19db54cee9352c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceLocale-3.0\\AceLocale-3.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756524,
+    "ast_hash": "2ce5342d3f35cb15b985bd387e9327a0",
+    "semantic_hash": "2ce5342d3f35cb15b985bd387e9327a0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceOO-2.0\\AceOO-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756536,
+    "ast_hash": "0b3714f5706f1d0789b537223cc7c55e",
+    "semantic_hash": "0b3714f5706f1d0789b537223cc7c55e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\AceOO-2.0\\AceOO-2.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756546,
+    "ast_hash": "f03aa5b7b2d543cdbf0b317cc0122c0e",
+    "semantic_hash": "f03aa5b7b2d543cdbf0b317cc0122c0e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756565,
+    "ast_hash": "737029dba21212f1a7552b928194d10c",
+    "semantic_hash": "737029dba21212f1a7552b928194d10c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\Dewdrop-2.0\\Dewdrop-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756574,
+    "ast_hash": "87aec3fe88db271e8a89397cbe3969a2",
+    "semantic_hash": "87aec3fe88db271e8a89397cbe3969a2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\FuBarPlugin-2.0\\FuBarPlugin-2.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756588,
+    "ast_hash": "b930c4d328f366b47f56e5159c63dd06",
+    "semantic_hash": "b930c4d328f366b47f56e5159c63dd06"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibBabble-Inventory-3.0\\LibBabble-3.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756598,
+    "ast_hash": "6071c18aa78cdd63520f28426ad40487",
+    "semantic_hash": "6071c18aa78cdd63520f28426ad40487"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775661,
+    "ast_hash": "14ba3b4f8e8e437cb9932717fac02784",
+    "semantic_hash": "14ba3b4f8e8e437cb9932717fac02784"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibBabble-Inventory-3.0\\LibBabble-Inventory-3.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756624,
+    "ast_hash": "fb85cdf89cba48a26d3afbbc4da21a2a",
+    "semantic_hash": "fb85cdf89cba48a26d3afbbc4da21a2a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibBabble-Inventory-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756636,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibBagUtils-1.0\\LibBagUtils-1.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756643,
+    "ast_hash": "187b7c26392ccd255621f50cae93210c",
+    "semantic_hash": "187b7c26392ccd255621f50cae93210c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibGratuity-3.0\\LibGratuity-3.0.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756658,
+    "ast_hash": "309191cae37f6bb2e508b350c9b3c009",
+    "semantic_hash": "309191cae37f6bb2e508b350c9b3c009"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibGratuity-3.0\\LibGratuity-3.0.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756672,
+    "ast_hash": "24e163ca82494533322d27087614529b",
+    "semantic_hash": "24e163ca82494533322d27087614529b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibGratuity-3.0\\LibStub\\LibStub.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756681,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Consumable\\LibPeriodicTable-3.1-Consumable.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756696,
+    "ast_hash": "48a408902b1d802a4618d1f9c4000dfc",
+    "semantic_hash": "48a408902b1d802a4618d1f9c4000dfc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Consumable\\LibPeriodicTable-3.1-Consumable.toc": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756708,
+    "ast_hash": "99492df9a9e2f8a24830dcf8c6e88096",
+    "semantic_hash": "99492df9a9e2f8a24830dcf8c6e88096"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-GearSet\\LibPeriodicTable-3.1-GearSet.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756724,
+    "ast_hash": "6e68611e6bdaa6d44d322e690f6641b8",
+    "semantic_hash": "6e68611e6bdaa6d44d322e690f6641b8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-GearSet\\LibPeriodicTable-3.1-GearSet.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756736,
+    "ast_hash": "c10ab654c270c5f9cc5890c0145a5721",
+    "semantic_hash": "c10ab654c270c5f9cc5890c0145a5721"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Gear\\LibPeriodicTable-3.1-Gear.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756748,
+    "ast_hash": "7fd35e3c7bbdbd906fd1d1958ff2e04f",
+    "semantic_hash": "7fd35e3c7bbdbd906fd1d1958ff2e04f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Gear\\LibPeriodicTable-3.1-Gear.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.775676,
+    "ast_hash": "58a2209f130f25cad3c31a5c681eeb87",
+    "semantic_hash": "58a2209f130f25cad3c31a5c681eeb87"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-InstanceLootHeroic\\LibPeriodicTable-3.1-InstanceLootHeroic.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756772,
+    "ast_hash": "1aef4099861ac0d7e45366aa50f30680",
+    "semantic_hash": "1aef4099861ac0d7e45366aa50f30680"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-InstanceLootHeroic\\LibPeriodicTable-3.1-InstanceLootHeroic.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756784,
+    "ast_hash": "8b59edb17a1ddb22c0fc96828dee5694",
+    "semantic_hash": "8b59edb17a1ddb22c0fc96828dee5694"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-InstanceLoot\\LibPeriodicTable-3.1-InstanceLoot.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756796,
+    "ast_hash": "5347425d374e00613cd499cbcc00d74a",
+    "semantic_hash": "5347425d374e00613cd499cbcc00d74a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-InstanceLoot\\LibPeriodicTable-3.1-InstanceLoot.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756808,
+    "ast_hash": "e80c1ffcba75cc5df1e45b67a39913aa",
+    "semantic_hash": "e80c1ffcba75cc5df1e45b67a39913aa"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Misc\\LibPeriodicTable-3.1-Misc.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756817,
+    "ast_hash": "5f1fb1c1f9c9ca6f58ed7cc5cca55f72",
+    "semantic_hash": "5f1fb1c1f9c9ca6f58ed7cc5cca55f72"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Misc\\LibPeriodicTable-3.1-Misc.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756836,
+    "ast_hash": "7c3131e41f2cc7c4071664027c87651d",
+    "semantic_hash": "7c3131e41f2cc7c4071664027c87651d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Reputation\\LibPeriodicTable-3.1-Reputation.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.775685,
+    "ast_hash": "88b1e0674221140d0daf389ff8406a38",
+    "semantic_hash": "88b1e0674221140d0daf389ff8406a38"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Reputation\\LibPeriodicTable-3.1-Reputation.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756867,
+    "ast_hash": "2945722cda9df14a067de221b98e5567",
+    "semantic_hash": "2945722cda9df14a067de221b98e5567"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-TradeskillResultMats\\LibPeriodicTable-3.1-TradeskillResultMats.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756884,
+    "ast_hash": "3894c60bf4b20ada35b597d71743acd0",
+    "semantic_hash": "3894c60bf4b20ada35b597d71743acd0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-TradeskillResultMats\\LibPeriodicTable-3.1-TradeskillResultMats.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.77569,
+    "ast_hash": "dc905bfd128ec432459ef2639dc42c86",
+    "semantic_hash": "dc905bfd128ec432459ef2639dc42c86"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Tradeskill\\LibPeriodicTable-3.1-Tradeskill.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756913,
+    "ast_hash": "a35fc790d717c211498c182929fe315f",
+    "semantic_hash": "a35fc790d717c211498c182929fe315f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1-Tradeskill\\LibPeriodicTable-3.1-Tradeskill.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756925,
+    "ast_hash": "8ec390e33e9f691a5991db3b2878cec7",
+    "semantic_hash": "8ec390e33e9f691a5991db3b2878cec7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibPeriodicTable-3.1\\LibPeriodicTable-3.1.lua": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7756937,
+    "ast_hash": "9226bc7ab7a5256e35fe0dd15e6fa8ce",
+    "semantic_hash": "9226bc7ab7a5256e35fe0dd15e6fa8ce"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibStub\\LibStub.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756948,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\LibStub\\LibStub.toc": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.775696,
+    "ast_hash": "f151f74a80a52128063c9aa12c9636dd",
+    "semantic_hash": "f151f74a80a52128063c9aa12c9636dd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\Tablet-2.0\\Tablet-2.0.lua": {
+    "mtime": 1786848602.0,
+    "seen": 1790600851.7756972,
+    "ast_hash": "1d189d5232a87ff98d51020197bde525",
+    "semantic_hash": "1d189d5232a87ff98d51020197bde525"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\libs\\Waterfall-1.0\\Waterfall-1.0.lua": {
+    "mtime": 1790578474.9039109,
+    "seen": 1790600851.7756984,
+    "ast_hash": "6debbe3d925585a4c5d62f765eb5718e",
+    "semantic_hash": "6debbe3d925585a4c5d62f765eb5718e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\Bagnon.toc": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7756996,
+    "ast_hash": "c508a1b686236bbc35a9194b8b99d37d",
+    "semantic_hash": "c508a1b686236bbc35a9194b8b99d37d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\bag.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757008,
+    "ast_hash": "54c9c111b16c5381e9f9bb8851f46a60",
+    "semantic_hash": "54c9c111b16c5381e9f9bb8851f46a60"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\bagFrame.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757025,
+    "ast_hash": "b702e4c1b5a82e259323c09c227d3bad",
+    "semantic_hash": "b702e4c1b5a82e259323c09c227d3bad"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\bagToggle.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757032,
+    "ast_hash": "152cb0edab0f4550e5dcd88206a04c84",
+    "semantic_hash": "152cb0edab0f4550e5dcd88206a04c84"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\brokerDisplay.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757049,
+    "ast_hash": "5fc6a7719d7a7e30be9d0d8af525f905",
+    "semantic_hash": "5fc6a7719d7a7e30be9d0d8af525f905"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\frame.lua": {
+    "mtime": 1790576875.7632754,
+    "seen": 1790600851.7757058,
+    "ast_hash": "031946a5064a4fc844cb553d3053800e",
+    "semantic_hash": "031946a5064a4fc844cb553d3053800e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\frameSettings.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757075,
+    "ast_hash": "baafef8bd6c83cdb3901e5c0cb669f0b",
+    "semantic_hash": "baafef8bd6c83cdb3901e5c0cb669f0b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\item.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757087,
+    "ast_hash": "0b38828f3f143ab4c82e8a225aa53e12",
+    "semantic_hash": "0b38828f3f143ab4c82e8a225aa53e12"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\itemFrame.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757106,
+    "ast_hash": "138c04bb4d6f68b87d85871c7a54f9eb",
+    "semantic_hash": "138c04bb4d6f68b87d85871c7a54f9eb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\moneyFrame.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.775712,
+    "ast_hash": "e4bbcd73c71a67eafc6d40d1e854dc99",
+    "semantic_hash": "e4bbcd73c71a67eafc6d40d1e854dc99"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\optionsToggle.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757132,
+    "ast_hash": "b235f8c7f79648c2f1c3ccbb6877e974",
+    "semantic_hash": "b235f8c7f79648c2f1c3ccbb6877e974"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\playerSelector.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757149,
+    "ast_hash": "8dab9c242bc0ccbc57c2bd617e667749",
+    "semantic_hash": "8dab9c242bc0ccbc57c2bd617e667749"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\savedFrameSettings.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.775716,
+    "ast_hash": "9dc0cb785bf0e59969d64bb166f1a0c1",
+    "semantic_hash": "9dc0cb785bf0e59969d64bb166f1a0c1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\savedSettings.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.775717,
+    "ast_hash": "1029f38bacd8df2bfd003cc5a6c5842c",
+    "semantic_hash": "1029f38bacd8df2bfd003cc5a6c5842c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\searchFrame.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757187,
+    "ast_hash": "a5be33249ca6ef545cd3456f9ba58ea5",
+    "semantic_hash": "a5be33249ca6ef545cd3456f9ba58ea5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\searchToggle.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.77572,
+    "ast_hash": "343cd366b40ae27d39894a8795f9d174",
+    "semantic_hash": "343cd366b40ae27d39894a8795f9d174"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\settings.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.775721,
+    "ast_hash": "3782e03e100e17c38ee76c7799c5ca53",
+    "semantic_hash": "3782e03e100e17c38ee76c7799c5ca53"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\slotCounter.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757225,
+    "ast_hash": "b534d6cb9a236c15406200c12f20542a",
+    "semantic_hash": "b534d6cb9a236c15406200c12f20542a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\sortButton.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757237,
+    "ast_hash": "d0e7933f73b4688a02c23f5fe1e1d4e1",
+    "semantic_hash": "d0e7933f73b4688a02c23f5fe1e1d4e1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\components\\titleFrame.lua": {
+    "mtime": 1790576406.791475,
+    "seen": 1790600851.7757251,
+    "ast_hash": "5856b642ff8253900f6711fab13c4c12",
+    "semantic_hash": "5856b642ff8253900f6711fab13c4c12"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\AceAddon-3.0\\AceAddon-3.0.lua": {
+    "mtime": 1790576406.802323,
+    "seen": 1790600851.7757266,
+    "ast_hash": "365830dc62b73e9ec9d7649cf8271afd",
+    "semantic_hash": "365830dc62b73e9ec9d7649cf8271afd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\AceConsole-3.0\\AceConsole-3.0.lua": {
+    "mtime": 1790576406.802323,
+    "seen": 1790600851.7757282,
+    "ast_hash": "74d22e51d622700e410fc5da5d4ffb22",
+    "semantic_hash": "74d22e51d622700e410fc5da5d4ffb22"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\AceEvent-3.0\\AceEvent-3.0.lua": {
+    "mtime": 1790576406.8033419,
+    "seen": 1790600851.7757297,
+    "ast_hash": "ce7e7f86010acd407533d2de64c4d00f",
+    "semantic_hash": "ce7e7f86010acd407533d2de64c4d00f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\AceLocale-3.0\\AceLocale-3.0.lua": {
+    "mtime": 1790576406.8043315,
+    "seen": 1790600851.7757306,
+    "ast_hash": "4ac8fd98e6059ff0a62f4a3c08390269",
+    "semantic_hash": "4ac8fd98e6059ff0a62f4a3c08390269"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1790576406.8053315,
+    "seen": 1790600851.7757323,
+    "ast_hash": "6fcffc5be7f3d7a4c06b7306d477d08d",
+    "semantic_hash": "6fcffc5be7f3d7a4c06b7306d477d08d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\LibDataBroker-1.1.lua": {
+    "mtime": 1790576406.8053315,
+    "seen": 1790600851.7757335,
+    "ast_hash": "ff28faeb5d0defa77d4e7c5355dbf3f4",
+    "semantic_hash": "ff28faeb5d0defa77d4e7c5355dbf3f4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\LibItemSearch-1.0\\LibItemSearch-1.0.lua": {
+    "mtime": 1790576406.8063316,
+    "seen": 1790600851.775735,
+    "ast_hash": "bc227832e008d77f5873413b4cb6bd69",
+    "semantic_hash": "bc227832e008d77f5873413b4cb6bd69"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\LibStub\\LibStub.lua": {
+    "mtime": 1790576406.8063316,
+    "seen": 1790600851.775736,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\libs\\LibStub\\LibStub.toc": {
+    "mtime": 1790576406.8063316,
+    "seen": 1790600851.7757375,
+    "ast_hash": "ba56437d7ac00c6213888452d5ba9fbf",
+    "semantic_hash": "ba56437d7ac00c6213888452d5ba9fbf"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.cn.lua": {
+    "mtime": 1790576406.807332,
+    "seen": 1790600851.7757387,
+    "ast_hash": "5e50c4bab5e2a11bc621ae5a7765d76c",
+    "semantic_hash": "5e50c4bab5e2a11bc621ae5a7765d76c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.de.lua": {
+    "mtime": 1790576406.807332,
+    "seen": 1790600851.77574,
+    "ast_hash": "55d67e8ca095037aae8b965bc1445700",
+    "semantic_hash": "55d67e8ca095037aae8b965bc1445700"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.es.lua": {
+    "mtime": 1790576406.8083308,
+    "seen": 1790600851.7757409,
+    "ast_hash": "c15bbb23e52ee01baa3f03aa4908b584",
+    "semantic_hash": "c15bbb23e52ee01baa3f03aa4908b584"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.fr.lua": {
+    "mtime": 1790576406.8083308,
+    "seen": 1790600851.775742,
+    "ast_hash": "5ab31dece78b5ff1f3556fdc5a65758a",
+    "semantic_hash": "5ab31dece78b5ff1f3556fdc5a65758a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.lua": {
+    "mtime": 1790576406.8083308,
+    "seen": 1790600851.7757432,
+    "ast_hash": "fef5461186a1a0eec929a3deb1b29415",
+    "semantic_hash": "fef5461186a1a0eec929a3deb1b29415"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.ru.lua": {
+    "mtime": 1790576406.8083308,
+    "seen": 1790600851.7757444,
+    "ast_hash": "81f3ea371e53ccbcab6aa13fcf1b96ed",
+    "semantic_hash": "81f3ea371e53ccbcab6aa13fcf1b96ed"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\localization\\localization.tw.lua": {
+    "mtime": 1790576406.809333,
+    "seen": 1790600851.7757456,
+    "ast_hash": "c09e7c501a7ba86e7a9e1e1c44cba9c0",
+    "semantic_hash": "c09e7c501a7ba86e7a9e1e1c44cba9c0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\main.lua": {
+    "mtime": 1790576406.809333,
+    "seen": 1790600851.7757468,
+    "ast_hash": "f8dbccb9a90561c56d949c2b0a835546",
+    "semantic_hash": "f8dbccb9a90561c56d949c2b0a835546"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\bagSlotInfo.lua": {
+    "mtime": 1790576406.8103306,
+    "seen": 1790600851.775748,
+    "ast_hash": "961012c378c8a28fd204cc8b174f4174",
+    "semantic_hash": "961012c378c8a28fd204cc8b174f4174"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\callbacks.lua": {
+    "mtime": 1790576406.8103306,
+    "seen": 1790600851.7757492,
+    "ast_hash": "9b67c5fa8e873271f5e9b30b6f3604ab",
+    "semantic_hash": "9b67c5fa8e873271f5e9b30b6f3604ab"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\classy.lua": {
+    "mtime": 1790576406.8103306,
+    "seen": 1790600851.77575,
+    "ast_hash": "2bb0996e0b660f845d755a7c4e85c320",
+    "semantic_hash": "2bb0996e0b660f845d755a7c4e85c320"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\ears.lua": {
+    "mtime": 1790576406.8103306,
+    "seen": 1790600851.7757518,
+    "ast_hash": "c9800947ef45f488e56b8352600b258c",
+    "semantic_hash": "c9800947ef45f488e56b8352600b258c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\itemEvents.lua": {
+    "mtime": 1790576406.8113353,
+    "seen": 1790600851.7757533,
+    "ast_hash": "703ffd312cce523ec3fd1a9039b89b08",
+    "semantic_hash": "703ffd312cce523ec3fd1a9039b89b08"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\itemSlotInfo.lua": {
+    "mtime": 1790576406.8113353,
+    "seen": 1790600851.7757542,
+    "ast_hash": "ae14da04720020551b01f00f1653bc7d",
+    "semantic_hash": "ae14da04720020551b01f00f1653bc7d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\playerInfo.lua": {
+    "mtime": 1790576406.8123302,
+    "seen": 1790600851.7757554,
+    "ast_hash": "c5ae60c7109863c639bdd11def15584c",
+    "semantic_hash": "c5ae60c7109863c639bdd11def15584c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\style.lua": {
+    "mtime": 1790576406.8123302,
+    "seen": 1790600851.7757568,
+    "ast_hash": "f9a59cec2df6ec2a14939d1c1e0b8e00",
+    "semantic_hash": "f9a59cec2df6ec2a14939d1c1e0b8e00"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\utility\\tables.lua": {
+    "mtime": 1790576406.812839,
+    "seen": 1790600851.775758,
+    "ast_hash": "9faab75297c50a19ef518a3e8ea1d13d",
+    "semantic_hash": "9faab75297c50a19ef518a3e8ea1d13d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\Bagnon_Config.toc": {
+    "mtime": 1790576406.812839,
+    "seen": 1790600851.7757592,
+    "ast_hash": "f3223d3b26a314f80d8beef5725f9bad",
+    "semantic_hash": "f3223d3b26a314f80d8beef5725f9bad"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\localization\\localization.cn.lua": {
+    "mtime": 1790576406.81386,
+    "seen": 1790600851.7757604,
+    "ast_hash": "1ea51ca575b116898b3386ff5b96aedb",
+    "semantic_hash": "1ea51ca575b116898b3386ff5b96aedb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\localization\\localization.lua": {
+    "mtime": 1790576406.81386,
+    "seen": 1790600851.7757614,
+    "ast_hash": "f50981bc9662ed6318a9704a75daae47",
+    "semantic_hash": "f50981bc9662ed6318a9704a75daae47"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\localization\\localization.ru.lua": {
+    "mtime": 1790576406.81386,
+    "seen": 1790600851.7757628,
+    "ast_hash": "6e0c9664d3ec76ccf6ea925aa50f5885",
+    "semantic_hash": "6e0c9664d3ec76ccf6ea925aa50f5885"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\localization\\localization.tw.lua": {
+    "mtime": 1790576406.814849,
+    "seen": 1790600851.7757638,
+    "ast_hash": "cad80ff243451b9bbfbb9302ba2989de",
+    "semantic_hash": "cad80ff243451b9bbfbb9302ba2989de"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\panels\\colorOptions.lua": {
+    "mtime": 1790576868.9393241,
+    "seen": 1790600851.7757647,
+    "ast_hash": "4b8a472bb042383248f056355a3b461c",
+    "semantic_hash": "4b8a472bb042383248f056355a3b461c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\panels\\displayOptions.lua": {
+    "mtime": 1790576406.814849,
+    "seen": 1790600851.7757664,
+    "ast_hash": "291caa9ee47802d5bb29e85819785a5a",
+    "semantic_hash": "291caa9ee47802d5bb29e85819785a5a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\panels\\frameOptions.lua": {
+    "mtime": 1790576858.637969,
+    "seen": 1790600851.7757673,
+    "ast_hash": "961d789cbfea12e44fcf553fa42b4387",
+    "semantic_hash": "961d789cbfea12e44fcf553fa42b4387"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\panels\\general.lua": {
+    "mtime": 1790576406.8170197,
+    "seen": 1790600851.7757688,
+    "ast_hash": "adde09972fec3132b43a037701bd3327",
+    "semantic_hash": "adde09972fec3132b43a037701bd3327"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\button.lua": {
+    "mtime": 1790576406.8180218,
+    "seen": 1790600851.7757707,
+    "ast_hash": "20ffe9995a438080f705e5a070c3ebf5",
+    "semantic_hash": "20ffe9995a438080f705e5a070c3ebf5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\checkButton.lua": {
+    "mtime": 1790576406.8180218,
+    "seen": 1790600851.7757719,
+    "ast_hash": "0ebc7c06e5b7313da96c4ec1afd773e4",
+    "semantic_hash": "0ebc7c06e5b7313da96c4ec1afd773e4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\colorSelector.lua": {
+    "mtime": 1790576845.1003475,
+    "seen": 1790600851.7757728,
+    "ast_hash": "c9dac0b25847d91f1db08b52d992717f",
+    "semantic_hash": "c9dac0b25847d91f1db08b52d992717f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\dropdown.lua": {
+    "mtime": 1790576406.8190215,
+    "seen": 1790600851.7757747,
+    "ast_hash": "946aafb16747119b21bd070dbde36473",
+    "semantic_hash": "946aafb16747119b21bd070dbde36473"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\optionsPanel.lua": {
+    "mtime": 1790576406.8190215,
+    "seen": 1790600851.7757754,
+    "ast_hash": "aa357c15066be178d6049f4625d4bc6f",
+    "semantic_hash": "aa357c15066be178d6049f4625d4bc6f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\slider.lua": {
+    "mtime": 1790576406.8190215,
+    "seen": 1790600851.775777,
+    "ast_hash": "70a16a50954093b6383687b8eadde853",
+    "semantic_hash": "70a16a50954093b6383687b8eadde853"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Config\\widgets\\tooltip.lua": {
+    "mtime": 1790576406.8200192,
+    "seen": 1790600851.775778,
+    "ast_hash": "a5b6e5baf0ce3e18d59845734275d67e",
+    "semantic_hash": "a5b6e5baf0ce3e18d59845734275d67e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Forever\\Bagnon_Forever.toc": {
+    "mtime": 1790576406.8200192,
+    "seen": 1790600851.775779,
+    "ast_hash": "535fe4f9d726c40eac78f5ffc016cfb3",
+    "semantic_hash": "535fe4f9d726c40eac78f5ffc016cfb3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Forever\\db.lua": {
+    "mtime": 1790576406.8200192,
+    "seen": 1790600851.7757807,
+    "ast_hash": "c246d54123dcfa881e0dd608d0e7ae94",
+    "semantic_hash": "c246d54123dcfa881e0dd608d0e7ae94"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Forever\\ui.lua": {
+    "mtime": 1790576406.8210213,
+    "seen": 1790600851.7757819,
+    "ast_hash": "5d6df1f494129df7ed749586b5fbb535",
+    "semantic_hash": "5d6df1f494129df7ed749586b5fbb535"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\Bagnon_GuildBank.toc": {
+    "mtime": 1790576406.8210213,
+    "seen": 1790600851.7757835,
+    "ast_hash": "7e706fd2e496bfc1adbaa8356eeb7a50",
+    "semantic_hash": "7e706fd2e496bfc1adbaa8356eeb7a50"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\frame.lua": {
+    "mtime": 1790576406.8220217,
+    "seen": 1790600851.7757845,
+    "ast_hash": "f67768d72dfe560dc841596ad45df166",
+    "semantic_hash": "f67768d72dfe560dc841596ad45df166"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\item.lua": {
+    "mtime": 1790576406.8220217,
+    "seen": 1790600851.7757854,
+    "ast_hash": "81623cd3494f8f15ba036c712f5d6296",
+    "semantic_hash": "81623cd3494f8f15ba036c712f5d6296"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\itemFrame.lua": {
+    "mtime": 1790576406.8220217,
+    "seen": 1790600851.7757866,
+    "ast_hash": "6baaaedddb393674338743c14a7ea562",
+    "semantic_hash": "6baaaedddb393674338743c14a7ea562"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\moneyFrame.lua": {
+    "mtime": 1790576406.8230228,
+    "seen": 1790600851.7757883,
+    "ast_hash": "1db1f4d18d557a7076663054cf817dc0",
+    "semantic_hash": "1db1f4d18d557a7076663054cf817dc0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\savedFrameSettings.lua": {
+    "mtime": 1790576406.8230228,
+    "seen": 1790600851.7757895,
+    "ast_hash": "d10744116b7bd378b454cb7fc918e4bb",
+    "semantic_hash": "d10744116b7bd378b454cb7fc918e4bb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\tab.lua": {
+    "mtime": 1790576406.8230228,
+    "seen": 1790600851.7757907,
+    "ast_hash": "9be6723b95cd09954ffc7256fa1cd347",
+    "semantic_hash": "9be6723b95cd09954ffc7256fa1cd347"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\components\\tabFrame.lua": {
+    "mtime": 1790576406.8230228,
+    "seen": 1790600851.775792,
+    "ast_hash": "52fd603e4bcf444913543b1877e108b0",
+    "semantic_hash": "52fd603e4bcf444913543b1877e108b0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\main.lua": {
+    "mtime": 1790576406.8243966,
+    "seen": 1790600851.775793,
+    "ast_hash": "c1fcda427417fb2e5bd9b7c803de80cc",
+    "semantic_hash": "c1fcda427417fb2e5bd9b7c803de80cc"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\Bagnon_Tooltips.toc": {
+    "mtime": 1790576406.8243966,
+    "seen": 1790600851.7757943,
+    "ast_hash": "88810c247f73d48b2a942c3c062f50cb",
+    "semantic_hash": "88810c247f73d48b2a942c3c062f50cb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\localization\\localization.cn.lua": {
+    "mtime": 1790576406.8254023,
+    "seen": 1790600851.7757957,
+    "ast_hash": "bb4b62fb7c9cba51a2b64a5aa28cea08",
+    "semantic_hash": "bb4b62fb7c9cba51a2b64a5aa28cea08"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\localization\\localization.lua": {
+    "mtime": 1790576406.8254023,
+    "seen": 1790600851.7757974,
+    "ast_hash": "14f6d24a9abcf3386edb868cd2bbc775",
+    "semantic_hash": "14f6d24a9abcf3386edb868cd2bbc775"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\localization\\localization.ru.lua": {
+    "mtime": 1790576406.8254023,
+    "seen": 1790600851.7757988,
+    "ast_hash": "702932fff6ef84fdd94a37679dfd670a",
+    "semantic_hash": "702932fff6ef84fdd94a37679dfd670a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\localization\\localization.tw.lua": {
+    "mtime": 1790576406.8254023,
+    "seen": 1790600851.7758002,
+    "ast_hash": "4b3d9c55ff12119dfd4e1d185a14eee0",
+    "semantic_hash": "4b3d9c55ff12119dfd4e1d185a14eee0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_Tooltips\\tooltips.lua": {
+    "mtime": 1790576406.8264017,
+    "seen": 1790600851.7758014,
+    "ast_hash": "ee0afdfae15be565b3cef76037e9396d",
+    "semantic_hash": "ee0afdfae15be565b3cef76037e9396d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\BankStack.toc": {
+    "mtime": 1790576406.8264017,
+    "seen": 1790600851.7758026,
+    "ast_hash": "796ad48927202310fa62e86f19d6d160",
+    "semantic_hash": "796ad48927202310fa62e86f19d6d160"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\config.lua": {
+    "mtime": 1790576406.8274045,
+    "seen": 1790600851.7758036,
+    "ast_hash": "2cfc450e77cf71cb6e6fbbebe4fc4042",
+    "semantic_hash": "2cfc450e77cf71cb6e6fbbebe4fc4042"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\core.lua": {
+    "mtime": 1790576406.8274045,
+    "seen": 1790600851.775805,
+    "ast_hash": "8823a875dfc7a63f5c2e0d675d087b5b",
+    "semantic_hash": "8823a875dfc7a63f5c2e0d675d087b5b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\fill.lua": {
+    "mtime": 1790576406.8274045,
+    "seen": 1790600851.7758064,
+    "ast_hash": "c2722f18fc9ed446e9e68288253674a3",
+    "semantic_hash": "c2722f18fc9ed446e9e68288253674a3"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\ldb.lua": {
+    "mtime": 1790576406.8284023,
+    "seen": 1790600851.7758079,
+    "ast_hash": "df29323b18cd71c40a5a37f6c61951db",
+    "semantic_hash": "df29323b18cd71c40a5a37f6c61951db"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceAddon-3.0\\AceAddon-3.0.lua": {
+    "mtime": 1790576406.8284023,
+    "seen": 1790600851.7758093,
+    "ast_hash": "e5f6d95e98959d5c56feb4953681495f",
+    "semantic_hash": "e5f6d95e98959d5c56feb4953681495f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceConfig-3.0\\AceConfig-3.0.lua": {
+    "mtime": 1790576406.829404,
+    "seen": 1790600851.7758102,
+    "ast_hash": "f233f8d6366858ba4d200c3b6b76d2b5",
+    "semantic_hash": "f233f8d6366858ba4d200c3b6b76d2b5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceConfig-3.0\\AceConfigCmd-3.0\\AceConfigCmd-3.0.lua": {
+    "mtime": 1790576406.829404,
+    "seen": 1790600851.775812,
+    "ast_hash": "b18cb13ff32d990bc3f8f77d95b4cd9e",
+    "semantic_hash": "b18cb13ff32d990bc3f8f77d95b4cd9e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceConfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua": {
+    "mtime": 1790576406.8314044,
+    "seen": 1790600851.775813,
+    "ast_hash": "950e742338c71db9e4f08eac625b36b8",
+    "semantic_hash": "950e742338c71db9e4f08eac625b36b8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceConfig-3.0\\AceConfigRegistry-3.0\\AceConfigRegistry-3.0.lua": {
+    "mtime": 1790576406.8314044,
+    "seen": 1790600851.775815,
+    "ast_hash": "1810e1da8f7d4241b6a145391b18bd59",
+    "semantic_hash": "1810e1da8f7d4241b6a145391b18bd59"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceDB-3.0\\AceDB-3.0.lua": {
+    "mtime": 1790576406.832402,
+    "seen": 1790600851.775816,
+    "ast_hash": "929dbdfeef66054a53d658a8c48fc0c8",
+    "semantic_hash": "929dbdfeef66054a53d658a8c48fc0c8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceDBOptions-3.0\\AceDBOptions-3.0.lua": {
+    "mtime": 1790576406.8339105,
+    "seen": 1790600851.7758176,
+    "ast_hash": "98c5dc5ffe4fd91b6d383c7baa99935d",
+    "semantic_hash": "98c5dc5ffe4fd91b6d383c7baa99935d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceEvent-3.0\\AceEvent-3.0.lua": {
+    "mtime": 1790576406.8349183,
+    "seen": 1790600851.775819,
+    "ast_hash": "f19cc42bae3edbd816702113af5779ba",
+    "semantic_hash": "f19cc42bae3edbd816702113af5779ba"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\AceGUI-3.0.lua": {
+    "mtime": 1790576406.8349183,
+    "seen": 1790600851.77582,
+    "ast_hash": "5cc67e3ec8263cf19d9e01e2cb0daa51",
+    "semantic_hash": "5cc67e3ec8263cf19d9e01e2cb0daa51"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-BlizOptionsGroup.lua": {
+    "mtime": 1790576406.8359194,
+    "seen": 1790600851.7758217,
+    "ast_hash": "2d90594a6da6a4068dbd9a4b3c8729bd",
+    "semantic_hash": "2d90594a6da6a4068dbd9a4b3c8729bd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-DropDownGroup.lua": {
+    "mtime": 1790576406.8359194,
+    "seen": 1790600851.7758229,
+    "ast_hash": "70734dcfdffca607d959dc84e1c4eb92",
+    "semantic_hash": "70734dcfdffca607d959dc84e1c4eb92"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-Frame.lua": {
+    "mtime": 1790576406.8370519,
+    "seen": 1790600851.7758243,
+    "ast_hash": "dbb6dd86bdd8fde14adf1ae8205cff82",
+    "semantic_hash": "dbb6dd86bdd8fde14adf1ae8205cff82"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-InlineGroup.lua": {
+    "mtime": 1790576406.8370519,
+    "seen": 1790600851.7758262,
+    "ast_hash": "b8c8a522a4d3ad801cff08d797ef820c",
+    "semantic_hash": "b8c8a522a4d3ad801cff08d797ef820c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-ScrollFrame.lua": {
+    "mtime": 1790576406.8370519,
+    "seen": 1790600851.7758272,
+    "ast_hash": "e8710e2a5d610b979b66c3cfd8934aa1",
+    "semantic_hash": "e8710e2a5d610b979b66c3cfd8934aa1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-SimpleGroup.lua": {
+    "mtime": 1790576406.8380527,
+    "seen": 1790600851.7758284,
+    "ast_hash": "67b01f42e9d4080bc8fe922fc881287d",
+    "semantic_hash": "67b01f42e9d4080bc8fe922fc881287d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-TabGroup.lua": {
+    "mtime": 1790576406.8380527,
+    "seen": 1790600851.7758298,
+    "ast_hash": "d536686d39312e81579e355820e2b692",
+    "semantic_hash": "d536686d39312e81579e355820e2b692"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-TreeGroup.lua": {
+    "mtime": 1790576406.8380527,
+    "seen": 1790600851.7758312,
+    "ast_hash": "d592074f443834e5012ee83cd583484e",
+    "semantic_hash": "d592074f443834e5012ee83cd583484e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIContainer-Window.lua": {
+    "mtime": 1790576406.8390534,
+    "seen": 1790600851.7758327,
+    "ast_hash": "35534e61cd7ac2ee474aefb04159d8f4",
+    "semantic_hash": "35534e61cd7ac2ee474aefb04159d8f4"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Button.lua": {
+    "mtime": 1790576406.8390534,
+    "seen": 1790600851.7758338,
+    "ast_hash": "fc07a360f04d6f431c935c8d3f212bc1",
+    "semantic_hash": "fc07a360f04d6f431c935c8d3f212bc1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-CheckBox.lua": {
+    "mtime": 1790576406.8390534,
+    "seen": 1790600851.775835,
+    "ast_hash": "706b2a26578698d2e8ec89d32fa99871",
+    "semantic_hash": "706b2a26578698d2e8ec89d32fa99871"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-ColorPicker.lua": {
+    "mtime": 1790576406.8400543,
+    "seen": 1790600851.7758362,
+    "ast_hash": "c9a2b44b72a54f74d2c04ab245931b39",
+    "semantic_hash": "c9a2b44b72a54f74d2c04ab245931b39"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown-Items.lua": {
+    "mtime": 1790576406.8404634,
+    "seen": 1790600851.7758377,
+    "ast_hash": "6a0ced8997984cffc424e6a7de83ccc2",
+    "semantic_hash": "6a0ced8997984cffc424e6a7de83ccc2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-DropDown.lua": {
+    "mtime": 1790576406.8404634,
+    "seen": 1790600851.7758393,
+    "ast_hash": "ffdf62ed39332425025e91e59596eacb",
+    "semantic_hash": "ffdf62ed39332425025e91e59596eacb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-EditBox.lua": {
+    "mtime": 1790576406.840764,
+    "seen": 1790600851.7758403,
+    "ast_hash": "78d55a78bdf5f3d7ecdba83dd0b8b08d",
+    "semantic_hash": "78d55a78bdf5f3d7ecdba83dd0b8b08d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Heading.lua": {
+    "mtime": 1790576406.840764,
+    "seen": 1790600851.7758417,
+    "ast_hash": "34ab21f154fe9349edd45dff3e7a59b1",
+    "semantic_hash": "34ab21f154fe9349edd45dff3e7a59b1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Icon.lua": {
+    "mtime": 1790576406.8418143,
+    "seen": 1790600851.7758431,
+    "ast_hash": "75f7715c9b71d733ab711eae55de5752",
+    "semantic_hash": "75f7715c9b71d733ab711eae55de5752"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-InteractiveLabel.lua": {
+    "mtime": 1790576406.8418143,
+    "seen": 1790600851.7758443,
+    "ast_hash": "15b7549ac723ab5a38a1f7d8c93551fd",
+    "semantic_hash": "15b7549ac723ab5a38a1f7d8c93551fd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Keybinding.lua": {
+    "mtime": 1790576406.8418143,
+    "seen": 1790600851.7758453,
+    "ast_hash": "ca4cf79a8d9b07252bccaa1421465199",
+    "semantic_hash": "ca4cf79a8d9b07252bccaa1421465199"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Label.lua": {
+    "mtime": 1790576406.8428125,
+    "seen": 1790600851.7758474,
+    "ast_hash": "3a43a662e14f1d341629c5c96c4194ad",
+    "semantic_hash": "3a43a662e14f1d341629c5c96c4194ad"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-MultiLineEditBox.lua": {
+    "mtime": 1790576406.8428125,
+    "seen": 1790600851.7758484,
+    "ast_hash": "645b7d63de126adcdcc1d48858930581",
+    "semantic_hash": "645b7d63de126adcdcc1d48858930581"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceGUI-3.0\\widgets\\AceGUIWidget-Slider.lua": {
+    "mtime": 1790576406.8428125,
+    "seen": 1790600851.77585,
+    "ast_hash": "445159fe34c2276e18cff1568d3ea5e5",
+    "semantic_hash": "445159fe34c2276e18cff1568d3ea5e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\AceLocale-3.0\\AceLocale-3.0.lua": {
+    "mtime": 1790576406.8428125,
+    "seen": 1790600851.7758512,
+    "ast_hash": "473cbefbe84f59e999f7ff155083985f",
+    "semantic_hash": "473cbefbe84f59e999f7ff155083985f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\CallbackHandler-1.0\\CallbackHandler-1.0.lua": {
+    "mtime": 1790576406.844319,
+    "seen": 1790600851.775853,
+    "ast_hash": "535a65177357dcda2bef70dfaf3dd075",
+    "semantic_hash": "535a65177357dcda2bef70dfaf3dd075"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\LibDBIcon-1.0\\LibDBIcon-1.0.lua": {
+    "mtime": 1790576406.844319,
+    "seen": 1790600851.775854,
+    "ast_hash": "e680f61b9f05e76af51b9a9b28b48c84",
+    "semantic_hash": "e680f61b9f05e76af51b9a9b28b48c84"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\LibDataBroker-1.1\\LibDataBroker-1.1.lua": {
+    "mtime": 1790576406.845331,
+    "seen": 1790600851.7758553,
+    "ast_hash": "2f6e0e26d308cad550acf22c5812687d",
+    "semantic_hash": "2f6e0e26d308cad550acf22c5812687d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\LibStub\\LibStub.lua": {
+    "mtime": 1790576406.845331,
+    "seen": 1790600851.775857,
+    "ast_hash": "084f74c94ae937f954766f6c815ef8d6",
+    "semantic_hash": "084f74c94ae937f954766f6c815ef8d6"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\lib\\LibStub\\LibStub.toc": {
+    "mtime": 1790576406.8463368,
+    "seen": 1790600851.7758582,
+    "ast_hash": "f151f74a80a52128063c9aa12c9636dd",
+    "semantic_hash": "f151f74a80a52128063c9aa12c9636dd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\local.deDE.lua": {
+    "mtime": 1790576406.8463368,
+    "seen": 1790600851.7758594,
+    "ast_hash": "983bddc6be6beb00007eec90d4134134",
+    "semantic_hash": "983bddc6be6beb00007eec90d4134134"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\local.enUS.lua": {
+    "mtime": 1790576406.8463368,
+    "seen": 1790600851.7758605,
+    "ast_hash": "b8d6d90a876af0ad671920dfc718b582",
+    "semantic_hash": "b8d6d90a876af0ad671920dfc718b582"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\local.koKR.lua": {
+    "mtime": 1790576406.8463368,
+    "seen": 1790600851.7758617,
+    "ast_hash": "4d9653f3a2412101db02db8ab0e1c20d",
+    "semantic_hash": "4d9653f3a2412101db02db8ab0e1c20d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\local.ruRU.lua": {
+    "mtime": 1790576406.8463368,
+    "seen": 1790600851.7758627,
+    "ast_hash": "60ebada6214bfad8400d551baf10c32f",
+    "semantic_hash": "60ebada6214bfad8400d551baf10c32f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\local.zhCN.lua": {
+    "mtime": 1790576406.8473392,
+    "seen": 1790600851.7758646,
+    "ast_hash": "8f356031292341c928982f83ba484d28",
+    "semantic_hash": "8f356031292341c928982f83ba484d28"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\sort.lua": {
+    "mtime": 1790576406.8473392,
+    "seen": 1790600851.7758658,
+    "ast_hash": "c4e51b2b6a10c9afe83f01f3e7eed9e8",
+    "semantic_hash": "c4e51b2b6a10c9afe83f01f3e7eed9e8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\stack.lua": {
+    "mtime": 1790576406.848338,
+    "seen": 1790600851.7758672,
+    "ast_hash": "c9f1e30c44329dd020a9560393602466",
+    "semantic_hash": "c9f1e30c44329dd020a9560393602466"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteItems\\CarboniteItems.lua": {
+    "mtime": 1790576406.8966374,
+    "seen": 1790600851.7758684,
+    "ast_hash": "4958774c052e2dc3fabb040bcfb44b9a",
+    "semantic_hash": "4958774c052e2dc3fabb040bcfb44b9a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteItems\\CarboniteItems.toc": {
+    "mtime": 1790576406.8966374,
+    "seen": 1790600851.7758696,
+    "ast_hash": "f1297f937e86f3f9378509236035e822",
+    "semantic_hash": "f1297f937e86f3f9378509236035e822"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteNodes\\CarboniteNodes.lua": {
+    "mtime": 1790576406.898147,
+    "seen": 1790600851.775871,
+    "ast_hash": "bf62ac9c4b8613ce1b64e122254a3e3e",
+    "semantic_hash": "bf62ac9c4b8613ce1b64e122254a3e3e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteNodes\\CarboniteNodes.toc": {
+    "mtime": 1790576406.898147,
+    "seen": 1790600851.7758722,
+    "ast_hash": "fcdbf1a97128b2c9692a235a9332ffe1",
+    "semantic_hash": "fcdbf1a97128b2c9692a235a9332ffe1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteTransfer\\CarboniteTransfer.lua": {
+    "mtime": 1790576406.89915,
+    "seen": 1790600851.7758732,
+    "ast_hash": "8b5927858feea8c3c07a41288ecc28d2",
+    "semantic_hash": "8b5927858feea8c3c07a41288ecc28d2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\CarboniteTransfer\\CarboniteTransfer.toc": {
+    "mtime": 1790576406.89915,
+    "seen": 1790600851.7758744,
+    "ast_hash": "3529d8d535a28858118c8f1d34a8d007",
+    "semantic_hash": "3529d8d535a28858118c8f1d34a8d007"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\Carbonite.lua": {
+    "mtime": 1790576406.859851,
+    "seen": 1790600851.7758756,
+    "ast_hash": "92840763f4e8bef9130defada8c667cd",
+    "semantic_hash": "92840763f4e8bef9130defada8c667cd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\Carbonite.toc": {
+    "mtime": 1790576406.859851,
+    "seen": 1790600851.7758768,
+    "ast_hash": "834ab7e25e305183f9082fb706b366b1",
+    "semantic_hash": "834ab7e25e305183f9082fb706b366b1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\Localization.lua": {
+    "mtime": 1790576406.8847597,
+    "seen": 1790600851.7758782,
+    "ast_hash": "96f2e06f7388d7c9219626c1c9d1129e",
+    "semantic_hash": "96f2e06f7388d7c9219626c1c9d1129e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\all.js": {
+    "mtime": 1790576406.9011502,
+    "seen": 1790600851.7758794,
+    "ast_hash": "3b2fec00e6c4da495005567b89cbf73b",
+    "semantic_hash": "3b2fec00e6c4da495005567b89cbf73b"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\check.js": {
+    "mtime": 1790579353.0353653,
+    "seen": 1790600851.775881,
+    "ast_hash": "1613242bd3c6bbd7bb7e717937375743",
+    "semantic_hash": "1613242bd3c6bbd7bb7e717937375743"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\garbage.lua": {
+    "mtime": 1790576406.9011502,
+    "seen": 1790600851.775883,
+    "ast_hash": "0b2d222e3ba787d5833cc1df9ae34c6e",
+    "semantic_hash": "0b2d222e3ba787d5833cc1df9ae34c6e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\migrate.lua": {
+    "mtime": 1790576406.9021504,
+    "seen": 1790600851.775884,
+    "ast_hash": "2e65b80d03e78c309815a327984a9266",
+    "semantic_hash": "2e65b80d03e78c309815a327984a9266"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\package.json": {
+    "mtime": 1790576406.9031513,
+    "seen": 1790600851.7758853,
+    "ast_hash": "016bece9aca79795a5f6fab1913cf2e0",
+    "semantic_hash": "016bece9aca79795a5f6fab1913cf2e0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\run.js": {
+    "mtime": 1790576406.9031513,
+    "seen": 1790600851.7758865,
+    "ast_hash": "973a11697492b4dd42017388eb76873f",
+    "semantic_hash": "973a11697492b4dd42017388eb76873f"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\smoke.lua": {
+    "mtime": 1790576406.9041514,
+    "seen": 1790600851.7758877,
+    "ast_hash": "3607b57dd92dc6f21c447ce55dc9622d",
+    "semantic_hash": "3607b57dd92dc6f21c447ce55dc9622d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\sv_garbage.lua": {
+    "mtime": 1790576406.9041514,
+    "seen": 1790600851.7758892,
+    "ast_hash": "4fcd9d9f6edd4a1d3a30c2174d3330bb",
+    "semantic_hash": "4fcd9d9f6edd4a1d3a30c2174d3330bb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\sv_legacy.lua": {
+    "mtime": 1790576406.9041514,
+    "seen": 1790600851.77589,
+    "ast_hash": "856f02253a6e3e4ab8f8642841e39453",
+    "semantic_hash": "856f02253a6e3e4ab8f8642841e39453"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\wowapi.lua": {
+    "mtime": 1790576406.9051504,
+    "seen": 1790600851.7758918,
+    "ast_hash": "acc8334db42191e4bf1fdfffbec3cd98",
+    "semantic_hash": "acc8334db42191e4bf1fdfffbec3cd98"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\wowmock.lua": {
+    "mtime": 1790576406.9051504,
+    "seen": 1790600851.775893,
+    "ast_hash": "f34cfab4890d8a65f07a7c7c89bef561",
+    "semantic_hash": "f34cfab4890d8a65f07a7c7c89bef561"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\!Swatter\\lgpl.txt": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775894,
+    "ast_hash": "fbc093901857fcd118f065f900982c24",
+    "semantic_hash": "fbc093901857fcd118f065f900982c24"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\ADDON_TRACKER.md": {
+    "mtime": 1790580288.1536624,
+    "seen": 1790600851.7758956,
+    "ast_hash": "1d32ff26f816ed19512265af5e892c6a",
+    "semantic_hash": "1d32ff26f816ed19512265af5e892c6a"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\LICENSE.txt": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7758968,
+    "ast_hash": "34fcc5715d2ac2cf2f6aa23a6c244351",
+    "semantic_hash": "34fcc5715d2ac2cf2f6aa23a6c244351"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList\\libs\\LibQTip-1.0\\LICENSE.txt": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7758977,
+    "ast_hash": "b95988c92cf57087341ecda56f227981",
+    "semantic_hash": "b95988c92cf57087341ecda56f227981"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AckisRecipeList_QuickScan\\Changelog-AckisRecipeList_QuickScan-3.3.5-1.0.1.txt": {
+    "mtime": 1786848630.0,
+    "seen": 1790600851.7758994,
+    "ast_hash": "9c6feec20f6e576a05ad7116f29a98d7",
+    "semantic_hash": "9c6feec20f6e576a05ad7116f29a98d7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\Changelog-Altoholic-r90.txt": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.775901,
+    "ast_hash": "0b7ec0ab01b16cf20475e342aece1007",
+    "semantic_hash": "0b7ec0ab01b16cf20475e342aece1007"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\LICENSE.txt": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7759025,
+    "ast_hash": "170d88f51b4846073704f832d3bdd455",
+    "semantic_hash": "170d88f51b4846073704f832d3bdd455"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\changelog.txt": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7759035,
+    "ast_hash": "11c5fb619daffa54e89a2bb197225e81",
+    "semantic_hash": "11c5fb619daffa54e89a2bb197225e81"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Altoholic\\readme.txt": {
+    "mtime": 1786848626.0,
+    "seen": 1790600851.7759051,
+    "ast_hash": "2f319bbedccfec610389f910157411e5",
+    "semantic_hash": "2f319bbedccfec610389f910157411e5"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Documentation\\LICENSE.txt": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775906,
+    "ast_hash": "c350e6afee5712bdbfeba4780ca77db1",
+    "semantic_hash": "c350e6afee5712bdbfeba4780ca77db1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Documentation\\Release_Notes.txt": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.7759073,
+    "ast_hash": "bcc5c46eab013470a544ecefda22cae0",
+    "semantic_hash": "bcc5c46eab013470a544ecefda22cae0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\AtlasLoot\\Libs\\DewdropLib\\LICENSE.txt": {
+    "mtime": 1786848598.0,
+    "seen": 1790600851.775909,
+    "ast_hash": "49e16d0bbc6d85eaff680f4dbee4188d",
+    "semantic_hash": "49e16d0bbc6d85eaff680f4dbee4188d"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\Configator\\lgpl.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759101,
+    "ast_hash": "fbc093901857fcd118f065f900982c24",
+    "semantic_hash": "fbc093901857fcd118f065f900982c24"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\API.html": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759113,
+    "ast_hash": "7c18829c4653e261b828f5effff00b23",
+    "semantic_hash": "7c18829c4653e261b828f5effff00b23"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Libs\\LibExtraTip\\API.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759123,
+    "ast_hash": "4adc16fd1bc5d5553768cb8d6fcef049",
+    "semantic_hash": "4adc16fd1bc5d5553768cb8d6fcef049"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\ChatThrottleLib\\Changelog-ChatThrottleLib-v20.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759132,
+    "ast_hash": "1eb28f83e9b178a7e0ec20960fff4da0",
+    "semantic_hash": "1eb28f83e9b178a7e0ec20960fff4da0"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-AskPrice\\ChatThrottleLib\\README.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759144,
+    "ast_hash": "46bdf00a712c617555c84847f44f878c",
+    "semantic_hash": "46bdf00a712c617555c84847f44f878c"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-Example\\Readme.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759159,
+    "ast_hash": "4aa067352edbba2a43886a084b8d7a13",
+    "semantic_hash": "4aa067352edbba2a43886a084b8d7a13"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Readme.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.775917,
+    "ast_hash": "cb7d8047e0d07b458124d0a04ee7a1f7",
+    "semantic_hash": "cb7d8047e0d07b458124d0a04ee7a1f7"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Baggins\\Changelog-Baggins-r435.txt": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759185,
+    "ast_hash": "f2d5ce6eb8c4774615a7253b63f1f107",
+    "semantic_hash": "f2d5ce6eb8c4774615a7253b63f1f107"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon\\todo.txt": {
+    "mtime": 1790576406.809333,
+    "seen": 1790600851.7759197,
+    "ast_hash": "5997d854e1d410d00f58e8ab57dcb8f1",
+    "semantic_hash": "5997d854e1d410d00f58e8ab57dcb8f1"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Bagnon_GuildBank\\todo.txt": {
+    "mtime": 1790576406.8243966,
+    "seen": 1790600851.7759209,
+    "ast_hash": "bbd4989ec7761e245d0c4a51400ff6fb",
+    "semantic_hash": "bbd4989ec7761e245d0c4a51400ff6fb"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\BankStack\\Changelog-BankStack-v17.txt": {
+    "mtime": 1790576406.8264017,
+    "seen": 1790600851.7759218,
+    "ast_hash": "fe39e5646aac491d26b1f041781c4702",
+    "semantic_hash": "fe39e5646aac491d26b1f041781c4702"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\CarboniteLicenseAgreement.txt": {
+    "mtime": 1790576406.8608484,
+    "seen": 1790600851.7759304,
+    "ast_hash": "79fd4da0136ca6234de9d5367fce4fea",
+    "semantic_hash": "79fd4da0136ca6234de9d5367fce4fea"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\CarboniteReadMe.txt": {
+    "mtime": 1790576406.861853,
+    "seen": 1790600851.7759316,
+    "ast_hash": "a33c910b65c2dae27bba8cc310a710e8",
+    "semantic_hash": "a33c910b65c2dae27bba8cc310a710e8"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\MODERNIZATION_LOG.md": {
+    "mtime": 1790579477.49879,
+    "seen": 1790600851.7759328,
+    "ast_hash": "917a109e31a7b8932eeca2294ee07439",
+    "semantic_hash": "917a109e31a7b8932eeca2294ee07439"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\MODERNIZATION_REPORT.md": {
+    "mtime": 1790576406.9001515,
+    "seen": 1790600851.7759337,
+    "ast_hash": "d4768f9ebda84fd5136e6048e81c91c2",
+    "semantic_hash": "d4768f9ebda84fd5136e6048e81c91c2"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\README.md": {
+    "mtime": 1790576406.9001515,
+    "seen": 1790600851.775935,
+    "ast_hash": "4024ed795b81f7a7f17ab48f201c78ab",
+    "semantic_hash": "4024ed795b81f7a7f17ab48f201c78ab"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\_dev\\known.txt": {
+    "mtime": 1790579239.1623132,
+    "seen": 1790600851.7759366,
+    "ast_hash": "81cf41aa6acd19936cfcdbdef9340473",
+    "semantic_hash": "81cf41aa6acd19936cfcdbdef9340473"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-ScanFinish\\ScanComplete.mp3": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759376,
+    "ast_hash": "e7c1c6e7fa7a61dcdaa35016ff097a0e",
+    "semantic_hash": "e7c1c6e7fa7a61dcdaa35016ff097a0e"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Auc-Advanced\\Modules\\Auc-Util-SearchUI\\DoorBell.mp3": {
+    "mtime": 1786848600.0,
+    "seen": 1790600851.7759387,
+    "ast_hash": "965aa9715860d5e056211ed1bce829cd",
+    "semantic_hash": "965aa9715860d5e056211ed1bce829cd"
+  },
+  "D:\\laragon\\www\\test\\wow-plugins\\Carbonite\\Snd\\QuestComplete.wav": {
+    "mtime": 1790576406.8857586,
+    "seen": 1790600851.7759402,
+    "ast_hash": "405c8013c8db422e17f200b74179d8cf",
+    "semantic_hash": "405c8013c8db422e17f200b74179d8cf"
+  }
+}

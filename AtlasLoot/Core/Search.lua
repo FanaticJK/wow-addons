@@ -87,7 +87,7 @@ function AtlasLoot:Search(Text)
                 end
                 if found then
                     spellName = string.sub(v[4], 1, 4)..spellName;
-                    if AtlasLoot_TableNames[dataID][1] then lootpage = AtlasLoot_TableNames[dataID][1]; else lootpage = "Argh!"; end
+                    if AtlasLoot_TableNames[dataID] and AtlasLoot_TableNames[dataID][1] then lootpage = AtlasLoot_TableNames[dataID][1]; else lootpage = "Argh!"; end
                     table.insert(AtlasLootCharDB["SearchResult"], { 0, v[2], v[3], spellName, lootpage, "", "", dataID.."|".."\"\"" });
                 end
             end
