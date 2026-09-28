@@ -1,0 +1,2 @@
+# static/runtime check harness dependencies (reinstall with: cd _dev && npm install)
+_dev/node_modules/
