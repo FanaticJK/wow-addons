@@ -1110,7 +1110,7 @@ MainPanel.mode_button:SetScript("OnClick",
 					elseif button == "RightButton" then
 						-- reverse profession switch
 						if MainPanel.profession == 0 then
-							startLoop = NUM_PROFESSIONS + 1
+							startLoop = NUM_PROFESSIONS
 							endLoop = 0
 						else
 							startLoop = MainPanel.profession - 1
@@ -1131,6 +1131,9 @@ MainPanel.mode_button:SetScript("OnClick",
 						end
 					end
 					local is_shown = TradeSkillFrame:IsVisible()
+
+					-- still 0 when the player knows none of the tracked professions
+					if not SortedProfessions[MainPanel.profession] then return end
 
 					CastSpellByName(SortedProfessions[MainPanel.profession].name)
 					addon:Scan()
@@ -2217,7 +2220,7 @@ do
 		local display_lines = NUM_RECIPE_LINES
 
 		if num_entries < display_lines then
-			display_lines = num_entries / 2
+			display_lines = num_entries
 		end
 		FauxScrollFrame_Update(self, num_entries, display_lines, 16)
 		addon:ClosePopups()
@@ -3567,9 +3570,10 @@ function addon:InitializeFrame()
 
 					if itemID then
 						local _, itemLink = GetItemInfo(itemID)
+						local chat = ChatEdit_GetLastActiveWindow()
 
-						if itemLink then
-							ChatFrameEditBox:Insert(itemLink)
+						if itemLink and chat then
+							chat:Insert(itemLink)
 						else
 							addon:Print(L["NoItemLink"])
 						end
@@ -3577,7 +3581,14 @@ function addon:InitializeFrame()
 						addon:Print(L["NoItemLink"])
 					end
 				elseif IsControlKeyDown() then
-					ChatFrameEditBox:Insert(addon.recipe_list[clicked_line.recipe_id]["RecipeLink"])
+					local recipeLink = addon.recipe_list[clicked_line.recipe_id]["RecipeLink"]
+					local chat = ChatEdit_GetLastActiveWindow()
+
+					if recipeLink and chat then
+						chat:Insert(recipeLink)
+					else
+						addon:Print(L["NoItemLink"])
+					end
 				elseif IsAltKeyDown() then
 					-- Code needed here to insert this item into the "Ignore List"
 					addon:ToggleExcludeRecipe(clicked_line.recipe_id)

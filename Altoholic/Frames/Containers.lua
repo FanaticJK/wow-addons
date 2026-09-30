@@ -148,7 +148,7 @@ local function UpdateSpread()
 					else
 						local character = Altoholic.Tabs.Characters:GetCurrent()
 						local _, link = DS:GetContainerInfo(character, id)
-						GameTooltip:SetHyperlink(link);
+						if link then GameTooltip:SetHyperlink(link); end
 						if (id >= 5) and (id <= 11) then
 							GameTooltip:AddLine(L["Bank bag"],0,1,0);
 						end

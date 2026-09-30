@@ -81,9 +81,9 @@ local SecondaryLevelSort = {-- sort functions for the alts
 			end
 		end,
 	["level"] = function(a, b)
-			local levelA = select(4, DataStore:GetGuildMemberInfo(a))
-			local levelB = select(4, DataStore:GetGuildMemberInfo(b))
-			
+			local levelA = select(4, DataStore:GetGuildMemberInfo(a)) or 0
+			local levelB = select(4, DataStore:GetGuildMemberInfo(b)) or 0
+
 			if viewSortOrder then
 				return levelA < levelB
 			else

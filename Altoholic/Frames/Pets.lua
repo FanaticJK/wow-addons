@@ -289,9 +289,9 @@ local function ScanHunter()
 	--	DEFAULT_CHAT_FRAME:AddMessage("Scanning Pet " .. currentPetName)
 end
 
-function ns:OnChange()
+function ns.OnChange(event, unit)
 	-- this event is triggered too often for our needs, some filtering is required  to avoid scanning pet data too often
-	if arg1 ~= "player" then return end
+	if unit ~= "player" then return end
 	
 	local name = UnitName("pet")
 	if not name or name == UNKNOWN then	return end		-- if there's a usable pet name ..

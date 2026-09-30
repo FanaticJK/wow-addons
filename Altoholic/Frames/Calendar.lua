@@ -479,6 +479,11 @@ end
 function Altoholic.Calendar:Update()
 	-- taken from CalendarFrame_Update() in Blizzard_Calendar.lua, adjusted for my needs.
 
+	if not CalendarFrame then
+		-- Same reason as in :Scan() -- the Calendar addon is LoD and CalendarGetMonth() returns nil until it is loaded.
+		return
+	end
+
 	local self = Altoholic.Calendar
 	self.Events:BuildList()				-- force a rebuild when updating the view. In some rare cases, the list was not correctly updated. Temporary workaround	26/04/2010
 	

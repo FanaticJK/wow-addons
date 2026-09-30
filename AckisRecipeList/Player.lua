@@ -150,10 +150,12 @@ function Player:SetProfessions()
 	local smelting_spell = GetSpellInfo(2656)
 	local mining_spell = GetSpellInfo(32606)
 
-	for index = 1, 25, 1 do
+	-- walk the spellbook until it runs out; the old hard stop at 25 also skipped entry 25 itself,
+	-- so a profession sitting far enough down the General tab was never detected
+	for index = 1, 1024, 1 do
 		local spell_name = GetSpellName(index, BOOKTYPE_SPELL)
 
-		if not spell_name or index == 25 then
+		if not spell_name then
 			break
 		end
 

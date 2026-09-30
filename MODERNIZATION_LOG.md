@@ -405,18 +405,161 @@ Reviewed and deliberately **not** changed:
   Configator libraries and a few Auc modules. They read as nil at runtime and are harmless; they
   are listed in `known.txt` under "reviewed benign leaked globals" so the gate stays meaningful.
 
+### 2026-09-29 pass — AtlasLoot deep audit (logic/event/perf, not syntax)
+
+The static pass above only found what a parser can see. This pass was a manual read of AtlasLoot's
+core for defects that only show up when the code actually runs. Five real bugs, all fixed; the
+`_dev` gate was re-run after each and stayed 4/4 green. None of this is verifiable in-game here.
+
+- **`AtlasLoot/Core/AtlasLoot.lua` — `AtlasLoot_QueryLootPage` hung the client.** It paced its 30
+  item queries with `while i<31 do ... if GetTime() - querytime > 0.03 then ... i=i+1 end end`.
+  `GetTime()` returns the *current frame's* timestamp and does not advance during a single script
+  execution, so after the first iteration the difference is always `0`, `i` never increments, and
+  the loop spins until the client's script watchdog trips. Pressing the "query loot page" button
+  froze the game. Replaced with a hidden frame driven by `OnUpdate(self, elapsed)` that accumulates
+  real elapsed time and issues one query per 0.03 s, hiding itself after item 30 — same pacing and
+  the same `GameTooltip:SetHyperlink` call, without blocking the frame. The stray globals `i`,
+  `button` and `queryitem` became locals in the process.
+- **`AtlasLoot/Core/LootButtons.lua:173` — `SetHyperlink(nil)` on enchant rows.**
+  `AtlasLoot_GetEnchantLink` returns nil when the scanned tooltip line contains no `:` *and*
+  `GetSpellLink` also returns nil; the result was passed straight into
+  `AtlasLootTooltip:SetHyperlink`, which errors on nil. The link is now captured into a local and
+  only set when non-nil.
+- **`AtlasLoot/Core/LootButtons.lua:200` — method reference used as a condition.**
+  `if ( ShoppingTooltip2:IsVisible() or ShoppingTooltip1.IsVisible)` — the second operand is the
+  function object, not a call, so it is always truthy and the branch always ran. Changed to
+  `ShoppingTooltip1:IsVisible()`.
+- **`AtlasLoot/Core/AtlasLoot.lua:636` and `AtlasLoot/Core/Search.lua:90` — unguarded registry
+  lookups.** Both indexed `AtlasLoot_TableNames[dataID]` without checking the `dataID` is
+  registered. The item branch at `Search.lua:70` already had exactly this guard, so the two
+  unguarded siblings were brought in line with it rather than given new behaviour.
+
 `known.txt` gained a dated 2026-09-28 section: real 3.3.5 API/FrameXML frames and GlobalStrings,
 the addons' own UI objects named via Lua string concatenation, and the third-party addons this
 suite optionally integrates with (`DataStore*`, `Altoholic`, `AtlasLoot`, `AceLibrary`, `FuBar`,
 `Skillet`, `TipTac`, `BeanCounter`, `Enchantrix`, `Stubby`, `BugGrabber`, …). Everything was
 reviewed by category before being added, not appended blindly.
 
+### 2026-09-30 pass — Altoholic / AckisRecipeList / Baggins / !Swatter / Auc-Filter-Basic deep audit
+
+Same method as the AtlasLoot pass above: a manual read for defects that only appear when the code
+runs, with every candidate re-verified against the source before anything was changed. Thirty-eight
+bugs fixed across seven addon folders. The `_dev` gate was re-run after each batch and finished
+4/4 green (501 Lua files parsed, 0 errors, 0 warnings, 0 unknown globals). The full per-file table
+with severities is in `ADDON_TRACKER.md` under "Deep-audit findings"; this section records the
+patterns and the judgement calls.
+
+**Three recurring root causes account for most of it.**
+
+The first is the pre-3.3.5 event model. WoW used to hand event arguments to handlers through the
+globals `arg1`, `arg2`, … Those globals are gone, and AceEvent-3.0 passes `(event, ...)` to a
+plain function handler instead. Three handlers in Altoholic were still filtering on `arg1`, which
+now reads as nil, so the filter never passed and the handler body never ran:
+`Altoholic.lua:278` never detected a raid lock, and `Frames/Pets.lua:292` never rescanned pet
+data. The Pets case needed the declaration changed too — it was `function ns:OnChange()`, so the
+implicit `self` was swallowing the event name. It is now `function ns.OnChange(event, unit)`.
+
+The second is globals that were meant to be locals. `Baggins-Filtering.lua` had three: `operation`
+in `CheckCategory`, `used` in `OnSlotChanged`, and `qualname` in the Quality rule's `GetName`.
+Each is written and read within one function, so on a single bag the code appears to work; with
+two bag frames filtering in the same frame, or a nested rule evaluation, they clobber each other.
+The `operation` case is the worst of the three because it silently turns a configured OR into an
+AND and the category simply comes back with the wrong items in it — no error, no clue.
+
+The third is nil returns from client APIs that are only nil sometimes. `GetItemInfo`,
+`GetTradeSkillRecipeLink`, `GetAchievementInfo` and DataStore's accessors all return nil for
+something the client has not cached yet, and the calling code then concatenated, formatted, or
+indexed it. Roughly twenty of the fixes are guards of this kind. In almost every case the addon's
+*own* code already had the guard somewhere else, and the fix was to make the outlier match its
+sibling rather than to invent behaviour: `Characters.lua:126-128` proved the shape for
+`AccountSummary.lua:41-43`; `Search.lua:588` for `Search.lua:859`; `Talents.lua:435` for
+`Talents.lua:611`; `Calendar.lua:944`'s load-on-demand guard for `Calendar.lua:482`;
+`Baggins.lua`'s four `type(entry) == "table"` loops for the lone `if entry then` at line 663;
+`GetRuleDesc:160` for `CleanRule:124`. Where no sibling existed the guard follows the file's own
+`or 0` / early-return idiom.
+
+**Four bugs were not in that pattern and are worth naming.**
+
+`Altoholic/Characters.lua:229` — the sort comparator called `DataStore[func](self, a.key)`, but
+`self` is not a parameter of that local function, so it resolved to the global `self`, which is
+nil. Every DataStore accessor reached through a column sort ran with a nil receiver and errored.
+This one had been known and unexplained for a while; the fix is `DataStore[func](DataStore, a.key)`.
+
+`AckisRecipeList` walked the spellbook with `for index = 1, 25` and broke on `index == 25`. That
+is wrong twice over: it stops 25 entries in, and the `index == 25` clause means entry 25 itself is
+never examined. A profession sitting far enough down the General tab was simply not detected, and
+`Player["Specialty"]` was cleared as though the player had none. The same loop appears in
+`Player.lua`, `ARL.lua` and `AckisRecipeList_QuickScan/QuickScan.lua`; all three now walk
+`1, 1024` and stop on the first nil `GetSpellName`, which is the actual end of the book.
+
+`AckisRecipeList/ARL.lua:1114` called `GameTooltip:SetOwner(UIParent, ANCHOR_NONE)` with a bare
+global. There is no such global — the argument is the *string* `"ANCHOR_NONE"`. Passing nil leaves
+the tooltip anchored wherever it last was, so the quest scan reads whatever text is in it. The
+interesting part is why the static gate never flagged it: `_dev/known.txt` carried an
+`ANCHOR_NONE` entry, which was false and was masking a real bug. That entry has been removed and
+the gate still reports zero unknown globals, which confirms nothing else relied on it.
+
+`Baggins-Skins.lua:57` — `EnableSkin` looked up the profile's saved skin with no fallback. If the
+plugin providing that skin is no longer installed, `currentSkin` stays nil and every later
+`SkinSection` / `SetBankVisual` call errors, so the bags never draw at all. It now falls back to
+`'default'`.
+
+**`ChatFrameEditBox` is gone.** It was removed in 3.3.5 — `Altoholic/Changelog-Altoholic-r90.txt:30`
+records the author hitting this at the time. Four call sites across three addons still used it
+(`AtlasLoot/Core/LootButtons.lua:242`, `AckisRecipeList/Frame.lua:3570` and `:3584`,
+`Auc-Filter-Basic/BasicFilter.lua:284`). Each was a dead branch that threw instead of doing its
+job — inserting an item link into chat, or restoring chat focus when a popup closed. All four now
+use `ChatEdit_GetLastActiveWindow()` behind a nil check.
+
+**What was deliberately not changed.**
+
+Five findings against Altoholic proposed guarding call sites for the case where `DataStore` is
+absent. Altoholic declares DataStore as a hard `## Dependencies`, so the client refuses to load
+the addon without it; those guards would handle a state that cannot occur, and they were rejected.
+A proposed `GetCenter()` nil guard in `Baggins.lua:1849` was rejected for the same reason — the
+button is visible and anchored by the time its own click handler runs.
+
+`Altoholic/Profiler.lua:48` is a real bug and was still left alone. It computes
+`p.duration = GetTime() - p.startTime`, and `GetTime()` does not advance inside a single script
+execution, so every profiled duration is exactly `0`. The correct call is `debugprofilestop()`,
+but it returns milliseconds where this code and its `:Dump()` output assume seconds, so fixing it
+properly means auditing the display maths as well. It is a developer-only tool with no user-facing
+effect, so it is recorded rather than half-fixed.
+
+One layout detail in `Baggins:OptimizeSectionLayout` — sections with a nil `layout_areaid` are
+skipped rather than treated as area 0 — is a plausible improvement whose only effect is visual.
+It cannot be checked without a client, so it was left as-is. (The adjacent real bug in the same
+function, a reset that cleared `layout_area_index` when the loop below uses `layout_areaid`, *was*
+fixed.)
+
+**Two findings are held pending a real client**, because both are claims about a 3.3.5 API
+signature that cannot be settled from anything in this workspace, and applying either one wrongly
+would break more than it fixes:
+
+1. **AllStats** — the claim that `PaperDollFrame_SetStat` and its siblings take
+   `(statFrame, unit, statIndex)` on 3.3.5. If that is wrong, the change breaks the entire stats
+   panel. AllStats is otherwise unchanged.
+2. **`!Swatter/Swatter.lua:122`** — the claim that 3.3.5 calls `UIParent_OnEvent` as
+   `(self, event, ...)` rather than `(etype, ...)`. Swatter *hooks* this function, so a wrong
+   signature here corrupts the event chain for every addon in the client.
+
+Both need a real 3.3.5 `FrameXML` dump or a running client to settle.
+
+**The Auctioneer suite was not audited.** That audit was cancelled before it produced anything, so
+`Auc-Advanced` and its modules have had nothing beyond the static gate. The one Auctioneer-family
+fix in this pass (`Auc-Filter-Basic/BasicFilter.lua:284`) came out of the `ChatFrameEditBox` sweep,
+not out of an audit of that addon. Phase 7 still stands in full.
+
+No tests were written for any of this: the `_dev` harness has no way to execute these addons (see
+"What still needs a real client" below), and adding scenarios for the auction house, trade skill
+and DataStore APIs is the separate piece of work already listed under "What is left".
+
 ## What is left
 
 1. **In-game testing.** Everything below.
-2. Commit the Carbonite folders + fixes, the Bagnon_Config layout fix, and the whole 2026-09-28
-   pass (23 addon folders, the `check.js` improvements, the expanded `known.txt`) — all untracked
-   or modified since `e1d8651`.
+2. Commit the Carbonite folders + fixes, the Bagnon_Config layout fix, the 2026-09-28 static pass
+   (23 addon folders, the `check.js` improvements, the expanded `known.txt`) and the 2026-09-29 /
+   2026-09-30 deep-audit fixes — all untracked or modified.
 3. Optional: runtime scenarios for the 2026-09-28 addons. Like Carbonite, they touch far more of
    the client API than the mock has (auction house, trade skill, calendar, DataStore), and the
    mock has no catch-all, so each new scenario is real work. Nothing in this suite has been

@@ -1042,6 +1042,7 @@ local function AddCurrentlyEquippedItem(itemID, class)
 
 	AltoTooltip:SetOwner(AltoholicFrame, "ANCHOR_LEFT")
 	local _, itemLink, _, itemLevel = GetItemInfo(itemID)
+	if not itemLink then return end		-- item is not in the client cache, nothing to scan
 	AltoTooltip:SetHyperlink(itemLink)
 	
 	local statLine = addon.Equipment.FormatStats[class]

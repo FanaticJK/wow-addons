@@ -214,20 +214,27 @@ function ns:UpdateViewIcons()
 	AltoholicTabCharacters_FirstAid:Show()
 	
 	local i = 1
-	for skillName, skill in pairs(DS:GetPrimaryProfessions(character)) do
-		local itemName = "AltoholicTabCharacters_Prof" .. i
-		local item = _G[itemName]
-		local spellID = DataStore:GetProfessionSpellID(skillName)
-	
-		if spellID then
-			addon:SetItemButtonTexture(itemName, addon:GetSpellIcon(spellID), size, size)
-			item.text = skillName
-			item:Show()
-		else
-			item.text = nil
-			item:Hide()		
+	local professions = DS:GetPrimaryProfessions(character)
+	if professions then
+		for skillName, skill in pairs(professions) do
+			local itemName = "AltoholicTabCharacters_Prof" .. i
+			local item = _G[itemName]
+			local spellID = DataStore:GetProfessionSpellID(skillName)
+
+			if spellID then
+				addon:SetItemButtonTexture(itemName, addon:GetSpellIcon(spellID), size, size)
+				item.text = skillName
+				item:Show()
+			else
+				item.text = nil
+				item:Hide()
+			end
+			i = i + 1
+
+			if i > 2 then		-- only Prof1 and Prof2 exist; the loop can otherwise run past 2 professions
+				break
+			end
 		end
-		i = i + 1
 	end
 end
 

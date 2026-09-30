@@ -381,7 +381,7 @@ function ns:Update()
 			local allianceID, hordeID = GetAchievementFactionInfo(currentCategoryID, line)
 			local _, achName = GetAchievementInfo(allianceID)		-- use the alliance name if a
 			
-			_G[entry..i.."Name"]:SetText(WHITE .. achName)
+			_G[entry..i.."Name"]:SetText(WHITE .. (achName or ""))
 			_G[entry..i.."Name"]:SetJustifyH("LEFT")
 			_G[entry..i.."Name"]:SetPoint("TOPLEFT", 15, 0)
 			

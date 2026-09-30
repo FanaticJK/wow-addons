@@ -633,7 +633,7 @@ function AtlasLoot_ShowItemsFrame(dataID, dataSource, boss, pFrame)
         getglobal("AtlasLootItem_"..i).spellitemID = 0;
 	end
     
-    if AtlasLoot_TableNames[dataID][2] == "Menu" then
+    if AtlasLoot_TableNames[dataID] and AtlasLoot_TableNames[dataID][2] == "Menu" then
         AtlasLoot_GenerateAtlasMenu(dataID, pFrame);
         return;
     end
@@ -1397,22 +1397,31 @@ end
 AtlasLoot_QueryLootPage()
 Querys all valid items on the current loot page.
 ]]
-function AtlasLoot_QueryLootPage()
-    i=1;
-    local querytime = 0;
-    local now = 0;
-    while i<31 do
-        now = GetTime();
-        if now - querytime > 0.03 then
-            querytime = GetTime();        
-            button = getglobal("AtlasLootItem_"..i);
-            queryitem = button.itemID;
-            if (queryitem) and (queryitem ~= nil) and (queryitem ~= "") and (queryitem ~= 0) and (string.sub(queryitem, 1, 1) ~= "s") then
-                GameTooltip:SetHyperlink("item:"..queryitem..":0:0:0:0:0:0:0");
-            end
-            i=i+1;
-        end
+-- GetTime() does not advance during a single script call, so the query pacing has to be
+-- driven by OnUpdate rather than by a wait loop.
+local AtlasLootQueryFrame = CreateFrame("Frame");
+AtlasLootQueryFrame:Hide();
+AtlasLootQueryFrame.index = 1;
+AtlasLootQueryFrame.elapsed = 0;
+AtlasLootQueryFrame:SetScript("OnUpdate", function(self, elapsed)
+    self.elapsed = self.elapsed + elapsed;
+    if self.elapsed < 0.03 then return end
+    self.elapsed = 0;
+    local button = getglobal("AtlasLootItem_"..self.index);
+    local queryitem = button and button.itemID;
+    if (queryitem) and (queryitem ~= "") and (queryitem ~= 0) and (string.sub(queryitem, 1, 1) ~= "s") then
+        GameTooltip:SetHyperlink("item:"..queryitem..":0:0:0:0:0:0:0");
     end
+    self.index = self.index + 1;
+    if self.index > 30 then
+        self:Hide();
+    end
+end);
+
+function AtlasLoot_QueryLootPage()
+    AtlasLootQueryFrame.index = 1;
+    AtlasLootQueryFrame.elapsed = 0;
+    AtlasLootQueryFrame:Show();
 end
 
 --[[

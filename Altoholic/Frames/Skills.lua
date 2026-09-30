@@ -339,7 +339,7 @@ function ns:OnClick(frame, button)
 	
 	if chat:IsShown() and IsShiftKeyDown() and realm == GetRealmName() and id ~= 6 then
 		-- if shift-click, then display the profession link and exit
-		local link = profession.FullLink	
+		local link = profession and profession.FullLink
 		if link and link:match("trade:") then
 			chat:Insert(link);
 		end

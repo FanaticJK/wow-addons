@@ -608,6 +608,7 @@ function gns:Button_OnEnter(frame)
 	end
 
 	local link = DS:GetGlyphLink(id, spell, glyphID)
+	if not link then return end
 	AltoTooltip:SetHyperlink(link);
 	AltoTooltip:Show();
 end

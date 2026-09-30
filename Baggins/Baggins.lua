@@ -660,7 +660,7 @@ function Baggins:RebuildSectionLayouts()
 						local found
 						--check for an existing stack to add the slot to
 						for k, entry in ipairs(layout) do
-							if entry then
+							if type(entry) == "table" then
 								if entry.itemid == itemid then
 									if self:IsCompressed(itemid) then
 										if not entry.slots[slot] then
@@ -1074,7 +1074,7 @@ function Baggins:OptimizeSectionLayout(bagid)
 
 			sectionframe.layout_waste = nil
 			sectionframe.layout_columns = nil
-			sectionframe.layout_area_index = nil
+			sectionframe.layout_areaid = nil		-- this is the field the loop below writes and reads
 
 			for areaid,area in pairs(areas) do
 				--self:Debug("  Area #%d: %s", areaid, area)
@@ -2450,7 +2450,7 @@ function Baggins:OnTextUpdate()
 			local r, g
 			r = math.min(1,fullness * 2)
 			g = math.min(1,(1-fullness) *2)
-			color = ("|cFF%2X%2X00"):format(r*255,g*255)
+			color = ("|cFF%02X%02X00"):format(r*255,g*255)
 		else
 			color = ""
 		end
@@ -2470,7 +2470,7 @@ function Baggins:OnTextUpdate()
 		local r, g
 		r = math.min(1,fullness * 2)
 		g = math.min(1,(1-fullness) *2)
-		color = ("|cFF%2X%2X00"):format(r*255,g*255)
+		color = ("|cFF%02X%02X00"):format(r*255,g*255)
 	else
 		color = ""
 	end
@@ -2856,7 +2856,7 @@ function Baggins:IsEmpty(bagid)
 	local count = 0
 	if self.bagframes[bagid] then
 		for i, v in ipairs(self.bagframes[bagid].sections) do
-			count = count + v.itemcount or 0
+			count = count + (v.itemcount or 0)
 		end
 	end
 	return count == 0

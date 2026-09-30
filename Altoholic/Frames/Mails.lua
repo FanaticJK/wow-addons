@@ -179,7 +179,7 @@ function ns:OnEnter(self)
 		if text then 
 			GameTooltip:AddLine("|cFFFFD700" .. text, 1, 1, 1, 1, 1);
 		end
-		if money > 0 then
+		if money and money > 0 then
 			GameTooltip:AddLine("|rAttached Money: " .. addon:GetMoneyString(money),1,1,1);
 		end
 		GameTooltip:Show();

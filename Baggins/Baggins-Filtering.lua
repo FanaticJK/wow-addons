@@ -121,7 +121,7 @@ function Baggins:CleanRule(rule)
 	wipe(rule)
 	rule.type = type
 
-	if RuleTypes[rule.type].CleanRule then
+	if RuleTypes[rule.type] and RuleTypes[rule.type].CleanRule then
 		RuleTypes[rule.type].CleanRule(rule)
 	end
 end
@@ -272,7 +272,8 @@ local function CheckCategory(catid, category, bag, slot, key, isbank, cache, use
 				end
 			end
 			
-			if ruleid == 1 then 
+			local operation
+			if ruleid == 1 then
 				operation = "OR"
 			else
 				operation = rule.operation or "OR"
@@ -308,6 +309,7 @@ function Baggins:OnSlotChanged(bag, slot)
 	recursionmagic = recursionmagic + 1
 	local isbank
 	local cache
+	local used
 	if BagTypes[bag] == 2 then
 		used = bankuseditems
 		cache = bankcategorycache
@@ -873,6 +875,7 @@ Baggins:AddCustomRule("Quality", {
 			end
 		end,
 		GetName = function(rule) 
+			local qualname
 			if rule.quality then
 				local r,g,b,hex = GetItemQualityColor(rule.quality)
 				qualname = hex..QualityNames[rule.quality]

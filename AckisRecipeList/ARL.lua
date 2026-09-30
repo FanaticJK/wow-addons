@@ -1111,7 +1111,7 @@ do
 		end
 
 		if DB == QuestList then
-			GameTooltip:SetOwner(UIParent, ANCHOR_NONE)
+			GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
 			GameTooltip:SetHyperlink("quest:"..tostring(ID))
 
 			local quest_name = _G["GameTooltipTextLeft1"]:GetText()
@@ -1521,10 +1521,10 @@ do
 		-- Get the current profession Specialty
 		local specialty = SpecialtyTable[Player["Profession"]]
 
-		for index = 1, 25, 1 do
+		for index = 1, 1024, 1 do
 			local spellName = GetSpellName(index, BOOKTYPE_SPELL)
 
-			if not spellName or index == 25 then
+			if not spellName then
 				Player["Specialty"] = nil
 				break
 			elseif specialty and specialty[spellName] then
@@ -1583,14 +1583,14 @@ do
 			if tradeType ~= "header" then
 				-- Get the trade skill link for the specified recipe
 				local SpellLink = GetTradeSkillRecipeLink(i)
-				local SpellString = strmatch(SpellLink, "^|c%x%x%x%x%x%x%x%x|H%w+:(%d+)")
-				local recipe = RecipeList[tonumber(SpellString)]
+				local SpellString = SpellLink and strmatch(SpellLink, "^|c%x%x%x%x%x%x%x%x|H%w+:(%d+)")
+				local recipe = SpellString and RecipeList[tonumber(SpellString)]
 
 				if recipe then
 					recipe["Known"] = true
 					recipes_found = recipes_found + 1
-				else
-					self:Print(self:Red(tradeName .. " " .. SpellString) .. self:White(L["MissingFromDB"]))	
+				elseif SpellString then
+					self:Print(self:Red(tradeName .. " " .. SpellString) .. self:White(L["MissingFromDB"]))
 				end
 			end
 		end

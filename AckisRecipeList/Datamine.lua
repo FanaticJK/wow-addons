@@ -1685,7 +1685,13 @@ do
 		ARLDatamineTT:SetHyperlink(recipe_link)	-- Link exists, so load the tooltip for scanning
 
 		-- Lets check to see if it's a recipe tooltip
-		local text = strlower(_G["ARLDatamineTTTextLeft1"]:GetText())
+		local tooltip_text = _G["ARLDatamineTTTextLeft1"]:GetText()
+
+		if not tooltip_text then		-- the link produced no tooltip (not in the client cache yet)
+			ARLDatamineTT:Hide()
+			return
+		end
+		local text = strlower(tooltip_text)
 		local match_text = strmatch(text, "%a+: ")
 
 		-- Check to see if we're dealing with a recipe

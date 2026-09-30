@@ -133,7 +133,7 @@ function Swatter.OnError(msg, frame, stack, etype, ...)
 
 	-- id might still exist if we've done a clear, because we don't cycle through the frames killing frame.Swatter data
 	-- So we have to check for both here
-	if (not ( id and #(SwatterData.errors) ~= 0)) then
+	if (not ( id and SwatterData.errors[id] )) then
 		context = "Anonymous"
 		if (frame) then
 			context = "Unnamed"

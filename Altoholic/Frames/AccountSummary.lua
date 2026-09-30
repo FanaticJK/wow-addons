@@ -38,9 +38,9 @@ local function GetFactionTotals(f, line)
 	local DS = DataStore
 	for _, character in pairs(DS:GetCharacters(realm, account)) do
 		if DS:GetCharacterFaction(character) == f then
-			level = level + DS:GetCharacterLevel(character)
-			money = money + DS:GetMoney(character)
-			played = played + DS:GetPlayTime(character)
+			level = level + (DS:GetCharacterLevel(character) or 0)
+			money = money + (DS:GetMoney(character) or 0)
+			played = played + (DS:GetPlayTime(character) or 0)
 		end
 	end
 	

@@ -281,8 +281,9 @@ StaticPopupDialogs["BASICFILTER_ADD_IGNORE"] = {
 		getglobal(this:GetName().."EditBox"):SetFocus();
 	end,
 	OnHide = function()
-		if ( ChatFrameEditBox:IsShown() ) then
-			ChatFrameEditBox:SetFocus();
+		local chat = ChatEdit_GetLastActiveWindow();
+		if ( chat and chat:IsShown() ) then
+			chat:SetFocus();
 		end
 		getglobal(this:GetName().."EditBox"):SetText("");
 	end,

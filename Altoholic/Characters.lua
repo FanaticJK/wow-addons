@@ -226,8 +226,8 @@ local function SortByFunction(a, b, func, ascending)
 			return false		-- don't swap lines if they're not INFO_CHARACTER_LINE
 		end
 
-		local retA = DataStore[func](self, a.key) or 0		-- set to zero if a return value is nil, so that they can be compared
-		local retB = DataStore[func](self, b.key) or 0
+		local retA = DataStore[func](DataStore, a.key) or 0		-- set to zero if a return value is nil, so that they can be compared
+		local retB = DataStore[func](DataStore, b.key) or 0
 		
 		if ascending then
 			return retA < retB

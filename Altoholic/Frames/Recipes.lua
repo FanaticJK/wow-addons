@@ -459,7 +459,7 @@ function ns:Link_OnClick(frame, button)
 
 	local character = addon.Tabs.Characters:GetCurrent()
 	local profession = DataStore:GetProfession(character, addon.TradeSkills.CurrentProfession)
-	local link = profession.FullLink
+	local link = profession and profession.FullLink
 
 	if not link then
 		addon:Print(L["Invalid tradeskill link"])

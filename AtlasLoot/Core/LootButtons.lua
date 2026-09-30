@@ -170,7 +170,8 @@ function AtlasLootItem_OnEnter()
             spellID = string.sub(this.itemID, 2);
             AtlasLootTooltip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 2), 24);
             AtlasLootTooltip:ClearLines();
-            AtlasLootTooltip:SetHyperlink(AtlasLoot_GetEnchantLink(spellID));
+            local enchantLink = AtlasLoot_GetEnchantLink(spellID);
+            if enchantLink then AtlasLootTooltip:SetHyperlink(enchantLink); end
             AtlasLootTooltip:Show();
             if(this.spellitemID and ((AtlasLoot.db.profile.EquipCompare and ((not EquipCompare_RegisterTooltip) or (not EquipCompare_Enabled))) or IsShiftKeyDown())) then
                 AtlasLootItem_ShowCompareItem(); --- CALL MISSING METHOD TO SHOW 2 TOOLTIPS (Item Compare)
@@ -197,7 +198,7 @@ function AtlasLootItem_OnLeave()
             GameTooltip:Hide();
 	    end
     end
-    if ( ShoppingTooltip2:IsVisible() or ShoppingTooltip1.IsVisible) then
+    if ( ShoppingTooltip2:IsVisible() or ShoppingTooltip1:IsVisible()) then
        ShoppingTooltip2:Hide();
        ShoppingTooltip1:Hide();
     end
@@ -238,8 +239,8 @@ function AtlasLootItem_OnClick(arg1)
             ChatEdit_InsertLink(itemLink);
         elseif(IsShiftKeyDown() and AtlasLoot.db.profile.AllLinks) then
             ChatEdit_InsertLink(color.."|Hitem:"..this.itemID..":0:0:0:0:0:0:0|h["..name.."]|h|r");
-        elseif(ChatFrameEditBox and ChatFrameEditBox:IsVisible() and IsShiftKeyDown()) then
-            ChatFrameEditBox:Insert(name);  -- <-- this line just inserts plain text, does not need any adjustment
+        elseif(IsShiftKeyDown() and ChatEdit_GetLastActiveWindow() and ChatEdit_GetLastActiveWindow():IsVisible()) then
+            ChatEdit_GetLastActiveWindow():Insert(name);  -- <-- this line just inserts plain text, does not need any adjustment
         --If control-clicked, use the dressing room
         elseif(IsControlKeyDown() and iteminfo) then
             DressUpItemLink(itemLink);

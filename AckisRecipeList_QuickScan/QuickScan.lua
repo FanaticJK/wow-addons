@@ -68,9 +68,14 @@ local known_professions = {
 local function ARL_Scan(self, profession)
 	CastSpellByName(profession)
 
+	-- the tradeskill window opens asynchronously, so there is no level to read yet on the first cast
 	local _, prof_level = GetTradeSkillLine()
 
-	QuickScan.data_obj.text = string.format("%s: %d", profession, prof_level)
+	if prof_level then
+		QuickScan.data_obj.text = string.format("%s: %d", profession, prof_level)
+	else
+		QuickScan.data_obj.text = profession
+	end
 
 	if ARL.Frame and ARL.Frame:IsVisible() then
 		ARL.Frame:Hide()
@@ -162,10 +167,10 @@ function QuickScan:PLAYER_LOGIN()
 				  end
 
 				  -- Grab names from the spell book
-				  for index = 1, 25, 1 do
+				  for index = 1, 1024, 1 do
 					  local spell_name = GetSpellName(index, BOOKTYPE_SPELL)
 
-					  if not spell_name or (index == 25) then
+					  if not spell_name then
 						  break
 					  end
 

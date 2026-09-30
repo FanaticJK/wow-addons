@@ -275,7 +275,7 @@ end
 
 local function OnChatMsgSystem(event, arg)
 	if arg then
-		if tostring(arg1) == INSTANCE_SAVED then
+		if tostring(arg) == INSTANCE_SAVED then
 			RequestRaidInfo()
 		end
 	end
@@ -716,14 +716,14 @@ function Altoholic:DrawCharacterTooltip(self, charName)
 		GREEN..DS:GetCharacterLevel(character), DS:GetCharacterRace(character),	DS:GetCharacterClass(character)),1,1,1)
 
 	local zone, subZone = DS:GetLocation(character)
-	AltoTooltip:AddLine(format("%s: %s |r(%s|r)", L["Zone"], GOLD..zone, GOLD..subZone),1,1,1)
+	AltoTooltip:AddLine(format("%s: %s |r(%s|r)", L["Zone"], GOLD..(zone or ""), GOLD..(subZone or "")),1,1,1)
 	
 	local restXP = DS:GetRestXP(character)
 	if restXP and restXP > 0 then
 		AltoTooltip:AddLine(format("%s: %s", L["Rest XP"], GREEN..restXP),1,1,1)
 	end
 	
-	AltoTooltip:AddLine("Average iLevel: " .. GREEN .. format("%.1f", DS:GetAverageItemLevel(character)),1,1,1);	
+	AltoTooltip:AddLine("Average iLevel: " .. GREEN .. format("%.1f", DS:GetAverageItemLevel(character) or 0),1,1,1);
 
 	if IsAddOnLoaded("DataStore_Achievements") then
 		if DS:GetNumCompletedAchievements(character) > 0 then

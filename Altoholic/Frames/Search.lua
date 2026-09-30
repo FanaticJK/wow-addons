@@ -856,7 +856,7 @@ function ns:BrowseGuildProfessions()
 			if t then
 				for spellID, _ in pairs(t) do
 					local name = GetSpellInfo(spellID)
-					if string.find(strlower(name), currentValue, 1, true) then
+					if name and string.find(strlower(name), currentValue, 1, true) then
 						ns:AddResult(	{
 							linetype = GUILD_CRAFT_LINE,
 							spellID = spellID,

@@ -54,7 +54,9 @@ function Baggins:DisableSkin(name)
 end
 
 function Baggins:EnableSkin(name)
-	local newskin = self:GetSkin(name)
+	-- a profile can name a skin whose plugin is no longer loaded; without a fallback
+	-- currentSkin stays nil and every later SkinSection/SetBankVisual call errors
+	local newskin = self:GetSkin(name) or self:GetSkin('default')
 	if newskin and self.currentSkin ~= newskin then
 		for bagid,bagframe in ipairs(self.bagframes) do
 			for secid,sectionframe in ipairs(bagframe.sections) do
