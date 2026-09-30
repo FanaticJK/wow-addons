@@ -42,7 +42,7 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 
 ## Addon inventory & status
 
-34 addon folders. Grouped by ecosystem.
+33 addon folders. Grouped by ecosystem.
 
 ### Bagnon family — bags/bank (author: Tuller) — **Done**
 | Folder | Ver | SavedVariables | Status | Notes |
