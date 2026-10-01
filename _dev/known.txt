@@ -1392,6 +1392,99 @@ YELLOW
 YELLOW_GEM
 ZONE_COLON
 
+# --- DataStore + Stubby pass 2026-10-01 ---
+# Reviewed one by one against a 3.3.5a client. Every name below is a real client API,
+# FrameXML frame, constant or GlobalString -- nothing here is an addon's own object and
+# nothing is a leaked local. The XML template children this pass first reported
+# (DataStoreMailOptions_SliderMailExpiryLow and friends) are deliberately NOT listed:
+# check.js now derives them from the inherits= template, so a typo in one still reports.
+
+# character sheet / combat ratings (DataStore_Stats)
+CR_CRIT_TAKEN_MELEE
+CR_CRIT_TAKEN_RANGED
+CR_CRIT_TAKEN_SPELL
+CR_HASTE_SPELL
+GetBlockChance
+GetCombatRating
+GetCritChance
+GetDodgeChance
+GetExpertise
+GetManaRegen
+GetParryChance
+GetRangedCritChance
+GetSpellBonusDamage
+GetSpellBonusHealing
+GetSpellCritChance
+UnitArmor
+UnitAttackPower
+UnitAttackSpeed
+UnitDamage
+UnitDefense
+UnitPowerMax
+UnitPowerType
+UnitRangedAttackPower
+UnitRangedDamage
+UnitResistance
+UnitStat
+
+# PvP / arena (DataStore_Stats)
+GetArenaTeam
+GetPVPLifetimeStats
+MAX_ARENA_TEAMS
+
+# achievements, 3.0+ (DataStore_Achievements)
+GetNumCompletedAchievements
+GetPreviousAchievement
+GetTotalAchievementPoints
+
+# currency tab, 3.0+ (DataStore_Currencies)
+ExpandCurrencyList
+GetCurrencyListInfo
+GetCurrencyListSize
+
+# trade skill window (DataStore_Crafts)
+GetTradeSkillCooldown
+GetTradeSkillInvSlotFilter
+GetTradeSkillInvSlots
+GetTradeSkillSelectionIndex
+GetTradeSkillSubClassFilter
+GetTradeSkillSubClasses
+SelectTradeSkill
+
+# mail (DataStore_Mails)
+CheckInbox
+GetInboxText
+GetSendMailItemLink
+GetSendMailMoney
+
+# quest log (DataStore_Quests)
+CollapseQuestHeader
+GetQuestLogItemLink
+GetQuestLogSpellLink
+QuestFrameCompleteQuestButton
+
+# spellbook / talents / glyphs, 3.1+ dual spec (DataStore_Spells, DataStore_Talents)
+GetActiveTalentGroup
+GetGlyphLink
+GetGlyphSocketInfo
+GetNumSpellTabs
+GetNumTalents
+GetSpellTabInfo
+GetTalentInfo
+GetTalentLink
+GetTalentPrereqs
+
+# companions, 3.0+ (DataStore_Pets)
+GetCompanionInfo
+GetNumCompanions
+
+# misc API + GlobalStrings (DataStore core, DataStore_Characters, Stubby)
+ADDONS
+ADDON_DISABLED
+ERR_FRIEND_OFFLINE_S
+IsResting
+RunScript
+
 # leaked locals (missing 'local') in vendored Ace2/Ace3/Configator/Tablet/Dewdrop and a
 # few Auc modules. Pre-existing upstream, read-only nil at runtime, harmless. Not real API.
 # --- reviewed benign leaked globals (45) ---

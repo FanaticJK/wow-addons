@@ -140,12 +140,13 @@ local ClassColors = {
 }
 
 local function _GetColoredCharacterName(character)
-	return ClassColors[character.englishClass] .. character.name
+	-- an entry that exists but was never scanned has neither field (AceDB creates it on any key read)
+	return (ClassColors[character.englishClass] or "") .. (character.name or "")
 end
-	
+
 local function _GetClassColor(character)
 	-- return just the color of this character's class
-	return ClassColors[character.englishClass]
+	return ClassColors[character.englishClass] or ""
 end
 
 local function _GetCharacterFaction(character)
@@ -177,7 +178,10 @@ local function _GetXP(character)
 end
 
 local function _GetXPRate(character)
-	return floor((character.XP / character.XPMax) * 100)
+	local max = character.XPMax or 0		-- nil if never scanned, 0 at max level
+	if max == 0 then return 0 end
+
+	return floor(((character.XP or 0) / max) * 100)
 end
 
 local function _GetXPMax(character)
@@ -205,7 +209,7 @@ local function _GetRestXPRate(character)
 		-- divide rest xp by this value	20400 / 204 = 100	==> rest xp rate
 	
 	local rate = 0
-	if character.RestXP then
+	if character.RestXP and character.XPMax and character.XPMax > 0 then
 		rate = (character.RestXP / ((character.XPMax / 100) * 1.5))
 	end
 	

@@ -33,7 +33,10 @@ local function _GetNumSpells(character, school)
 end
 	
 local function _GetSpellInfo(character, school, index)
-	local spellID, rank = strsplit("|", character.Spells[school][index])
+	local spell = character.Spells[school][index]
+	if not spell then return end
+
+	local spellID, rank = strsplit("|", spell)
 	return tonumber(spellID), rank
 end
 

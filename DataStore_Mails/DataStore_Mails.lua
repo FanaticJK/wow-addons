@@ -547,8 +547,10 @@ function ReturnInboxItem(index, ...)
 
 	local inboxText = ""
 	
+	local senderName = mailSender or ""		-- nil for system/GM mail and mail from deleted characters
+
 	for characterName, characterKey in pairs(DataStore:GetCharacters()) do		-- browse alts on current realm
-		if strlower(characterName) == strlower(mailSender) then						-- if recipient is a known alt ..
+		if strlower(characterName) == strlower(senderName) then						-- if recipient is a known alt ..
 			local character = addon.db.global.Characters[characterKey]
 
 			if numAttachments then	-- treat attachments as separate entries

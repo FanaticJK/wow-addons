@@ -192,7 +192,7 @@ local skillUpMsg = gsub(ERR_SKILL_UP_SI, arg1pattern, "(.+)")
 skillUpMsg = gsub(skillUpMsg, arg2pattern, "(%%d+)")
 
 
-function addon:CHAT_MSG_SKILL(self, msg)
+function addon:CHAT_MSG_SKILL(event, msg)
 	-- This code is a bit more complex than calling ScanSkills again.
 	-- The purpose is to avoid triggering events when expanding/collapsing headers, as this may result in heavy processing in other addons
 	if not msg then return end

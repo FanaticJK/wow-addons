@@ -156,13 +156,15 @@ end
 
 -- *** Event Handlers ***
 local currentGuildName
+local RegisterGuildEvents		-- forward declaration, defined below GuildCommHandler
 
 local function OnPlayerGuildUpdate()
 	-- at login this event is called between OnEnable and PLAYER_ALIVE, where GetGuildInfo returns a wrong value
 	-- however, the value returned here is correct
 	if IsInGuild() and not currentGuildName then		-- the event may be triggered multiple times, and GetGuildInfo may return incoherent values in subsequent calls, so only save if we have no value.
 		currentGuildName = GetGuildInfo("player")
-		if currentGuildName then	
+		if currentGuildName then
+			RegisterGuildEvents()		-- OnEnable only registers these if the player was already in a guild then
 			Guilds[GetKey(currentGuildName)].faction = UnitFactionGroup("player")
 			-- the first time a valid value is found, broadcast to guild, it must happen here for a standard login, but won't work here after a reloadui since this event is not triggered
 			GuildBroadcast(MSG_ANNOUNCELOGIN, GetAlts(currentGuildName))
@@ -236,6 +238,15 @@ local function GuildCommHandler(prefix, message, distribution, sender)
 	end
 end
 
+-- registers the guild-only events & comm. Called from OnEnable, and again from OnPlayerGuildUpdate
+-- for a player who joins a guild mid-session. AceEvent registration is idempotent per handler.
+function RegisterGuildEvents()
+	addon:RegisterEvent("GUILD_ROSTER_UPDATE", OnGuildRosterUpdate)
+	-- we only care about "%s has come online" or "%s has gone offline", so register only if player is in a guild
+	addon:RegisterEvent("CHAT_MSG_SYSTEM", OnChatMsgSystem)
+	addon:RegisterComm(commPrefix, GuildCommHandler)
+end
+
 -- Explanation of this piece of code
 -- Whenever DataStore:MethodXXX(arg1, arg2, etc..) is called, this attempts to find the method in the registered list
 -- If this method is character related, we intercept the string (ex: ["Default.RealmZZZ.CharYYY") and get the associated character table in the module that owns these data
@@ -260,7 +271,7 @@ local lookupMethods = { __index = function(self, key)
 		if RegisteredMethods[key].isCharBased then		-- if this method is character related, the first expected parameter is the character
 			local owner = RegisteredMethods[key].owner
 			arg1 = owner.Characters[arg1]						-- turns a "string" parameter into a table, fully intended.
-			if not arg1.lastUpdate then return end			-- lastUpdate must be present in the Character part of a db, if not, data is unavailable
+			if not arg1 or not arg1.lastUpdate then return end			-- lastUpdate must be present in the Character part of a db, if not, data is unavailable
 			
 		elseif RegisteredMethods[key].isGuildBased then	-- if this method is guild related, the first expected parameter is the guild
 			local owner = RegisteredMethods[key].owner
@@ -289,11 +300,8 @@ function addon:OnEnable()
 	addon:RegisterEvent("PLAYER_GUILD_UPDATE", OnPlayerGuildUpdate)				-- for gkick, gquit, etc..
 	
 	if IsInGuild() then
-		addon:RegisterEvent("GUILD_ROSTER_UPDATE", OnGuildRosterUpdate)
-		-- we only care about "%s has come online" or "%s has gone offline", so register only if player is in a guild
-		addon:RegisterEvent("CHAT_MSG_SYSTEM", OnChatMsgSystem)
-		addon:RegisterComm(commPrefix, GuildCommHandler)
-		
+		RegisterGuildEvents()
+
 		local guild = GetGuildInfo("player")		-- will be nil in a standard login (called too soon), but ok for a reloadui.
 		if guild then
 			GuildBroadcast(MSG_ANNOUNCELOGIN, GetAlts(guild))
@@ -307,6 +315,7 @@ function addon:OnDisable()
 	addon:UnregisterEvent("PLAYER_GUILD_UPDATE")
 	addon:UnregisterEvent("GUILD_ROSTER_UPDATE")
 	addon:UnregisterEvent("CHAT_MSG_SYSTEM")
+	addon:UnregisterComm(commPrefix)
 end
 
 -- *** DB functions ***

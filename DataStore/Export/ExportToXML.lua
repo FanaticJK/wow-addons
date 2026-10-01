@@ -153,10 +153,14 @@ local specificExport = {
 					
 					if type(data) == "boolean" and data == true then
 						data = "true"	-- achievement has been completed
-						local month, day, year = character.CompletionDates[index]:match("(%d+):(%d+):(%d+)")
-						year = tonumber(year) + 2000
-						
-						attrib = format("%s completionDate=\"%s/%s/%s\"", attrib, month, day, year)
+
+						local completionDate = character.CompletionDates and character.CompletionDates[index]
+						if completionDate then		-- may be missing, as DataStore_Achievements itself allows
+							local month, day, year = completionDate:match("(%d+):(%d+):(%d+)")
+							year = tonumber(year) + 2000
+
+							attrib = format("%s completionDate=\"%s/%s/%s\"", attrib, month, day, year)
+						end
 					end
 					SingleLineTag(file, level+1, "Achievement", data, attrib)
 				end
@@ -271,7 +275,7 @@ local specificExport = {
 										attrib = format("%s rarity=\"%s\" link=\"%s\"", attrib, rarity, link)
 									end
 								
-									SingleLineTag(file, level+3, "Item", itemID, attrib)
+									SingleLineTag(file, level+3, "Item", text, attrib)
 								end
 								CloseXMLTag(file, level+2, "Content")
 							end
@@ -476,7 +480,7 @@ local specificExport = {
 					top = tonumber(top)
 					earned = tonumber(earned)
 				
-					SingleLineTag(file, level+1, "Faction", name, format("rank=\"%s\" numPoints=\"%s\" maxPoints=\"%s\"", BottomLevels[bottom], (earned - bottom), (top - bottom)))
+					SingleLineTag(file, level+1, "Faction", name, format("rank=\"%s\" numPoints=\"%s\" maxPoints=\"%s\"", BottomLevels[bottom] or "Unknown", (earned - bottom), (top - bottom)))
 				end
 				CloseXMLTag(file, level, "Factions")
 			end,

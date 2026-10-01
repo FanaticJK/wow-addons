@@ -311,7 +311,9 @@ local function callDebugger(...)
 end
 
 local function callRunner(...)
-	local funcName, func, retVal, callParams = unpack(callDetail)
+	-- explicit bounds: retVal is nil for a negative-position hook, and the resulting hole
+	-- would make a plain unpack() stop short and leave callParams nil
+	local funcName, func, retVal, callParams = unpack(callDetail, 1, 4)
 	local callParamsLen = callParams[1]
 	if (funcName) then
 		return func.f(func.a, retVal, unpack(callParams, 2, callParamsLen+1))
@@ -369,7 +371,6 @@ function hookCall(funcName, ...)
 					orig = nil
 				elseif (res == 'setreturn') then
 					retVal = addit
-					returns = true
 				end
 			end
 		end
@@ -428,6 +429,15 @@ function hookInto(triggerFunction)
 
 	if (loadedFunction) then
 		loadedFunction()
+
+		-- the chunk bails out without installing anything if the target is not a function,
+		-- so do not report success for a hook that was never installed
+		if (type(Stubby_OldFunction) ~= "function") then
+			Stubby_NewFunction = nil
+			Stubby_OldFunction = nil
+
+			return 5, "Error occured while compiling hook for "..triggerFunction..". Errormessage: not a valid function"
+		end
 	else
 		Stubby_NewFunction = nil
 		Stubby_OldFunction = nil
@@ -474,9 +484,10 @@ function unhookFrom(triggerFunction)
 		return 2, "Failed to unhook the trigger function: "..triggerFunction.." since it is not hooked at all."
 	end
 
-	-- make sure, that no other addon hooked this function meanwhile
-	if getglobal(triggerFunction) == config.hooks.origFuncs[triggerFunction] then
-		triggerFunction = config.hooks.origFuncs[triggerFunction]
+	-- make sure, that no other addon hooked this function meanwhile. After hookInto the global
+	-- holds our wrapper, not the original, so that is what has to be compared against.
+	if getglobal(triggerFunction) == config.hooks.functions[triggerFunction] then
+		setglobal(triggerFunction, config.hooks.origFuncs[triggerFunction])
 		config.hooks.origFuncs[triggerFunction] = nil
 		config.hooks.functions[triggerFunction] = nil
 		return 0
@@ -538,14 +549,14 @@ function registerFunctionHook(triggerFunction, position, hookFunc, ...)
 		funcObj = {
 			f = hookFunc,
 			n = hookFuncName,
-			p = position,
+			p = insertPos,
 		}
 	else
 		funcObj = {
 			f = hookFunc,
 			n = hookFuncName,
 			a = {...},
-			p = position
+			p = insertPos
 		}
 	end
 
@@ -553,7 +564,7 @@ function registerFunctionHook(triggerFunction, position, hookFunc, ...)
 	if (not config.calls.functions) then config.calls.functions = {} end
 	if (config.calls.functions[triggerFunction]) then
 		while (config.calls.functions[triggerFunction][insertPos]) do
-			if (position >= 0) then
+			if (insertPos >= 0) then		-- compare the normalised value: position may be nil or a string
 				insertPos = insertPos + 1
 			else
 				insertPos = insertPos - 1

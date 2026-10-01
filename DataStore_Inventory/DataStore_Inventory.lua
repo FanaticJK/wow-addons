@@ -89,7 +89,7 @@ local function GetAIL(alts)
 	
 	local character = DataStore:GetCharacter()	-- this character
 	local ail = DataStore:GetAverageItemLevel(character)
-	table.insert(out, format("%s:%d", UnitName("player"), ail))
+	table.insert(out, format("%s:%d", UnitName("player"), ail or 0))
 
 	if strlen(alts) > 0 then
 		for _, name in pairs( { strsplit("|", alts) }) do	-- then all his alts
@@ -139,7 +139,7 @@ end
 -- *** Scanning functions ***
 local NUM_EQUIPMENT_SLOTS = 19
 
-function ScanInventory()
+local function ScanInventory()
 	local totalItemLevel = 0
 	local itemCount = 0	
 	
@@ -162,7 +162,10 @@ function ScanInventory()
 		end
 	end
 	
-	addon.ThisCharacter.averageItemLvl = totalItemLevel / itemCount
+	-- guard the division: itemCount is 0 if nothing but a shirt/tabard is equipped, or if every
+	-- GetInventoryItemLink returned nil (happens on PLAYER_ALIVE during a loading screen).
+	-- 0/0 is NaN, which would be written to SavedVariables and make the file unloadable.
+	addon.ThisCharacter.averageItemLvl = (itemCount > 0) and (totalItemLevel / itemCount) or 0
 	addon.ThisCharacter.lastUpdate = time()
 end
 
@@ -171,8 +174,11 @@ local function OnPlayerAlive()
 	ScanInventory()
 end
 
-local function OnUnitInventoryChanged()
-	ScanInventory()
+local function OnUnitInventoryChanged(event, unit)
+	-- the event fires for every unit (pet, party, target), so filter before rescanning 19 slots
+	if unit == "player" then
+		ScanInventory()
+	end
 end
 
 -- ** Mixins **
@@ -224,6 +230,8 @@ local function _RequestGuildMemberEquipment(member)
 		return
 	end
 	
+	if not main then return end		-- offline and no equipment in the DB, nothing left to try
+
 	-- prevent spamming remote players with too many requests
 	sentRequests = sentRequests or {}
 	

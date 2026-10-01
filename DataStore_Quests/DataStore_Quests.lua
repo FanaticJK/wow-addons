@@ -233,6 +233,8 @@ end
 
 local function _GetQuestLogInfo(character, index)
 	local quest = character.Quests[index]
+	if not quest then return end
+
 	local link = character.QuestLinks[index]
 	local isHeader, questTag, groupSize, money, isComplete = strsplit("|", quest)
 	
@@ -262,7 +264,7 @@ local function _GetQuestLogRewardInfo(character, index, rewardIndex)
 			local rewardType, id, numItems, isUsable = strsplit("|", v)
 			
 			numItems = tonumber(numItems) or 0
-			isUsable = (isUsable and isUsable == 1) and true or nil
+			isUsable = (isUsable == "1") and true or nil		-- strsplit yields strings, never the number 1
 						
 			return rewardType, tonumber(id), numItems, isUsable
 		end	
@@ -338,6 +340,8 @@ end
 function addon:OnDisable()
 	addon:UnregisterEvent("PLAYER_ALIVE")
 	addon:UnregisterEvent("UNIT_QUEST_LOG_CHANGED")
+	addon:UnregisterEvent("QUEST_COMPLETE")
+	addon:UnregisterEvent("QUEST_LOG_UPDATE")		-- registered on demand by OnUnitQuestLogChanged
 	addon:UnregisterEvent("QUEST_QUERY_COMPLETE")
 end
 

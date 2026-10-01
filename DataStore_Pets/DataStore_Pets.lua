@@ -36,7 +36,9 @@ local function ScanCompanions(companionType)
 		local modelID, name, spellID, icon = GetCompanionInfo(companionType, i);
 		if modelID and name and spellID and icon then
 			-- trim icon path to save memory
-			list[i] = modelID .. "|" .. name .. "|" .. spellID .. "|" .. string.gsub(icon, COMPANION_ICON_PATH, "")
+			-- insert rather than index by i: GetCompanionInfo may return nil early after login,
+			-- and a hole would truncate #list for _GetNumPets / _IsPetKnown
+			table.insert(list, modelID .. "|" .. name .. "|" .. spellID .. "|" .. (string.gsub(icon, COMPANION_ICON_PATH, "")))
 		end
 	end
 	
@@ -141,5 +143,6 @@ end
 
 function addon:OnDisable()
 	addon:UnregisterEvent("PLAYER_ALIVE")
+	addon:UnregisterEvent("COMPANION_UPDATE")
 	addon:UnregisterEvent("COMPANION_LEARNED")
 end

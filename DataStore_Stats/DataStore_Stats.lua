@@ -58,7 +58,8 @@ local function ScanStats()
 	local t = {}
 	-- *** resistances  ***
 	for i = 1, 6 do
-		_, t[i] = UnitResistance("player", i)
+		local _, total = UnitResistance("player", i)
+		t[i] = total
 		-- base, total, bonus, minus = UnitResistance(unitId [, resistanceIndex])
 		-- base = base
 		-- total = total after all modifiers
@@ -135,9 +136,16 @@ local function ScanStats()
 	addon.ThisCharacter.lastUpdate = time()
 end
 
+-- UNIT_INVENTORY_CHANGED fires for every unit (pet, party, target), so filter before rescanning
+local function OnUnitInventoryChanged(event, unit)
+	if unit == "player" then
+		ScanStats()
+	end
+end
+
 function addon:OnEnable()
 	addon:RegisterEvent("PLAYER_ALIVE")
-	addon:RegisterEvent("UNIT_INVENTORY_CHANGED", ScanStats)
+	addon:RegisterEvent("UNIT_INVENTORY_CHANGED", OnUnitInventoryChanged)
 end
 
 function addon:OnDisable()

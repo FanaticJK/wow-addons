@@ -80,8 +80,16 @@ local function ScanCurrencies()
 end
 
 -- *** Event Handlers ***
+local isScanning
+
 local function OnCurrencyDisplayUpdate()
+	-- ExpandCurrencyList re-fires CURRENCY_DISPLAY_UPDATE, so guard against re-entering the scan
+	-- (DataStore_Crafts solves the same problem by unregistering around its scan)
+	if isScanning then return end
+
+	isScanning = true
 	ScanCurrencies()
+	isScanning = nil
 end
 
 -- ** Mixins **
@@ -99,8 +107,8 @@ local function _GetCurrencyInfo(character, index)
 end
 
 local function _GetCurrencyInfoByName(character, token)
-	local name, count, itemID
-	
+	local _, name, count, itemID
+
 	for i = 1, #character.Currencies do
 		_, name, count, itemID = strsplit("|", character.Currencies[i])
 	
@@ -144,8 +152,8 @@ local currencyIDs = {
 
 local function _GetCurrencyItemCount(character, searchedID)
 	if currencyIDs[searchedID] then
-		local isHeader, currencyCount, itemID
-		
+		local isHeader, _, currencyCount, itemID
+
 		for i = 1, #character.Currencies do
 			isHeader, _, currencyCount, itemID = strsplit("|", character.Currencies[i])
 		

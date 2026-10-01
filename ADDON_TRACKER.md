@@ -64,7 +64,7 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 ### Auctioneer suite — auction (author: Norganna) — **Static-only / Deep-audit pending**
 | Folder | Ver | SavedVariables | Status | Notes |
 |---|---|---|---|---|
-| Auc-Advanced | 5.8.4723 | AucAdvancedConfig, AucAdvancedData / AucAdvancedLocal(char) | Static-only + audit pending | Core. Needs **Stubby** (missing). Fixed `UiParent`→`UIParent`, `\n` mangles in elGR/zhTW help. |
+| Auc-Advanced | 5.8.4723 | AucAdvancedConfig, AucAdvancedData / AucAdvancedLocal(char) | Static-only + audit pending | Core. **Stubby added 2026-10-01.** Fixed `UiParent`→`UIParent`, `\n` mangles in elGR/zhTW help. |
 | Auc-Filter-Basic | 5.8.4723 | AucAdvancedFilterBasic(+_IgnoreList) | Static-only + partly audited | Filter module. One fix: the ignore-list popup called the removed `ChatFrameEditBox` on close. Not part of a full Auctioneer audit. |
 | Auc-ScanData | 5.8.4723 | AucScanData | Static-only + audit pending | LoD scan cache. |
 | Auc-Stat-Histogram | 5.8.4723 | AucAdvancedStatHistogramData(+Total) | Static-only + audit pending | Stat module. |
@@ -88,7 +88,7 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 ### Altoholic family — alt manager (author: Thaoky) — **Static-only + audited**
 | Folder | Ver | SavedVariables | Status | Notes |
 |---|---|---|---|---|
-| Altoholic | 3.3.002b | AltoholicDB | Static-only + audited | DataStore front-end. **DataStore family missing** — won't load as-is. Deep audit done — 16 bugs fixed, incl. the `Characters.lua` sort comparator that passed the global `self` (nil) into `DataStore[func]`, and two handlers that filtered on the removed `arg1` global and so never ran. |
+| Altoholic | 3.3.002b | AltoholicDB | Static-only + audited | DataStore front-end. **DataStore family added 2026-10-01**, so its hard `## Dependencies` chain resolves for the first time. Deep audit done — 16 bugs fixed, incl. the `Characters.lua` sort comparator that passed the global `self` (nil) into `DataStore[func]`, and two handlers that filtered on the removed `arg1` global and so never ran. |
 | Altoholic_Achievements | 3.3.002 | — | Static-only + audited | Achievements UI module. One nil-concat fix. |
 
 ### AckisRecipeList family — recipe scanner (author: Ackis/Torhal) — **Static-only + audited**
@@ -102,6 +102,33 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 |---|---|---|---|---|
 | Baggins | r435 | BagginsDB | Static-only + audited | Virtual-bag inventory (Ace2/Ace3/Waterfall/Dewdrop). Fixed `## Interface` 30200→30300. Deep audit done — 9 bugs fixed, incl. three undeclared globals in the filter engine and a missing default-skin fallback that left the bags undrawn. |
 | BankStack | v17.1 | BankStackDB | Done | Sort/stack. Fixed bank-bag range 8–11, OnUpdate `arg1`→`elapsed`, tooltip re-owning, nil-safety. Runtime-tested (used by Bagnon sort button). |
+| Stubby | 5.8.4723 | StubbyConfig | Static-only + audited | Auctioneer boot/hook library (hard dep of Auc-Advanced). Deep audit done — 4 bugs fixed, incl. an `unpack` over a table with a hole that made every negative-position hook silently fail, and an `unhookFrom` that could never succeed. |
+
+### DataStore family — character data library (author: Thaoky) — **Static-only + audited**
+
+Added 2026-10-01. All 17 `.toc` files already declared `## Interface: 30300` and
+`## DefaultState: disabled` (the author's opt-in packaging, left as-is); every module except the
+core declares `## Dependencies: DataStore`. Deep audit done — 32 bugs fixed across 13 folders, see
+[Deep-audit findings](#deep-audit-findings).
+
+| Folder | Ver | SavedVariables | Status | Notes |
+|---|---|---|---|---|
+| DataStore | 3.3.001 | DataStoreDB | Static-only + audited | Module registry, guild comm, character/guild key mapping. 2 bugs fixed. |
+| DataStore_Achievements | 3.3.001 | DataStore_AchievementsDB | Static-only + audited | 4 fixed, incl. the `\[` escape the static gate caught. |
+| DataStore_Auctions | 3.3.001 | DataStore_AuctionsDB | Static-only + audited | 1 fixed (`OnDisable` event leak). |
+| DataStore_Characters | 3.3.001 | DataStore_CharactersDB | Static-only + audited | 3 fixed, incl. a NaN XP rate at max level. |
+| DataStore_Containers | 3.3.001 | DataStore_ContainersDB | Static-only + audited | 4 fixed, all nil-guards around `GetThisGuild()`. |
+| DataStore_Crafts | 3.3.002 | DataStore_CraftsDB | Static-only + audited | 3 fixed, all first-`TRADE_SKILL_SHOW` nil cases. |
+| DataStore_Currencies | 3.3.001 | DataStore_CurrenciesDB | Static-only + audited | 3 fixed, incl. a re-entrant scan. |
+| DataStore_Inventory | 3.3.002 | DataStore_InventoryDB | Static-only + audited | 5 fixed, incl. the NaN that corrupts its own SavedVariables file. |
+| DataStore_Mails | 3.3.001 | DataStore_MailsDB | Static-only + audited | 1 fixed (nil sender in the `ReturnInboxItem` hook). |
+| DataStore_Pets | 3.3.001 | DataStore_PetsDB | Static-only + audited | 2 fixed (sparse list, `OnDisable` leak). |
+| DataStore_Quests | 3.3.001 | DataStore_QuestsDB | Static-only + audited | 4 fixed, incl. reward `isUsable` always reading false. |
+| DataStore_Reputations | 3.3.001 | DataStore_ReputationsDB | Static-only + audited | No defects found, no changes. |
+| DataStore_Skills | 3.3.002 | DataStore_SkillsDB | Static-only + audited | 1 fixed (shadowed `self` in the chat handler). |
+| DataStore_Spells | 3.3.001 | DataStore_SpellsDB | Static-only + audited | 1 fixed (stale-index nil guard). |
+| DataStore_Stats | 3.3.001 | DataStore_StatsDB | Static-only + audited | 2 fixed (leaked `_`, unfiltered `UNIT_INVENTORY_CHANGED`). |
+| DataStore_Talents | 3.3.001 | DataStore_TalentsDB | Static-only + audited | 6 fixed — the worst folder in the family. One return-arity claim held pending a client. |
 | AllStats | 1.1 | — | Static-only + audited | Paperdoll stats panel. No changes. One `PaperDollFrame_Set*` signature claim held pending a client — see [Needs a client](#needs-a-client). |
 | !Swatter | 5.8.4723 | SwatterData | Static-only + audited | Error catcher (Auctioneer lib). Fixed realm-suffix gsub `\.`→`%.` and a stale-error-id check. One `UIParent_OnEvent` signature claim held pending a client. |
 
@@ -116,20 +143,21 @@ Ordered by value, given no in-game client.
   Ran as 4 parallel audits: (1) Auctioneer suite — **cancelled before it reported, still un-audited**, (2) ~~AtlasLoot family~~ **done, 6 fixed**, (3) ~~Altoholic~~ **done, 17 fixed**, (4) ~~AckisRecipeList+Baggins+AllStats+!Swatter~~ **done, 20 fixed** (plus 1 in Auc-Filter-Basic).
   Findings + fixes are appended to [Deep-audit findings](#deep-audit-findings) below and to MODERNIZATION_LOG.md.
   Every finding is re-read against the source in the main thread before any fix is applied — audit reports are leads, not authority.
+- **Deep audit of Stubby + the 17 DataStore folders** — **done 2026-10-01, 36 bugs fixed.** Ran as 4 parallel audits: (1) DataStore core + Stubby, (2) Achievements/Auctions/Characters/Containers, (3) Crafts/Currencies/Inventory/Mails, (4) Pets/Quests/Reputations/Skills/Spells/Stats/Talents. Scoped to addon logic only — pure data/locale/SavedVariables files were excluded on the user's instruction. Gate 4/4 green afterwards (624 Lua files).
 
 ### Queued (actionable without a client)
 1. ~~Apply + verify confirmed high/med bugs from the deep audit; re-run `node all.js`~~ — **done for every audited addon**, gate 4/4 green. Remaining: the Auctioneer suite, and the two findings under [Needs a client](#needs-a-client).
 2. **AtlasLoot Phase 6** — UI modernize. ~~Confirm data modules load lazily (LoD), not at startup~~ — **verified correct, no change needed**: all 5 data modules carry `## LoadOnDemand: 1`, and the one startup path that would force them in (`AtlasLoot.lua:361`) is behind the `LoadAllLoDStartup` profile option, which defaults to `false` (`AtlasLoot.lua:109`). The other `AtlasLoot_LoadAllModules()` calls are user-initiated (search across all modules, browser buttons) or a one-time wishlist migration for pre-4.03.01 SavedVariables.
-3. **Auctioneer Phase 7** — scan stability, duplicate-scan prevention, caching, error recovery, respect AH throttle. Guard for missing **Stubby**.
+3. **Auctioneer Phase 7** — scan stability, duplicate-scan prevention, caching, error recovery, respect AH throttle. Stubby is now present and audited, so the boot-stub path is live rather than missing.
 4. Optional runtime scenarios in `_dev` to actually *execute* the static-only addons (auction/tradeskill/DataStore mocks — real work, no catch-all in mock by design).
-5. Guard Altoholic against absent DataStore so it degrades instead of hard-crashing (or document that DataStore folders must be added).
+5. ~~Guard Altoholic against absent DataStore~~ — **moot**: the DataStore family was added 2026-10-01, so Altoholic's hard dependency chain resolves. No guards needed (and they were rejected on the same grounds in the Altoholic audit).
 
 ### Blocked (need folders added to workspace)
 - Phase 4 leveling integration (Carbonite + EveryQuest + Zygor + TomTom): EveryQuest/Zygor/TomTom absent.
 - Phase 5 EveryQuest improvements: absent.
 - Phase 8 Postal: absent.
 - Phases 9–11 dungeon/raid (GearScore, Grid2, PowerAuras, Quartz, Recount): all absent.
-- Complete auction suite (BeanCounter, Enchantrix, Informant, Stubby): absent.
+- Complete auction suite (BeanCounter, Enchantrix, Informant): absent. **Stubby added 2026-10-01.**
 
 ### Always-outstanding
 - **In-game testing** of everything (see MODERNIZATION_LOG "What still needs a real client").
@@ -247,14 +275,95 @@ The Auctioneer audit was cancelled before it reported. The suite (`Auc-Advanced`
 modules, aside from the one `Auc-Filter-Basic` fix above) is un-audited beyond the static gate.
 Phase 7 in the work queue still stands.
 
+### Stubby — audit complete, 4 bugs fixed
+
+| File:line | Severity | Problem | Fix | State |
+|---|---|---|---|---|
+| `Stubby.lua:314` | **high** | `callRunner` did `unpack(callDetail)`. For a **negative-position** hook, `hookCall` writes `callDetail[3] = retVal` while `retVal` is still nil, leaving a hole at [3]; `#callDetail` is then 2, `unpack` yields two values, and `callParams` is nil, so the next line errors. Negative positions are what real callers use (`Auc-Advanced/CoreMain.lua:205` at -200, `Auc-Util-AskPrice/AskPrice.lua:74` at -200 on `ChatFrame_OnEvent`, `Auc-Util-SimpleAuction/SimpFrame.lua:1281` at -300). The surrounding `xpcall` swallows the error, so the hook silently never ran and the user got "Error while calling hook" spam. | `unpack(callDetail, 1, 4)`. | Fixed |
+| `Stubby.lua:478` | **high** | `unhookFrom` was broken three ways: it compared the global against `origFuncs[...]` although after `hookInto` the global holds the *wrapper*, so the guard was always false and the function always returned error 3; inside that dead branch it rebound the string name to the function object and used it as a table key, clearing entries that do not exist; and it never restored the global. | Compare against `config.hooks.functions[triggerFunction]`, `setglobal` the original back, then clear both tables by their string key. | Fixed |
+| `Stubby.lua:429` | medium | When the loadstring'd chunk bails out because the target is not a function, `hookInto` fell through, wrote `origFuncs[tf] = <non-function>` and **returned 0 = success**. `registerFunctionHook` then reported success for a hook that was never installed — exactly the case that arises when boot code names a function that does not exist on 3.3.5. | Check `type(Stubby_OldFunction) == "function"` after running the chunk and return error 5 otherwise. | Fixed |
+| `Stubby.lua:545-567` | medium | `local insertPos = tonumber(position) or 200` normalised the slot, but `p = position` stored the **raw** value and the collision loop compared the raw `position`. With `position` nil (the file's own header documents it as defaulting) the comparison raises "attempt to compare nil with number", and `func.p` stays nil so `hookCall:340` (`func.p >= 0`) errors on *every* invocation of the hooked function. | Use `insertPos` in both `funcObj` constructors and in the loop comparison. | Fixed |
+| `Stubby.lua:372` | low | `returns = true` — an undeclared global written on every `setreturn` and read nowhere in the file. | Deleted. | Fixed |
+
+**Rejected.** `RunScript` at `:916` is a real 3.3.5 API (corroborated by a captured 3.3.5 stack trace
+in `!Swatter/Swatter.lua:311`) and was added to `known.txt`. `StubbyConfig = {}` at file scope is
+correct — SavedVariables are restored after the addon's Lua runs. `Stubby.xml`'s
+`Stubby.Events(event, ...)` is already the 3.3.5 model. `getglobal` is deprecated but present in
+3.3.5. The `pairs()` mutations at `:688`, `:736`, `:613` and `:831` only assign nil to an existing
+field, which Lua 5.1 permits during traversal.
+
+### DataStore family — audit complete, 32 bugs fixed across 13 folders
+
+| File:line | Severity | Problem | Fix | State |
+|---|---|---|---|---|
+| `DataStore_Inventory.lua:165` | **high** | `averageItemLvl = totalItemLevel / itemCount` with `itemCount` 0 whenever only a shirt/tabard is equipped, or when every `GetInventoryItemLink` returns nil (which happens on `PLAYER_ALIVE` during a loading screen). `0/0` is NaN, and NaN written to SavedVariables makes the whole `DataStore_InventoryDB` file unparseable on the next login. | `(itemCount > 0) and (totalItemLevel / itemCount) or 0`, matching the file's own `or 0` idiom. | Fixed |
+| `DataStore_Talents.lua:204` | **high** | `glyphID` declared once outside both loops and only reassigned inside `if link then`, so an empty socket kept the previous socket's id and the `glyphID or 0` below preserved it. Every empty socket after a filled one was stored as a duplicate of the last filled one. | Reset `glyphID = nil` at the top of each socket iteration. | Fixed |
+| `DataStore_Talents.lua:161` | **high** | `prereqTier, prereqColumn = GetTalentPrereqs(...)` with no `local` — two leaked globals written for every talent of every tab on every `PLAYER_ALIVE`. | `local prereqTier, prereqColumn`. | Fixed |
+| `DataStore_Talents.lua:277` | **high** | `_GetTreeInfo` guarded `if t then`, but `t` comes from an AceDB `['*']` default and is never nil — the guard was dead. `t.icon`/`t.background` *are* nil whenever the tab did not exist when the class reference was captured, and both are concatenated. | Guard the fields instead: `if t.icon and t.background then`. | Fixed |
+| `DataStore_Talents.lua:106` | medium | `GetTalentTabInfo(tabNum, nil, nil, 2)` returns nil for a character without dual spec; `name .. "|" .. specNum` then errors, and `table.insert(points, nil)` is a no-op that mis-aligns `PointsSpent` so `_GetNumPointsSpent`'s `index + (specNum-1)*3` reads the wrong tree. | `table.insert(points, pointsSpent or 0)` to keep the fixed layout, and wrap the talent loop in `if name then`. | Fixed |
+| `DataStore_Talents.lua:329, 287` | medium | `for treeName in _GetClassTrees(character.Class)` — `_GetClassTrees` returns **nil** when `ref.Order` is nil (the author's own TODO sits on that line), so the generic-for raises "attempt to call a nil value". `strsplit(",", character.PointsSpent)` is also nil for a sub-10 character. | Hoist the iterator into a local and early-return when it, or `PointsSpent`, is missing. Same at `_GetTreeNameByID`. | Fixed |
+| `DataStore_Containers.lua:354` | **high** | `ScanGuildBankInfo` did `thisGuild.Tabs[tabID]` with no nil check, while `ScanContainer` at `:271` — same file, same tick, reached from the same `GUILDBANKBAGSLOTS_CHANGED` handler — already guards it. | `if not thisGuild then return end`. | Fixed |
+| `DataStore_Containers.lua:760` | **high** | The `MSG_BANKTAB_TRANSFER` comm callback iterated `guild.Tabs` unguarded. It runs on an incoming guild whisper, i.e. on data the local player does not control. | `if not guild then return end`. | Fixed |
+| `DataStore_Containers.lua:161` | medium | `SaveBankTimestamps` opened with `strlen(timestamps)` on wire data; the sender's `GetBankTimestamps` returns nil when the guild bank has never been visited, and the sibling sender at `:722` guards for exactly that reason. | `if not timestamps or strlen(timestamps) == 0 then return end`. | Fixed |
+| `DataStore_Characters.lua:143` | **high** | `_GetColoredCharacterName` concatenated `ClassColors[character.englishClass] .. character.name`; both are nil for an entry that exists but was never scanned, and AceDB's `['*']` default manufactures exactly such an entry on any key read. `Altoholic/Frames/Tooltip.lua:194` already expects the miss. | `or ""` on both, and on `_GetClassColor`. | Fixed |
+| `DataStore_Characters.lua:180` | medium | `_GetXPRate` is `floor((character.XP / character.XPMax) * 100)` with no guard: nil `XPMax` errors, and at max level `UnitXPMax` is 0 so `0/0` prints as `-nan%`. Siblings `_GetXP`/`_GetXPMax` both use `or 0`. | Early-return 0 when `XPMax` is nil or 0; same guard applied to `_GetRestXPRate`. | Fixed |
+| `DataStore_Crafts.lua:487` | **high** | `link:match(...)` on `GetTradeSkillRecipeLink`, which is nil while the tradeskill is not fully cached — the state on the first `TRADE_SKILL_SHOW`. The sibling idiom is eight lines up at `:448`. | `(link and tonumber(link:match("enchant:(%d+)"))) or 0`. | Fixed |
+| `DataStore_Crafts.lua:327` | **high** | `SetTradeSkillSubClassFilter(subClassID-1, …)` — `GetSubClassID` falls off the end and returns nil when no subclass filter matched, so the arithmetic errors and the user's tradeskill filters are never restored. Its twin two lines down already writes `invSlotID = invSlotID or 1`. | `subClassID = subClassID or 1`. | Fixed |
+| `DataStore_Crafts.lua:397` | medium | `ScanCooldowns` used `GetTradeSkillLine()` unguarded: nil raises "table index is nil" through the AceDB metatable, and `"UNKNOWN"` silently creates a bogus profession row that Altoholic then displays. `ScanRecipes:468` has the guard. | Copied the sibling guard. | Fixed |
+| `DataStore_Currencies.lua:60` | medium | `ScanCurrencies` is the `CURRENCY_DISPLAY_UPDATE` handler and calls `ExpandCurrencyList`, which re-fires that event — a re-entrant rescan with no guard. `DataStore_Crafts.lua:528` documents this exact hazard. | A file-local `isScanning` flag in the handler. | Fixed |
+| `DataStore_Currencies.lua:102, 147` | low | `_` missing from both `local` lists, so both public mixins write the global `_`. | Added to both declarations. | Fixed |
+| `DataStore_Inventory.lua:142` | medium | `function ScanInventory()` with no `local` — a very generic leaked global, where every sibling scanner in the family is local. | `local function`. | Fixed |
+| `DataStore_Inventory.lua:92` | medium | `format("%s:%d", UnitName("player"), ail)` with `ail` unguarded, although the same function guards the alt case eight lines later. Runs on `DATASTORE_GUILD_ALTS_RECEIVED` at every login. | `ail or 0`. | Fixed |
+| `DataStore_Inventory.lua:228` | medium | When the member is offline **and** the player is not in a guild, the early return is skipped and `sentRequests[nil] = time()` raises "table index is nil". | `if not main then return end`. | Fixed |
+| `DataStore_Inventory.lua:174`, `DataStore_Stats.lua:141` | medium | Both `UNIT_INVENTORY_CHANGED` handlers ignored the unit argument and rescanned the player for events fired by pets, party members and targets — constant churn in a raid. | `(event, unit)` with `if unit == "player"`, matching `DataStore_Mails`' `OnBagUpdate(event, bag)`. | Fixed |
+| `DataStore_Mails.lua:551` | medium | `strlower(mailSender)` in the `ReturnInboxItem` hook — `GetInboxHeaderInfo` returns a nil sender for system/GM mail and mail from deleted characters, and the error aborts the return for every addon in the client. `ScanMailbox:183` already tolerates a nil sender. | `local senderName = mailSender or ""`. | Fixed |
+| `DataStore_Achievements.lua:200` | medium | `"|h\[%s\]|h"` — `\[` is not a valid Lua 5.1 escape. Behaviour was already correct (the client drops the backslash); the edit stops `check.js` gating. | `"|h[%s]|h"`. | Fixed |
+| `DataStore_Achievements.lua:45` | medium | `format("%d:%d:%d", month, day, year)` with no nil check. `ACHIEVEMENT_EARNED` forces `isCompleted = true` regardless, so if the client has not yet flagged the achievement the date trio is nil and `%d` errors. `_GetAchievementLink:173` already tolerates a missing completion date. | Wrapped in `if month then`. | Fixed |
+| `DataStore_Achievements.lua:73` | medium | `month`, `day`, `year` were leaked globals, written for every achievement of every category on every `PLAYER_ALIVE`. | Added to the `local` declaration. | Fixed |
+| `DataStore_Achievements.lua:78` | medium | `GetAchievementInfo` returns nil for a filtered or unavailable index, and `ScanSingleAchievement(nil, …)` then does `Achievements[nil] = true`. | `if achievementID then` around the body, and `break` in the progressive-achievement walk. | Fixed |
+| `DataStore_Quests.lua:265` | medium | `isUsable = (isUsable and isUsable == 1)` — `isUsable` comes from `strsplit`, so it is the string `"1"` and never the number. The comparison was always false: every quest reward was reported as unusable. | `isUsable = (isUsable == "1")`. | Fixed |
+| `DataStore_Quests.lua:237`, `DataStore_Spells.lua:36` | medium | `strsplit("|", …)` on a possibly-nil cached entry (a stale index after the list shrank). Siblings at `DataStore_Quests.lua:257` and `DataStore_Reputations.lua:40` show the shape. | Early return on nil. | Fixed |
+| `DataStore_Pets.lua:37` | medium | The `if modelID and name …` guard skipped index `i` rather than compacting, leaving holes. `#pets` is undefined on a sparse array and stops at the first hole, so `_IsPetKnown` under-reported mounts and companions. `DataStore_Spells.lua:92` already uses `table.insert`. | `table.insert(list, …)`. | Fixed |
+| `DataStore_Stats.lua:61` | medium | `_, t[i] = UnitResistance("player", i)` — no `local`, so the global `_` is written six times per scan. | `local _, total` then `t[i] = total`. | Fixed |
+| `DataStore.lua:263` | medium | `arg1 = owner.Characters[arg1]` then `arg1.lastUpdate` with no nil check, although the guild sibling nine lines below already has it. This metatable is the entry point for *every* `DataStore:GetXXX(character, …)` call, and `DataStore:GetCharacter()` legitimately returns nil for an unknown key. | `if not arg1 or not arg1.lastUpdate then return end`. | Fixed |
+| `DataStore.lua:291` | medium | `GUILD_ROSTER_UPDATE`, `CHAT_MSG_SYSTEM` and `RegisterComm` were registered only if `IsInGuild()` was true at `OnEnable`. A player who joins a guild mid-session got no roster indexes, no online tracking and no alt broadcast for the rest of the session, although `OnPlayerGuildUpdate` is written to handle joining. `OnDisable` also left the comm registered. | Extracted `RegisterGuildEvents()` (forward-declared) and call it from both `OnEnable` and `OnPlayerGuildUpdate`; added `UnregisterComm` to `OnDisable`. | Fixed |
+| `DataStore_Skills.lua:195`, `DataStore_Achievements.lua:242` | low | `function addon:CHAT_MSG_SKILL(self, msg)` / `addon:ACHIEVEMENT_EARNED(self, id)` — the explicit `self` shadows the colon's implicit one and absorbs the event name. Both work (the bodies reach `addon` directly) but it is the same shape as the Altoholic `ns:OnChange` bug. | Renamed to `event`, matching `DataStore_Reputations.lua:170`. | Fixed |
+| `DataStore_Quests.lua:340`, `DataStore_Pets.lua:144`, `DataStore_Auctions.lua:143`, `DataStore_Containers.lua:814` | low | Each `OnDisable` omitted events its own `OnEnable` (or an on-demand handler) had registered, so handlers kept firing after the module was disabled. | Added the missing `UnregisterEvent` calls. | Fixed |
+| `DataStore/Export/ExportToXML.lua:156, 274, 479` | low (offline) | Not an addon file — absent from `DataStore.toc`, run as a standalone desktop lua5.1 script via `go.bat`. `BottomLevels[bottom]` is nil for any non-threshold value and `format("%s", nil)` errors in 5.1; `CompletionDates[index]:match(...)` indexes a date that may not exist; and the guild-bank tab exporter computed an item name and then emitted the raw id, where its twin at `:228` emits the name. | `or "Unknown"`, a `completionDate` guard matching `DataStore_Achievements.lua:173`, and `text` instead of `itemID`. | Fixed |
+
+**Rejected.** Guards for `DataStore` being absent (every module has a hard `## Dependencies`
+plus a line-1 early return). The header walkers in Quests/Reputations/Skills/Crafts/Currencies —
+all save state, expand descending so revealed rows land at already-passed indices, and restore;
+correct as written. `pairs()` value mutations in Quests, Skills, Containers, Crafts and Stubby —
+Lua 5.1 permits replacing a value or clearing an existing key during traversal. `DataStore_Quests`'
+`QuestFrameCompleteQuestButton` hook — both names are genuine 3.3.5 FrameXML, corroborated by
+`Carbonite.lua:11393`. `DataStore_Currencies:152 if isHeader == "1"` — misleading name, correct
+logic. No `arg1`/`arg2`/`this`/`ChatFrameEditBox` anywhere in the family.
+
+**Deferred.** `DataStore_Containers.lua:512` computes a container cooldown from a `GetTime()`
+value persisted to SavedVariables; `GetTime()` is session uptime, so after a relog the stored
+start time is from a different epoch and the remaining time is meaningless. Fixing it means
+storing `time()` alongside and migrating the database — recorded, not half-fixed, the same call as
+`Altoholic/Profiler.lua:48`. `DataStore/Options.lua:161` runs a full `collectgarbage()` on every
+panel `OnShow` (a visible hitch, not a defect). `GetSpellInfo(spellID)` is fed unguarded into
+`format("%s")` in Pets, Talents and four places in Crafts — a real nil risk with no sibling guard
+anywhere in the family to copy, so it is recorded rather than guessed at.
+
+**Not changed: `## DefaultState: disabled`.** Present identically in all 17 DataStore `.toc` files
+*and* in `Altoholic.toc`. That is the author's packaging choice — the modules are opt-in and the
+user enables them alongside Altoholic — not an install defect.
+
 ### Needs a client
 
-Two findings are behaviour-critical if the underlying API claim is wrong, and neither can be
-settled from the source in this workspace. Both are recorded rather than applied:
+Three findings are behaviour-critical if the underlying API claim is wrong, and none can be
+settled from the source in this workspace. All are recorded rather than applied:
 
 1. **AllStats — `PaperDollFrame_Set*` signatures.** Claim: 3.3.5 passes `(statFrame, unit, statIndex)`.
 2. **`!Swatter/Swatter.lua:122` — `UIParent_OnEvent`.** Claim: 3.3.5 calls it as `(self, event, ...)`,
    not `(etype, ...)`. Swatter hooks this function, so a wrong signature here breaks the hook chain
    for every addon in the client.
+3. **`DataStore_Talents.lua:211` — `GetGlyphSocketInfo` return arity.** The code reads four values.
+   If WotLK returns five (`enabled, glyphType, glyphTooltipIndex, glyphSpell, iconFilename`) then
+   `spell` and `icon` are off by one and `enabled` may be a boolean the concatenation below rejects.
 
 Verify each against a real 3.3.5 `FrameXML` dump or a running client before changing anything.

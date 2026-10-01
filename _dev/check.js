@@ -80,6 +80,30 @@ function collectXml(addon, xmlPath, out) {
 // use "$parent" for the nearest named ancestor. check.js only reads Lua, so without this every
 // XML-declared frame (and every "$parentTab2" child) shows up as an undefined global. Walk the
 // tag stream, resolve "$parent" against a stack of ancestor names, and register the result.
+// Inheriting a FrameXML template also inherits that template's named children, which become
+// "<ownName><suffix>" globals the addon then addresses directly (DataStoreMailOptions_SliderMailExpiryLow).
+// Those children exist only in Blizzard's XML, which check.js never reads, so they looked undefined.
+// This table is per-template on purpose rather than a blanket "any suffix after a known name": a
+// catch-all would also swallow genuine typos, which is the only thing this check exists to find.
+const TEMPLATE_CHILDREN = {
+  optionsslidertemplate: ['Low', 'High', 'Text'],
+  optionsbaseslidertemplate: ['Low', 'High', 'Text'],
+  uicheckbuttontemplate: ['Text'],
+  optionscheckbuttontemplate: ['Text'],
+  optionssmallcheckbuttontemplate: ['Text'],
+  interfaceoptionscheckbuttontemplate: ['Text'],
+  interfaceoptionssmallcheckbuttontemplate: ['Text'],
+  uiradiobuttontemplate: ['Text'],
+  uipanelbuttontemplate: ['Text'],
+  uipanelbuttontemplate2: ['Text'],
+  gamemenubuttontemplate: ['Text'],
+  inputboxtemplate: ['Left', 'Middle', 'Right'],
+  uidropdownmenutemplate: ['Button', 'Text', 'Left', 'Middle', 'Right'],
+  uipanelscrollframetemplate: [
+    'ScrollBar', 'ScrollBarScrollUpButton', 'ScrollBarScrollDownButton', 'ScrollBarThumbTexture',
+  ],
+};
+
 function collectXmlNames(src) {
   const stack = [];   // resolved name (or null) per open element, innermost last
   const tag = /<(\/?)([A-Za-z][\w]*)([^>]*?)(\/?)>/g;
@@ -92,7 +116,15 @@ function collectXmlNames(src) {
     if (na) {
       const parent = [...stack].reverse().find(Boolean);
       name = parent ? na[1].replace(/\$parent/g, parent) : na[1].replace(/\$parent/g, '');
-      if (/^[A-Za-z_][\w]*$/.test(name)) defined.add(name);
+      if (/^[A-Za-z_][\w]*$/.test(name)) {
+        defined.add(name);
+        const inh = /\binherits\s*=\s*"([^"]+)"/i.exec(attrs);
+        for (const tpl of inh ? inh[1].split(',') : []) {
+          for (const suffix of TEMPLATE_CHILDREN[tpl.trim().toLowerCase()] || []) {
+            defined.add(name + suffix);
+          }
+        }
+      }
     }
     if (!selfClose) stack.push(name);
   }

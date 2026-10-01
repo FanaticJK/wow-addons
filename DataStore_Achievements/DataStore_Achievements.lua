@@ -42,7 +42,9 @@ local function ScanSingleAchievement(id, isCompleted, month, day, year)
 	
 	if isCompleted then
 		Achievements[id] = true		-- true when completed, all criterias are completed thus
-		addon.ThisCharacter.CompletionDates[id] = format("%d:%d:%d", month, day, year)
+		if month then		-- the date trio may not be available yet on ACHIEVEMENT_EARNED
+			addon.ThisCharacter.CompletionDates[id] = format("%d:%d:%d", month, day, year)
+		end
 		return
 	end
 
@@ -70,24 +72,29 @@ local function ScanAllAchievements()
 	wipe(addon.ThisCharacter.Achievements)
 	
 	local cats = GetCategoryList()
-	local achievementID, achCompleted
+	local achievementID, achCompleted, month, day, year
 	local prevID
-	
+
 	for _, categoryID in ipairs(cats) do
 		for i = 1, GetCategoryNumAchievements(categoryID) do
 			achievementID, _, _, achCompleted, month, day, year = GetAchievementInfo(categoryID, i);
-			ScanSingleAchievement(achievementID, achCompleted, month, day, year)
-			
-			-- track previous steps of a progressive achievements
-			prevID = GetPreviousAchievement(achievementID)
-			
-			while type(prevID) ~= "nil" do
-				achievementID, _, _, achCompleted, month, day, year = GetAchievementInfo(prevID);
+
+			if achievementID then		-- nil for a filtered or unavailable index
 				ScanSingleAchievement(achievementID, achCompleted, month, day, year)
+
+				-- track previous steps of a progressive achievements
 				prevID = GetPreviousAchievement(achievementID)
+
+				while type(prevID) ~= "nil" do
+					achievementID, _, _, achCompleted, month, day, year = GetAchievementInfo(prevID);
+					if not achievementID then break end
+
+					ScanSingleAchievement(achievementID, achCompleted, month, day, year)
+					prevID = GetPreviousAchievement(achievementID)
+				end
 			end
 		end
-	end	
+	end
 end
 
 local function ScanProgress()
@@ -197,7 +204,7 @@ local function _GetAchievementLink(character, achievementID)
 	
 	local _, name = GetAchievementInfo(achievementID)
 	
-	return format("|cffffff00|Hachievement:%s:%s:%s:%s|h\[%s\]|h|r", achievementID, character.guid, completion, criterias, name)
+	return format("|cffffff00|Hachievement:%s:%s:%s:%s|h[%s]|h|r", achievementID, character.guid, completion, criterias, name)
 end
 
 local PublicMethods = {
@@ -239,7 +246,7 @@ function addon:PLAYER_ALIVE()
 	addon.ThisCharacter.guid = strsub(UnitGUID("player"), 3)	-- get rid at the 0x at the beginning of the string
 end
 
-function addon:ACHIEVEMENT_EARNED(self, id)
+function addon:ACHIEVEMENT_EARNED(event, id)
 	if id then
 		local _, _, _, achCompleted, month, day, year = GetAchievementInfo(id)
 		ScanSingleAchievement(id, true, month, day, year)

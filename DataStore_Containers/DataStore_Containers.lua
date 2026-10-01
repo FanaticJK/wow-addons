@@ -158,7 +158,7 @@ local function GetBankTimestamps(guild)
 end
 
 local function SaveBankTimestamps(sender, timestamps)
-	if strlen(timestamps) == 0 then return end	-- sender has no tabs
+	if not timestamps or strlen(timestamps) == 0 then return end	-- sender has no tabs, or has never visited the guild bank
 	
 	guildMembers[sender] = guildMembers[sender] or {}
 	wipe(guildMembers[sender])
@@ -352,6 +352,8 @@ end
 local function ScanGuildBankInfo()
 	-- only the current tab can be updated
 	local thisGuild = GetThisGuild()
+	if not thisGuild then return end		-- same guard as ScanContainer: nil in the post-login window
+
 	local tabID = GetCurrentGuildBankTab()
 	local t = thisGuild.Tabs[tabID]	-- t = current tab
 
@@ -756,7 +758,8 @@ local GuildCommCallbacks = {
 	[MSG_BANKTAB_TRANSFER] = function(sender, data)
 			local guildName = GetGuildInfo("player")
 			local guild	= GetThisGuild()
-			
+			if not guild then return end		-- a guildmate can send this right after we gquit, or during the login window
+
 			for tabID, tab in pairs(guild.Tabs) do
 				if tab.name == data.name then	-- this is the tab being updated
 					_ImportGuildBankTab(guild, tabID, data)
@@ -815,4 +818,10 @@ function addon:OnDisable()
 	addon:UnregisterEvent("BAG_UPDATE")
 	addon:UnregisterEvent("BANKFRAME_OPENED")
 	addon:UnregisterEvent("GUILDBANKFRAME_OPENED")
+	-- these four are registered on demand when a bank frame opens, and are still live
+	-- if the module is disabled while the bank or guild bank is open
+	addon:UnregisterEvent("BANKFRAME_CLOSED")
+	addon:UnregisterEvent("PLAYERBANKSLOTS_CHANGED")
+	addon:UnregisterEvent("GUILDBANKFRAME_CLOSED")
+	addon:UnregisterEvent("GUILDBANKBAGSLOTS_CHANGED")
 end

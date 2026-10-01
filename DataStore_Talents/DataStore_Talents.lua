@@ -104,12 +104,17 @@ local function ScanTalents()
 	for specNum = 1, 2 do												-- primary and secondary specs
 		for tabNum = 1, GetNumTalentTabs() do						-- all tabs
 			local name, _, pointsSpent = GetTalentTabInfo( tabNum, nil, nil, specNum );
-			table.insert(points, pointsSpent)
-			
-			for talentNum = 1, GetNumTalents(tabNum) do			-- all talents
-				local _, _, _, _, currentRank = GetTalentInfo( tabNum, talentNum, nil, nil, specNum )
 
-				char.TalentTrees[name .."|" .. specNum][talentNum] = currentRank
+			-- nil for spec 2 on a character without dual spec. Insert a placeholder rather than
+			-- skipping, or PointsSpent loses its fixed 3-entries-per-spec layout (see _GetNumPointsSpent).
+			table.insert(points, pointsSpent or 0)
+
+			if name then
+				for talentNum = 1, GetNumTalents(tabNum) do			-- all talents
+					local _, _, _, _, currentRank = GetTalentInfo( tabNum, talentNum, nil, nil, specNum )
+
+					char.TalentTrees[name .."|" .. specNum][talentNum] = currentRank
+				end
 			end
 		end
 	end
@@ -158,7 +163,7 @@ local function ScanTalentReference()
 			
 			ti.talents[talentNum] = id .. "|" .. nameTalent .. "|" .. iconPath .. "|" .. tier .. "|" ..  column .. "|" .. maximumRank
 			
-			prereqTier, prereqColumn = GetTalentPrereqs(tabNum, talentNum)		-- talent prerequisites
+			local prereqTier, prereqColumn = GetTalentPrereqs(tabNum, talentNum)		-- talent prerequisites
 			if prereqTier and prereqColumn then
 				ti.prereqs[talentNum] = prereqTier .. "|" .. prereqColumn
 			end
@@ -209,6 +214,7 @@ local function ScanGlyphs()
 			index = ((specNum - 1) * NUM_GLYPH_SLOTS) + i
 	      
 		   enabled, glyphType, spell, icon = GetGlyphSocketInfo(i, specNum)
+			glyphID = nil						-- reset, or an empty socket keeps the previous socket's id
 			link = GetGlyphLink(i, specNum)
 			if link then
 				_, glyphID = link:match("glyph:(%d+):(%d+)")
@@ -274,7 +280,9 @@ end
 local function _GetTreeInfo(class, tree)
 	local t = _GetTreeReference(class, tree)
 	
-	if t then
+	-- t is never nil (AceDB '*' default), but icon/background are unset if the spell tab
+	-- did not exist yet when the class reference was captured (see ScanTalentReference)
+	if t.icon and t.background then
 		return TALENT_ICON_PATH..t.icon, BACKGROUND_PATH .. t.background
 	end
 end
@@ -283,8 +291,11 @@ local function _GetTreeNameByID(class, id)
 	-- returns the name of tree "id" for a given class
 	assert(type(class) == "string")
 	
+	local trees = _GetClassTrees(class)
+	if not trees then return end
+
 	local index = 1
-	for name in _GetClassTrees(class) do
+	for name in trees do
 		if index == id then
 			return name
 		end
@@ -325,8 +336,11 @@ local function _GetActiveTalents(character)
 end
 
 local function _GetNumPointsSpent(character, tree, specNum)
+	local trees = character.Class and _GetClassTrees(character.Class)
+	if not trees or not character.PointsSpent then return 0 end
+
 	local index = 1
-	for treeName in _GetClassTrees(character.Class) do
+	for treeName in trees do
 		if treeName == tree then
 			break
 		end

@@ -324,6 +324,7 @@ end
 
 local function RestoreActiveFilters()
 	-- Subclasses
+	subClassID = subClassID or 1		-- GetSubClassID returns nil if no subclass filter matched
 	SetTradeSkillSubClassFilter(subClassID-1, 1, 1)	-- this checks the previously checked value
 	
 	local frame = TradeSkillSubClassDropDown
@@ -396,6 +397,8 @@ end
 
 local function ScanCooldowns()
 	local tradeskillName = GetTradeSkillLine()
+	if not tradeskillName or tradeskillName == "UNKNOWN" then return end		-- same guard as ScanRecipes: do not create a bogus profession entry
+
 	local char = addon.ThisCharacter
 	local profession = char.Professions[tradeskillName]
 	
@@ -484,8 +487,8 @@ local function ScanRecipes()
 		if skillType == "header" then
 			craftInfo = skillName or ""
 		else
-			link = GetTradeSkillRecipeLink(i)
-			craftInfo = tonumber(link:match("enchant:(%d+)"))		-- this actually extracts the spellID
+			link = GetTradeSkillRecipeLink(i)		-- may be nil while the tradeskill is not fully cached
+			craftInfo = (link and tonumber(link:match("enchant:(%d+)"))) or 0		-- this actually extracts the spellID
 			NumCrafts = NumCrafts + 1
 		end
 		crafts[i] = color .. "|" .. craftInfo

@@ -47,6 +47,23 @@ The cross-addon summary of the pass (bug fixes, UI, performance, migration, test
 | `Auc-Stat-StdDev` | Norganna's AddOns | 5.8.4723 | Done, static only | Auctioneer stat module |
 | `Auc-Util-FixAH` | Norganna's AddOns | 5.8.4723 | Done, static only | Auctioneer AH-taint workaround |
 | `Baggins` | Nargiddley | r435 | Done, static only (needs in-game test) | Bag addon. `## Interface` bumped 30200 → 30300 |
+| `Stubby` | Norganna's AddOns | 5.8.4723 | Done, static only (needs in-game test) | Auctioneer boot/hook library. Four real hook bugs fixed |
+| `DataStore` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Core module registry + guild comm |
+| `DataStore_Achievements` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Bad `\[` escape + nil-date and leaked-global fixes |
+| `DataStore_Auctions` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | `OnDisable` event leak closed |
+| `DataStore_Characters` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Unscanned-character and max-level divide-by-zero guards |
+| `DataStore_Containers` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Three `GetThisGuild()` nil guards |
+| `DataStore_Crafts` | Thaoky | 3.3.002 | Done, static only (needs in-game test) | Recipe-link, subclass-filter and `ScanCooldowns` guards |
+| `DataStore_Currencies` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Re-entrant scan guard + leaked `_` |
+| `DataStore_Inventory` | Thaoky | 3.3.002 | Done, static only (needs in-game test) | NaN average item level fixed; `ScanInventory` made local |
+| `DataStore_Mails` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Nil sender in the `ReturnInboxItem` hook |
+| `DataStore_Pets` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Sparse pet list fixed |
+| `DataStore_Quests` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Reward `isUsable` always false; `OnDisable` leak |
+| `DataStore_Reputations` | Thaoky | 3.3.001 | Done, static only | No changes needed |
+| `DataStore_Skills` | Thaoky | 3.3.002 | Done, static only (needs in-game test) | Shadowed `self` in the chat handler |
+| `DataStore_Spells` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Stale-index nil guard |
+| `DataStore_Stats` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Leaked `_`; `UNIT_INVENTORY_CHANGED` now filtered to the player |
+| `DataStore_Talents` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Glyph carry-over, leaked globals, nil-iterator crashes |
 
 Status values: `Pending` → `In progress` → `Done (needs in-game test)` → `Verified in game`.
 
@@ -56,7 +73,7 @@ plus a clean pass through the scripted runtime harness in `_dev/`. See
 
 ## Where things stand
 
-Last worked on: **2026-09-28**.
+Last worked on: **2026-10-01**.
 
 - All six Bagnon-family addons have had the full pass. No addon is half-finished.
 - The four Carbonite folders had a **static-only** pass (see [Carbonite](#carbonite--334)):
@@ -66,6 +83,14 @@ Last worked on: **2026-09-28**.
   Carbonite: `check.js`/`run.js` load and parse them, but no runtime scenario drives them, so
   their code has not been *executed* here. Real bugs found were fixed; see
   [Per-addon details](#per-addon-details) and the checker notes below.
+- **2026-10-01: Stubby and the 17 DataStore folders added and given a static pass plus a deep
+  audit** (see [the 2026-10-01 pass](#2026-10-01-pass--stubby--datastore-deep-audit)). Same
+  standard as the two passes before it: static gate first, then a manual runtime read with every
+  candidate re-verified against the source. Their `.toc` files already declared `## Interface:
+  30300`, so no bump was needed.
+- **Altoholic's dependency chain resolves for the first time.** `Altoholic.toc` hard-depends on
+  `DataStore` plus all 16 modules; until these folders were added the client would have refused to
+  load it at all. Nothing in Altoholic changed — it simply has its dependencies now.
 - The Bagnon work is committed (`e1d8651`). The Carbonite folders and everything from the
   2026-09-28 pass (the 23 addon folders, their fixes, the `check.js` improvements and the
   expanded `known.txt`) are still **untracked or modified**; `git status` shows what is not
@@ -87,7 +112,7 @@ node all.js -v       # same, but shows each step's full output
 
 | Command | What it proves | Current result |
 |---|---|---|
-| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 501 files, 0 errors, 0 unknown globals |
+| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 624 files, 0 errors, 0 unknown globals |
 | `node run.js smoke.lua` | Fresh install: all six Bagnon-family addons load and the whole UI is driven (open/close, search, bag toggles, player switch, options panels, sort, guild bank, logout); every options panel fits the 3.3.5 options window | 133 checks, 0 failures |
 | `node run.js migrate.lua sv_legacy.lua` | A legacy 2.6.0 + partly corrupted SavedVariables file is repaired, migrated, and user data preserved across a save/load cycle | 50 checks, 0 failures |
 | `node run.js garbage.lua sv_garbage.lua` | Top-level SavedVariables that are not even tables (a string/number/false) are rebuilt without erroring, and the user is told | 7 checks, 0 failures |
@@ -554,12 +579,146 @@ No tests were written for any of this: the `_dev` harness has no way to execute 
 "What still needs a real client" below), and adding scenarios for the auction house, trade skill
 and DataStore APIs is the separate piece of work already listed under "What is left".
 
+### 2026-10-01 pass — Stubby + DataStore deep audit
+
+Eighteen new folders: `Stubby` and the DataStore family (`DataStore` plus its 16 modules). Same
+method as the two passes above — static gate first, then a manual read for defects that only
+appear when the code runs, with every candidate re-verified against the source before anything was
+changed. The `_dev` gate finished 4/4 green (624 Lua files parsed, 0 errors, 0 warnings,
+0 unknown globals). The per-file table with severities is in `ADDON_TRACKER.md` under "Deep-audit
+findings"; this section records the patterns and the judgement calls.
+
+**The `.toc` files needed nothing.** All 18 already declare `## Interface: 30300`, every listed
+file resolves, and every module except the core declares `## Dependencies: DataStore`. One hard
+static error existed: `DataStore_Achievements.lua:200` wrote the achievement hyperlink as
+`"|h\[%s\]|h"`. Lua 5.1 drops an unknown escape, so the output was already correct; the edit stops
+`check.js` gating and makes the intent unambiguous. Same class as the 2026-09-28 benign escape
+cleanups.
+
+**`## DefaultState: disabled` was left alone.** It is present identically in all 17 DataStore
+`.toc` files *and* in `Altoholic.toc`. That is Thaoky's packaging choice — the modules are opt-in
+and the user enables them alongside Altoholic — not an install defect, so nothing was changed.
+
+**Fourteen "undefined globals" turned out to be a checker gap, not addon bugs.** Names like
+`DataStoreMailOptions_SliderMailExpiryLow` are children created by an *inherited* Blizzard FrameXML
+template (`OptionsSliderTemplate` gives a slider `$parentLow`/`$parentHigh`/`$parentText`). Those
+children exist only in Blizzard's XML, which `check.js` never reads, so they looked undefined.
+`collectXmlNames` now expands a reviewed per-template `TEMPLATE_CHILDREN` table when it sees an
+`inherits=` attribute. It is deliberately per-template rather than a blanket "any suffix after a
+known name": a catch-all would also swallow genuine typos, which is the only thing this check
+exists to find. Consistent with the harness's documented no-catch-all rule. The remaining 66
+unknown names are real 3.3.5 APIs (combat ratings, arena, 3.0+ achievements and currency,
+trade-skill, mail, quest log, talents/glyphs, companions) and went into `known.txt` under a dated,
+grouped, commented section — reviewed by category, not appended blindly.
+
+**The recurring root causes are the same three as the 2026-09-30 pass**, which is itself a useful
+result: nil returns from client APIs that are only nil sometimes, globals that were meant to be
+locals, and events whose arguments are not what the handler assumes.
+
+The nil-return family is the largest. `GetThisGuild()` returns nil in the documented post-login
+window, and three call sites indexed it unguarded while the function *directly above* them already
+had the guard (`DataStore_Containers.lua:354` and `:760`, against the sibling at `:271`).
+`GetTradeSkillRecipeLink` is nil until the tradeskill is cached, which is exactly the state on the
+first `TRADE_SKILL_SHOW` (`DataStore_Crafts.lua:487`; the sibling idiom is eight lines up at
+`:448`). `GetSubClassID` falls off the end and returns nil when no filter matched, and its twin two
+lines down already wrote `invSlotID = invSlotID or 1`. In almost every case the fix was to make the
+outlier match its sibling rather than invent behaviour.
+
+Leaked globals: `prereqTier`/`prereqColumn` written for every talent of every tab
+(`DataStore_Talents.lua:161`), `month`/`day`/`year` written for every achievement of every category
+(`DataStore_Achievements.lua:73`), the global `_` written six times per stats scan
+(`DataStore_Stats.lua:61`) and twice in `DataStore_Currencies`, and `function ScanInventory()`
+without `local` — a very generic name any other addon can overwrite, where every sibling scanner in
+the family is local.
+
+Event-argument bugs: `function addon:CHAT_MSG_SKILL(self, msg)` and
+`function addon:ACHIEVEMENT_EARNED(self, id)` both declare an explicit `self` that shadows the
+colon's implicit one and absorbs the event name. Both happen to work, because the bodies reach
+`addon` directly, but they are the same shape as the Altoholic `ns:OnChange` bug from the previous
+pass and were renamed to `event`. `UNIT_INVENTORY_CHANGED` fires for *every* unit — pet, party,
+target, inspect — and both `DataStore_Stats` and `DataStore_Inventory` rescanned the player
+unconditionally on it; both now filter on `unit == "player"`, matching `OnBagUpdate(event, bag)` in
+`DataStore_Mails`.
+
+**Six bugs sit outside those patterns and are worth naming.**
+
+`DataStore_Inventory.lua:165` divided by `itemCount` with no guard. The count is 0 whenever nothing
+but a shirt or tabard is equipped, or when every `GetInventoryItemLink` returns nil — which happens
+on `PLAYER_ALIVE` during a loading screen. `0/0` is NaN, and NaN written to SavedVariables makes
+the whole `DataStore_InventoryDB` file unparseable on the next login. This is the only finding in
+the pass that could destroy user data.
+
+`DataStore_Talents.lua:204` declared `glyphID` once outside both loops and only reassigned it
+inside `if link then`. An empty socket left the *previous* socket's id in place, and the `glyphID or 0`
+below preserved it, so every empty socket after a filled one was stored as a duplicate of the last
+filled one. Any character with fewer than six glyphs per spec hit this.
+
+`DataStore_Quests.lua:265` read `isUsable = (isUsable and isUsable == 1)`, but `isUsable` came from
+`strsplit`, so it is the *string* `"1"` and never the number. The comparison was always false:
+`GetQuestLogRewardInfo` reported every reward as unusable.
+
+`DataStore_Pets.lua:37` skipped index `i` rather than compacting when `GetCompanionInfo` returned
+nil, leaving holes in the list. `#pets` is undefined on a sparse array and in practice stops at the
+first hole, so `_IsPetKnown` under-reported mounts and companions. `DataStore_Spells.lua:92`
+already used `table.insert` for the same shape.
+
+`Stubby/Stubby.lua:314` — `unpack(callDetail)` where `callDetail[3]` is nil for a
+**negative-position** hook. With a hole at [3] the length operator yields 2, `unpack` returns two
+values, and `callParams` is nil, so the next line errors. Negative positions are what real callers
+use (`Auc-Advanced/CoreMain.lua:205` at -200, `Auc-Util-AskPrice/AskPrice.lua:74` at -200 on
+`ChatFrame_OnEvent`, `Auc-Util-SimpleAuction/SimpFrame.lua:1281` at -300). The error is swallowed
+by the surrounding `xpcall`, so the hook silently never ran and the user got "Error while calling
+hook" spam instead. Now `unpack(callDetail, 1, 4)`.
+
+`Stubby/Stubby.lua:478` — `unhookFrom` was broken three ways at once. It compared the global
+against `origFuncs[...]`, but after `hookInto` the global holds the *wrapper*, so the condition was
+always false and the function always returned error 3. Inside that dead branch it rebound the
+string name to the function object and then used it as a table key, clearing entries that do not
+exist. And it never restored the global, so even a corrected guard would have left the wrapper
+installed. All three are fixed together.
+
+**What was deliberately not changed.**
+
+Guards for `DataStore` being absent were rejected, as in the previous pass: every module declares a
+hard `## Dependencies: DataStore` plus a redundant `if not DataStore then return end` on line 1.
+
+`DataStore_Containers.lua:512` computes a container cooldown as `duration - (GetTime() - startTime)`
+from a `startTime` persisted to SavedVariables. `GetTime()` is session uptime, so after any relog
+the stored value is from a different epoch and the remaining time is meaningless. Fixing it properly
+means storing `time()` alongside and migrating the database; it is recorded rather than half-fixed,
+the same call as `Altoholic/Profiler.lua:48` in the previous pass.
+
+`DataStore_Options.lua:161` calls `collectgarbage()` with no argument — a full collection on every
+`OnShow` of the panel. That is a visible hitch, not a defect, and was left.
+
+`GetSpellInfo(spellID)` is fed unguarded into `format("%s")` in `DataStore_Pets`, `DataStore_Talents`
+and four places in `DataStore_Crafts`. It is a real nil risk, but there is no sibling guard anywhere
+in the family to copy and the id always comes from a link the caller already read, so it is recorded
+rather than guessed at.
+
+**One finding is held pending a real client.** `DataStore_Talents.lua:211` reads
+`GetGlyphSocketInfo` as four return values. If WotLK returns five
+(`enabled, glyphType, glyphTooltipIndex, glyphSpell, iconFilename`) then `spell` and `icon` are off
+by one and `enabled` may be a boolean the concatenation below would reject. This cannot be settled
+without a real 3.3.5 `FrameXML` dump — same standing as the AllStats and `!Swatter` signature items
+from the 2026-09-30 pass.
+
+**`DataStore/Export/ExportToXML.lua` is not an addon file.** It is absent from `DataStore.toc` and
+runs as a standalone desktop lua5.1 script via `go.bat`. Three nil-dereferences that abort an export
+run were fixed anyway (`BottomLevels[bottom]`, `CompletionDates[index]:match(...)`), along with a
+guild-bank tab exporter that computed an item name and then emitted the raw id while its twin eight
+lines up emitted the name.
+
+No tests were written: the `_dev` harness cannot execute these addons (see "What still needs a real
+client"), and a DataStore scenario is the separate piece of work already listed under "What is left".
+
 ## What is left
 
 1. **In-game testing.** Everything below.
 2. Commit the Carbonite folders + fixes, the Bagnon_Config layout fix, the 2026-09-28 static pass
    (23 addon folders, the `check.js` improvements, the expanded `known.txt`) and the 2026-09-29 /
-   2026-09-30 deep-audit fixes — all untracked or modified.
+   2026-09-30 deep-audit fixes, plus the 2026-10-01 Stubby/DataStore pass (18 folders, the
+   `check.js` template-children change and the expanded `known.txt`) — all untracked or modified.
 3. Optional: runtime scenarios for the 2026-09-28 addons. Like Carbonite, they touch far more of
    the client API than the mock has (auction house, trade skill, calendar, DataStore), and the
    mock has no catch-all, so each new scenario is real work. Nothing in this suite has been
@@ -584,6 +743,10 @@ The harness cannot see any of this. Do not treat these as verified:
   AllStats and Baggins were parsed and statically checked, never executed. Their event flow,
   saved-variable handling, AH/trade-skill hooks and inter-addon `DataStore`/`Altoholic` handoffs
   are unverified. The static pass only proves the files load and reference real globals.
+- **Stubby and the DataStore family.** Same situation. In particular: Stubby's hook installation
+  and removal paths are now materially different code and nothing here can run them; the DataStore
+  guild comm (`RegisterComm`, guild-bank and alt broadcasts) needs two real clients in one guild;
+  and the `GetGlyphSocketInfo` return arity above needs a real client to settle.
 - **Taint.** No secure frames or protected calls are used anywhere in this workspace
   (`InCombatLockdown` appears nowhere because nothing needs it), but taint is only observable
   in a real client.

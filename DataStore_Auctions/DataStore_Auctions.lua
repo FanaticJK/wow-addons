@@ -142,6 +142,11 @@ end
 
 function addon:OnDisable()
 	addon:UnregisterEvent("AUCTION_HOUSE_SHOW")
+	-- these three are registered on demand by AUCTION_HOUSE_SHOW, and are still live
+	-- if the module is disabled while the auction house is open
+	addon:UnregisterEvent("AUCTION_HOUSE_CLOSED")
+	addon:UnregisterEvent("AUCTION_OWNED_LIST_UPDATE")
+	addon:UnregisterEvent("AUCTION_BIDDER_LIST_UPDATE")
 end
 
 -- *** Scanning functions ***
