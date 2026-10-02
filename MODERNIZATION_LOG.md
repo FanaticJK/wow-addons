@@ -64,6 +64,8 @@ The cross-addon summary of the pass (bug fixes, UI, performance, migration, test
 | `DataStore_Spells` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Stale-index nil guard |
 | `DataStore_Stats` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Leaked `_`; `UNIT_INVENTORY_CHANGED` now filtered to the player |
 | `DataStore_Talents` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Glyph carry-over, leaked globals, nil-iterator crashes |
+| `Bartender4` | Nevcairiel | 4.4.2 | Done, static only (needs in-game test) | Action bars. Dead out-of-range timer, a combat-taint precedence bug, two leaked globals |
+| `BeanCounter` | Norganna's AddOns | 5.8.4723 | Done, static only (needs in-game test) | AH transaction history. Four undefined globals, three mutate-while-iterating loops, a DB key typo |
 
 Status values: `Pending` → `In progress` → `Done (needs in-game test)` → `Verified in game`.
 
@@ -91,6 +93,12 @@ Last worked on: **2026-10-01**.
 - **Altoholic's dependency chain resolves for the first time.** `Altoholic.toc` hard-depends on
   `DataStore` plus all 16 modules; until these folders were added the client would have refused to
   load it at all. Nothing in Altoholic changed — it simply has its dependencies now.
+- **2026-10-02: Bartender4 and BeanCounter added and given a static pass plus a deep audit**
+  (see [the 2026-10-02 pass](#2026-10-02-pass--bartender4--beancounter-deep-audit)). Both `.toc`
+  files already declared `## Interface: 30300`. BeanCounter completes the hard-dependency chain
+  the Auctioneer suite needs alongside Stubby; Bartender4 is the first addon in this workspace
+  that drives *secure* frames, so its combat/taint behaviour is the one thing here that most
+  needs a real client.
 - The Bagnon work is committed (`e1d8651`). The Carbonite folders and everything from the
   2026-09-28 pass (the 23 addon folders, their fixes, the `check.js` improvements and the
   expanded `known.txt`) are still **untracked or modified**; `git status` shows what is not
@@ -112,8 +120,8 @@ node all.js -v       # same, but shows each step's full output
 
 | Command | What it proves | Current result |
 |---|---|---|
-| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 624 files, 0 errors, 0 unknown globals |
-| `node run.js smoke.lua` | Fresh install: all six Bagnon-family addons load and the whole UI is driven (open/close, search, bag toggles, player switch, options panels, sort, guild bank, logout); every options panel fits the 3.3.5 options window | 133 checks, 0 failures |
+| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 737 files, 0 errors, 0 unknown globals |
+| `node run.js smoke.lua` | Fresh install: all six Bagnon-family addons load and the whole UI is driven (open/close, search, bag toggles, player switch, options panels, sort, guild bank, logout); every options panel fits the 3.3.5 options window | 154 checks, 0 failures |
 | `node run.js migrate.lua sv_legacy.lua` | A legacy 2.6.0 + partly corrupted SavedVariables file is repaired, migrated, and user data preserved across a save/load cycle | 50 checks, 0 failures |
 | `node run.js garbage.lua sv_garbage.lua` | Top-level SavedVariables that are not even tables (a string/number/false) are rebuilt without erroring, and the user is told | 7 checks, 0 failures |
 
@@ -712,13 +720,193 @@ lines up emitted the name.
 No tests were written: the `_dev` harness cannot execute these addons (see "What still needs a real
 client"), and a DataStore scenario is the separate piece of work already listed under "What is left".
 
+### 2026-10-02 pass — Bartender4 + BeanCounter deep audit
+
+Two new folders. Same method as the three passes above — static gate first, then a manual read for
+defects that only appear when the code runs, with every candidate re-verified against the source
+before anything was changed. The `_dev` gate finished 4/4 green (737 Lua files parsed, 0 errors,
+0 warnings, 0 unknown globals). The per-file table with severities is in `ADDON_TRACKER.md` under
+"Deep-audit findings"; this section records the patterns and the judgement calls.
+
+**Neither `.toc` needed anything.** Both already declare `## Interface: 30300` and every listed
+file resolves, including Bartender4's `#@no-lib-strip@` library block and BeanCounter's nested
+`Libs/Load.xml` chain. No version was bumped, consistent with the 2026-09-28 and 2026-10-01 passes:
+these are vendored third-party releases, not forks.
+
+**Eight of the 87 reported "undefined globals" were real defects, not checker gaps.** That is a
+much higher hit rate than the previous pass, and the two addons fail in opposite directions.
+
+In Bartender4 both are *leaked* globals with names generic enough to collide:
+`createLDBLauncher` (`Bartender4.lua:405`) and `clearSetPoint` (`BagBar.lua`). Each was written as
+a bare `function name()` at file scope. They happened to work — the file finishes executing before
+`OnInitialize` runs — but any other addon defining the same name wins. Same class as the
+`function ScanInventory()` finding in `DataStore_Inventory` last pass. `createLDBLauncher` is now
+forward-declared as a local at the top of the file, next to the `LDB`/`LDBIcon` upvalues it uses.
+
+In BeanCounter all six are *reads* of globals that never existed, and three of them are live bugs:
+
+- `BeanCounterConfig.lua:39` — `debugPrint` calls `get("util.beancounter.debugConfig")`, but line 35
+  deliberately takes `_, _` from `lib.getLocals()` because `lib.GetSetting` is not defined until
+  line 366 of the same file. Line 374 then declared a **new** `local get, set` that `debugPrint`,
+  already closed over, can never see. Every call errored on a nil global. `get`/`set` are now
+  forward-declared above `debugPrint` and assigned (not re-declared) at line 374.
+- `BeanCounterMail.lua:424` — `deposite` passed into `packString` for a won auction. Benign in
+  effect (`packString` maps nil to `""`, which `unpackString` reads back as `"0"`, which is what
+  the comment says the field should be) but it was reading an undefined global to get there; now
+  an explicit `""`.
+- `BeanCounterTidyUp.lua:157` — `date("%c", keep)` in the removal log line. The cutoff variable is
+  `expire`; `keep` does not exist anywhere in the addon.
+
+The remaining three (`BeanCounterMail.lua:432`'s out-of-scope `value`, and
+`BeanCounter.lua:50-57`) were cosmetic. The last of those is worth naming: the `private` table
+constructor listed `AucModule,`, `wealth,`, `playerData,` and `serverData,` as bare names, which in
+Lua is not a declaration — each is an expression that reads an undefined global and adds a nil
+array entry. The intent was documentation, so they are now comments.
+
+**Four bugs are the headline findings.**
+
+`Bartender4/ActionButton.lua:459` — `Button:UpdateRange()` clears `self.rangeTimer` when range
+tracking does not apply, but had no `else` branch to *set* it. `onUpdate` only ever decrements and
+re-arms a timer that is already running (`if self.rangeTimer then ... self.rangeTimer =
+TOOLTIP_UPDATE_TIME`), so the field was nil for the lifetime of every button and the whole
+out-of-range block never executed once. Both out-of-range modes — the red icon tint and the hotkey
+indicator — were dead for every user. Now armed with `-1`, which makes the `onUpdate(self, 10)`
+call at the end of `UpdateRange` evaluate range immediately.
+
+`Bartender4/ActionButton.lua:236` — inside that same block, `local valid = IsActionInRange(...)`
+followed by `if valid and hkshown then hotkey:Show()`. `IsActionInRange` returns **0** when out of
+range, and `0` is truthy in Lua, so the in-range and out-of-range cases took the same branch. The
+line below already reads the value correctly (`self.outOfRange = (valid == 0)`), which is what
+settles the intent. Now `if valid == 0`.
+
+`Bartender4/StanceBar.lua:267` — `if event == "PLAYER_ENTERING_WORLD" or event ==
+"UPDATE_SHAPESHIFT_FORMS" and not InCombatLockdown() then`. `and` binds tighter than `or`, so the
+combat check only ever guarded the second event. `PLAYER_ENTERING_WORLD` fires on every zone change
+including one taken in combat, and the body creates secure `CheckButton`s and re-anchors them.
+This is the only protected-frame defect found anywhere in this workspace so far, and it is exactly
+the case the project checklist's combat/taint line exists for. Parenthesised.
+
+`Bartender4/ActionBars.lua:138` — `BT4ActionBars:UpdateButtons` walked `ipairs(self.actionbars)`.
+That table is sparse by design: bars 7-10 ship disabled (`abdefaults`), and only enabled bars get
+an entry. `ipairs` stops at the first hole, so a user who enables bar 9 while leaving 7 disabled
+gets no button refresh on that bar at all. The sibling `GetAll` in the same file already uses
+`pairs`; the outlier was made to match it, which is the same call as the `GetThisGuild()` guards
+last pass.
+
+**Three BeanCounter loops removed entries from the table they were iterating with `pairs`.**
+`mailSort` (`BeanCounterMail.lua:225`), `integrityCheck` (`BeanCounterTidyUp.lua:277`) and the
+inner row loop of `integrityCheck` all call `tremove`/`table.remove` on their own iteration source.
+Lua 5.1 does not define that: `table.remove` shifts the sequence down, so `next` skips entries and
+can raise "invalid key to 'next'" outright. `mailSort` is the worst of the three because every one
+of its seven branches removes, so in practice it processed roughly every other mail. All three are
+now reverse numeric loops, which is the idiom `BeanCounterUpdate.lua:_2_11` already uses.
+
+**`completedBidsBuyoutsNeutralNeutral` — a doubled suffix in four database filters.** The real key
+is `completedBidsBuyoutsNeutral` (`BeanCounter.lua:214`, written to by
+`BeanCounterMail.lua:428`, read by `BeanCounterSearch.lua:236` and `BeanCounterAPI.lua:347`, all
+spelled correctly). The four filter lists in `BeanCounterTidyUp.lua` (`sumDatabase`, `compactDB`,
+`sortArrayByDate`, `integrityCheck`) all test the doubled name, so every neutral-auction-house
+buyout a player ever recorded was invisible to the totals display, was never compacted, never
+sorted and never integrity-checked. The data was being written and read fine; only maintenance
+skipped it.
+
+**Two recursive database walks were made iterative.** `private.removeUniqueID` and
+`private.removeOldData` (`BeanCounterTidyUp.lua`) each call themselves once per removed row, so a
+character with a few thousand expired transactions recurses a few thousand frames deep on the
+first search of the session. Same work as a `while` loop, and both also now coerce the timestamp
+with `tonumber` before comparing — `removeOldData` already did, `removeUniqueID` did not, and the
+raw `strsplit` field is a string.
+
+**One UI bug and one performance bug.**
+
+`BeanCounterConfig.lua:191` divided the months-to-keep slider by 100 when building the purge
+checkbox label, so a slider ranging 6-48 (`BeanCounterConfig.lua:472`) rendered as "older than
+0.06 months". The identical label built at line 472 has no `/100`.
+
+`Bartender4/ActionBars.lua:158` ran a 120-iteration pre-4.2.0 binding-rename migration plus an
+unconditional `SaveBindings` on **every** `UPDATE_BINDINGS` event. `SaveBindings` itself fires
+`UPDATE_BINDINGS`, so the handler re-entered on its own write. It now runs once per session and
+only saves when it actually renamed something.
+
+**Smaller fixes, all the same three root causes as the previous two passes.** Nil returns that are
+only sometimes nil: `tonumber(suffixID)` in `databaseAdd`, `uniqueID` in `compactDB`, `TIME` in
+`prunePostedDB`, `auctime` in `getAHSoldFailed`, `marketprice` in `MatchBeanCount.GetMatchArray`
+(that one is a real crash — the cache key concatenates `marketprice` four lines *above* the
+`if not marketprice then marketprice = 0` that was meant to protect it), a nil `self.buttons` in
+`ButtonBar:UpdateButtonLayout`, and a nil `self.actionbars` in `BT4ActionBars:ApplyConfig`.
+Values compared against the wrong type: `META == 0` in `attachMeta` where `unpackString` always
+returns strings — same shape as the `DataStore_Quests` `isUsable` bug — and
+`BeanCounterMail.lua`'s stored `read` field, which took `wasRead or 0` from `GetInboxHeaderInfo`
+and is then compared with `< 2`; a boolean `wasRead` makes that comparison error, so it is now
+normalised to a number. Events whose arguments are not what the handler assumes:
+`UNIT_SPELLCAST_SUCCEEDED` in BeanCounter's disenchant watcher compared the spell name against the
+literal `"Disenchant"`, which only matches on an enUS client; it now uses `GetSpellInfo(13262)`,
+and `UNIT_SPELLCAST_FAILED`/`_INTERRUPTED` are registered so a cancelled disenchant no longer
+leaves the watcher armed for the next unrelated loot window.
+
+Three further items: `Bartender4:Merge` filled in a key whenever `not target[k]`, which overwrites
+a stored `false` with the default — it now tests `target[k] == nil`. `Bartender4.lua` created two
+font strings as `f:CreateFontString('ARTWORK')`, passing the layer where the *name* goes, so both
+registered a global called `ARTWORK` and the second clobbered the first. And
+`BeanCounterAPI.getAHProfitGraph` inserted into the table it was iterating with `pairs`; it now
+collects into a second table first.
+
+**`private.initializeDB` now repairs rather than assumes.** It created `db["settings"]` and
+`db["ItemIDArray"]` only inside the `if not db` branch, so a database that lost either of them —
+which the addon's own `_2_09` migration and `refreshItemIDArray` both write to unguarded — stayed
+broken for every later session. It also now type-checks the top-level `BeanCounterDB`, the same
+repair the `garbage.lua` scenario exercises for Bagnon.
+
+**What was deliberately not changed.**
+
+`"util.beacounter.invoicetime"` is misspelled (missing the `n`) but **consistently** — the default
+(`BeanCounterConfig.lua:109`), the slider (`:406`) and the single read (`BeanCounterMail.lua:205`)
+all agree. Correcting it would orphan every existing user's setting for no behavioural gain.
+
+BeanCounter's `private.scriptframe` keeps a permanent `OnUpdate` that calls `private.mailonUpdate`
+every frame. When idle that is two length operations and a comparison, which is cheap but not
+free; registering the script only while `inboxStart`/`reconcilePending` are non-empty is the right
+fix and is a visible behaviour change to the mail-reconcile flow, so it is recorded rather than
+done blind. What *was* removed are four event registrations on that same frame with no handler at
+all: `MERCHANT_SHOW`, `MERCHANT_UPDATE`, `MERCHANT_CLOSED` (the vendor branch is commented out and
+`private.vendorOnevent` is never called) and `UNIT_SPELLCAST_SENT` (the disenchant watcher uses its
+own frame and a different event).
+
+`private.matchDB` (`BeanCounterMail.lua:261`) linear-scans the entire `ItemIDArray` for every
+auction-house mail, which is O(items ever seen) per mail. A name→id reverse index would fix it,
+but it changes the SavedVariables shape and this is recorded instead, the same call as
+`DataStore_Containers.lua:512` last pass.
+
+`StanceBarMod:ApplyConfig` disables the whole module when `GetNumShapeshiftForms() == 0`, and
+`Bar:Disable` unregisters the bar's events — including the `UPDATE_SHAPESHIFT_FORMS` that would
+tell it a form has been learned. A Warrior who installs Bartender4 below level 10 therefore has no
+stance bar until a `/reload` after dinging. The fix means re-registering at module level and is a
+behaviour change to the enable path, so it is recorded.
+
+`BeanCounter/BeancounterVendor.lua` is dead code end to end: `private.vendorOnevent` is never
+called, `merchantUpdate` and `merchantRepairAllItems` have empty or commented-out bodies, and the
+`hooksecurefunc("BuyMerchantItem", ...)` that would drive `merchantBuy` is commented out in
+`lib.OnLoad`. The one nil-dereference in it (`repairAllCost > 0` where `repairAllCost` is nil
+unless `CanMerchantRepair()` was true on the last `MERCHANT_SHOW`) was guarded anyway, but the file
+was not otherwise touched — deleting a vendored author's work-in-progress is not this pass's call.
+
+`MatchBeanCount.lua` runs its `AucAdvanced.Settings.SetDefault` block and a `print` at file scope
+because `lib.OnLoad` is commented out upstream. It works, it matches how the other Auc-* modules
+in this workspace behave, and it was left.
+
+No tests were written: the `_dev` harness cannot execute either addon (see "What still needs a real
+client"), and runtime scenarios for the static-only addons are the separate piece of work already
+listed under "What is left".
+
 ## What is left
 
 1. **In-game testing.** Everything below.
 2. Commit the Carbonite folders + fixes, the Bagnon_Config layout fix, the 2026-09-28 static pass
    (23 addon folders, the `check.js` improvements, the expanded `known.txt`) and the 2026-09-29 /
-   2026-09-30 deep-audit fixes, plus the 2026-10-01 Stubby/DataStore pass (18 folders, the
-   `check.js` template-children change and the expanded `known.txt`) — all untracked or modified.
+   2026-09-30 deep-audit fixes, the 2026-10-01 Stubby/DataStore pass (18 folders, the
+   `check.js` template-children change and the expanded `known.txt`) and the 2026-10-02
+   Bartender4/BeanCounter pass (2 folders, their fixes and the expanded `known.txt`) — all
+   untracked or modified.
 3. Optional: runtime scenarios for the 2026-09-28 addons. Like Carbonite, they touch far more of
    the client API than the mock has (auction house, trade skill, calendar, DataStore), and the
    mock has no catch-all, so each new scenario is real work. Nothing in this suite has been
@@ -743,6 +931,13 @@ The harness cannot see any of this. Do not treat these as verified:
   AllStats and Baggins were parsed and statically checked, never executed. Their event flow,
   saved-variable handling, AH/trade-skill hooks and inter-addon `DataStore`/`Altoholic` handoffs
   are unverified. The static pass only proves the files load and reference real globals.
+- **Bartender4 and BeanCounter.** Same situation, and Bartender4 raises the stakes: it is the
+  only addon in this workspace that creates and re-anchors **secure** frames and installs state
+  drivers and override bindings. The combat-precedence fix in `StanceBar:OnEvent` and the
+  `rangeTimer` revival both change what happens on a live, protected frame, and neither can be
+  observed here. BeanCounter's mail reconciliation, auction-post and bid hooks all run against a
+  real auction house and a real mailbox; the three mutate-while-iterating loops that were
+  rewritten sit directly in that path.
 - **Stubby and the DataStore family.** Same situation. In particular: Stubby's hook installation
   and removal paths are now materially different code and nothing here can run them; the DataStore
   guild comm (`RegisterComm`, guild-bank and alt broadcasts) needs two real clients in one guild;

@@ -19,7 +19,7 @@ node all.js -v     # verbose
 ```
 
 Gate must stay green before and after any change. Current baseline: **4/4 green**
-(501 lua files parse, 0 errors, 0 unknown globals; smoke 133, migrate 50, garbage 7 — all 0 failures).
+(737 lua files parse, 0 errors, 0 unknown globals; smoke 154, migrate 50, garbage 7 — all 0 failures).
 
 **Status legend**
 - `Done` — full pass (restructure + fixes) AND driven by a runtime scenario in `_dev`.
@@ -35,14 +35,14 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 - **Missing dependencies present as hard `## Dependencies`** — these addons will NOT load until the dep folders are added:
   - `Altoholic` + `Altoholic_Achievements` need the entire **DataStore** family (`DataStore`, `DataStore_Achievements`, `_Auctions`, `_Characters`, `_Containers`, `_Crafts`, `_Currencies`, `_Inventory`, `_Mails`, `_Pets`, `_Quests`, `_Reputations`, `_Skills`, `_Spells`, `_Stats`, `_Talents`). **None present.**
   - `Auc-Advanced` needs **Stubby**. **Not present.**
-- **Auction ecosystem incomplete** vs the plan: `BeanCounter`, `Enchantrix`, `Enchantrix-Barker`, `Informant` are **not present**. Only Auc-* modules + FixAH exist.
-- **Priority-list addons not in this workspace at all:** EveryQuest, ZygorGuidesViewer, TomTomLite, GatherMate, SilverDragon, GearScore, Grid2, PowerAuras, Quartz, Recount, Postal, BankStack(present), Bartender4, Prat-3.0, Titan, SCT, SellJunk, Overachiever, BonusScanner, MobInfo2. Phases 4/5/8/9/10/11 in the master plan cannot start until those folders exist.
+- **Auction ecosystem incomplete** vs the plan: `Enchantrix`, `Enchantrix-Barker` and `Informant` are **not present**. `Stubby` was added 2026-10-01 and `BeanCounter` 2026-10-02, so Auc-Advanced's hard dependency now resolves and BeanCounter's own `## Dependencies: Stubby` is satisfied.
+- **Priority-list addons not in this workspace at all:** EveryQuest, ZygorGuidesViewer, TomTomLite, GatherMate, SilverDragon, GearScore, Grid2, PowerAuras, Quartz, Recount, Postal, Prat-3.0, Titan, SCT, SellJunk, Overachiever, BonusScanner, MobInfo2. (`BankStack` and, since 2026-10-02, `Bartender4` are present.) Phases 4/5/8/9/10/11 in the master plan cannot start until those folders exist.
 
 ---
 
 ## Addon inventory & status
 
-33 addon folders. Grouped by ecosystem.
+35 addon folders. Grouped by ecosystem.
 
 ### Bagnon family — bags/bank (author: Tuller) — **Done**
 | Folder | Ver | SavedVariables | Status | Notes |
@@ -103,6 +103,8 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 | Baggins | r435 | BagginsDB | Static-only + audited | Virtual-bag inventory (Ace2/Ace3/Waterfall/Dewdrop). Fixed `## Interface` 30200→30300. Deep audit done — 9 bugs fixed, incl. three undeclared globals in the filter engine and a missing default-skin fallback that left the bags undrawn. |
 | BankStack | v17.1 | BankStackDB | Done | Sort/stack. Fixed bank-bag range 8–11, OnUpdate `arg1`→`elapsed`, tooltip re-owning, nil-safety. Runtime-tested (used by Bagnon sort button). |
 | Stubby | 5.8.4723 | StubbyConfig | Static-only + audited | Auctioneer boot/hook library (hard dep of Auc-Advanced). Deep audit done — 4 bugs fixed, incl. an `unpack` over a table with a hole that made every negative-position hook silently fail, and an `unhookFrom` that could never succeed. |
+| Bartender4 | 4.4.2 | Bartender4DB | Static-only + audited | Action bars (Ace3 + LibKeyBound + LibWindow + LibDBIcon). Added 2026-10-02. Deep audit done — 12 bugs fixed, incl. a `rangeTimer` that was never armed (both out-of-range modes dead for every user) and an operator-precedence slip that rebuilt secure stance buttons in combat. **The only addon here that touches secure frames.** |
+| BeanCounter | 5.8.4723 | BeanCounterDB, BeanCounterAccountDB | Static-only + audited | Auction-house transaction history (Auctioneer suite; hard dep on Stubby). Added 2026-10-02. Deep audit done — 24 bugs fixed, incl. three loops that removed from the table they iterated with `pairs`, a doubled-suffix database key that hid every neutral-AH buyout from maintenance, and a `debugPrint` that errored on a nil global on every call. |
 
 ### DataStore family — character data library (author: Thaoky) — **Static-only + audited**
 
@@ -144,6 +146,7 @@ Ordered by value, given no in-game client.
   Findings + fixes are appended to [Deep-audit findings](#deep-audit-findings) below and to MODERNIZATION_LOG.md.
   Every finding is re-read against the source in the main thread before any fix is applied — audit reports are leads, not authority.
 - **Deep audit of Stubby + the 17 DataStore folders** — **done 2026-10-01, 36 bugs fixed.** Ran as 4 parallel audits: (1) DataStore core + Stubby, (2) Achievements/Auctions/Characters/Containers, (3) Crafts/Currencies/Inventory/Mails, (4) Pets/Quests/Reputations/Skills/Spells/Stats/Talents. Scoped to addon logic only — pure data/locale/SavedVariables files were excluded on the user's instruction. Gate 4/4 green afterwards (624 Lua files).
+- **Deep audit of Bartender4 + BeanCounter** — **done 2026-10-02, 36 bugs fixed** (12 in Bartender4, 24 in BeanCounter). Both folders were added this session. Audited in the main thread against the source, no agents. Bartender4 is the first addon here that drives secure frames, state drivers and override bindings, so its findings are the ones most exposed to taint; BeanCounter closes the Auctioneer dependency chain alongside Stubby. Gate 4/4 green afterwards (737 Lua files).
 
 ### Queued (actionable without a client)
 1. ~~Apply + verify confirmed high/med bugs from the deep audit; re-run `node all.js`~~ — **done for every audited addon**, gate 4/4 green. Remaining: the Auctioneer suite, and the two findings under [Needs a client](#needs-a-client).
@@ -157,7 +160,7 @@ Ordered by value, given no in-game client.
 - Phase 5 EveryQuest improvements: absent.
 - Phase 8 Postal: absent.
 - Phases 9–11 dungeon/raid (GearScore, Grid2, PowerAuras, Quartz, Recount): all absent.
-- Complete auction suite (BeanCounter, Enchantrix, Informant): absent. **Stubby added 2026-10-01.**
+- Complete auction suite (Enchantrix, Enchantrix-Barker, Informant): absent. **Stubby added 2026-10-01, BeanCounter added 2026-10-02.**
 
 ### Always-outstanding
 - **In-game testing** of everything (see MODERNIZATION_LOG "What still needs a real client").
@@ -352,6 +355,81 @@ anywhere in the family to copy, so it is recorded rather than guessed at.
 **Not changed: `## DefaultState: disabled`.** Present identically in all 17 DataStore `.toc` files
 *and* in `Altoholic.toc`. That is the author's packaging choice — the modules are opt-in and the
 user enables them alongside Altoholic — not an install defect.
+
+### Bartender4 — audit complete, 12 bugs fixed
+
+| File:line | Severity | Problem | Fix | State |
+|---|---|---|---|---|
+| `ActionButton.lua:459` | **high** | `Button:UpdateRange` clears `self.rangeTimer` when range tracking does not apply, but has no `else` to set it. `onUpdate` only decrements and re-arms a timer that is **already** running (`if self.rangeTimer then … = TOOLTIP_UPDATE_TIME`), so the field was nil for every button's whole lifetime and the entire out-of-range block never ran once. Both out-of-range modes — the red icon tint and the hotkey indicator — were dead for every user. | Added `else self.rangeTimer = -1`, so the `onUpdate(self, 10)` at the end of `UpdateRange` evaluates range immediately. | Fixed |
+| `StanceBar.lua:267` | **high** | `if event == "PLAYER_ENTERING_WORLD" or event == "UPDATE_SHAPESHIFT_FORMS" and not InCombatLockdown()`. `and` binds tighter than `or`, so the combat check only guarded the second event. `PLAYER_ENTERING_WORLD` fires on every zone change, including one taken in combat, and the body creates and re-anchors secure `CheckButton`s. The only protected-frame defect found anywhere in this workspace. | Parenthesised: `(a or b) and not InCombatLockdown()`. | Fixed |
+| `ActionBars.lua:138` | **high** | `BT4ActionBars:UpdateButtons` walked `ipairs(self.actionbars)`. That table is sparse by design — bars 7-10 ship disabled, and only enabled bars get an entry — so `ipairs` stops at the first hole. Enabling bar 9 while 7 stays disabled means bar 9 never refreshes its buttons. The sibling `GetAll` in the same file already uses `pairs`. | `pairs`, plus a nil guard on `self.actionbars` and on each bar's `buttons`. | Fixed |
+| `ActionButton.lua:236` | medium | `local valid = IsActionInRange(self.action)` then `if valid and hkshown then hotkey:Show()`. `IsActionInRange` returns **0** when out of range and `0` is truthy in Lua, so in-range and out-of-range took the same branch and the indicator was always shown. The next line already reads the value correctly (`self.outOfRange = (valid == 0)`). | `if valid == 0 and hkshown`. | Fixed |
+| `ActionBars.lua:158` | medium | A 120-iteration pre-4.2.0 binding-rename migration plus an unconditional `SaveBindings` ran on **every** `UPDATE_BINDINGS`. `SaveBindings` itself fires `UPDATE_BINDINGS`, so the handler re-entered on its own write. | Gated behind a `self.renamedLegacyBindings` flag (it is a one-off migration) and `SaveBindings` is only called when something was actually renamed. | Fixed |
+| `Bartender4.lua:360` | medium | `Bartender4:Merge` filled a key whenever `not target[k]`, which overwrites a stored `false` with the default. Any boolean default of `true` silently reverted a user's "off". | `elseif target[k] == nil then`. | Fixed |
+| `Bartender4.lua:405` | medium | `function createLDBLauncher()` at file scope with no `local` — a leaked global with a name generic enough for any other addon to clobber. Same class as `function ScanInventory()` in DataStore_Inventory. | Forward-declared `local createLDBLauncher` next to the `LDB`/`LDBIcon` upvalues it closes over. | Fixed |
+| `BagBar.lua:59` | medium | `function clearSetPoint(btn, ...)` — same defect, and an even more generic name. | `local function clearSetPoint`. | Fixed |
+| `Bartender4.lua:300, 305` | low | `f:CreateFontString('ARTWORK')` ×2. The first argument of `CreateFontString` is the **name**, not the layer, so both registered a global called `ARTWORK` and the second clobbered the first. | `f:CreateFontString(nil, 'ARTWORK')`. | Fixed |
+| `Bartender4.lua:171, 219` | low | `Bartender4:GetModule("Vehicle", true)` passes the silent flag and can return nil, but the next line called `vehicleModule:Disable()` unguarded; the matching disable path used the non-silent `GetModule` and then indexed the result. | Both paths now use the silent form behind an `if vehicleModule then`. | Fixed |
+| `ButtonBar.lua:160` | low | `UpdateButtonLayout` reads `#buttons` with no nil check, while `ForAll` six lines down already guards `if not self.buttons then return end`. | Matched the sibling guard. | Fixed |
+| `ActionBars.lua:117` | low | `BT4ActionBars:ApplyConfig` indexes `self.actionbars`, which is only built in `OnEnable`; a profile change arriving first would error. | Early return when the table is absent. | Fixed |
+
+**Recorded, not changed.** `StanceBarMod:ApplyConfig` disables the whole module when
+`GetNumShapeshiftForms() == 0`, and `Bar:Disable` unregisters the bar's events — including the
+`UPDATE_SHAPESHIFT_FORMS` that would tell it a form has since been learned. A Warrior who installs
+Bartender4 below level 10 has no stance bar until a `/reload` after dinging. The fix means
+re-registering at module level, which changes the enable path, so it is recorded rather than done
+blind. `Bartender4.ButtonBar:Create` also calls `LBF:RegisterSkinCallback("Bartender4", …)` once
+per bar created rather than once in total; harmless if LibButtonFacade de-duplicates, and LBF is
+not vendored here to check.
+
+### BeanCounter — audit complete, 24 bugs fixed
+
+| File:line | Severity | Problem | Fix | State |
+|---|---|---|---|---|
+| `BeanCounterMail.lua:225` | **high** | `private.mailSort` iterates `pairs(private.reconcilePending)` and **every one of its seven branches** calls `tremove` on that same table. `table.remove` shifts the sequence down, so `next` skips entries and can raise "invalid key to 'next'". In practice roughly every other auction-house mail went unrecorded. | Reverse numeric loop, the idiom `BeanCounterUpdate._2_11` already uses. | Fixed |
+| `BeanCounterTidyUp.lua:49, 123, 168, 264` | **high** | Four database filter lists test `DB == "completedBidsBuyoutsNeutralNeutral"` — a doubled suffix. The real key is `completedBidsBuyoutsNeutral` (created at `BeanCounter.lua:214`, written at `BeanCounterMail.lua:428`, read correctly in Search and the API). Every neutral-auction-house buyout was therefore invisible to `sumDatabase`, and was never compacted, sorted or integrity-checked. | Corrected all four. | Fixed |
+| `BeanCounterConfig.lua:39` | **high** | `debugPrint` calls `get(…)`, but line 35 deliberately takes `_, _` from `getLocals` (because `lib.GetSetting` is not defined until line 366), and line 374 declares a **new** `local get, set` that the already-closed-over `debugPrint` can never see. Every call errored on a nil global. | `get`/`set` forward-declared above `debugPrint` and **assigned** (not re-declared) at line 374. | Fixed |
+| `BeanCounterTidyUp.lua:277` | **high** | `integrityCheck`'s row loop calls `table.remove(data, index)` while iterating `pairs(data)` — the same undefined behaviour, in the one routine whose whole job is to repair a corrupt database. | Reverse numeric loop. | Fixed |
+| `MatchBeanCount.lua:62` | **high** | `cacheKey = itemId .."x".. property .. "x" .. factor .. "x" .. marketprice` is built **four lines above** the `if not marketprice then marketprice = 0 end` that was meant to protect it. A nil market price — which Auctioneer does pass — errors on the concatenation. | Moved the default above the key. | Fixed |
+| `BeanCounterMail.lua:582` | medium | `mailCurrent[n].read = wasRead or 0`, and `read` is later compared with `< 2`. `GetInboxHeaderInfo` can return `wasRead` as a boolean, which makes that comparison error. | `wasRead and 1 or 0`. | Fixed |
+| `BeanCounterUpdate.lua:63` | medium | `startPlayerUpgrade` compares `playerData["version"] < 2.0` with no coercion (a partly written SavedVariables file leaves it nil), and after the `< 2.0` branch resets the character it keeps using the **stale** local `playerData`, so every later step ran against a discarded table's version number. | `tonumber(...) or 0`, a `type(playerData) == "table"` guard, and an early `return` after the reset — the table `initializeDB` just built is already current. | Fixed |
+| `BeanCounter.lua:171` | medium | `initializeDB` created `db["settings"]` and `db["ItemIDArray"]` only inside the `if not db` branch, so a database that lost either of them stayed broken for every later session. The top-level `BeanCounterDB` was also assumed to be a table. | Type-check the top level, then create either sub-table whenever it is missing — the same repair the `garbage.lua` scenario exercises for Bagnon. | Fixed |
+| `BeanCounter.lua:297` | medium | `attachMeta` tests `if META == 0`, but `unpackString` returns strings, so the empty field arrives as `"0"` and the comparison was never true. Every disenchant record got a leading `0|`. Same shape as the `DataStore_Quests` `isUsable` bug. | `META == "0"`. | Fixed |
+| `BeanCounter.lua:352` | medium | The disenchant watcher compares the `UNIT_SPELLCAST_SUCCEEDED` spell name against the literal `"Disenchant"` — only ever true on an enUS client — and `inDEState` is only ever cleared on `LOOT_OPENED`, so a cancelled disenchant left it armed and the next unrelated loot window was recorded as a disenchant result. | `GetSpellInfo(13262)` for the name, plus `UNIT_SPELLCAST_FAILED`/`_INTERRUPTED` registered to clear the flag. | Fixed |
+| `BeanCounterTidyUp.lua:143, 155` | medium | `removeUniqueID` and `removeOldData` each recurse once per removed row — a few thousand stack frames on the first search of a long-lived character. `removeUniqueID` also compared a raw `strsplit` string against a number without `tonumber`, which its own sibling `removeOldData` already did. | Both converted to `while` loops; both now coerce the timestamp and stop on a non-numeric one. | Fixed |
+| `BeanCounterTidyUp.lua:157` | medium | `date("%c", keep)` — `keep` is an undefined global; the cutoff variable is `expire`. | `date("%c", expire)`. | Fixed |
+| `BeanCounterSearch.lua:165` | medium | `searchServerData` returns bare `nil` when a realm is below the current database version, and the caller feeds that straight into `formatServerData`, which iterates it. | `return data` (the empty accumulator). | Fixed |
+| `BeanCounterAPI.lua:216` | medium | `getAHProfitGraph` does `for i,v in pairs(tbl) do … tinsert(tbl, b) end` — inserting into the table it is iterating — and never checks that `startSearch` returned anything. | Collect into a second table, then append; plus a `type(tbl) ~= "table"` early return. | Fixed |
+| `BeanCounterConfig.lua:191` | medium | The purge-checkbox label divides the months-to-keep slider by 100, so a 6-48 slider rendered as "older than 0.06 months". The identical label built at line 472 has no `/100`. | Dropped the `/100`. | Fixed |
+| `BeanCounterMail.lua:347, 393` | low | `tremove(private.reconcilePending, i, private.reconcilePending[i]["itemLink"])` — `table.remove` takes two arguments. Lua 5.1 ignores the third; Lua 5.2+ raises "wrong number of arguments", and the `_dev` harness compiles every addon under fengari (5.3). | Two arguments. | Fixed |
+| `BeanCounterMail.lua:424` | low | `deposite` — an undefined global passed into `packString`. Benign in effect (nil round-trips to `"0"`, which is what the comment says the field should be) but it was reading a global to get there. | Explicit `""`. | Fixed |
+| `BeanCounterMail.lua:432` | low | `debugPrint(…, value, …)` in the failure branch, where `value` is declared inside the success branch — another undefined global read. | Dropped from the argument list. | Fixed |
+| `BeanCounterMail.lua:570` | low | The `group` start/end tracker is a file local that is never reset, so the first row of each mailbox scan was compared against the last row of the previous one. | Reset at the top of `mailBoxColorStart`. | Fixed |
+| `BeanCounter.lua:50-57` | low | The `private` table constructor listed `AucModule,`, `wealth,`, `playerData,` and `serverData,` as bare names. That is not a declaration in Lua — each reads an undefined global and adds a nil array entry. The intent was documentation. | Converted to comments naming where each is actually assigned. | Fixed |
+| `BeanCounter.lua:142-150` | low | Four events registered on the main script frame with no handler at all: `MERCHANT_SHOW`/`_UPDATE`/`_CLOSED` (the vendor branch is commented out and `private.vendorOnevent` is never called) and `UNIT_SPELLCAST_SENT` (the disenchant watcher uses its own frame and a different event). | Removed, with a comment saying why. | Fixed |
+| `BeanCounter.lua:440` | low | `databaseAdd` does `suffixID = tonumber(suffixID)` then `if suffixID < 0`; a malformed itemString errors on the compare. | `or 0`. | Fixed |
+| `BeanCounterTidyUp.lua:127, 200` | low | `string.len(uniqueID)` in `compactDB` and `time() - TIME` in `prunePostedDB`, both on values that come straight out of `decodeLink`/`strsplit` and can be nil. | `or "0"` and a `tonumber` guard on the loop condition. | Fixed |
+| `BeanCounterAPI.lua:110, 288` | low | `addDEValue` matches with `(%d-)`, which can capture the empty string and then reach a multiply; `getAHSoldFailed` indexes `playerData["completedAuctions"]`/`["failedAuctions"]` and does arithmetic on `auctime` with no guard on either. | `(%d+)` plus `tonumber`; `type(...) == "table"` guards on both databases and an `auctime and` on both comparisons. | Fixed |
+
+**Recorded, not changed.**
+
+- `"util.beacounter.invoicetime"` is misspelled (missing the `n`) but **consistently** — the
+  default, the slider and the single read all agree. Correcting it would orphan every existing
+  user's setting for no behavioural gain.
+- `private.scriptframe` keeps a permanent `OnUpdate` calling `private.mailonUpdate` every frame.
+  Idle cost is two length operations and a comparison. Registering the script only while
+  `inboxStart`/`reconcilePending` are non-empty is the right fix and is a visible change to the
+  mail-reconcile flow, so it is not done blind.
+- `private.matchDB` linear-scans the whole `ItemIDArray` for every auction-house mail. A name→id
+  reverse index fixes it but changes the SavedVariables shape — the same call as
+  `DataStore_Containers.lua:512`.
+- `BeancounterVendor.lua` is dead end to end: `vendorOnevent` is never called, two functions have
+  empty bodies, and the `hooksecurefunc("BuyMerchantItem", …)` that would drive `merchantBuy` is
+  commented out. Its one nil-dereference was guarded; the file was otherwise left alone.
+- `MatchBeanCount.lua` runs its `SetDefault` block and a `print` at file scope because
+  `lib.OnLoad` is commented out upstream. It works and matches the other Auc-* modules here.
+- `private.hasUnreadMail` has an entirely commented-out body and is still called from two places.
+  Left as the author's disabled feature.
 
 ### Needs a client
 
