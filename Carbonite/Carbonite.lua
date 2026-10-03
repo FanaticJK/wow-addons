@@ -21663,8 +21663,10 @@ sca=max(min(sca,self.LOp.NXAutoScaleMax),self.LOp.NXAutoScaleMin)
 self:Mov(mX,mY,sca,60)
 end
 end
-if rid~=maI then
+if rid~=9000 and rid~=maI then
 dSCZ=true
+else
+self.SCZI=nil
 end
 end
 end
@@ -21921,7 +21923,12 @@ if Nx.Tic % self.SCM==3 then
 self:ScC1()
 end
 if dSCZ then
+local tim1=GetTime()
+if self.SCZI~=rid or not self.SCZT or tim1-self.SCZT>5 then
+self.SCZI=rid
+self.SCZT=tim1
 SetMapToCurrentZone()
+end
 end
 end
 function Nx.Map:OBTF(but1)
