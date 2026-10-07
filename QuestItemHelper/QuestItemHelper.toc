@@ -1,0 +1,14 @@
+## Interface: 30300
+## Title: Quest Item Helper
+## Notes: Highlights quest items in your bags that belong to quests you no longer have. Informational only, never deletes anything.
+## Author: Sujan Karki
+## Version: 1.0.0
+## SavedVariables: QuestItemHelperDB
+## SavedVariablesPerCharacter: QuestItemHelperCharDB
+## OptionalDeps: Bagnon, Baggins
+
+Compat.lua
+Core.lua
+Bags.lua
+Tooltip.lua
+Config.lua
