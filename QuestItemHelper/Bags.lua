@@ -1,7 +1,8 @@
 --[[
 	Bags.lua
-		Draws the flag (colored border + corner icon) on bag item buttons, and the adapters that
-		tell us which button shows which bag slot.
+		Draws the flag (colored border + corner icon) on bag item buttons, a small tick on quest
+		items a quest in the log still needs, and the adapters that tell us which button shows
+		which bag slot.
 
 		Every adapter only has to call QIH:UpdateButton(button, bag, slot) whenever its bag addon
 		(re)draws a slot. Other bag addons can integrate the same way through the public
@@ -18,8 +19,9 @@ local IsAddOnLoaded = IsAddOnLoaded
 -- Blizzard's own textures, so no art ships with the addon
 local BORDER_TEXTURE = [[Interface\Buttons\UI-ActionButton-Border]]
 local ICON_TEXTURE = [[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]]
+local TICK_TEXTURE = [[Interface\Buttons\UI-CheckBox-Check]]
 
--- button -> { bag, slot, border, icon }. Weak keys: bag addons recycle and drop buttons freely,
+-- button -> { bag, slot, border, icon, tick }. Weak keys: bag addons recycle and drop buttons freely,
 -- and nothing is stored on the (secure template) buttons themselves.
 local tracked = setmetatable({}, { __mode = 'k' })
 
@@ -45,14 +47,31 @@ local function CreateOverlay(button, record)
 	record.border, record.icon = border, icon
 end
 
-local function HideOverlay(record)
+local function CreateTick(button, record)
+	local tick = button:CreateTexture(nil, 'OVERLAY')
+	tick:SetTexture(TICK_TEXTURE)
+	tick:SetWidth(16)
+	tick:SetHeight(16)
+	tick:SetPoint('TOPRIGHT', button, 'TOPRIGHT', 2, 2)
+	tick:Hide()
+	record.tick = tick
+end
+
+local function HideFlag(record)
 	if record.border then
 		record.border:Hide()
 		record.icon:Hide()
 	end
 end
 
--- Show or clear the flag on one button. bag/slot nil clears it (empty or offline-cached slot).
+local function HideOverlay(record)
+	HideFlag(record)
+	if record.tick then
+		record.tick:Hide()
+	end
+end
+
+-- Show or clear the flag/tick on one button. bag/slot nil clears it (empty or offline-cached slot).
 function QIH:UpdateButton(button, bag, slot)
 	if type(button) ~= 'table' or not button.CreateTexture then
 		return
@@ -65,15 +84,26 @@ function QIH:UpdateButton(button, bag, slot)
 	record.bag, record.slot = bag, slot
 
 	local db = self.db
-	if not (db and db.enabled and db.highlightEnabled and bag and slot) then
+	if not (db and db.enabled and bag and slot) then
 		HideOverlay(record)
 		return
 	end
 
 	local itemID = self.GetBagItemID(bag, slot)
 	local verdict = itemID and self:GetVerdict(itemID, bag, slot)
-	if not (verdict and verdict.state == self.FLAG) then
-		HideOverlay(record)
+	local state = verdict and verdict.state
+
+	if state == self.ACTIVE and db.showQuestTick then
+		if not record.tick then
+			CreateTick(button, record)
+		end
+		record.tick:Show()
+	elseif record.tick then
+		record.tick:Hide()
+	end
+
+	if not (state == self.FLAG and db.highlightEnabled) then
+		HideFlag(record)
 		return
 	end
 

@@ -33,6 +33,8 @@ QIH.defaults = {
 	highlightEnabled = true,
 	tooltipEnabled = true,
 	showIcon = true,
+	-- small tick on quest items a quest in the log still needs
+	showQuestTick = true,
 	highlightColor = { r = 1, g = 0.5, b = 0 },
 	-- "only flag when the quest is completely inactive": require the server to confirm the quest
 	-- was turned in, so items of abandoned (re-acceptable) quests stay unflagged

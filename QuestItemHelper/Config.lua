@@ -19,6 +19,8 @@ local OPTIONS = {
 		tip = 'Draw a colored border around old quest items.' },
 	{ key = 'showIcon', label = 'Show warning icon',
 		tip = 'Add a small warning icon to the corner of flagged items.' },
+	{ key = 'showQuestTick', label = 'Tick quest items you still need',
+		tip = 'Add a small tick to the corner of quest items that a quest in your log still needs.' },
 	{ key = 'tooltipEnabled', label = 'Add tooltip information',
 		tip = 'Explain in the item tooltip why an item was flagged and which quest it belongs to.' },
 	{ key = 'onlyCompleted', label = 'Only flag when the quest is completely inactive (turned in)',
