@@ -17,7 +17,7 @@ restart the game, and make sure the addon is enabled on the character select scr
 | Item | Shown as |
 |---|---|
 | Normal item | nothing |
-| Quest item for a quest in your log | a small tick in the corner. Its tooltip says which quest needs it |
+| Quest item for a quest in your log | a tick inside a ring in the corner (green by default). Its tooltip says which quest needs it |
 | Quest item whose quest is gone | colored border (orange by default) and a warning icon in the corner |
 | Quest item the addon cannot link to a quest | nothing by default (see *Options*) |
 
@@ -44,6 +44,7 @@ each quest was turned in or just isn't in your log.
 - Tick quest items you still need
 - Add tooltip information
 - Highlight color
+- Quest tick color (tick and its ring)
 - **Only flag when the quest is completely inactive (turned in):** items of quests that only left
   your log (for example abandoned quests, which you can pick up again) are not flagged. Only items
   of quests the server reports as completed are flagged.

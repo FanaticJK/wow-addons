@@ -20,7 +20,7 @@ local OPTIONS = {
 	{ key = 'showIcon', label = 'Show warning icon',
 		tip = 'Add a small warning icon to the corner of flagged items.' },
 	{ key = 'showQuestTick', label = 'Tick quest items you still need',
-		tip = 'Add a small tick to the corner of quest items that a quest in your log still needs.' },
+		tip = 'Add a ringed tick to the corner of quest items that a quest in your log still needs.' },
 	{ key = 'tooltipEnabled', label = 'Add tooltip information',
 		tip = 'Explain in the item tooltip why an item was flagged and which quest it belongs to.' },
 	{ key = 'onlyCompleted', label = 'Only flag when the quest is completely inactive (turned in)',
@@ -33,34 +33,37 @@ local OPTIONS = {
 
 --[[ options panel ]]--
 
-local panel, checks, swatch
+local COLORS = {
+	{ key = 'highlightColor', label = 'Highlight color (click to change)' },
+	{ key = 'tickColor', label = 'Quest tick color (click to change)' },
+}
+
+local panel, checks, swatches
 
 local function SettingChanged()
 	QIH:Invalidate()
 end
 
-local function SetColor(r, g, b)
-	local color = QIH.db.highlightColor
+local function SetColor(swatch, r, g, b)
+	local color = QIH.db[swatch.key]
 	color.r, color.g, color.b = r, g, b
-	if swatch then
-		swatch.texture:SetVertexColor(r, g, b)
-	end
+	swatch.texture:SetVertexColor(r, g, b)
 	QIH:RefreshButtons()
 end
 
-local function OpenColorPicker()
+local function OpenColorPicker(swatch)
 	local picker = _G.ColorPickerFrame
-	local color = QIH.db.highlightColor
+	local color = QIH.db[swatch.key]
 	local previous = { color.r, color.g, color.b }
 	picker:Hide()
 	picker.hasOpacity = false
 	picker.opacityFunc = nil
 	picker.previousValues = previous
 	picker.func = function()
-		SetColor(picker:GetColorRGB())
+		SetColor(swatch, picker:GetColorRGB())
 	end
 	picker.cancelFunc = function()
-		SetColor(previous[1], previous[2], previous[3])
+		SetColor(swatch, previous[1], previous[2], previous[3])
 	end
 	picker:SetColorRGB(color.r, color.g, color.b)
 	ShowUIPanel(picker)
@@ -71,8 +74,31 @@ local function RefreshPanel()
 	for _, check in ipairs(checks) do
 		check:SetChecked(db[check.key])
 	end
-	local color = db.highlightColor
-	swatch.texture:SetVertexColor(color.r, color.g, color.b)
+	for _, swatch in ipairs(swatches) do
+		local color = db[swatch.key]
+		swatch.texture:SetVertexColor(color.r, color.g, color.b)
+	end
+end
+
+local function CreateSwatch(option, anchor, offsetX, offsetY)
+	local swatch = CreateFrame('Button', nil, panel)
+	swatch.key = option.key
+	swatch:SetWidth(18)
+	swatch:SetHeight(18)
+	swatch:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', offsetX, offsetY)
+	local background = swatch:CreateTexture(nil, 'BACKGROUND')
+	background:SetTexture(1, 1, 1)
+	background:SetAllPoints()
+	swatch.texture = swatch:CreateTexture(nil, 'ARTWORK')
+	swatch.texture:SetTexture(1, 1, 1)
+	swatch.texture:SetPoint('TOPLEFT', 2, -2)
+	swatch.texture:SetPoint('BOTTOMRIGHT', -2, 2)
+	swatch:SetScript('OnClick', OpenColorPicker)
+
+	local label = panel:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
+	label:SetPoint('LEFT', swatch, 'RIGHT', 8, 0)
+	label:SetText(option.label)
+	return swatch
 end
 
 local function CreatePanel()
@@ -108,27 +134,16 @@ local function CreatePanel()
 		anchor = check
 	end
 
-	swatch = CreateFrame('Button', nil, panel)
-	swatch:SetWidth(18)
-	swatch:SetHeight(18)
-	swatch:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', 6, -12)
-	local background = swatch:CreateTexture(nil, 'BACKGROUND')
-	background:SetTexture(1, 1, 1)
-	background:SetAllPoints()
-	swatch.texture = swatch:CreateTexture(nil, 'ARTWORK')
-	swatch.texture:SetTexture(1, 1, 1)
-	swatch.texture:SetPoint('TOPLEFT', 2, -2)
-	swatch.texture:SetPoint('BOTTOMRIGHT', -2, 2)
-	swatch:SetScript('OnClick', OpenColorPicker)
-
-	local swatchLabel = panel:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-	swatchLabel:SetPoint('LEFT', swatch, 'RIGHT', 8, 0)
-	swatchLabel:SetText('Highlight color (click to change)')
+	swatches = {}
+	for i, option in ipairs(COLORS) do
+		anchor = CreateSwatch(option, anchor, i == 1 and 6 or 0, i == 1 and -12 or -8)
+		swatches[#swatches + 1] = anchor
+	end
 
 	local scan = CreateFrame('Button', 'QuestItemHelperOptionsScan', panel, 'UIPanelButtonTemplate')
 	scan:SetWidth(120)
 	scan:SetHeight(22)
-	scan:SetPoint('TOPLEFT', swatch, 'BOTTOMLEFT', -4, -16)
+	scan:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', -4, -16)
 	scan:SetText('Rescan bags')
 	scan:SetScript('OnClick', function()
 		QIH:SlashCommand('scan')
