@@ -203,6 +203,9 @@ function Frame:OnShow()
 
 	self:UpdateEvents()
 	self:UpdateLook()
+
+	--bring the frame above other windows sharing its strata every time it opens
+	self:Raise()
 end
 
 function Frame:OnHide()
@@ -402,8 +405,9 @@ end
 function Frame:SetFrameLayer(layer)
 	local strata, topLevel = nil, false
 
+	--DIALOG keeps the bags above meter/quest windows (Recount, Carbonite) that sit at HIGH or below
 	if layer == 'TOPLEVEL' then
-		strata = 'HIGH'
+		strata = 'DIALOG'
 		topLevel = true
 	elseif layer == 'MEDIUMLOW' then
 		strata = 'LOW'

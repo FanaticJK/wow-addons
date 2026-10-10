@@ -491,7 +491,7 @@ function SavedFrameSettings:GetDefaultInventorySettings()
 		point = 'BOTTOMRIGHT',
 		x = 0,
 		y = 150,
-		frameLayer = 'HIGH',
+		frameLayer = 'TOPLEVEL',
 
 		--itemFrame
 		itemFrameColumns = 8,
@@ -543,7 +543,7 @@ function SavedFrameSettings:GetDefaultBankSettings()
 		point = 'BOTTOMLEFT',
 		x = 0,
 		y = 150,
-		frameLayer = 'HIGH',
+		frameLayer = 'TOPLEVEL',
 
 		--itemFrame
 		itemFrameColumns = 10,
@@ -587,7 +587,7 @@ function SavedFrameSettings:GetDefaultKeyRingSettings()
 		point = 'BOTTOMRIGHT',
 		x = -350,
 		y = 150,
-		frameLayer = 'HIGH',
+		frameLayer = 'TOPLEVEL',
 
 		--itemFrame
 		itemFrameColumns = 4,
