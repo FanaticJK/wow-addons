@@ -113,7 +113,8 @@ function lib.ScanProcessors.delete(operation, itemData, oldData)
 
 	price = price / itemData.stackSize
 
-	local pricedata = private.GetPriceData(GetFaction())
+	-- the scan's own serverKey (set by CoreScan): GetFaction() is wrong once the AH has closed
+	local pricedata = private.GetPriceData(itemData.serverKey or GetFaction())
 	local itemType, itemId, property, factor = decode(itemData.link)
 	if (factor ~= 0) then property = property.."x"..factor end
 	if not pricedata.daily[itemId] then pricedata.daily[itemId] = "" end
@@ -168,13 +169,13 @@ function private.EstimateStandardDeviation(hyperlink, serverKey)
 
     local mean = 0
 	for i=1,count do
-		mean = mean + dataset[count]
+		mean = mean + dataset[i]
 	end
 	mean = mean / count
 
     local variance = 0
 	for i=1,count do
-        variance = variance + (mean - dataset[count])^2
+        variance = variance + (mean - dataset[i])^2
     end
 
     return mean, sqrt(variance), count
@@ -272,19 +273,27 @@ function lib.GetPriceArray(hyperlink, serverKey)
 	-- Get our statistics
 	local dayAverage, avg3, avg7, avg14, _, dayTotal, dayCount, seenDays, seenCount = lib.GetPrice(hyperlink, serverKey)
 
+	-- GetPrice reports "no data" as zeros, and 0 is truthy in Lua: without these checks an item
+	-- with no purchase history was priced at 0, and one bought only today ignored dayAverage
+	if (dayCount or 0) == 0 and (seenCount or 0) == 0 then return end
+	-- the zero placeholders become nil only for picking the price; the fields below keep them
+	local p3 = avg3 ~= 0 and avg3 or nil
+	local p7 = avg7 ~= 0 and avg7 or nil
+	local p14 = avg14 ~= 0 and avg14 or nil
+
 	-- pricearray.price and pricearray.seen are the ones that most algorithms will look for
 	pricearray.seen = seenCount
 	if not get("stat.purchased.reportsafe") then
-		pricearray.price = avg3 or dayAverage
+		pricearray.price = p3 or dayAverage
 	else
 		-- Safe mode: prefer longer-running averages for low-volume items
 		if seenCount>100 and seenCount > seenDays*10 then
-			pricearray.price = avg3 or dayAverage
+			pricearray.price = p3 or dayAverage
 			-- print(hyperlink..": seen "..seenCount.." over "..seenDays.. "days. going with avg3")
 		else
-			local a3 = avg3 or dayAverage
-			local a7 = avg7 or a3
-			local a14 = avg14 or a7
+			local a3 = p3 or dayAverage
+			local a7 = p7 or a3
+			local a14 = p14 or a7
 			if seenCount >= seenDays*7 then
 				pricearray.price = (a3+a7)/2
 				-- print(hyperlink..": seen "..seenCount.." over "..seenDays.. "days. going with avg(a3,a7)")

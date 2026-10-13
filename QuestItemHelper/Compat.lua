@@ -13,7 +13,7 @@ QuestItemHelper = QIH
 QIH.name = addonName
 
 local _G = _G
-local select, tonumber, type = select, tonumber, type
+local pairs, select, tonumber, type = pairs, select, tonumber, type
 local GetContainerNumSlots = GetContainerNumSlots
 local GetContainerItemID = GetContainerItemID
 local GetContainerItemLink = GetContainerItemLink
@@ -116,13 +116,24 @@ function QIH.RequestCompletedQuests()
 	return false
 end
 
+function QIH.CanReadCompletedQuests()
+	return _G.GetQuestsCompleted ~= nil
+end
+
 function QIH.ReadCompletedQuests(into)
 	local fn = _G.GetQuestsCompleted
-	if fn then
-		fn(into)
-		return true
+	if not fn then
+		return false
 	end
-	return false
+	-- documented to fill the table passed in and return it; copy the return value as well in
+	-- case a client build hands back a fresh table instead
+	local result = fn(into)
+	if type(result) == 'table' and result ~= into then
+		for questID, done in pairs(result) do
+			into[questID] = done
+		end
+	end
+	return true
 end
 
 -- Title shown on the quest completion (reward) panel

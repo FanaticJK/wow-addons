@@ -18,8 +18,15 @@ node all.js        # full gate: static check + 3 runtime scenarios
 node all.js -v     # verbose
 ```
 
-Gate must stay green before and after any change. Current baseline: **4/4 green**
-(737 lua files parse, 0 errors, 0 unknown globals; smoke 154, migrate 50, garbage 7 — all 0 failures).
+Gate must stay green before and after any change. Current baseline (2026-10-13): **6/6 green**
+(checker self-test 6; 742 lua files parse, 0 errors, 0 unknown globals; smoke 156, migrate 51,
+garbage 7, QuestItemHelper 79 — all 0 failures).
+Work counts for QuestItemHelper: `node _dev/run.js _dev/qihbench.lua` (not part of the gate).
+
+`known.txt` accepts two kinds of entry: a bare name (a real 3.3.5 global, accepted everywhere) and
+`path/file.lua: name` (a reviewed leak, accepted only in that file). Never add a generic name like
+`count` or `name` as a bare entry — a blanket list of 45 such names hid three real crashes until
+2026-10-13.
 
 **Status legend**
 - `Done` — full pass (restructure + fixes) AND driven by a runtime scenario in `_dev`.
@@ -42,7 +49,7 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 
 ## Addon inventory & status
 
-35 addon folders. Grouped by ecosystem.
+53 addon folders. Grouped by ecosystem.
 
 ### Bagnon family — bags/bank (author: Tuller) — **Done**
 | Folder | Ver | SavedVariables | Status | Notes |
@@ -61,18 +68,18 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 | CarboniteNodes | 1.00 | — | Static-only | LoD gather nodes. Clean, no changes. |
 | CarboniteTransfer | 1.01 | CarboniteTransferData | Static-only | Warehouse transfer stub. Clean. |
 
-### Auctioneer suite — auction (author: Norganna) — **Static-only / Deep-audit pending**
+### Auctioneer suite — auction (author: Norganna) — **Static-only + audited (2026-10-13)**
 | Folder | Ver | SavedVariables | Status | Notes |
 |---|---|---|---|---|
-| Auc-Advanced | 5.8.4723 | AucAdvancedConfig, AucAdvancedData / AucAdvancedLocal(char) | Static-only + audit pending | Core. **Stubby added 2026-10-01.** Fixed `UiParent`→`UIParent`, `\n` mangles in elGR/zhTW help. |
-| Auc-Filter-Basic | 5.8.4723 | AucAdvancedFilterBasic(+_IgnoreList) | Static-only + partly audited | Filter module. One fix: the ignore-list popup called the removed `ChatFrameEditBox` on close. Not part of a full Auctioneer audit. |
-| Auc-ScanData | 5.8.4723 | AucScanData | Static-only + audit pending | LoD scan cache. |
-| Auc-Stat-Histogram | 5.8.4723 | AucAdvancedStatHistogramData(+Total) | Static-only + audit pending | Stat module. |
-| Auc-Stat-iLevel | 5.8.4723 | AucAdvancedStat_iLevelData | Static-only + audit pending | Stat module. |
-| Auc-Stat-Purchased | 5.8.4723 | AucAdvancedStatPurchasedData | Static-only + audit pending | Stat module. |
-| Auc-Stat-Simple | 5.8.4723 | AucAdvancedStatSimpleData | Static-only + audit pending | Stat module. |
-| Auc-Stat-StdDev | 5.8.4723 | AucAdvancedStatStdDevData | Static-only + audit pending | Stat module. |
-| Auc-Util-FixAH | 5.8.4723 | — | Static-only + audit pending | AH paging workaround. |
+| Auc-Advanced | 5.8.4723 | AucAdvancedConfig, AucAdvancedData / AucAdvancedLocal(char) | Static-only + audited | Core. **Stubby added 2026-10-01.** Fixed `UiParent`→`UIParent`, `\n` mangles in elGR/zhTW help. 2026-10-13: 13 fixes in CoreAPI/CoreScan/CoreBuy/CorePost/CoreUtil, incl. a client hang in the pricing recursion guard and Neutral-AH stats filed under the home faction. |
+| Auc-Filter-Basic | 5.8.4723 | AucAdvancedFilterBasic(+_IgnoreList) | Static-only + audited | Filter module. One fix: the ignore-list popup called the removed `ChatFrameEditBox` on close. 2026-10-13: logout handler indexed the ignore list with undefined `realm`/`faction` — errored at every logout once a seller was ignored. |
+| Auc-ScanData | 5.8.4723 | AucScanData | Static-only + audited | LoD scan cache. Audited, no change (wipes `scans` on unknown Version — deliberate, documented). |
+| Auc-Stat-Histogram | 5.8.4723 | AucAdvancedStatHistogramData(+Total) | Static-only + audited | Stat module. New highs among the first 20 sightings were dropped; count off by one after refactor. |
+| Auc-Stat-iLevel | 5.8.4723 | AucAdvancedStat_iLevelData | Static-only + audited | Stat module. Single-point return order; identical prices excluded; serverKey routing. |
+| Auc-Stat-Purchased | 5.8.4723 | AucAdvancedStatPurchasedData | Static-only + audited | Stat module. Mean/variance used `dataset[count]`; no-data priced 0; serverKey routing. |
+| Auc-Stat-Simple | 5.8.4723 | AucAdvancedStatSimpleData | Static-only + audited | Stat module. Never-seen items priced 0; serverKey routing. |
+| Auc-Stat-StdDev | 5.8.4723 | AucAdvancedStatStdDevData | Static-only + audited | Stat module. Single-point return order; identical prices excluded; serverKey routing. |
+| Auc-Util-FixAH | 5.8.4723 | — | Static-only + audited | AH paging workaround. Audited, no change. |
 
 ### AtlasLoot family — loot browser (author: Hegarol) — **Static-only / Deep-audit DONE**
 | Folder | Ver | SavedVariables | Status | Notes |
@@ -104,6 +111,7 @@ Gate must stay green before and after any change. Current baseline: **4/4 green*
 | BankStack | v17.1 | BankStackDB | Done | Sort/stack. Fixed bank-bag range 8–11, OnUpdate `arg1`→`elapsed`, tooltip re-owning, nil-safety. Runtime-tested (used by Bagnon sort button). |
 | Stubby | 5.8.4723 | StubbyConfig | Static-only + audited | Auctioneer boot/hook library (hard dep of Auc-Advanced). Deep audit done — 4 bugs fixed, incl. an `unpack` over a table with a hole that made every negative-position hook silently fail, and an `unhookFrom` that could never succeed. |
 | Bartender4 | 4.4.2 | Bartender4DB | Static-only + audited | Action bars (Ace3 + LibKeyBound + LibWindow + LibDBIcon). Added 2026-10-02. Deep audit done — 12 bugs fixed, incl. a `rangeTimer` that was never armed (both out-of-range modes dead for every user) and an operator-precedence slip that rebuilt secure stance buttons in combat. **The only addon here that touches secure frames.** |
+| QuestItemHelper | 1.0.0 | QuestItemHelperDB / QuestItemHelperCharDB(char) | Done | Old-quest-item highlighter (Bagnon/Baggins/Blizzard bags). Added 2026-10-07, audited 2026-10-13: SavedVariables repair, history-refresh data loss, retry budget; options panel redesigned. Runtime-tested by `_dev/qih.lua`. |
 | BeanCounter | 5.8.4723 | BeanCounterDB, BeanCounterAccountDB | Static-only + audited | Auction-house transaction history (Auctioneer suite; hard dep on Stubby). Added 2026-10-02. Deep audit done — 24 bugs fixed, incl. three loops that removed from the table they iterated with `pairs`, a doubled-suffix database key that hid every neutral-AH buyout from maintenance, and a `debugPrint` that errored on a nil global on every call. |
 
 ### DataStore family — character data library (author: Thaoky) — **Static-only + audited**
@@ -142,7 +150,7 @@ Ordered by value, given no in-game client.
 
 ### In progress
 - **Deep audit of the 23 static-only addons** (logic/event/perf bugs the checker can't catch).
-  Ran as 4 parallel audits: (1) Auctioneer suite — **cancelled before it reported, still un-audited**, (2) ~~AtlasLoot family~~ **done, 6 fixed**, (3) ~~Altoholic~~ **done, 17 fixed**, (4) ~~AckisRecipeList+Baggins+AllStats+!Swatter~~ **done, 20 fixed** (plus 1 in Auc-Filter-Basic).
+  Ran as 4 parallel audits: (1) ~~Auctioneer suite~~ **cancelled, then done 2026-10-13: 20 fixed across 9 folders**, (2) ~~AtlasLoot family~~ **done, 6 fixed**, (3) ~~Altoholic~~ **done, 17 fixed**, (4) ~~AckisRecipeList+Baggins+AllStats+!Swatter~~ **done, 20 fixed** (plus 1 in Auc-Filter-Basic).
   Findings + fixes are appended to [Deep-audit findings](#deep-audit-findings) below and to MODERNIZATION_LOG.md.
   Every finding is re-read against the source in the main thread before any fix is applied — audit reports are leads, not authority.
 - **Deep audit of Stubby + the 17 DataStore folders** — **done 2026-10-01, 36 bugs fixed.** Ran as 4 parallel audits: (1) DataStore core + Stubby, (2) Achievements/Auctions/Characters/Containers, (3) Crafts/Currencies/Inventory/Mails, (4) Pets/Quests/Reputations/Skills/Spells/Stats/Talents. Scoped to addon logic only — pure data/locale/SavedVariables files were excluded on the user's instruction. Gate 4/4 green afterwards (624 Lua files).
@@ -151,7 +159,8 @@ Ordered by value, given no in-game client.
 ### Queued (actionable without a client)
 1. ~~Apply + verify confirmed high/med bugs from the deep audit; re-run `node all.js`~~ — **done for every audited addon**, gate 4/4 green. Remaining: the Auctioneer suite, and the two findings under [Needs a client](#needs-a-client).
 2. **AtlasLoot Phase 6** — UI modernize. ~~Confirm data modules load lazily (LoD), not at startup~~ — **verified correct, no change needed**: all 5 data modules carry `## LoadOnDemand: 1`, and the one startup path that would force them in (`AtlasLoot.lua:361`) is behind the `LoadAllLoDStartup` profile option, which defaults to `false` (`AtlasLoot.lua:109`). The other `AtlasLoot_LoadAllModules()` calls are user-initiated (search across all modules, browser buttons) or a one-time wishlist migration for pre-4.03.01 SavedVariables.
-3. **Auctioneer Phase 7** — scan stability, duplicate-scan prevention, caching, error recovery, respect AH throttle. Stubby is now present and audited, so the boot-stub path is live rather than missing.
+3. **Auctioneer Phase 7** — scan stability, duplicate-scan prevention, caching, error recovery, respect AH throttle. The 2026-10-13 audit fixed the commit-queue order, the logout drain, a commit-killing typo and the buy-queue stall/spam; still open: an Auctioneer runtime scenario (stat modules first — they are nearly pure), the open `AskPrice` `sourceChannel` suspect, and SV wipes on unknown Version.
+3a. **Bagnon `DIALOG` strata (commit `be4f6e6`).** The bag window can now cover the Interface Options frame (HIGH) and static popups. Deliberate choice, so not reverted; needs an in-game decision.
 4. Optional runtime scenarios in `_dev` to actually *execute* the static-only addons (auction/tradeskill/DataStore mocks — real work, no catch-all in mock by design).
 5. ~~Guard Altoholic against absent DataStore~~ — **moot**: the DataStore family was added 2026-10-01, so Altoholic's hard dependency chain resolves. No guards needed (and they were rejected on the same grounds in the Altoholic audit).
 
@@ -272,11 +281,24 @@ take `(statFrame, unit, statIndex)` on 3.3.5 rather than the signature AllStats 
 is wrong, applying it breaks the whole panel, and it cannot be settled without a real client or a
 copy of 3.3.5's `PaperDollFrame.lua`. See [Needs a client](#needs-a-client).
 
-### Auctioneer suite — audit **not** performed
+### Auctioneer suite — audit complete 2026-10-13, 20 fixed
 
-The Auctioneer audit was cancelled before it reported. The suite (`Auc-Advanced` and its `Auc-*`
-modules, aside from the one `Auc-Filter-Basic` fix above) is un-audited beyond the static gate.
-Phase 7 in the work queue still stands.
+Full table with failure scenarios in MODERNIZATION_LOG.md, "2026-10-13 pass". High severity:
+`CoreAPI` recursion guard looped forever (`while (#t)`: 0 is truthy) — client hang on any pricing
+cycle; `CoreScan` commit queue was LIFO and logout dropped queued commits; Neutral-AH stats were
+filed under the home faction when the commit ran after the AH closed; Histogram dropped new highs;
+Purchased mean/variance indexed `dataset[count]`; StdDev/iLevel single-point returns out of order
+and identical prices excluded; Purchased/Simple priced no-data items at 0; `Auc-Filter-Basic`
+errored at every logout. Three of these (`scansize`, `invType`, `realm`/`faction`) had been
+silenced by blanket `known.txt` entries. Not executed by the harness — static-verified only.
+
+### QuestItemHelper — audit complete 2026-10-13, 6 fixed
+
+Damaged `knowledge.links` entry crashed the scan; NaN/out-of-range colours accepted;
+`QUEST_QUERY_COMPLETE` wiped the cache before reading; retry budget never refilled; zero-size
+border on unsized buttons; needless tooltip resize. Options panel redesigned (sections, live
+status, dependent options disabled with a reason, swatches beside their options). Runtime-tested
+by `_dev/qih.lua`.
 
 ### Stubby — audit complete, 4 bugs fixed
 

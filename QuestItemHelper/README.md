@@ -38,19 +38,24 @@ each quest was turned in or just isn't in your log.
 
 ## Options
 
-- Enable the addon
-- Highlight items in bags
-- Show warning icon
-- Tick quest items you still need
-- Add tooltip information
-- Highlight color
-- Quest tick color (tick and its ring)
-- **Only flag when the quest is completely inactive (turned in):** items of quests that only left
-  your log (for example abandoned quests, which you can pick up again) are not flagged. Only items
-  of quests the server reports as completed are flagged.
-- **Also flag quest items no current quest uses:** also flags *Quest Item* items that are not linked
-  to any known quest. This is less certain, so it is off by default.
-- Debug output
+The panel (Esc > Interface > AddOns > Quest Item Helper) is grouped into sections. A status line
+at the top says whether the addon is active and how many old quest items are in your bags. Options
+that cannot apply right now are greyed out, and their tooltip says which option to turn on first.
+
+- **Enable Quest Item Helper**
+- **In your bags**
+  - Highlight old quest items, with its color swatch on the right
+  - Add a warning icon (needs the highlight)
+  - Tick quest items you still need, with its color swatch (tick and ring)
+- **Tooltips**
+  - Explain the verdict in item tooltips
+- **Detection**
+  - **Only highlight items of turned-in quests:** items of quests that only left your log (for
+    example abandoned quests, which you can pick up again) are not flagged. Only items of quests
+    the server reports as completed are flagged.
+  - **Also highlight unlinked quest items:** also flags *Quest Item* items that are not linked to
+    any known quest. This is less certain, so it is off by default.
+- Footer: debug output in chat, and a **Rescan bags** button
 
 ## How detection works
 
@@ -134,5 +139,9 @@ pack can answer "which quest needs this item":
 ## Saved data
 
 - `QuestItemHelperDB` (account): settings plus `knowledge` (learned item → quest links, quest
-  titles, daily flags). Missing keys are filled with defaults. Existing values are never overwritten.
-- `QuestItemHelperCharDB` (character): cached completed-quest IDs from the server.
+  titles, daily flags). Missing keys are filled with defaults and valid values are never
+  overwritten. A setting of the wrong type, or a colour component that is NaN or outside 0..1, is
+  reset to its default; a damaged learned link or title is dropped (and a chat line says how many),
+  while every readable entry and any unknown key is kept.
+- `QuestItemHelperCharDB` (character): cached completed-quest IDs from the server. The cache is only
+  replaced when the server's answer actually arrives.

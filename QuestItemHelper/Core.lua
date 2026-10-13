@@ -70,7 +70,9 @@ local dirtyBags = {}            -- bag -> true, BAG_UPDATE since the last scan
 
 local pendingTurnIn             -- title on the reward panel, see QUEST_COMPLETE
 local pendingTurnInExpires = 0
-local retries = 0
+local retries = 0               -- uncached items seen by the current Run() that still have tries left
+local pendingTries = {}         -- itemID -> scans that found it uncached; cleared once it is judged
+local MAX_TRIES = 5
 
 QIH.activeQuests = activeQuests
 QIH.slotItems = slotItems
@@ -92,6 +94,11 @@ end
 
 --[[ saved variables ]]--
 
+-- a number that is not NaN or infinite; the defaults hold only colour components, so also 0..1
+local function IsUnitNumber(value)
+	return type(value) == 'number' and value == value and value >= 0 and value <= 1
+end
+
 local function ApplyDefaults(target, defaults)
 	for key, value in pairs(defaults) do
 		if type(value) == 'table' then
@@ -99,10 +106,38 @@ local function ApplyDefaults(target, defaults)
 				target[key] = {}
 			end
 			ApplyDefaults(target[key], value)
-		elseif type(target[key]) ~= type(value) then
+		elseif type(target[key]) ~= type(value) or (type(value) == 'number' and not IsUnitNumber(target[key])) then
 			target[key] = value
 		end
 	end
+end
+
+-- The learned tables are only ever written by this addon, so an entry of the wrong shape is
+-- damage, not data: it cannot be read and would error later inside a bag scan or tooltip.
+-- Entries are dropped one by one; everything readable is kept.
+local function RepairKnowledge(knowledge)
+	local repaired = 0
+	for itemID, quests in pairs(knowledge.links) do
+		if type(itemID) ~= 'number' or type(quests) ~= 'table' then
+			knowledge.links[itemID] = nil
+			repaired = repaired + 1
+		else
+			-- Evaluate() sorts these quest IDs; one non-number key makes table.sort throw
+			for questID in pairs(quests) do
+				if type(questID) ~= 'number' then
+					quests[questID] = nil
+					repaired = repaired + 1
+				end
+			end
+		end
+	end
+	for questID, title in pairs(knowledge.titles) do
+		if type(questID) ~= 'number' or type(title) ~= 'string' then
+			knowledge.titles[questID] = nil
+			repaired = repaired + 1
+		end
+	end
+	return repaired
 end
 
 local function InitSavedVariables()
@@ -121,6 +156,10 @@ local function InitSavedVariables()
 		if type(knowledge[key]) ~= 'table' then
 			knowledge[key] = {}
 		end
+	end
+	local repaired = RepairKnowledge(knowledge)
+	if repaired > 0 then
+		QIH:Print(format('removed %d damaged entr%s from the saved item/quest links.', repaired, repaired == 1 and 'y' or 'ies'))
 	end
 
 	-- completed quests are per character; cached so they are known before the server answers
@@ -496,13 +535,11 @@ function QIH:GetVerdict(itemID, bag, slot)
 	end
 	local data = GetItemData(itemID, bag, slot)
 	if not (data and data.starterKnown) then
-		if bag then
-			retries = retries + 1  -- item not cached yet; Run() retries a few times
-		end
-		return PENDING_VERDICT
+		return PENDING_VERDICT  -- not in the client cache yet; ScanBag() budgets the retries
 	end
 	verdict = self:Evaluate(itemID, data)
 	verdicts[itemID] = verdict
+	pendingTries[itemID] = nil
 	DebugVerdict(bag, slot, itemID, data, verdict)
 	return verdict
 end
@@ -521,7 +558,16 @@ local function ScanBag(bag)
 		local itemID = QIH.GetBagItemID(bag, slot)
 		if itemID then
 			slots[slot] = itemID
-			QIH:GetVerdict(itemID, bag, slot)
+			if QIH:GetVerdict(itemID, bag, slot) == PENDING_VERDICT then
+				-- each uncached item gets its own few retries. A shared budget either starved new
+				-- items behind one that never resolves, or (reset on every BAG_UPDATE) let that one
+				-- item force a full rescan every second for as long as the player kept looting
+				local tries = (pendingTries[itemID] or 0) + 1
+				pendingTries[itemID] = tries
+				if tries <= MAX_TRIES then
+					retries = retries + 1
+				end
+			end
 		end
 	end
 end
@@ -564,7 +610,12 @@ function QIH:Run()
 		end
 	end
 	if not (db.enabled and questLogReady) then
-		self:RefreshButtons()
+		-- clear the overlays once when the addon is switched off (Invalidate sets fullScan),
+		-- not again on every later bag change
+		if fullScan then
+			fullScan = false
+			self:RefreshButtons()
+		end
 		return
 	end
 
@@ -574,17 +625,15 @@ function QIH:Run()
 	self:ScanBags(all)
 	if all then
 		self:RefreshButtons()
+		if self.UpdateConfigStatus then
+			self:UpdateConfigStatus()
+		end
 	end
 
-	-- some item was not in the client cache yet: try again shortly, a bounded number of times
+	-- some item was not in the client cache yet and still has tries left: try again shortly
 	if retries > 0 then
-		self.retryRounds = (self.retryRounds or 0) + 1
-		if self.retryRounds <= 5 then
-			fullScan = true
-			self:Schedule(1)
-		end
-	else
-		self.retryRounds = 0
+		fullScan = true
+		self:Schedule(1)
 	end
 end
 
@@ -594,7 +643,7 @@ function QIH:FullRescan()
 	wipe(itemData)
 	questsDirty = true
 	fullScan = true
-	self.retryRounds = 0
+	wipe(pendingTries)
 	self:Run()
 	local count = 0
 	self:ForEachFlagged(function() count = count + 1 end)
@@ -664,6 +713,12 @@ function handlers.QUEST_FINISHED()
 end
 
 function handlers.QUEST_QUERY_COMPLETE()
+	-- the cached history is only replaced by a real answer. Checked up front rather than read
+	-- into a scratch table: the history runs to thousands of quests, and filling the cache in
+	-- place avoids a second table that size and a copy loop at every login
+	if not QIH.CanReadCompletedQuests() then
+		return
+	end
 	wipe(completed)
 	QIH.ReadCompletedQuests(completed)
 	QIH:Debug('Completed quest history received from the server')
@@ -671,6 +726,10 @@ function handlers.QUEST_QUERY_COMPLETE()
 end
 
 function handlers.BAG_UPDATE(bag)
+	-- switched off: nothing to do. Turning it back on invalidates and rescans every bag anyway
+	if db and not db.enabled then
+		return
+	end
 	if bag then
 		dirtyBags[bag] = true
 	end

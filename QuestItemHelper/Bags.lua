@@ -34,7 +34,12 @@ local function CreateOverlay(button, record)
 	border:SetBlendMode('ADD')
 	border:SetAlpha(0.9)
 	-- the action button border art is 64px with the visible edge around the middle ~36px
-	local size = (button:GetWidth() or 37) * 1.8
+	-- an unsized button reports 0, which would make the border invisible; 37 is the stock size
+	local width = button:GetWidth()
+	if not width or width <= 0 then
+		width = 37
+	end
+	local size = width * 1.8
 	border:SetWidth(size)
 	border:SetHeight(size)
 	border:SetPoint('CENTER', button, 'CENTER', 0, 0)

@@ -42,6 +42,8 @@ if not AucAdvancedFilterBasic then AucAdvancedFilterBasic = {} end
 if not AucAdvancedFilterBasic_IgnoreList then AucAdvancedFilterBasic_IgnoreList = {} end
 
 local IgnoreList = {}
+-- the realm/faction the list was loaded for; the logout handler writes back to the same place
+local ignoreRealm, ignoreFaction
 
 function lib.Processor(callbackType, ...)
 	if callbackType == "config" then
@@ -211,6 +213,7 @@ function BF_IgnoreList_Load()
 
 	--Get the ignore list for the current realm and faction
 	IgnoreList = AucAdvancedFilterBasic_IgnoreList[realm][faction]
+	ignoreRealm, ignoreFaction = realm, faction
 	lib.IgnoreList = IgnoreList --make current ignore list global for other addons
 
 	for i, name in ipairs(IgnoreList) do
@@ -220,10 +223,15 @@ function BF_IgnoreList_Load()
 end
 
 function BF_IgnoreList_OnEvent()
-	if event == "PLAYER_LOGOUT" then
+	-- modernization fix: this read the undefined globals `realm` and `faction`, so indexing the
+	-- saved list errored at every logout once any seller had been ignored
+	if event == "PLAYER_LOGOUT" and ignoreRealm and ignoreFaction then
+		local saved = AucAdvancedFilterBasic_IgnoreList[ignoreRealm]
+		saved = saved and saved[ignoreFaction]
+		if not saved then return end
 		for key in pairs(IgnoreList) do
 			if type(key) == "number" then
-				AucAdvancedFilterBasic_IgnoreList[realm][faction][key] = IgnoreList[key]
+				saved[key] = IgnoreList[key]
 			end
 		end
 	end

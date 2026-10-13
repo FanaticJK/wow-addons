@@ -102,7 +102,8 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 	local itemType, itemId, property, factor = AucAdvanced.DecodeLink(itemData.link)
 	if (factor ~= 0) then property = property.."x"..factor end
 	
-	local data = private.GetPriceData(GetFaction())
+	-- the scan's own serverKey (set by CoreScan): GetFaction() is wrong once the AH has closed
+	local data = private.GetPriceData(itemData.serverKey or GetFaction())
 	if not data.daily[itemId] then data.daily[itemId] = "" end
 	local stats = private.UnpackStats(data.daily[itemId])
 	if not stats[property] then stats[property] = { 0, 0 , buyoutper } end
@@ -206,8 +207,8 @@ function lib.GetPriceArray(hyperlink, serverKey)
 	-- Get our statistics
 	local dayAverage, avg3, avg7, avg14, minBuyout, avgmins, _, dayTotal, dayCount, seenDays, seenCount, mean, stddev = lib.GetPrice(hyperlink, serverKey)
 	
-	--if nothing is returned, return nil
-	if not dayCount then return end
+	--if nothing is returned, return nil. GetPrice reports "never seen" as zero counts, not nil
+	if not dayCount or (dayCount == 0 and (seenDays or 0) == 0) then return end
 	
 	-- If reportsafe is on use the mean of all 14 day samples. Else use the "traditional" Simple values.
 	if not get("stat.simple.reportsafe") then

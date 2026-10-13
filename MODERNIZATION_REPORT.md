@@ -10,6 +10,12 @@ This report is the summary across all six.
 is either *static analysis* or *mock-runtime verified*, and each section says which.
 [Testing](#testing) and [Remaining Issues](#remaining-issues) spell out the boundary.
 
+> **Scope note (2026-10-13).** This report covers the original Bagnon-family pass only. Every later
+> pass — Carbonite, the Auctioneer/AtlasLoot/Altoholic/DataStore/Bartender4/BeanCounter audits, and
+> the 2026-10-13 QuestItemHelper audit, Auctioneer deep audit and checker hardening — is recorded in
+> [MODERNIZATION_LOG.md](MODERNIZATION_LOG.md) and [ADDON_TRACKER.md](ADDON_TRACKER.md). Since then
+> the `_dev` gate has six steps, not four; `node _dev/all.js` lists them.
+
 ---
 
 ## Changed

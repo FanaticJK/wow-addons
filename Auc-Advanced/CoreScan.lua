@@ -425,6 +425,11 @@ function lib.IsScanning()
 	return private.isScanning or (private.queueScan ~= nil)
 end
 
+-- true while a GetAll scan runs; such a scan cannot be pushed, so callers can wait instead of retrying
+function lib.IsGetAll()
+	return private.isGetAll and true or false
+end
+
 function lib.IsPaused()
 	return private.isPaused
 end
@@ -525,10 +530,17 @@ end
 
 local statItem = {}
 local statItemOld = {}
+-- serverKey of the scan being committed. Stat modules used to call GetFaction() themselves, but a
+-- commit can run after the AH has closed (AHClosed commits the last query, and long commits
+-- yield across frames); by then GetFaction() returns the home faction, so a Neutral scan's
+-- stats were filed under Alliance/Horde while its image went to Neutral.
+local processServerKey
 local function processStats(operation, curItem, oldItem)
 	local filtered = false
 	if (curItem) then private.Unpack(curItem, statItem) end
 	if (oldItem) then private.Unpack(oldItem, statItemOld) end
+	statItem.serverKey = processServerKey
+	statItemOld.serverKey = processServerKey
 	if (operation == "create") then
 		--[[
 			Filtering out happens here so we only have to do Unpack once.
@@ -546,7 +558,7 @@ local function processStats(operation, curItem, oldItem)
 				end
 			else
 				if (nLog) then
-					nLog.AddMessage("Auctioneer", "Scan", N_WARN, ("AuctionFilter %s Returned Error %s"):format(engineLib.GetName(), errormsg))
+					nLog.AddMessage("Auctioneer", "Scan", N_WARN, ("AuctionFilter %s Returned Error %s"):format(engineLib.GetName(), tostring(result)))
 				end
 			end
 		end
@@ -849,7 +861,9 @@ local Commitfunction = function()
 	CommitRunning = true
 
 	--grab the first item in the commit queue, and bump everything else down
-	local TempcurCommit = tremove(private.CommitQueue)
+	-- modernization fix: tremove() without a position popped the NEWEST scan, so a stale scan
+	-- queued behind a running commit was merged after a newer one and undid its removals
+	local TempcurCommit = tremove(private.CommitQueue, 1)
 	-- setup various locals for later use
 	local TempcurScan = TempcurCommit.Scan
 	local TempcurQuery = TempcurCommit.Query
@@ -863,6 +877,7 @@ local Commitfunction = function()
 		or TempcurQuery.name or TempcurQuery.isUsable or TempcurQuery.invType or TempcurQuery.quality) -- no restrictions, potentially a full scan
 
 	local serverKey = TempcurQuery.qryinfo.serverKey or GetFaction()
+	processServerKey = serverKey
 	local scandata = private.GetScanData(serverKey)
 	assert(scandata, "Critical error: scandata does not exist for serverKey "..serverKey)
 	local idList = private.BuildIDList(scandata, serverKey)
@@ -1081,7 +1096,7 @@ local Commitfunction = function()
 	end
 	if (TempcurQuery.qryinfo.nosummary) then
 		printSummary = false
-		scanSize = "NoSum-"..scansize
+		scanSize = "NoSum-"..tostring(scanSize)
 	end
 
 	if (nLog or printSummary) then
@@ -1404,6 +1419,8 @@ function lib.GetAuctionSellItem(minBid, buyoutPrice, runTime)
 	if name and itemLink then
 		itemLink = AucAdvanced.SanitizeLink(itemLink)
 		local _,_,_,itemLevel,level,itemType,itemSubType,_,itemEquipLoc = GetItemInfo(itemLink)
+		-- modernization fix: `invType` was an undefined global, so "newauc" processors always got nil
+		local invType = Const.EquipEncode[itemEquipLoc]
 		local _, itemId, itemSuffix, itemFactor, itemEnchant, itemSeed = AucAdvanced.DecodeLink(itemLink)
 		local timeLeft = 4
 		if runTime <= 12*60 then timeLeft = 3 end
@@ -1730,6 +1747,7 @@ function PlaceAuctionBid(type, index, bid, ...)
 	local itemData = lib.GetAuctionItem(type, index)
 	if itemData then
 		private.Unpack(itemData, statItem)
+		statItem.serverKey = GetFaction() -- live AH action; never the last commit's key
 		local modules = AucAdvanced.GetAllModules("ScanProcessors")
 		for pos, engineLib in ipairs(modules) do
 			if engineLib.ScanProcessors["placebid"] then
@@ -1756,6 +1774,7 @@ function StartAuction(minBid, buyoutPrice, runTime, ...)
 	local itemData, price = lib.GetAuctionSellItem(minBid, buyoutPrice, runTime)
 	if itemData then
 		private.Unpack(itemData, statItem)
+		statItem.serverKey = GetFaction() -- live AH action; never the last commit's key
 		local modules = AucAdvanced.GetAllModules("ScanProcessors")
 		for pos, engineLib in ipairs(modules) do
 			if engineLib.ScanProcessors["newauc"] then
@@ -1840,7 +1859,7 @@ function QueryAuctionItems(name, minLevel, maxLevel, invTypeIndex, classIndex, s
 	if (page==0) then
 		local scanSize = query.qryinfo.scanSize
 		if (query.qryinfo.NoSummary) then
-			scanSize = "NoSum-"..scansize
+			scanSize = "NoSum-"..tostring(scanSize)
 		end
 		AucAdvanced.SendProcessorMessage("scanstart", scanSize, query.qryinfo.sig, query)
 		if (nLog) then
@@ -2046,7 +2065,9 @@ local ItemUsableTooltip = {
 				end
 				this.tooltipFrame:AddFontStrings(this.fontString[i][1], this.fontString[i][2])
 			end
-			this.minLevelPattern = string.gsub(ITEM_MIN_LEVEL, "(%%d)", "(.+)")
+			-- lowercased, because the tooltip text it is matched against is lowercased below;
+			-- unlowered, the "requires level" exception for recipes never matched
+			this.minLevelPattern = string.lower((string.gsub(ITEM_MIN_LEVEL, "(%%d)", "(.+)")))
 		end
 
 		-- clear tooltip
@@ -2189,9 +2210,16 @@ end
 function lib.Logout()
 	AucAdvancedData.Scandata = nil -- delete obsolete data. it's here because CoreScan doesn't have an OnLoad processor
 	private.Commit(true, false)
-	if CoCommit then
-		while coroutine.status(CoCommit) == "suspended" do
+	-- OnUpdate no longer runs at logout, so drive every queued commit to completion here:
+	-- each Commitfunction coroutine handles one queue entry, not the whole queue
+	while CoCommit do
+		if coroutine.status(CoCommit) == "suspended" then
 			CoroutineResume(CoCommit)
+		elseif #private.CommitQueue > 0 then
+			CoCommit = coroutine.create(Commitfunction)
+			CoroutineResume(CoCommit)
+		else
+			break
 		end
 	end
 end

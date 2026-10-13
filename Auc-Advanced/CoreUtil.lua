@@ -353,7 +353,7 @@ function lib.AddTab(tabButton, tabFrame)
 
 	-- If we inserted a tab in the middle, adjust the layout of the next tab button.
 	if (tabIndex < tabCount) then
-		nextTabButton = getglobal("AuctionFrameTab"..(tabIndex + 1));
+		local nextTabButton = getglobal("AuctionFrameTab"..(tabIndex + 1));
 		nextTabButton:SetPoint("TOPLEFT", tabButton:GetName(), "TOPRIGHT", -8, 0);
 	end
 
@@ -383,7 +383,7 @@ function lib.RemoveTab(tabButton, tabFrame)
 
 	-- If we inserted a tab in the middle, adjust the layout of the next tab button after removal.
 	if tabFound and (tabFound < tabCount) then
-		nextTabButton = getglobal("AuctionFrameTab"..(tabFound + 1))
+		local nextTabButton = getglobal("AuctionFrameTab"..(tabFound + 1))
 		nextTabButton:SetPoint("TOPLEFT", getglobal("AuctionFrameTab"..(tabFound - 1)):GetName(), "TOPRIGHT", -8, 0)
 	end
 

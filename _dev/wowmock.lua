@@ -289,7 +289,8 @@ function W:GetChildren() return table.unpack(self.__children) end
 function W:GetNumChildren() return #self.__children end
 
 -- texture / fontstring
-function W:SetTexture(...) self.__texture = ... end
+-- __textureArgs keeps a solid colour's (r, g, b, a); __texture stays the first argument
+function W:SetTexture(...) self.__texture = ... self.__textureArgs = {...} end
 function W:GetTexture() return self.__texture end
 function W:SetTexCoord(...) self.__texcoord = {...} end
 function W:GetTexCoord() return table.unpack(self.__texcoord or {0, 1, 0, 1}) end

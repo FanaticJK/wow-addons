@@ -100,7 +100,8 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 	if (linkType ~= "item") then return end
 	if (factor and factor ~= 0) then property = property.."x"..factor end
 
-	local serverKey = GetFaction()
+	-- the scan's own serverKey (set by CoreScan): GetFaction() is wrong once the AH has closed
+	local serverKey = itemData.serverKey or GetFaction()
 	if not SSDRealmData[serverKey] then SSDRealmData[serverKey] = {} end
 	local stats = private.UnpackStats(SSDRealmData[serverKey][itemId])
 	if not stats[property] then stats[property] = {} end
@@ -192,7 +193,9 @@ function lib.GetPrice(hyperlink, serverKey)
 	end
 	local mean = total / number
 
-	if (count < 2) then return 0,0,0, mean, count end
+	-- modernization fix: was `return 0,0,0, mean, count`, out of order against the documented
+	-- average, mean, false, stddev, variance, count, confidence -- a single sighting was priced 0
+	if (count < 2) then return nil, mean, false, 0, 0, count, .01 end
 
 	local variance = 0
 	for i = 1, count do
@@ -209,7 +212,8 @@ function lib.GetPrice(hyperlink, serverKey)
 
 	for i = 1, count do
 		local price,stack = datapoints_price[i], datapoints_stack[i]
-		if abs((price/stack) - mean) < deviation then
+		-- `<=`: with identical prices the deviation is 0 and `<` excluded every sample
+		if abs((price/stack) - mean) <= deviation then
 			total = total + price
 			number = number + stack
 		end

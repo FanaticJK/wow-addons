@@ -37,7 +37,7 @@ The cross-addon summary of the pass (bug fixes, UI, performance, migration, test
 | `AtlasLoot_OriginalWoW` | Hegarol | 5.11.04 | Done, static only | LoD loot data |
 | `AtlasLoot_WorldEvents` | Hegarol | 5.11.04 | Done, static only | LoD loot data |
 | `AtlasLoot_WrathoftheLichKing` | Hegarol | 5.11.04 | Done, static only | LoD loot data |
-| `Auc-Advanced` | Norganna's AddOns | 5.8.4723 | Done, static only (needs in-game test) | Auctioneer core. `UiParent` typo + escapes fixed |
+| `Auc-Advanced` | Norganna's AddOns | 5.8.4723 | Done, static only (needs in-game test) | Auctioneer core. `UiParent` typo + escapes fixed; 2026-10-13 deep audit: client-hanging recursion guard, LIFO commit queue, Neutral-AH stats filed under the home faction, and more |
 | `Auc-Filter-Basic` | Norganna's AddOns | 5.8.4723 | Done, static only | Auctioneer filter module |
 | `Auc-ScanData` | Norganna's AddOns | 5.8.4723 | Done, static only | Auctioneer scan cache |
 | `Auc-Stat-Histogram` | Norganna's AddOns | 5.8.4723 | Done, static only | Auctioneer stat module |
@@ -66,6 +66,7 @@ The cross-addon summary of the pass (bug fixes, UI, performance, migration, test
 | `DataStore_Talents` | Thaoky | 3.3.001 | Done, static only (needs in-game test) | Glyph carry-over, leaked globals, nil-iterator crashes |
 | `Bartender4` | Nevcairiel | 4.4.2 | Done, static only (needs in-game test) | Action bars. Dead out-of-range timer, a combat-taint precedence bug, two leaked globals |
 | `BeanCounter` | Norganna's AddOns | 5.8.4723 | Done, static only (needs in-game test) | AH transaction history. Four undefined globals, three mutate-while-iterating loops, a DB key typo |
+| `QuestItemHelper` | Sujan Karki | 1.0.0 (unchanged) | Done (needs in-game test) | Old-quest-item highlighter. Audited 2026-10-13: SavedVariables repair, safer history refresh, options panel redesigned; first addon outside Bagnon with its own runtime scenario |
 
 Status values: `Pending` → `In progress` → `Done (needs in-game test)` → `Verified in game`.
 
@@ -75,7 +76,7 @@ plus a clean pass through the scripted runtime harness in `_dev/`. See
 
 ## Where things stand
 
-Last worked on: **2026-10-01**.
+Last worked on: **2026-10-13**.
 
 - All six Bagnon-family addons have had the full pass. No addon is half-finished.
 - The four Carbonite folders had a **static-only** pass (see [Carbonite](#carbonite--334)):
@@ -105,7 +106,11 @@ Last worked on: **2026-10-01**.
   committed yet.
 - The verification harness lives in `_dev/` and is committed with the project so it is not
   lost between sessions. `_dev/node_modules/` is gitignored — reinstall with `npm install`.
-- Current gate state: **4 of 4 green** (see below).
+- **2026-10-13: QuestItemHelper audited and given a runtime scenario; the Auctioneer suite deep
+  audit (the one cancelled on 2026-09-28) was finally done; the static checker was hardened** (see
+  [the 2026-10-13 pass](#2026-10-13-pass--questitemhelper-auctioneer-deep-audit-checker-hardening)).
+  Everything up to commit `be4f6e6` is committed; this pass is uncommitted in the working tree.
+- Current gate state: **6 of 6 green** (see below).
 
 ## How to verify
 
@@ -120,10 +125,12 @@ node all.js -v       # same, but shows each step's full output
 
 | Command | What it proves | Current result |
 |---|---|---|
-| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 737 files, 0 errors, 0 unknown globals |
-| `node run.js smoke.lua` | Fresh install: all six Bagnon-family addons load and the whole UI is driven (open/close, search, bag toggles, player switch, options panels, sort, guild bank, logout); every options panel fits the 3.3.5 options window | 154 checks, 0 failures |
-| `node run.js migrate.lua sv_legacy.lua` | A legacy 2.6.0 + partly corrupted SavedVariables file is repaired, migrated, and user data preserved across a save/load cycle | 50 checks, 0 failures |
+| `node checktest.js` | The checker itself: a file-scoped `known.txt` entry accepts a name only in its own file, an unlisted typo is still reported, and a stale scoped entry is flagged | 6 checks, 0 failures |
+| `node check.js` | Every `.toc`/XML entry resolves; every `## Interface` is 30300; every Lua file parses as 5.1; no retail-only API; no undefined globals; no bogus string escapes | 742 files, 0 errors, 0 unknown globals |
+| `node run.js smoke.lua` | Fresh install: all six Bagnon-family addons load and the whole UI is driven (open/close, search, bag toggles, player switch, options panels, sort, guild bank, logout); every options panel fits the 3.3.5 options window | 156 checks, 0 failures |
+| `node run.js migrate.lua sv_legacy.lua` | A legacy 2.6.0 + partly corrupted SavedVariables file is repaired, migrated, and user data preserved across a save/load cycle | 51 checks, 0 failures |
 | `node run.js garbage.lua sv_garbage.lua` | Top-level SavedVariables that are not even tables (a string/number/false) are rebuilt without erroring, and the user is told | 7 checks, 0 failures |
+| `node run.js qih.lua` | QuestItemHelper: a damaged SavedVariables file is repaired without losing readable data; every verdict path; collapsed quest-log headers read and restored; turn-in vs abandon; overlays on Blizzard and Bagnon buttons; tooltips; the options panel fits 413x428 and disables dependent options | 79 checks, 0 failures |
 
 ### What the harness is
 
@@ -898,6 +905,275 @@ No tests were written: the `_dev` harness cannot execute either addon (see "What
 client"), and runtime scenarios for the static-only addons are the separate piece of work already
 listed under "What is left".
 
+### 2026-10-13 pass — QuestItemHelper, Auctioneer deep audit, checker hardening
+
+Gate before: **1 of 4 red.** `migrate.lua` asserted that an invalid `frameLayer` resets to the
+literal `HIGH`, but commit `be4f6e6` deliberately changed the Bagnon default to `TOPLEVEL`. The
+test, not the addon, was stale: it now compares against
+`SavedFrameSettings:GetDefaultInventorySettings().frameLayer`, so a future default change cannot
+break it again; a second check asserts the default itself is a valid layer. Gate after: **6 of 6
+green** (742 Lua files, 0 unknown globals; smoke 156, migrate 51, garbage 7, QuestItemHelper 79,
+checker self-test 6).
+
+#### `QuestItemHelper` (added 2026-10-07, never audited until now)
+
+Confirmed defects, all fixed:
+
+- **A damaged learned-link entry crashed the bag scan.** `knowledge.links[itemID]` was indexed as a
+  table without a type check (`Learn`, `Evaluate`); a non-table value — a hand-edited or truncated
+  SavedVariables file — errored inside every scan and tooltip for that item. `RepairKnowledge` now
+  drops only entries of the wrong shape (non-numeric keys, non-table links, non-string titles),
+  keeps every readable one, and prints how many it removed.
+- **NaN / out-of-range colours were accepted.** `ApplyDefaults` only checked the type, so a NaN or
+  `5` colour component survived into `SetVertexColor`. Numbers in the defaults are colour
+  components, so they are now required to be finite and within 0..1; anything else gets the
+  default. Valid user values and unknown keys are untouched (asserted in the scenario).
+- **`QUEST_QUERY_COMPLETE` wiped the cached history before reading the new one.** If the read API
+  is missing, the per-character cache was emptied with nothing to replace it. The handler now checks
+  that the API exists before wiping, and fills the cache in place (see the performance pass below
+  for why not a scratch table). `ReadCompletedQuests` also copies a
+  *returned* table, in case a client build returns a fresh table instead of filling the one passed
+  in (the documented 3.3.5 behaviour is to fill it — unverified, so both are handled).
+- **The uncached-item retry budget was shared.** `retryRounds` only reset after a scan with zero
+  misses, so one permanently-uncached item used up the retries of every later new item. Retries are
+  now budgeted **per item** (5 each, counted only by bag scans, cleared once the item is judged).
+  The first version of this fix reset the shared budget on `BAG_UPDATE` instead, which the
+  performance pass below caught as a regression.
+- Minor: an unsized button (`GetWidth()` = 0) produced a zero-size flag border; the ACTIVE tooltip
+  path resized the tooltip even when it had added no line.
+
+UI: the options panel was rebuilt (`Config.lua`). Before: one flat column of eight checkboxes with
+long labels, colour swatches stacked underneath and disconnected from the options they colour.
+After: a header with the version, a one-line **live status** ("Active. 3 old quest item slots in
+your bags" / "Waiting for the quest log to load..." / "Off"), and three titled sections with
+hairline rules — *In your bags*, *Tooltips*, *Detection* — then a footer with debug output and a
+**Rescan bags** button. Each colour swatch sits on the right edge of the row it belongs to and has
+a hover tooltip. Options that cannot apply are **disabled and greyed with the reason in their
+tooltip** ("Turn on "Highlight old quest items" first.") instead of staying clickable and silently
+doing nothing; the master switch disables everything except debug. Labels were shortened and the
+detail moved into the tooltips. Every control is placed by one running cursor from the panel's
+top-left corner, so the scenario can prove the whole panel fits the 3.3.5 options area (413x428);
+the layout ends at about 382px. The status line refreshes after every full scan while the panel is
+open. No art is shipped: swatches and rules are solid-colour `SetTexture(r, g, b, a)` regions.
+
+Test: `_dev/qih.lua` (68 checks), new. Mutation-checked: disabling `RepairKnowledge` fails 3
+checks, disabling the dependent-option logic fails 3.
+
+Mock changes it needed (each is a fidelity fix, not a convenience):
+- `GetAuctionItemClasses` returned 3 classes; the real enUS 3.3.5 client returns 12, and **both
+  Bagnon and QuestItemHelper index position 12 ("Quest")**, which silently read nil under the mock.
+- The mock `GameTooltip` had no `GetItem()` and never fired `OnTooltipSetItem`; the client fires it
+  from `SetHyperlink`/`SetBagItem`. Bagnon_Tooltips now runs under smoke too (still green).
+- A quest-log model: `GetQuestLogTitle`/`GetQuestLink`/leader boards/special items with 3.3.5
+  *visible-row* semantics (quests under a collapsed header are not addressable), header
+  expand/collapse that fires `QUEST_LOG_UPDATE` synchronously, `GetQuestsCompleted`,
+  `GetTitleText`, and a per-item override for `GetContainerItemQuestInfo`.
+
+#### Auctioneer suite — the deep audit that was cancelled on 2026-09-28
+
+Audited: `Auc-Advanced` core (`CoreScan`, `CoreBuy`, `CorePost`, `CoreAPI`, `CoreUtil`,
+`CoreMain`, `CoreSettings`) and the seven stat/util folders, plus a lighter pass over
+SimpleAuction and Appraiser. The audit ran as a read-only agent; **every finding below was re-read
+against the source in the main thread before any change**, and two of its suggestions were not
+applied (see "Not changed").
+
+Fixed:
+
+| File | Defect | Effect before |
+|---|---|---|
+| `CoreAPI.lua` `GetAlgorithmValue` | recursion guard emptied the stack with `while (#stack) do` — 0 is truthy in Lua | any pricing-model cycle **hung the client** instead of raising the intended error; the format arguments were also out of order |
+| `CoreAPI.lua` `GetAlgorithmValue` | `tremove(stack, -1)` | out of bounds for Lua 5.1 `table.remove`; depending on the 5.1 patch level a no-op or a shift of the wrong entry. Now `tremove(stack)` |
+| `CoreScan.lua` `Commitfunction` | `tremove(CommitQueue)` popped the **newest** queued scan (the comment says "grab the first") | a stale scan queued behind a running commit was merged after a newer one and re-added auctions the newer scan had removed |
+| `CoreScan.lua` `lib.Logout` | only drove the current commit coroutine | every further queued commit was lost at logout (OnUpdate no longer runs) |
+| `CoreScan.lua` + 5 stat modules | stat processors called `GetFaction()` at commit time | a commit that runs after the AH closes (always true for the last query: `AHClosed` commits it) filed **Neutral-AH stats under Alliance/Horde** while the image went to Neutral. The commit's `serverKey` is now passed as `itemData.serverKey`; modules fall back to `GetFaction()` |
+| `CoreScan.lua:1086` | `"NoSum-"..scansize` (undefined; the local is `scanSize`) | a nil-concat error killed the commit coroutine with `CommitRunning` stuck true, blocking every later scan, whenever a no-summary scan was requested |
+| `CoreScan.lua` usable check | pattern built from `ITEM_MIN_LEVEL` was not lowercased, the text was | the "requires level refers to the created item" exception never matched; recipes were classed unusable in isUsable scans |
+| `CoreScan.lua` `GetAuctionSellItem` | `invType` undefined global | "newauc" processors always got `equipPos = nil` |
+| `CoreScan.lua:549` | `errormsg` undefined in a log line | only with nLog installed: a nil `%s` error inside the commit |
+| `CoreBuy.lua` `PushSearch` | OnUpdate retried every frame during a GetAll scan | about 60 "cannot be Pushed" chat lines per second for the whole GetAll. New read-only `AucAdvanced.Scan.IsGetAll()`; the buy queue now waits quietly |
+| `CoreBuy.lua` `FinishedSearch` | returned before clearing `Searching` on an incomplete scan | the buy queue stalled until the AH was closed. Cleared only when the incomplete scan was our own search |
+| `CorePost.lua` abort message | `("%s"):format(nil)` for an uncached item | errored about once a second forever; the request was never removed |
+| `CoreUtil.lua` | `nextTabButton` leaked as a global (2x) | namespace pollution |
+| `Auc-Stat-Histogram` | the first-20-observations branch never raised `max` | every new high price among an item's first 20 sightings was stored outside min..max and **dropped by PackStats**; medians biased low. `count` was also incremented before `refactor()` recomputed it, undercounting by one |
+| `Auc-Stat-Purchased` | mean/variance loops used `dataset[count]` instead of `dataset[i]` | the mean was always the last element and the variance always 0, so the PDF always took the degenerate path |
+| `Auc-Stat-Purchased` | `avg3 or dayAverage` with `avg3 = 0` | items bought only today, or never, were priced **0** (0 is truthy). No data now returns nil |
+| `Auc-Stat-Simple` | `if not dayCount` — `dayCount` is always a number | never-seen items returned a price array with price 0 instead of nil |
+| `Auc-Stat-StdDev`, `Auc-Stat-iLevel` | single-point return `0,0,0, mean, count` against the documented `average, mean, false, stddev, variance, count, confidence` | an item seen once was priced 0 with `seen = nil` |
+| `Auc-Stat-StdDev`, `Auc-Stat-iLevel` | outlier filter `< deviation` | identical prices give a deviation of 0, so **every** sample was excluded and consistent data read as "no data". Now `<=` |
+| `Auc-Filter-Basic` `BF_IgnoreList_OnEvent` | indexed the saved list with the undefined globals `realm`/`faction` | **errored at every logout** once any seller was ignored. Uses the realm/faction captured at load |
+
+Not changed, with reasons:
+- `CoreScan.lua:1844` tests `qryinfo.NoSummary` (capital N), which nothing sets, so its branch is
+  dead. Making it live would change the `scanstart` message for no-summary scans — a behaviour
+  change with no evidence it is wanted. Only the typo inside it was fixed.
+- `AskPrice.lua` `beingIgnored` sends `WFAIL` on an undefined `sourceChannel`. **Suspected defect,
+  left open**: the intended distribution (the original request's chat channel or the addon-message
+  channel) cannot be settled from the code. Marked OPEN in `known.txt`.
+- `Auc-Stat-Simple`/`Auc-Stat-Purchased` replace their database on an unknown `Version`, and
+  `Auc-ScanData` wipes `scans` on one. Deliberate upstream behaviour that only bites on a
+  downgrade. No backup is made; worth a future change, not a silent one.
+- `Auc-Stat-iLevel` grows its per-session unpacked arrays without bound (only `PackStats` trims to
+  250). Real but slow growth; fixing it changes the prices it reports mid-session.
+- A `GetPriceArray` that throws leaves its entry on `algorithmstack`; the next call with the same
+  signature reports a false recursion once, and the guard now clears the stack, so it self-heals.
+
+**None of this Auctioneer code is executed by the harness.** The fixes are verified by reading and
+by the static gate only.
+
+#### The checker was hiding real bugs
+
+`known.txt` carried a block of 45 "reviewed benign leaked globals" — `a`, `b`, `n`, `k`, `count`,
+`name`, `item`, `event`, `msg`, `realm`, `faction`, `scansize`, `invType`, `errormsg`, ... —
+accepted **in every file**. That block hid three of the defects above (`scansize`, `invType`,
+`realm`/`faction`) and would hide the same typo anywhere else. It was removed.
+
+`check.js` now understands **file-scoped** entries, `path/file.lua: name`, accepted only in files
+whose path ends that way, and warns when a scoped entry no longer matches anything. All 78
+remaining sites were read one by one and listed per file; each is a never-set global read as nil
+where nil is harmless (an optional argument, a falsy condition, an unnamed `CreateFontString`) or a
+3.3.5 handler global (`event`, `arg3`). `_dev/checktest.js` is a regression test for the checker
+itself, run first by `all.js`.
+
+#### Shared UI architecture — reviewed, deliberately not built
+
+The question was whether a cross-addon UI module would pay for itself. Survey of who draws what:
+
+| Group | How its UI is built | Shared styling possible? |
+|---|---|---|
+| Bagnon, Bagnon_Config, Bagnon_GuildBank | already share `Bagnon.Style` (`Bagnon/utility/style.lua`): metrics, colours, backdrops, button/slot/border factories; Bagnon_Config adds panel layout + tooltip widgets on top | already done. No duplicated backdrop or chrome code was found outside `style.lua` |
+| BankStack, Bartender4, Altoholic, AckisRecipeList | AceConfig-3.0 (generated dialogs) | no — the library owns rendering; restyling means patching vendored Ace3 |
+| AtlasLoot, AtlasLootFu, Baggins | Ace2 Dewdrop/Waterfall + bespoke XML | no — same reason, plus Baggins has its own skin system |
+| Auctioneer, BeanCounter | Configator (Norganna) | no — vendored library |
+| Carbonite, Altoholic frames, AllStats, !Swatter | large bespoke XML/minified UIs | no common surface |
+| QuestItemHelper | hand-built Interface Options panel + overlays on Bagnon/Blizzard slots | **yes, visually** — it sits beside Bagnon's panels and draws on Bagnon's slots |
+
+Decision: **no new shared module.** The only consumer outside the Bagnon family is QuestItemHelper,
+and Bagnon is only its *optional* dependency. Importing `Bagnon.Style` would force either a hard
+dependency or two rendering paths; a separate shared library would be a new addon/LibStub lib
+every consumer must load, to share about a dozen constants. Instead QuestItemHelper keeps a small
+local `STYLE` table that **mirrors** Bagnon's tokens (muted text, gold accent, 0.08 divider, 1px
+flat-backdrop swatch with gold hover border, red disabled-reason line, `GameFontDisable` for
+disabled labels), and its panel now follows Bagnon_Config's conventions: section title with the
+rule *underneath*, colour swatch identical to `OptionsColorSelector`, one tooltip shape for every
+control. Runtime cost: one table built at load; the panel is built once at `ADDON_LOADED`, as before.
+The panel's own tooltip handlers replace the `InterfaceOptionsCheckButtonTemplate`'s
+`tooltipText/tooltipRequirement` mechanism, so the result no longer depends on how the 3.3.5
+template formats those fields.
+
+Drift guard: `qih.lua` compares the panel's swatch border, swatch backdrop and section-rule colour
+against `Bagnon.Style` at runtime (mutation-checked: changing the copied divider alpha fails it).
+The layout now ends at 406px of the 428px area. `wowmock.lua` `SetTexture` now also records all
+its arguments (`__textureArgs`), so a solid-colour texture's RGBA can be asserted.
+
+#### Second-pass performance audit of this pass's own changes
+
+Method. Wall-clock timing under fengari (a Lua VM written in JavaScript) says nothing about the
+WoW client, so `_dev/qihbench.lua` counts **work** instead — client API calls, bag scans (and how
+many were full), button redraws, quest-log reads and header toggles — over fixed deterministic
+workloads: login; 50 looting bursts; 50 quest-progress updates; 50 looting bursts with the addon
+switched off; 30 loots with one item the client never caches. It was run against the original
+QuestItemHelper (`git show HEAD:...`) and the current one. These are **measured** counts in the
+harness; how they translate into milliseconds in the client is not measured.
+
+| Workload (QuestItemHelper) | Original | First pass | Final |
+|---|---|---|---|
+| login: `GetContainerItemID` / `GetItemInfo` / `GetQuestLogTitle` | 252 / 28 / 59 | same | same |
+| 50 loot bursts: scans (full) / `GetContainerItemID` | 50 (0) / 1600 | same | same |
+| 50 quest updates: `GetQuestLogTitle` / header toggles | 2950 / 250 | same | same |
+| **addon off**, 50 loot bursts: button redraws | 50 | 50 | **0** |
+| **one never-cached item**, 30 loots: full scans / redraws / `GetContainerItemID` | 5 / 5 / 1552 | **64 / 64 / 14336** | 5 / 5 / 1552 |
+
+Regression found and fixed: the first pass's `BAG_UPDATE` retry reset let a single never-cached
+item force a full rescan and full redraw about once a second for as long as the player kept
+looting — 9x the bag API calls of the original. The per-item budget restores the original cost
+while keeping the fix it was meant to make (a later item still gets its own retries).
+
+Pre-existing waste removed: with the addon switched off, every bag change still redrew every
+tracked button. Now `BAG_UPDATE` is ignored while off (turning it back on invalidates and rescans
+everything), and the off-state redraw happens once.
+
+Allocation regression avoided: the first pass read the completed-quest history into a fresh table
+and copied it — a second table of several thousand entries at every login. Replaced by an
+existence check (`QIH.CanReadCompletedQuests`) followed by the original in-place fill. Not measured
+(fengari has no `collectgarbage('count')`); the reasoning is the entry count.
+
+Gate assertions (`qih.lua`, "work budgets"): never-cached item costs at most 6 full scans over 30
+loots; a later item is still judged once cached; 10 bag changes while off cause 0 redraws and 0
+scans; re-enabling redraws once. Mutation-checked: the original code fails the last two, the
+first-pass code fails the first (69 full scans).
+
+Measured and left alone, with reasons:
+- Every quest-log read with collapsed headers costs 1 expand + one collapse per collapsed header
+  (250 toggles per 50 updates in the bench), and each toggle fires `QUEST_LOG_UPDATE` to every
+  listener. Original design, unchanged. In this workspace: DataStore_Quests listens one-shot (no
+  feedback loop); Carbonite re-expands every header on each `QUEST_LOG_UPDATE` and never collapses,
+  so with Carbonite loaded the log stays expanded and QuestItemHelper toggles nothing. Reading less
+  often would need a reliable "quest set changed" signal (`QUEST_ACCEPTED` on 3.3.5 is unconfirmed),
+  otherwise verdicts could go silently stale.
+- Each `UNIT_QUEST_LOG_CHANGED` also runs an incremental bag pass; with no dirty bag it touches no
+  slot (0 extra `GetContainerItemID` in the bench).
+
+Auctioneer changes (not executable here, reviewed by reading):
+- **Stale value found and fixed:** `statItem` is also reused by the `placebid` and `newauc`
+  processors outside commits, so it would have carried the last commit's `serverKey`. Both sites
+  now set it from `GetFaction()` (the AH is open during those actions).
+- Per committed auction, the `serverKey` routing adds two field writes — negligible next to the
+  `Unpack` it follows. The Histogram fix adds at most one bin-fill of up to 100 entries per new high.
+  `IsGetAll()` adds one call per frame while the buy queue waits, replacing a chat print per frame.
+- The logout drain processes queued commits the original dropped, so logout takes longer only when
+  more than one scan was still queued — the cost of not losing them.
+
+`_dev/wowapi.lua` gained `MOCK.uncached[itemID]`: `GetItemInfo` returns nil while the container
+APIs keep working, as in the client. Deleting the item from the mock instead (the first attempt)
+broke `GetContainerItemInfo` too, which the real client never does.
+
+#### Final regression review of the whole diff
+
+Read every changed hunk (Auctioneer, QuestItemHelper, `_dev`) against: unsupported/retail APIs,
+Lua 5.1 syntax and library use, SavedVariables behaviour, dependency/load-order changes,
+accidental globals, protected frames, localization, and weakened tests.
+
+- **Found and fixed: one more QuestItemHelper crash path.** `RepairKnowledge` checked the shape
+  of each `knowledge.links[itemID]` but not the quest IDs inside it. `Evaluate` sorts those IDs, so
+  one non-numeric key made `table.sort` throw ("attempt to compare string with number") on every
+  scan. Non-numeric inner keys are now dropped too; `qih.lua` covers it and the mutation run
+  reproduced the crash.
+- **Accidental globals:** none in the diff (every new assignment targets a local, an upvalue or a
+  table field). Because `check.js` only reports undefined global *reads*, `qih.lua` now snapshots
+  `_G` before QuestItemHelper loads and fails on any new non-`QuestItemHelper*` global after login
+  and the first scan (mutation-checked with an injected global).
+- **APIs / Lua 5.1:** no `C_*`, `SetSize`, `SetShown`, `SetColorTexture`, backdrop templates,
+  mixins, animation groups, `goto` or 5.2+ library calls were added. New calls used are 3.3.5
+  widget methods already used elsewhere in the workspace (`SetBackdrop`,
+  `SetBackdropBorderColor`, `SetFontObject`, `GetAddOnMetadata`, `SetTexture(r, g, b, a)`).
+- **SavedVariables:** no schema change, no version bump, no `.toc` change. QuestItemHelper only
+  drops entries of the wrong type and resets invalid colour numbers; Auctioneer stat data for a
+  Neutral scan now lands under the `-Neutral` serverKey it always should have — existing
+  mis-filed history is not moved.
+- **Changed return shapes checked against every consumer:** StdDev/iLevel single-point
+  `GetPrice` (now `nil` average, numeric count); their tooltips guard on `average > 0`. The old
+  order passed `count = nil` into a `%d` format in those tooltips, an error on 5.1, so this also
+  fixes a tooltip crash for items seen once. Simple/Purchased `GetPriceArray` may now return nil;
+  `GetAlgorithmValue` already handles a nil array.
+- **Dependencies:** none added. `AucAdvanced.Scan.IsGetAll` is new and its one caller tests for it
+  before calling.
+- **Protected frames:** nothing in the diff touches secure templates, attributes, state drivers or
+  bindings; QuestItemHelper's `ContainerFrame_Update` post-hook is unchanged from the original.
+- **Localization:** no AceLocale string was removed or changed. QuestItemHelper has no locale
+  system (English only, as shipped); its new strings follow that convention.
+- **Tests:** the only removed assertion is `migrate.lua`'s literal `HIGH` check, replaced by a
+  default comparison plus a validity check. `known.txt` lost global entries and gained narrower
+  per-file ones. No mock was made more permissive: each mock change adds fidelity (12 item
+  classes, `OnTooltipSetItem`, quest-log visibility rules, `MOCK.uncached`).
+
+#### Bagnon frame layer (commit `be4f6e6`, not changed here)
+
+`TOPLEVEL` now maps to the `DIALOG` strata and the window raises itself on show. Recorded as a risk,
+not reverted, because it was a deliberate choice. `DIALOG` is the strata of `StaticPopup` dialogs
+and the colour picker, and `InterfaceOptionsFrame` sits at `HIGH`. So **Bagnon's own options panel,
+opened from the window's options button, can now open underneath the bag window**, and clicking the
+bags can raise them over a "Delete item?" popup. Needs a look in the client.
+
 ## What is left
 
 1. **In-game testing.** Everything below.
@@ -907,13 +1183,20 @@ listed under "What is left".
    `check.js` template-children change and the expanded `known.txt`) and the 2026-10-02
    Bartender4/BeanCounter pass (2 folders, their fixes and the expanded `known.txt`) — all
    untracked or modified.
-3. Optional: runtime scenarios for the 2026-09-28 addons. Like Carbonite, they touch far more of
+3. **Auctioneer runtime scenario.** The 2026-10-13 fixes in CoreScan/CoreBuy/CorePost and the
+   five stat modules are static-verified only. The stat modules' `ScanProcessors` and `GetPrice`
+   are pure enough that a scenario feeding them synthetic `itemData` would be cheap and would pin
+   the Histogram/Purchased/StdDev fixes; the scan/commit coroutines need an AH mock.
+4. Decide on the Bagnon `DIALOG` strata trade-off (options panel and static popups underneath).
+5. Optional: decide whether QuestItemHelper should re-read the quest log less often. Needs
+   `QUEST_ACCEPTED` confirmed on 3.3.5 first (see the performance pass).
+5a. Optional: runtime scenarios for the 2026-09-28 addons. Like Carbonite, they touch far more of
    the client API than the mock has (auction house, trade skill, calendar, DataStore), and the
    mock has no catch-all, so each new scenario is real work. Nothing in this suite has been
    *executed* here — only parsed and checked.
-4. Optional: a Carbonite load scenario. Its file-level code and `NXInit` touch hundreds of
+6. Optional: a Carbonite load scenario. Its file-level code and `NXInit` touch hundreds of
    APIs the mock does not have, and the mock deliberately has no catch-all. Expect real work.
-5. Optional: the guild bank scenario in `smoke.lua` only covers 2 tabs; a 6-tab case with
+7. Optional: the guild bank scenario in `smoke.lua` only covers 2 tabs; a 6-tab case with
    withdraw limits would be worth adding.
 
 ## What still needs a real client
@@ -945,6 +1228,13 @@ The harness cannot see any of this. Do not treat these as verified:
 - **Taint.** No secure frames or protected calls are used anywhere in this workspace
   (`InCombatLockdown` appears nowhere because nothing needs it), but taint is only observable
   in a real client.
+- **QuestItemHelper.** The panel's pixel layout, the tick badge art, and above all the quest-log
+  read: it expands collapsed headers, reads, and collapses them again. The mock models the 3.3.5
+  visible-row behaviour, but whether the real `QuestLogFrame` flickers or loses its scroll position
+  while open needs a client. Also unverified: that disabled `CheckButton`s still show their tooltip
+  on 3.3.5 (the disabled-reason text relies on it, as Bagnon_Config already does).
+- **Auctioneer.** Everything in the 2026-10-13 table, especially the commit-queue order, the
+  logout drain and the Neutral-AH `serverKey` routing, which only show up across a real scan.
 - **Real guild bank.** Tab permissions, withdraw limits, and the
   `GuildBankFrame_LoadUI` interception that keeps Blizzard's UI from loading.
 - **Real BankStack moves.** The mock models the true cursor/lock protocol

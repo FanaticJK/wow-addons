@@ -93,7 +93,12 @@ Check(inv.x == 0 and inv.y == 150, 'x/y reset along with the invalid anchor, got
 Check(approx(inv.scale, 1), 'scale 0 reset to 1, got ' .. tostring(inv.scale))
 Check(approx(inv.opacity, 1), 'opacity 0 reset to 1, got ' .. tostring(inv.opacity))
 Check(inv.itemFrameColumns == 8, 'fractional itemFrameColumns (0.5) reset to 8, got ' .. tostring(inv.itemFrameColumns))
-Check(inv.frameLayer == 'HIGH', 'invalid frameLayer "SUBSPACE" reset to HIGH, got ' .. tostring(inv.frameLayer))
+-- compare against the shipped default rather than a literal: the default layer
+-- is a deliberate product choice (it moved from HIGH to TOPLEVEL in be4f6e6)
+local defaultLayer = Bagnon.SavedFrameSettings:GetDefaultInventorySettings().frameLayer
+local LAYERS = {LOW = true, MEDIUMLOW = true, MEDIUM = true, MEDIUMHIGH = true, HIGH = true, TOPLEVEL = true}
+Check(LAYERS[defaultLayer] == true, 'the default frameLayer is itself a valid layer, got ' .. tostring(defaultLayer))
+Check(inv.frameLayer == defaultLayer, 'invalid frameLayer "SUBSPACE" reset to the default ' .. tostring(defaultLayer) .. ', got ' .. tostring(inv.frameLayer))
 Check(type(inv.frameColor[1]) == 'number', 'corrupted frameColor component replaced with a number')
 
 Step('frame settings: migrated hiddenBags')

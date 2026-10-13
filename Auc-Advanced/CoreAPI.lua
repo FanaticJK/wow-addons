@@ -353,10 +353,11 @@ function lib.GetAlgorithmValue(algorithm, itemLink, serverKey, reserved)
 					-- We are looping
 					local origAlgo = private.algorithmstack[1]
 					local endSize = #(private.algorithmstack)+1
-					while (#(private.algorithmstack)) do
-						tremove(private.algorithmstack)
-					end
-					error(("Cannot solve price algorithm for: %s. (Recursion at level %d->%d: %s)"):format(origAlgo, algosig, endSize, pos))
+					-- modernization fix: was `while (#stack) do`, which never ends because 0 is
+					-- truthy in Lua, so a pricing-model cycle hung the client instead of erroring.
+					-- The format arguments were also out of order (a string fed to %d).
+					wipe(private.algorithmstack)
+					error(("Cannot solve price algorithm for: %s. (Recursion at level %d->%d: %s)"):format(tostring(origAlgo), pos, endSize, algosig))
 				end
 			end
 
@@ -371,7 +372,8 @@ function lib.GetAlgorithmValue(algorithm, itemLink, serverKey, reserved)
 			else
 				price = engineLib.GetPrice(saneLink, serverKey)
 			end
-			tremove(private.algorithmstack, -1)
+			-- pop the last entry; a position of -1 is out of bounds for table.remove in Lua 5.1
+			tremove(private.algorithmstack)
 			return price, seen, array
 		end
 	end

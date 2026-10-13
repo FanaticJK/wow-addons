@@ -655,7 +655,9 @@ function private.ProcessPosts(source)
 				end
 			end
 		end
-		local msg = ("Aborting post request for %s x%d: %s"):format(link, request[REQ_COUNT], ErrorText[err])
+		-- tostring: for an uncached item there is no link, and a nil %s argument errors in Lua 5.1,
+		-- which left the request queued and re-raised the error on every retry
+		local msg = ("Aborting post request for %s x%d: %s"):format(tostring(link or request[REQ_SIG]), request[REQ_COUNT] or 0, tostring(ErrorText[err] or err))
 		debugPrint(msg, "CorePost", "Post request aborted", "Warning")
 		private.QueueRemove()
 		AucAdvanced.SendProcessorMessage("postresult", false, request[REQ_ID], request, err)

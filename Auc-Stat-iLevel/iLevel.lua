@@ -99,7 +99,7 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 	if equipPos < 1 then return end
 	local itemSig = ("%d:%d"):format(equipPos, quality)
 
-	local serverKey = GetFaction()
+	local serverKey = itemData.serverKey or GetFaction() -- the scan's own serverKey, set by CoreScan
 	local stats = private.GetUnpackedStats(serverKey, itemSig, true) -- read/write
 	if not stats[iLevel] then stats[iLevel] = {} end
     local sz = #stats[iLevel]
@@ -190,7 +190,9 @@ function lib.GetPrice(hyperlink, serverKey)
 	end
 	mean = total / number
 
-	if (count < 2) then return 0,0,0, mean, count end
+	-- modernization fix: was `return 0,0,0, mean, count`, out of order against the documented
+	-- average, mean, false, stddev, variance, count, confidence -- a single sighting was priced 0
+	if (count < 2) then return nil, mean, false, 0, 0, count, .01 end
 
 	variance = 0
 	for i = 1, count do
@@ -206,7 +208,8 @@ function lib.GetPrice(hyperlink, serverKey)
 
 	for i = 1, count do
 		local price,stack = datapoints_price[i], datapoints_stack[i]
-		if abs((price/stack) - mean) < deviation then
+		-- `<=`: with identical prices the deviation is 0 and `<` excluded every sample
+		if abs((price/stack) - mean) <= deviation then
 			total = total + price
 			number = number + stack
 		end

@@ -18,11 +18,24 @@ const fs = require('fs');
 const path = require('path');
 const luaparse = require('luaparse');
 
-const ROOT = path.resolve(process.argv[2] || path.join(__dirname, '..'));
-const KNOWN = new Set(
-  fs.readFileSync(path.join(__dirname, 'known.txt'), 'utf8')
-    .split(/\r?\n/).map(s => s.trim()).filter(s => s && !s.startsWith('#'))
-);
+const args = process.argv.slice(2);
+const knownArg = args.find(a => a.startsWith('--known='));
+const ROOT = path.resolve(args.find(a => !a.startsWith('--')) || path.join(__dirname, '..'));
+const KNOWN_FILE = knownArg ? path.resolve(knownArg.slice('--known='.length)) : path.join(__dirname, 'known.txt');
+
+// known.txt holds two kinds of entry:
+//   Name                      a real client global, accepted everywhere
+//   some/file.lua: name       accepted ONLY in files whose path ends with some/file.lua
+// The scoped form exists for reviewed leaks such as a vendored library reading a never-set
+// global `n`. Listing `n` globally would hide the same typo in every other addon; a
+// whitelist like that once hid a real nil-concat crash (Auc-Advanced CoreScan `scansize`).
+const KNOWN = new Set(), SCOPED = [];
+for (const line of fs.readFileSync(KNOWN_FILE, 'utf8').split(/\r?\n/).map(s => s.trim())) {
+  if (!line || line.startsWith('#')) continue;
+  const m = /^(\S+\.lua)\s*:\s*([A-Za-z_]\w*)$/.exec(line);
+  if (m) SCOPED.push({ suffix: m[1], name: m[2] });
+  else KNOWN.add(line);
+}
 
 // APIs that only exist in Retail / later Classic builds. Using them on 3.3.5 errors.
 const RETAIL_ONLY = [
@@ -211,10 +224,20 @@ for (const a of addons) for (const f of tocFiles(a)) if (f.toLowerCase().endsWit
 luaFiles.forEach(scanLua);
 
 // undefined globals
+const scopedOk = (name, file) => {
+  const r = rel(file);
+  return SCOPED.some(s => s.name === name && (r === s.suffix || r.endsWith('/' + s.suffix)));
+};
 const unknown = [];
-for (const [name, sites] of used) {
+for (const [name, allSites] of used) {
   if (defined.has(name) || KNOWN.has(name)) continue;
-  unknown.push({ name, sites });
+  const sites = allSites.filter(s => !scopedOk(name, s.file));
+  if (sites.length) unknown.push({ name, sites });
+}
+// a scoped entry that no longer matches anything is stale: the leak was fixed or the file moved
+for (const s of SCOPED) {
+  const hit = (used.get(s.name) || []).some(u => scopedOk(s.name, u.file));
+  if (!hit) warnings.push(`STALE known.txt entry "${s.suffix}: ${s.name}" matches no use`);
 }
 unknown.sort((a, b) => b.sites.length - a.sites.length);
 

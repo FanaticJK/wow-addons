@@ -302,7 +302,8 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 	if (linkType ~= "item") then return end
 	if (factor and factor ~= 0) then property = property.."x"..factor end
 	wipe(stattable)
-	local faction = AucAdvanced.GetFaction()
+	-- the scan's own serverKey (set by CoreScan): GetFaction() is wrong once the AH has closed
+	local faction = itemData.serverKey or AucAdvanced.GetFaction()
 	if not data[faction] then data[faction] = {} end
 	if not data[faction][itemId] then data[faction][itemId] = {} end
 	if data[faction][itemId][property] then
@@ -316,13 +317,14 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 	end
 	priceindex = ceil(buyout / stattable["step"])
 	if stattable["count"] <= 20 then
-		stattable["count"] = stattable["count"] + 1
 		--get the refactoring out of the way first, because we're not capping the price yet
 		--failure to do this now can cause major trouble in the form of massive tables
 		if priceindex > 100 then
 			private.refactor(buyout, 100)
 			priceindex = 100
 		end
+		--counted after the refactor: refactor() recomputes count from the existing bins
+		stattable["count"] = stattable["count"] + 1
 		if not stattable["min"] then
 			stattable["min"] = priceindex
 			stattable["max"] = priceindex
@@ -332,6 +334,13 @@ function lib.ScanProcessors.create(operation, itemData, oldData)
 				stattable[i] = 0
 			end
 			stattable["min"] = priceindex
+		elseif stattable["max"] < priceindex then
+			--modernization fix: without this, a price above the current max was stored outside
+			--min..max and PackStats() silently dropped it (every new high among the first 20)
+			for i = (stattable["max"]+1),priceindex do
+				stattable[i] = 0
+			end
+			stattable["max"] = priceindex
 		end
 		if not stattable[priceindex] then stattable[priceindex] = 0 end
 		stattable[priceindex] = stattable[priceindex] + 1

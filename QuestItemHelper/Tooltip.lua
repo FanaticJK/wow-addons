@@ -64,6 +64,7 @@ local function AddActive(tooltip, verdict)
 	end
 	if #names > 0 then
 		tooltip:AddLine(HEADER .. ': needed for ' .. table.concat(names, ', '), 0.25, 1, 0.25, true)
+		return true
 	end
 end
 
@@ -84,8 +85,10 @@ local function OnTooltipSetItem(tooltip)
 		AddFlagged(tooltip, verdict)
 		tooltip:Show()  -- resize to fit the new lines
 	elseif verdict.state == QIH.ACTIVE then
-		AddActive(tooltip, verdict)
-		tooltip:Show()
+		-- only resize when a line was actually added
+		if AddActive(tooltip, verdict) then
+			tooltip:Show()
+		end
 	end
 end
 

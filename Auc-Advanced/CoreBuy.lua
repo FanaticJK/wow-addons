@@ -208,6 +208,9 @@ end
 
 function private.PushSearch()
 	if AucAdvanced.Scan.IsPaused() then return end
+	-- A GetAll scan cannot be pushed. OnUpdate calls this every frame, and PushScan printed its
+	-- "cannot be Pushed" warning each time: wait quietly until the GetAll is over instead.
+	if AucAdvanced.Scan.IsGetAll and AucAdvanced.Scan.IsGetAll() then return end
 	local nextRequest = private.BuyRequests[1]
 	if nextRequest.nosearch then -- backup check (should have been removed by ScanPage)
 		private.QueueRemove(1)
@@ -229,7 +232,18 @@ end
 
 function lib.FinishedSearch() end -- temporary dummy function
 function private.FinishedSearch(scanstats)
-	if not scanstats or scanstats.wasIncomplete then return end
+	if not scanstats then return end
+	if scanstats.wasIncomplete then
+		-- An incomplete commit proves nothing about the requests, so they stay queued. But when it
+		-- was our own search, Searching must still be cleared or OnUpdate never pushes the next
+		-- search and the whole queue stalls until the AH is closed.
+		local query, nextRequest = scanstats.query, private.BuyRequests[1]
+		if private.Searching and query and query.name and nextRequest and nextRequest.itemname
+		and nextRequest.itemname:find(query.name, 1, true) then
+			private.Searching = false
+		end
+		return
+	end
 	local query = scanstats.query
 	if not query or query.isUsable or query.invType or not query.name then return end
 	local queuecount = #private.BuyRequests

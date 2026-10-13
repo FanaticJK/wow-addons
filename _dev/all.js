@@ -13,10 +13,12 @@ const DEV = __dirname;
 const verbose = process.argv.includes('-v') || process.argv.includes('--verbose');
 
 const steps = [
+  { name: 'checker self-test (scoped known globals)', args: ['checktest.js'] },
   { name: 'static check (toc/xml/syntax/globals)', args: ['check.js'] },
   { name: 'runtime: smoke (fresh install, full UI)', args: ['run.js', 'smoke.lua'] },
   { name: 'runtime: migrate (legacy 2.6.0 + corrupt)', args: ['run.js', 'migrate.lua', 'sv_legacy.lua'] },
   { name: 'runtime: garbage (unreadable SavedVariables)', args: ['run.js', 'garbage.lua', 'sv_garbage.lua'] },
+  { name: 'runtime: QuestItemHelper (verdicts, repair, panel)', args: ['run.js', 'qih.lua'] },
 ];
 
 const results = [];

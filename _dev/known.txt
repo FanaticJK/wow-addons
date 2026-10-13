@@ -1485,54 +1485,6 @@ ERR_FRIEND_OFFLINE_S
 IsResting
 RunScript
 
-# leaked locals (missing 'local') in vendored Ace2/Ace3/Configator/Tablet/Dewdrop and a
-# few Auc modules. Pre-existing upstream, read-only nil at runtime, harmless. Not real API.
-# --- reviewed benign leaked globals (45) ---
-Style
-a
-aautoselltitle
-addition
-addon
-arg3
-asuftitle
-b
-catId
-category
-checked
-count
-errormsg
-event
-faction
-g
-garbageLine
-hasAlpha
-height
-invType
-item
-itemName
-k
-lb
-lg
-lr
-m
-maxLabelLength
-module
-msg
-myName
-n
-name
-one
-passTable
-r
-realName
-realm
-scansize
-self
-sourceChannel
-style
-tabName
-three
-two
 
 # --- Bartender4 + BeanCounter pass 2026-10-02 ---
 # Reviewed one by one against a 3.3.5a client. Every name below is a real client API,
@@ -1629,3 +1581,94 @@ InboxCloseButton
 InboxFrame
 MailFrame
 MailFrameTab2
+
+# --- file-scoped reviewed leaks (2026-10-13) ---
+# These replace a former blanket list of 45 names (a, b, n, count, name, item, event, ...)
+# that was accepted in EVERY file and so hid real defects elsewhere: it masked the
+# `scansize` nil-concat crash in Auc-Advanced/CoreScan.lua, the undefined `invType` in
+# CoreScan GetAuctionSellItem and the undefined `realm`/`faction` that made Auc-Filter-Basic
+# error at every logout. Those three were fixed in the addons. Every entry below was read at
+# its site: each is a never-set global READ as nil where nil is harmless (an optional argument,
+# a falsy condition, an unnamed CreateFontString) or a 3.3.5 handler global (`event`, `arg3`).
+# Format "path/file.lua: name" -- accepted only in that file. check.js warns when one goes stale.
+!Swatter/Support/LibRevision.lua: addition
+Altoholic/Frames/Quests.lua: realm
+AtlasLoot/Libs/DewdropLib/Dewdrop-2.0/Dewdrop-2.0.lua: checked
+AtlasLoot/Libs/DewdropLib/Dewdrop-2.0/Dewdrop-2.0.lua: event
+AtlasLoot/Libs/DewdropLib/Dewdrop-2.0/Dewdrop-2.0.lua: k
+AtlasLootFu/Libs/AceAddon-2.0/AceAddon-2.0.lua: addon
+AtlasLootFu/Libs/AceAddon-2.0/AceAddon-2.0.lua: module
+AtlasLootFu/Libs/AceDB-2.0/AceDB-2.0.lua: realName
+AtlasLootFu/Libs/Tablet-2.0/Tablet-2.0.lua: category
+AtlasLootFu/Libs/Tablet-2.0/Tablet-2.0.lua: garbageLine
+Auc-Advanced/Libs/Babylonian/Support/LibRevision.lua: addition
+Auc-Advanced/Libs/Configator/Configator.lua: a
+Auc-Advanced/Libs/Configator/Configator.lua: b
+Auc-Advanced/Libs/Configator/Configator.lua: catId
+Auc-Advanced/Libs/Configator/Configator.lua: g
+Auc-Advanced/Libs/Configator/Configator.lua: height
+Auc-Advanced/Libs/Configator/Configator.lua: maxLabelLength
+Auc-Advanced/Libs/Configator/Configator.lua: myName
+Auc-Advanced/Libs/Configator/Configator.lua: n
+Auc-Advanced/Libs/Configator/Configator.lua: r
+Auc-Advanced/Libs/Configator/Configator.lua: tabName
+Auc-Advanced/Libs/Configator/Support/LibRevision.lua: addition
+Auc-Advanced/Libs/DebugLib/Support/LibRevision.lua: addition
+Auc-Advanced/Libs/LibExtraTip/LibExtraTip.lua: item
+Auc-Advanced/Libs/LibExtraTip/LibExtraTip.lua: lb
+Auc-Advanced/Libs/LibExtraTip/LibExtraTip.lua: lg
+Auc-Advanced/Libs/LibExtraTip/LibExtraTip.lua: lr
+Auc-Advanced/Modules/Auc-Util-Appraiser/AprFrame.lua: arg3
+Auc-Advanced/Modules/Auc-Util-Appraiser/AprFrame.lua: name
+Auc-Advanced/Modules/Auc-Util-AskPrice/AskPrice.lua: event
+# OPEN, suspected defect (not fixed): beingIgnored() sends WFAIL on an undefined
+# `sourceChannel`, so ChatThrottleLib gets a nil distribution. The intended channel
+# cannot be derived from the code alone; needs a real client. See MODERNIZATION_LOG.
+Auc-Advanced/Modules/Auc-Util-AskPrice/AskPrice.lua: sourceChannel
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Auc-Util-AutoMagic.lua: aautoselltitle
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Auc-Util-AutoMagic.lua: asuftitle
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Auc-Util-AutoMagic.lua: style
+Auc-Advanced/Modules/Auc-Util-AutoMagic/ConfirmSellUI.lua: one
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Mail-GUI.lua: one
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Mail-GUI.lua: three
+Auc-Advanced/Modules/Auc-Util-AutoMagic/Mail-GUI.lua: two
+Auc-Advanced/Modules/Auc-Util-CompactUI/CompactUI.lua: name
+Auc-Advanced/Modules/Auc-Util-Glypher/Glypher.lua: Style
+Auc-Advanced/Modules/Auc-Util-Glypher/Glypher.lua: itemName
+Auc-Advanced/Modules/Auc-Util-GlypherPost/GlypherPost.lua: itemName
+Auc-Advanced/Modules/Auc-Util-ScanStart/ScanStart.lua: msg
+Auc-Advanced/Modules/Auc-Util-SearchUI/FilterItemPrice.lua: count
+Auc-Advanced/Modules/Auc-Util-SimpleAuction/SimpFrame.lua: arg3
+Auc-Advanced/Support/LibRevision.lua: addition
+Auc-Filter-Basic/BasicFilter.lua: event
+Baggins/libs/AceAddon-2.0/AceAddon-2.0.lua: addon
+Baggins/libs/AceAddon-2.0/AceAddon-2.0.lua: module
+Baggins/libs/AceConsole-2.0/AceConsole-2.0.lua: hasAlpha
+Baggins/libs/AceConsole-2.0/AceConsole-2.0.lua: passTable
+Baggins/libs/AceDB-2.0/AceDB-2.0.lua: realName
+Baggins/libs/Dewdrop-2.0/Dewdrop-2.0.lua: checked
+Baggins/libs/Dewdrop-2.0/Dewdrop-2.0.lua: event
+Baggins/libs/Dewdrop-2.0/Dewdrop-2.0.lua: k
+Baggins/libs/LibPeriodicTable-3.1-Tradeskill/LibPeriodicTable-3.1-Tradeskill.lua: m
+Baggins/libs/Tablet-2.0/Tablet-2.0.lua: category
+Baggins/libs/Tablet-2.0/Tablet-2.0.lua: garbageLine
+BeanCounter/Libs/Babylonian/Support/LibRevision.lua: addition
+BeanCounter/Libs/Configator/Configator.lua: a
+BeanCounter/Libs/Configator/Configator.lua: b
+BeanCounter/Libs/Configator/Configator.lua: catId
+BeanCounter/Libs/Configator/Configator.lua: g
+BeanCounter/Libs/Configator/Configator.lua: height
+BeanCounter/Libs/Configator/Configator.lua: maxLabelLength
+BeanCounter/Libs/Configator/Configator.lua: myName
+BeanCounter/Libs/Configator/Configator.lua: n
+BeanCounter/Libs/Configator/Configator.lua: r
+BeanCounter/Libs/Configator/Configator.lua: tabName
+BeanCounter/Libs/Configator/Support/LibRevision.lua: addition
+BeanCounter/Libs/LibExtraTip/LibExtraTip.lua: item
+BeanCounter/Libs/LibExtraTip/LibExtraTip.lua: lb
+BeanCounter/Libs/LibExtraTip/LibExtraTip.lua: lg
+BeanCounter/Libs/LibExtraTip/LibExtraTip.lua: lr
+BeanCounter/Support/LibRevision.lua: addition
+DataStore_Crafts/libs/LibPeriodicTable-3.1-Tradeskill/LibPeriodicTable-3.1-Tradeskill.lua: m
+Stubby/Libs/DebugLib/Support/LibRevision.lua: addition
+Stubby/Support/LibRevision.lua: addition

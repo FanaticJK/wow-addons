@@ -216,8 +216,12 @@ local function idFromLink(link)
     return tonumber(link:match('item:(%d+)'))
 end
 
+-- MOCK.uncached[itemID] = true: the client has the item in a bag slot but not yet in its item
+-- cache, so GetItemInfo returns nil while the container APIs keep working (as on a fresh login)
+MOCK.uncached = {}
 function GetItemInfo(query)
     local id = idFromLink(query)
+    if id and MOCK.uncached[id] then return nil end
     if not id then
         -- allow lookup by name, like the client does for cached items
         for k, v in pairs(MOCK.items) do if v[1] == query then id = k break end end
@@ -348,12 +352,117 @@ function GetContainerItemID(bagID, slot)
 end
 
 function GetContainerItemCooldown() return 0, 0, 0 end
+-- MOCK.questInfo[itemID] = {isQuestItem, startsQuestID} overrides the default,
+-- which treats every Quest-class item as the starter of an active quest 42
+MOCK.questInfo = {}
 function GetContainerItemQuestInfo(bagID, slot)
     local id = GetContainerItemID(bagID, slot)
+    local over = id and MOCK.questInfo[id]
+    if over then
+        local questID = over[2]
+        local active = questID and MOCK.questActive(questID) or false
+        return over[1] or false, questID, active
+    end
     local it = id and MOCK.items[id]
     if it and it[5] == 'Quest' then return false, 42, true end
     return nil, nil, false
 end
+
+--[[ quest log ]]--
+
+-- MOCK.questLog is the full log, in display order:
+--   {header = 'Zone', collapsed = bool}
+--   {title = 'Quest', id = 123, daily = bool, objectives = {{'Bear Pelt: 1/5', 'item'}}, special = itemID}
+-- Like the 3.3.5 client, the indexed API only exposes VISIBLE rows: the quests under a
+-- collapsed header are not addressable until it is expanded. Addons that read every
+-- quest therefore have to expand headers, which is the behaviour worth testing.
+MOCK.questLog = {}
+MOCK.questsCompleted = {}
+MOCK.questSelection = 0
+MOCK.questTitleText = nil
+
+local function visibleQuestRows()
+    local rows, hidden = {}, false
+    for _, row in ipairs(MOCK.questLog) do
+        if row.header then
+            rows[#rows + 1] = row
+            hidden = row.collapsed and true or false
+        elseif not hidden then
+            rows[#rows + 1] = row
+        end
+    end
+    return rows
+end
+MOCK.visibleQuestRows = visibleQuestRows
+
+function MOCK.questActive(questID)
+    for _, row in ipairs(MOCK.questLog) do
+        if row.id == questID then return true end
+    end
+    return false
+end
+
+function GetNumQuestLogEntries()
+    local n = 0
+    for _, row in ipairs(MOCK.questLog) do if not row.header then n = n + 1 end end
+    return #visibleQuestRows(), n
+end
+-- title, level, tag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID
+function GetQuestLogTitle(index)
+    local row = visibleQuestRows()[index]
+    if not row then return nil end
+    if row.header then
+        return row.header, 0, nil, 0, 1, row.collapsed and 1 or nil, nil, nil, nil
+    end
+    return row.title, 80, nil, 0, nil, nil, nil, row.daily and 1 or nil, row.id
+end
+function GetQuestLink(index)
+    local row = visibleQuestRows()[index]
+    if not row or row.header then return nil end
+    return '|cffffff00|Hquest:' .. row.id .. ':80|h[' .. row.title .. ']|h|r'
+end
+function GetNumQuestLeaderBoards(index)
+    local row = visibleQuestRows()[index]
+    return row and row.objectives and #row.objectives or 0
+end
+-- text, type, finished. The client takes (objective, questIndex).
+function GetQuestLogLeaderBoard(j, index)
+    local row = visibleQuestRows()[index or MOCK.questSelection]
+    local o = row and row.objectives and row.objectives[j]
+    if not o then return nil end
+    return o[1], o[2], o[3] or false
+end
+function GetQuestLogSpecialItemInfo(index)
+    local row = visibleQuestRows()[index]
+    if not (row and row.special) then return nil end
+    return MOCK.itemLink(row.special), GetItemIcon(row.special), 0
+end
+function GetQuestLogSelection() return MOCK.questSelection end
+function SelectQuestLogEntry(index) MOCK.questSelection = index end
+-- 0 expands every header
+function ExpandQuestHeader(index)
+    local rows = visibleQuestRows()
+    for i, row in ipairs(rows) do
+        if row.header and (index == 0 or i == index) then row.collapsed = false end
+    end
+    MOCK.questHeaderChanges = (MOCK.questHeaderChanges or 0) + 1
+    MOCK.fire('QUEST_LOG_UPDATE')
+end
+function CollapseQuestHeader(index)
+    local rows = visibleQuestRows()
+    for i, row in ipairs(rows) do
+        if row.header and (index == 0 or i == index) then row.collapsed = true end
+    end
+    MOCK.questHeaderChanges = (MOCK.questHeaderChanges or 0) + 1
+    MOCK.fire('QUEST_LOG_UPDATE')
+end
+function QueryQuestsCompleted() MOCK.questQueries = (MOCK.questQueries or 0) + 1 end
+function GetQuestsCompleted(t)
+    t = t or {}
+    for id in pairs(MOCK.questsCompleted) do t[id] = true end
+    return t
+end
+function GetTitleText() return MOCK.questTitleText end
 function GetContainerItemDurability() return nil end
 function GetContainerItemPurchaseInfo() return nil end
 function GetContainerNumFreeSlotsTotal() return 0 end
@@ -618,7 +727,13 @@ function MOCK.makeTooltip(f)
         self.__namedLines = #self.__lines
     end
     f.__syncLines = syncLines
-    function f:SetOwner(owner, anchor) self.__owner = owner self.__anchor = anchor self.__lines = {} end
+    function f:SetOwner(owner, anchor) self.__owner = owner self.__anchor = anchor self.__lines = {} self.__item = nil end
+    -- name, link of the item shown, like the client's GameTooltip:GetItem()
+    function f:GetItem()
+        local link = self.__item
+        if not link then return nil end
+        return GetItemInfo(link), link
+    end
     function f:GetOwner() return self.__owner end
     function f:IsOwned(owner) return self.__owner == owner end
     function f:GetAnchorType() return self.__anchor or 'ANCHOR_RIGHT' end
@@ -650,6 +765,10 @@ function MOCK.makeTooltip(f)
             if it[7] > 1 then self:AddLine('Max Stack: ' .. it[7]) end
         end
         syncLines(self)
+        -- the client fires OnTooltipSetItem once the item lines are in, before the
+        -- tooltip is shown; item-tooltip addons hook exactly that script
+        self.__item = it and itemLink(id) or nil
+        if self.__item then self:Fire('OnTooltipSetItem') end
         self:Show()
         MOCK.fire('TOOLTIP_SHOWN')
     end
@@ -851,7 +970,13 @@ function GetNumEquipmentSets() return 0 end
 function GetEquipmentSetInfo() return nil end
 function GetEquipmentSetItemIDs() return {} end
 function EquipmentManager_UnpackLocation() return false, false, false, nil, nil end
-function GetAuctionItemClasses() return 'Weapon', 'Armor', 'Trade Goods' end
+-- the real enUS 3.3.5 list, in client order. Addons index into it by position
+-- (Bagnon and QuestItemHelper read "Quest" as the 12th), so a short list is not
+-- a harmless simplification: it silently turns those lookups into nil.
+function GetAuctionItemClasses()
+    return 'Weapon', 'Armor', 'Container', 'Consumable', 'Glyph', 'Trade Goods',
+        'Projectile', 'Quiver', 'Recipe', 'Gem', 'Miscellaneous', 'Quest'
+end
 function GetAuctionItemSubClasses() return 'Cloth', 'Leather' end
 AUCTION_CATEGORY_WEAPONS = 1
 LE_ITEM_QUALITY_POOR = 0
