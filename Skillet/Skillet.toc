@@ -1,4 +1,4 @@
-## Interface: 30200
+## Interface: 30300
 ## DefaultState: disabled
 ## Title: Skillet |cff7fff7f -Ace2-|r
 ## Notes: A replacement tradeskill window
@@ -44,7 +44,11 @@ Libs\Abacus-2.0\Abacus-2.0.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-Tradeskill\LibPeriodicTable-3.1-Tradeskill.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-TradeskillResultMats\LibPeriodicTable-3.1-TradeskillResultMats.lua
-Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-TradeskillLevels\LibPeriodicTable-3.1-TradeskillLevels.lua
+# Optional data, not shipped in this copy. Without it the orange/yellow/green/grey skill-up
+# breakpoints are unknown (the rank bar's sub-ranks stay empty) and recipe colours fall back
+# to the Blizzard difficulty colours. To re-enable, put the LibPeriodicTable-3.1-TradeskillLevels
+# folder into Libs\LibPeriodicTable-3.1\ and remove the leading "#" from the next line.
+#Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-TradeskillLevels\LibPeriodicTable-3.1-TradeskillLevels.lua
 Libs\Window-1.0\Window-1.0.lua
 #@end-no-lib-strip@
 

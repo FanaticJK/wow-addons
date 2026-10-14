@@ -67,7 +67,8 @@ end
 -- DESC : Display button when plugin is visible
 -- **************************************************************************
 function TitanPanelCoordsButton_OnShow()
-	SetMapToCurrentZone();
+	-- do not yank the world map back to the current zone while the player is browsing it
+	if not WorldMapFrame:IsShown() then SetMapToCurrentZone(); end
 	TitanPanelCoords_HandleUpdater();
 end
 
@@ -183,7 +184,8 @@ function TitanPanelCoordsButton_OnEvent(self, event, ...)
 			TitanPanelCoordsButton_LocOnMiniMap()
 		end
 	end
-	SetMapToCurrentZone();
+	-- zone events fire while the world map is open too; only re-centre it when it is closed
+	if not WorldMapFrame:IsShown() then SetMapToCurrentZone(); end
 	TitanPanelCoordsButton_UpdateZoneInfo(self);
 	TitanPanelPluginHandle_OnUpdate(updateTable);
 	TitanPanelCoords_HandleUpdater();
@@ -216,6 +218,9 @@ function TitanPanelCoordsButton_OnClick(self, button)
 	if (button == "LeftButton" and IsShiftKeyDown()) then
 		local activeWindow = ChatEdit_GetActiveWindow();
 		if ( activeWindow ) then
+			-- local: this used to assign the global 'message', which is Blizzard's own
+			-- error-dialog function, so one shift-click broke every later message() call
+			local message = "";
 			if (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat1")) then
 				message = TitanUtils_ToString(self.zoneText).." "..
 				format(L["TITAN_COORDS_FORMAT"], 100 * self.px, 100 * self.py);
@@ -239,6 +244,7 @@ function TitanPanelCoordsButton_UpdateZoneInfo(self)
      self.zoneText = GetZoneText();
      self.subZoneText = GetSubZoneText();
      --self.minimapZoneText = GetMinimapZoneText();
+     local _
      self.pvpType, _, self.factionName = GetZonePVPInfo();
 end
 
@@ -398,6 +404,8 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 		-- using :Hide / :Show prevents coords from running
 		--	TitanMapFrame:Hide() -- hide parent
 
+	local cursorCoordsText, playerCoordsText;
+
 	-- always calc the player position
 	self.px, self.py = GetPlayerMapPosition("player");
 	if self.px == nil then self.px = 0 end
@@ -412,7 +420,8 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 		elseif (TitanGetVar(TITAN_COORDS_ID, "CoordsFormat3")) then
 			playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
 		end
-		playerCoordsText = format(L["TITAN_COORDS_FORMAT3"], 100 * self.px, 100 * self.py);
+		-- (a leftover line here re-formatted with FORMAT3 unconditionally, ignoring the
+		-- coordinate format chosen in the menu)
 	end
 	TitanMapPlayerCoords:SetText(format(L["TITAN_COORDS_MAP_PLAYER_COORDS_TEXT"], TitanUtils_GetHighlightText(playerCoordsText)));
 
@@ -424,7 +433,6 @@ function TitanMapFrame_OnUpdate(self, elapsed)
 	end
 
 	-- calc cursor position on the map
-	local cursorCoordsText, playerCoordsText;
 	local x, y = GetCursorPosition();
 	x = x / WorldMapDetailFrame:GetEffectiveScale();
 	y = y / WorldMapDetailFrame:GetEffectiveScale();

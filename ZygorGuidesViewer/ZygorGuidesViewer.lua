@@ -240,7 +240,7 @@ end
 
 function me:OnDisable()
 --	self:UnregisterAllEvents()
-	UnsetWaypointAddon()
+	self:UnsetWaypointAddon()
 
 	ZygorGuidesViewerMapIcon:Hide()
 	self.Frame:Hide()
@@ -444,7 +444,7 @@ function me:FocusStep(num,quiet)
 		end
 	end
 	if not found then
-		tinsert(history,{full=self.CurrentGuideName,short=self.CurrentGuide.title_short,step=step})
+		tinsert(history,{full=self.CurrentGuideName,short=self.CurrentGuide.title_short,step=num})
 		if #history>5 then tremove(history,1) end
 	end
 
@@ -838,7 +838,7 @@ function me:UpdateFrame(full,onupdate)
 
 				if stepdata.requirement or self.db.profile.stepnumbers then
 					local numbertext = self.db.profile.stepnumbers and L['step_num']:format(stepnum)
-					local reqtext = stepdata.requirement and ((stepdata:AreRequirementsMet() and "|cff44aa44" or "|cffbb0000") .. "(" .. (table.concat(stepdata.requirement,L["stepreqor"])):gsub("!([a-zA-Z ]+)",L["req_not"]:format("%1")) .. ")")
+					local reqtext = stepdata.requirement and ((stepdata:AreRequirementsMet() and "|cff4ce666" or "|cffff4d40") .. "(" .. (table.concat(stepdata.requirement,L["stepreqor"])):gsub("!([a-zA-Z ]+)",L["req_not"]:format("%1")) .. ")")
 					local leveltext = (stepdata.level and self.db.profile.stepnumbers) and L['step_level']:format(stepdata.level or "?")
 
 					frame.lines[line].label:SetPoint("TOPLEFT")
@@ -1434,7 +1434,7 @@ function me:UpdateFrameCurrent()
 
 					if not self.recentlyCompletedGoals[goal] then
 						self.recentlyCompletedGoals[goal]=true
-						if self.db.profile.goalcompletionflash or self.db.profile.goalupdateflash and self.frameNeedsResizing==0 then
+						if (self.db.profile.goalcompletionflash or self.db.profile.goalupdateflash) and self.frameNeedsResizing==0 then
 							anim_w2g:Play()
 							self:Debug("Animating completion.")
 						end
@@ -1544,7 +1544,7 @@ end
 
 function me:SetFrameScale(scale)
 	scale = self.db.profile.framescale
-	frame:SetScale(scale)
+	self.Frame:SetScale(scale)
 end
 
 function me:ReanchorFrame()
@@ -2771,7 +2771,7 @@ function me:BugReport(maint)
 	local s = ""
 	s = ("Zygor Guides Viewer v%s\n"):format(self.version)
 	s = s .. "\n"
-	s = s .. ("Guide: %s\nStep: %d\n"):format(tostr(self.CurrentGuideName),tostr(self.CurrentStepNum))
+	s = s .. ("Guide: %s\nStep: %s\n"):format(tostr(self.CurrentGuideName),tostr(self.CurrentStepNum))
 	
 	if maint then
 		s = s .. "\nMAINTENANCE OPTIONS THAT WERE ENABLED PROPERLY: ______________\nMAINTENANCE OPTION THAT CAUSED DISCONNECTION: _______________\n\n"
@@ -2830,7 +2830,7 @@ function me:BugReport(maint)
 				end
 			end
 			if goal.quest or goal.questid then
-				s = s .. ("    quest: \"%s\" ##%d"):format(tostring(goal.quest),tostring(goal.questid))
+				s = s .. ("    quest: \"%s\" ##%s"):format(tostring(goal.quest),tostring(goal.questid))
 				if goal.questid then
 					local questdata = self.questsbyid[goal.questid]
 					if goal.objnum then
@@ -3010,13 +3010,15 @@ function me:CreateDumpFrame()
 
 	local frame = CreateFrame("Frame", name, UIParent)
 	self.dumpFrame = frame
+	-- slim tooltip-border chrome on a dark translucent fill (shared look with the other modernized addons)
 	frame:SetBackdrop({
-	bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
-	edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-	tile = true, tileSize = 16, edgeSize = 16,
-	insets = { left = 3, right = 3, top = 5, bottom = 3 }
+	bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+	edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+	tile = true, tileSize = 16, edgeSize = 14,
+	insets = { left = 3, right = 3, top = 3, bottom = 3 }
 	})
-	frame:SetBackdropColor(0,0,0,1)
+	frame:SetBackdropColor(0,0,0,0.85)
+	frame:SetBackdropBorderColor(0.6,0.6,0.6,1)
 	frame:SetWidth(500)
 	frame:SetHeight(400)
 	frame:SetPoint("CENTER", UIParent, "CENTER")
@@ -3042,14 +3044,20 @@ function me:CreateDumpFrame()
 	scrollArea:SetScrollChild(editBox)
 	
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 2, 2)
 
 	local title = frame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
 	self.dumpFrame.title = title
-	title:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
+	title:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -10)
 	title:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -30, -45)
 	title:SetJustifyH("CENTER")
 	title:SetJustifyV("TOP")
+
+	local divider = frame:CreateTexture(nil,"ARTWORK")
+	divider:SetTexture(1,1,1,0.08)
+	divider:SetHeight(1)
+	divider:SetPoint("TOPLEFT", frame, "TOPLEFT", 8, -46)
+	divider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -8, -46)
 
 end
 

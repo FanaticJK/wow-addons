@@ -86,11 +86,19 @@ end
 	Pin OnEnter
 ]]
 local tooltip_template = "|c%02x%02x%02x%02x%s|r"
+-- minimum skill shown after the node name, in the muted secondary-text colour
+local level_template = " |cff9e9ea6(%d)|r"
+-- the world map blob frame's own OnUpdate, saved before we silence it so hidePin can restore
+-- exactly that (was a read of the global WorldMapBlobFrame_OnUpdate)
+local blobOnUpdate
 local function showPin(self)
 	if (self.title) then
 		local tooltip, pinset
 		if self.worldmap then
 			-- override default UI to hide the tooltip
+			if not blobOnUpdate then
+				blobOnUpdate = WorldMapBlobFrame:GetScript("OnUpdate")
+			end
 			WorldMapBlobFrame:SetScript("OnUpdate", nil)
 			tooltip = WorldMapTooltip
 			pinset = worldmapPins
@@ -110,14 +118,14 @@ local function showPin(self)
 		local text = format(tooltip_template, t[self.nodeType].Alpha*255, t[self.nodeType].Red*255, t[self.nodeType].Green*255, t[self.nodeType].Blue*255, self.title)
 		local lvl = GatherMate.nodeMinHarvest[self.nodeType][self.nodeID]
 		if lvl then
-			text = text..format(" (%d)", lvl)
+			text = text..format(level_template, lvl)
 		end
 		for id, pin in pairs(pinset) do
 			if pin:IsMouseOver() and pin.title and pin ~= self then
 				text = text .. "\n" .. format(tooltip_template, t[pin.nodeType].Alpha*255, t[pin.nodeType].Red*255, t[pin.nodeType].Green*255, t[pin.nodeType].Blue*255, pin.title)
 				local lvl = GatherMate.nodeMinHarvest[pin.nodeType][pin.nodeID]
 				if lvl then
-					text = text..format(" (%d)", lvl)
+					text = text..format(level_template, lvl)
 				end
 			end
 		end
@@ -131,7 +139,7 @@ end
 local function hidePin(self)
 	if self.worldmap then
 		-- restore default UI
-		WorldMapBlobFrame:SetScript("OnUpdate", WorldMapBlobFrame_OnUpdate)
+		WorldMapBlobFrame:SetScript("OnUpdate", blobOnUpdate)
 		WorldMapTooltip:Hide()
 	else
 		GameTooltip:Hide()

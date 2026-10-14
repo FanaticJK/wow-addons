@@ -449,6 +449,9 @@ local options = {
 					end,
 					set = function(info, v)
 						mod.db.global.userPresets[v] = nil
+						-- drop it from both dropdowns too; loading the stale entry used to error
+						userPresets[v] = nil
+						if not parent.borderPresets[v] then presets[v] = nil end
 					end
 				},
 			}
@@ -599,6 +602,7 @@ local borderOptions = {
 			tex.settings.rotSpeed = v
 			tex.rotSpeed = v
 			rotateTextures[tex] = v ~= 0 and v or nil
+			mod:StartRotations()
 		end
 	},
 	staticRotation = {
@@ -648,6 +652,7 @@ local borderOptions = {
 			else
 				rotateTextures[tex] = nil
 			end
+			mod:StartRotations()
 			tex.settings.playerRotation = v
 		end
 	},
@@ -754,6 +759,7 @@ local borderOptions = {
 			else
 				rotateTextures[tex] = tex.settings.rotSpeed
 				RotateTexture(tex, tex.settings.rotation or 0, true)
+				mod:StartRotations()
 			end
 		end
 	}
@@ -808,6 +814,13 @@ end
 local updateTime = 1/60
 local totalTime = 0
 local function updateRotations(self, t)
+	-- nothing rotates (static borders, or none at all): stop the per-frame handler;
+	-- mod:StartRotations() re-attaches it when a rotating border appears
+	if not next(rotateTextures) then
+		rotFrame:SetScript("OnUpdate", nil)
+		totalTime = 0
+		return
+	end
 	totalTime = totalTime + t
 	if totalTime >= updateTime then
 		for k, v in pairs(rotateTextures) do
@@ -820,6 +833,12 @@ local function updateRotations(self, t)
 		while totalTime > updateTime do
 			totalTime = totalTime - updateTime
 		end
+	end
+end
+
+function mod:StartRotations()
+	if next(rotateTextures) then
+		rotFrame:SetScript("OnUpdate", updateRotations)
 	end
 end
 
@@ -876,6 +895,8 @@ end
 
 function mod:ApplyPreset(preset)
 	local preset = self.db.global.userPresets[preset] or parent.borderPresets[preset]
+	-- a deleted user preset, or a saved applyPreset name that no longer exists
+	if not preset then return end
 	self:Clear()
 	
 	db.borders = deepCopyHash(preset.borders)
@@ -933,6 +954,7 @@ function mod:CreateBorderFromParams(t)
 			rotateTextures[tex] = t.rotSpeed ~= 0 and t.rotSpeed or nil
 		end
 		RotateTexture(tex, t.rotation or 0, true)
+		self:StartRotations()
 	end
 	
 	local r,g,b,a = t.r or 1, t.g or 1, t.b or 1, t.a or 1

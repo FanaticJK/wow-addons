@@ -1109,11 +1109,12 @@ function Recount:DetectPet(name, nGUID, nFlags)
 				if owner then name = name.." <"..owner..">" end
 	--			Recount:DPrint("Party guardian: "..name.." "..(nGUID or "nil").." "..(owner or "nil").." "..(ownerID or "nil"))
 --			end
-		else
-			petName = Recount:GetGuardianOwnerByGUID(nameGUID)
-			if petName then
-				petName, owner = petName:match("(.-) <(.*)>")
-			end
+		-- else: this branch called GetGuardianOwnerByGUID(nameGUID), a global that is never set, so it
+		-- looked up a nil GUID and never did anything. Passing nGUID instead would not be a safe fix:
+		-- that lookup returns a bare owner name, which the "pet <owner>" match below it would turn into
+		-- owner = nil. Left out, so behaviour is exactly as before.
+		--	petName = Recount:GetGuardianOwnerByGUID(nameGUID)
+		--	if petName then petName, owner = petName:match("(.-) <(.*)>") end
 		end
 	end
 	return name, owner, ownerID

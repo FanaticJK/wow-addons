@@ -199,7 +199,11 @@ function module:RememberAllCurrentChannels()
 		for i=1,#t,2 do
 			local chan, num = t[i], t[i+1]
 
-			if chan and chan:len()>0 then
+			-- cr/cg/cb were read as never-set globals (saving nil colours); take the
+			-- channel's current colour from ChatTypeInfo like CHAT_MSG_CHANNEL_NOTICE does
+			local info = num and ChatTypeInfo["CHANNEL"..num]
+			if chan and chan:len()>0 and info then
+                local cr, cg, cb = info.r, info.g, info.b
                 local color = self.db.profile.colors[chan:lower()];
                 if (not color) then
                     self.db.profile.colors[chan:lower()] = {r=cr, g=cg, b=cb};

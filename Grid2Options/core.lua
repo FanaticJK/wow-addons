@@ -241,6 +241,7 @@ function Grid2Options:AddResetDebugMenu()
 		order = 1,
 		name = L["Reset"],
 		desc = L["Reset current setup and ReloadUI."],
+		confirm = true, -- wipes Grid2DB and Grid2OptionsDB, so ask first
 		func = function ()
 			Grid2DB = nil
 			Grid2OptionsDB = nil

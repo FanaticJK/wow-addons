@@ -13,13 +13,13 @@ end
 
 local function getCategoryNameValue(info)
 	local category = info.arg
-	local name = L[categoryKey.name] or categoryKey.name
+	local name = L[category.name] or category.name -- was "categoryKey", an undefined global
 	return name
 end
 
 local function setCategoryNameValue(info, customName)
 	local category = info.arg
-	local name = L[categoryKey.name] or categoryKey.name
+	local name = L[category.name] or category.name
 	customName = Grid2Options:GetValidatedName(customName)
 	if (not name or name ~= customName) then
 		category.name = customName
@@ -303,7 +303,9 @@ local function NewCategoryDisabled()
 	return true
 end
 
-function ResetCategories()
+-- Note: the whole category UI below is never wired into the options (nothing calls
+-- AddSetupCategoryOptions) and still targets the old Grid2.db.profile.setup design.
+local function ResetCategories()
 	local setup = Grid2.db.profile.setup
 	Grid2:SetupDefaultCategories(Grid2.db.account)
 	Grid2Frame:UpdateAllFrames()

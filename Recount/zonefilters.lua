@@ -77,9 +77,9 @@ function Recount:UpdateZoneGroupFilter()
 	   groupType = 1
 	end
 
-	_, instanceType = IsInInstance()
+	local _; _, instanceType = IsInInstance()
 	if instanceType == "none" then -- Check if we are in an open area combat zone (ala Wintergrasp)
-		pvpType = GetZonePVPInfo()
+		local pvpType = GetZonePVPInfo()
 		if pvpType == "combat" then
 			instanceType = "pvp"
 		end

@@ -4,7 +4,7 @@ local Quixote = LibStub("LibQuixote-2.0")
 local zoneid, zonegroup
 local sfmt = string.format
 local db, dbpc
-local recentcompleted, recentcategory
+local recentquest, recenttitle, recentcompleted, recentcategory -- recentquest/recenttitle were globals
 
 function addon:EventsEnable()
 	self:RegisterEvent("PLAYER_LOGIN")
@@ -55,7 +55,7 @@ function addon:ZONE_CHANGED_NEW_AREA()
 		if not WorldMapFrame:IsShown() then
 			continent = GetCurrentMapContinent()
 		end
-		z, g = self:GetZoneId(GetRealZoneText(), continent)
+		local z, g = self:GetZoneId(GetRealZoneText(), continent) -- were globals named z and g
 		if z ~= nil then
 			zoneid = z
 		end

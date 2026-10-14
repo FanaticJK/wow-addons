@@ -391,7 +391,7 @@ Prat:AddModuleToLoad(function()
         if IsInGuild() then
             self.frame = self.frame or CreateFrame("Frame")
 
-            if self.db.delaygmotd then
+            if self.db.profile.delaygmotd then -- was self.db.delaygmotd: always nil, option did nothing
                 self:DelayGMOTD(self.frame)
             end
             
@@ -436,13 +436,14 @@ Prat:AddModuleToLoad(function()
     function module:DelayGMOTD(frame)
         local delay = 2.5
         local maxtime = 60
-        ChatFrame1:UnregisterEvent(GUILD_MOTD)
+        -- the event name, not the GUILD_MOTD global string (which is display text)
+        ChatFrame1:UnregisterEvent("GUILD_MOTD")
         frame:SetScript("OnUpdate", function(this, expired)
             delay = delay - expired
             if delay < 0 then
                 local msg = GetGuildRosterMOTD()
                 if maxtime < 0 or (msg and msg:len() > 0) then
-                    ChatFrame1:RegisterEvent(GUILD_MOTD)
+                    ChatFrame1:RegisterEvent("GUILD_MOTD")
                     ChatFrame_SystemEventHandler(ChatFrame1, "GUILD_MOTD", msg)
                     this:Hide()
                 else
@@ -457,7 +458,7 @@ Prat:AddModuleToLoad(function()
     --[[------------------------------------------------
         Core Functions
     ------------------------------------------------]] --
-    local aquire, reclaim
+    local acquire, reclaim
     do
         local cache = setmetatable({}, {
             __mode = 'k'

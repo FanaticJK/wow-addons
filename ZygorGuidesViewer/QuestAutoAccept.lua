@@ -18,6 +18,7 @@ function me:QUEST_GREETING()
 		self.tmp_no_autoquest=nil
 		return
 	end
+	if not self.CurrentStep then return end  -- no guide loaded yet
 	if self.db.profile.autoturnin then
 		for qnum=1,GetNumActiveQuests() do
 			for i,goal in ipairs(self.CurrentStep.goals) do
@@ -47,6 +48,7 @@ function me:GOSSIP_SHOW()
 		self.tmp_no_autoquest=nil
 		return
 	end
+	if not self.CurrentStep then return end  -- no guide loaded yet
 	if self.db.profile.autoturnin then
 		local quests={GetGossipActiveQuests()}
 		for qnum=1,GetNumGossipActiveQuests() do
@@ -78,6 +80,7 @@ function me:QUEST_DETAIL()
 		self.tmp_no_autoquest=nil
 		return
 	end
+	if not self.CurrentStep then return end  -- no guide loaded yet
 	if self.db.profile.autoaccept then
 		local title = GetTitleText()
 		for i,goal in ipairs(self.CurrentStep.goals) do
@@ -95,6 +98,7 @@ function me:QUEST_PROGRESS()
 		self.tmp_no_autoquest=nil
 		return
 	end
+	if not self.CurrentStep then return end  -- no guide loaded yet
 	if self.db.profile.autoturnin then
 		if not IsQuestCompletable() then return end
 		local title = GetTitleText()
@@ -119,6 +123,7 @@ function me:QUEST_COMPLETE()
 	--self:RecordData(self.questIndicesByTitle[GetTitleText()], 'finish', QuestFrameNpcNameText:GetText())
 
 	if self.db.profile.autoturnin then
+		if not self.CurrentStep then return end  -- no guide loaded yet
 		if (GetNumQuestChoices()>0) then return end
 		local title = GetTitleText()
 		for i,goal in ipairs(self.CurrentStep.goals) do

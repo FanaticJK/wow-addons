@@ -212,17 +212,20 @@ function ZygorGuidesViewerFrame_OnLoad(self)
 			local link
 			if self:GetAttribute("type1")=="item" then
 				link = select(2,GetItemInfo(self:GetAttribute("item1")))
-				GameTooltip:SetOwner(self,"ANCHOR_PRESERVE")
-				GameTooltip:ClearAllPoints()
-				GameTooltip:SetPoint("BOTTOMRIGHT",self,"TOPLEFT")
-				GameTooltip:SetHyperlink(link)
-				GameTooltip:Show()
+				if link then  -- nil while the item is not in the client cache
+					GameTooltip:SetOwner(self,"ANCHOR_PRESERVE")
+					GameTooltip:ClearAllPoints()
+					GameTooltip:SetPoint("BOTTOMRIGHT",self,"TOPLEFT")
+					GameTooltip:SetHyperlink(link)
+					GameTooltip:Show()
+				end
 			end
-			if self:GetAttribute("type1")=="spell" then
+			if self:GetAttribute("type1")=="spell" and self.spellid then
 				GameTooltip:SetOwner(self,"ANCHOR_PRESERVE")
 				GameTooltip:ClearAllPoints()
 				GameTooltip:SetPoint("BOTTOMRIGHT",self,"TOPLEFT")
-				GameTooltip:SetSpellByID(self.spellid)
+				-- GameTooltip:SetSpellByID is a 4.x API; a spell hyperlink shows the same tooltip on 3.3.5
+				GameTooltip:SetHyperlink("spell:"..self.spellid)
 				GameTooltip:Show()
 			end
 		end)
@@ -534,8 +537,9 @@ function ZGVFSectionDropDown_Initialize(frame,level,menulist)
 	ZGV:InitializeDropDown(frame,level,menulist)
 end
 
-function ZGVFSectionDropDown_Func()
-	ZGV:SetGuide(this.value)
+function ZGVFSectionDropDown_Func(self)
+	-- UIDropDownMenu calls info.func(button, arg1, arg2, checked); use the button, not the legacy 'this'
+	ZGV:SetGuide(self.value)
 --	ToggleDropDownMenu(1, nil, ZygorGuidesViewerFrame_SectionDropDown, ZygorGuidesViewerFrame, 0, 0);
 end
 

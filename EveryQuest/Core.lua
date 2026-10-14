@@ -53,10 +53,11 @@ EveryQuestData = {}
 local questdisplay = {}
 EQ_TextColors = {}
 local sfmt = string.format
-EQ_TextColors["s-1"] = { r = 1.00, g = 0.00, b = 0.00, font = EQFont_Failed, hex = "ff0000" };
-EQ_TextColors["s0"] = { r = 1.00, g = 1.00, b = 0, font = EQFont_Progress, hex = "ffff00" };
-EQ_TextColors["s1"] = { r = 0.00, g = 1.00, b = 0.00, font = EQFont_Complete, hex = "00ff00" };
-EQ_TextColors["s2"] = { r = 0.0, g = 0.807, b = 0.019, font = EQFont_TurnedIn, hex = "00cd04" };
+-- status colours follow the shared palette: bad / warning / good, and turned-in quests recede to muted grey
+EQ_TextColors["s-1"] = { r = 1.00, g = 0.30, b = 0.25, font = EQFont_Failed, hex = "ff4d40" };
+EQ_TextColors["s0"] = { r = 1.00, g = 0.72, b = 0.20, font = EQFont_Progress, hex = "ffb833" };
+EQ_TextColors["s1"] = { r = 0.30, g = 0.90, b = 0.40, font = EQFont_Complete, hex = "4ce666" };
+EQ_TextColors["s2"] = { r = 0.62, g = 0.62, b = 0.65, font = EQFont_TurnedIn, hex = "9e9ea6" };
 EQ_TextColors["unknown"]	= { r = 1, g = 1, b = 1, font = EQFont_Unknown, hex = "ffffff" };
 EQ_TextColors["ignored"] = { r = 0.733, g = 0.372, b = 1, font = EQFont_Ignored, hex = "BB5FFF" };
 
@@ -127,12 +128,13 @@ StaticPopupDialogs["EVERYQUEST_PURGEOLD"] = {
 	text = L["EQ_PURGETXT"], -- Purge data Popup Dialog
 	button1 = L["Purge"], -- Purge data Popup Dialog
 	button2 = L["Cancel"], -- Purge data Popup Dialog
-	OnShow = function()
-		getglobal(this:GetName().."EditBox"):SetText("")
+	-- StaticPopup passes the dialog as the first argument; the legacy 'this' global is not reliable
+	OnShow = function(self)
+		getglobal(self:GetName().."EditBox"):SetText("")
 	end,
-	OnAccept = function()
+	OnAccept = function(self)
 		addon:Debug("EVERYQUEST_PURGEOLD: OnAccept")
-		local text = getglobal(this:GetParent():GetName().."EditBox"):GetText()
+		local text = getglobal(self:GetName().."EditBox"):GetText()
 		if text and text == "DELETE" then
 			dbpc.QuestHistory = nil
 			EveryQuestDBPC = nil
@@ -324,6 +326,7 @@ do
 	EveryQuest_ZoneMenu.relativePoint = "BOTTOMRIGHT"
 	EveryQuest_ZoneMenu.initialize = function(self, level)
 		if not level then return end
+		local curzone -- was a global; the click closures below now capture this menu level's zone
 		--sort(EQ_zones, function(a, b) addon:Debug(a .. " - " .. b) return true end)
 		wipe(info)
 		if (level == 1) then
@@ -809,7 +812,7 @@ function addon:UpdateFrame(zid, zgid)
 		end]]
 		local buttonid = 1
 		local controli = 0
-		questlist = self:GetZoneQuestData(zonegroup, zoneid)
+		local questlist = self:GetZoneQuestData(zonegroup, zoneid)
 		-- Spew("questlist", questlist)
 		local questcount = 0
 		if questlist then
@@ -848,7 +851,7 @@ function addon:UpdateFrame(zid, zgid)
 				-- end
 			end
 		end
-		cshown = questcount
+		addon.cshown = questcount
 		
 		if questcount > 0 and not addon.listsorted then
 			--self:Print("Sort the list")
@@ -883,7 +886,7 @@ function addon:UpdateFrame(zid, zgid)
 			end
 		end
 		for j = buttonid, 27 ,1 do
-			button = getglobal("EveryQuestTitle"..j)
+			local button = getglobal("EveryQuestTitle"..j)
 			button:Hide()
 		end
 		addon.frames.Shown:SetText( sfmt(L["%d Shown"], questcount) )  -- Main frame list count
@@ -969,7 +972,7 @@ function addon:GetQuestData(questid, category, questname, zid)
 	self:Debug("GetQuestData - zonegroup:"..tostring(zg).." zoneid:"..tostring(zid))
 	if zg ~= nil and zid ~= nil then
 		self:Debug("1GetQuestData - zonegroup:"..tostring(zg).." zoneid:"..tostring(zid))
-		quests = self:GetZoneQuestData(zg, zid)
+		local quests = self:GetZoneQuestData(zg, zid)
 		if quests == false or quests == nil then
 			self:Debug("GetQuestData(): No quests, returning false")
 			return false
@@ -1021,7 +1024,7 @@ function addon:GetQuestData(questid, category, questname, zid)
 					--for kt,vt in pairs(quest) do self:Print(kt .. " - " .. vt) end
 					if quest.id == questid then
 						zid = k
-						self:Debug("GetQuestData (Expanded 2x) - from data - questid:"..tostring(questid).." zonegroup:"..tostring(v).." zoneid:"..tostring(zid))
+						self:Debug("GetQuestData (Expanded 2x) - from data - questid:"..tostring(questid).." zonegroup:"..tostring(group).." zoneid:"..tostring(zid))
 						return quest.id, quest, zid
 					end
 					if quest.n == questname then
@@ -1049,6 +1052,7 @@ do
 		if (not uid) then
 			--print("hide ttscanframe")
             ttScanFrame:Hide()
+            return -- nothing queued: indexing db.localized[locale][nil] below would error
         end
         local questName = ttlt:GetText()
 		db.localized[locale][uid] = questName
@@ -1066,6 +1070,7 @@ do
     ttScanFrame:SetScript("OnUpdate", function(self, elapsed)
         delay = delay + elapsed
         if delay > interval then
+            tt:SetOwner(UIParent, "ANCHOR_NONE") -- a scanning tooltip needs an owner before each SetHyperlink
             tt:SetHyperlink("quest:"..tt.questId)
             delay = 0
         end
@@ -1075,6 +1080,7 @@ function addon:StartTTScan()
     local uid = que[1]
     tt.questId = uid
     ttScanFrame:Show()
+    tt:SetOwner(UIParent, "ANCHOR_NONE")
     return tt:SetHyperlink( ("quest:%d"):format(uid) )
 end
 function addon:StopTTScan()
@@ -1252,6 +1258,7 @@ function addon:SetHyperlink(self, value)
 		GameTooltip:AddLine(" ", addon:GetColor("FFFFFF"))
 		GameTooltip:AddLine( L["Status: %s"]:format(queststatus), addon:GetColor((quest and quest.status or status))) -- Tooltip quest status, %s = localized quest status
 		if quest ~= nil then
+			local completedline -- was a global
 			if quest.completed then
 				completedline = L["Completed%s: %s"] -- Tooltip, %s = daily/weekly quest complete count, %s = timediff string
 				local repeatcount = ""
@@ -1308,11 +1315,14 @@ function addon:ButtonClick(self, button)
 	local uid = quest.id
 	if button == "LeftButton" then
 		if ( IsModifiedClick() ) then
-			if ( IsModifiedClick("CHATLINK") and ChatFrameEditBox:IsVisible() ) then
-				local _, questinfo = self:GetQuestData(uid, nil, nil, zoneid)
-				questname = quest.n or questinfo.n or L["Unknown"] -- Quest Status
-				questlevel = quest.l or questinfo.l or -1
-				local questLink = self:CreateQuestLink(uid, questname, questlevel);
+			-- ChatFrameEditBox no longer exists in 3.3.5; ask for the active chat edit box instead.
+			-- 'self' here is the clicked button (explicit parameter), so the addon methods go through 'addon'.
+			local editBox = ChatEdit_GetLastActiveWindow and ChatEdit_GetLastActiveWindow()
+			if ( IsModifiedClick("CHATLINK") and editBox and editBox:IsVisible() ) then
+				local _, questinfo = addon:GetQuestData(uid, nil, nil, zoneid)
+				questname = quest.n or (questinfo and questinfo.n) or L["Unknown"] -- Quest Status
+				questlevel = quest.l or (questinfo and questinfo.l) or -1
+				local questLink = addon:CreateQuestLink(uid, questname, questlevel);
 				if ( questLink ) then
 					ChatEdit_InsertLink(questLink);
 				end
@@ -1517,7 +1527,7 @@ function addon:SortTable(aa,bee)
 end
 
 function addon:GetZoneQuestData(zonegroup, zoneid)
-	groupdata = self:LoadQuestData(zonegroup)
+	local groupdata = self:LoadQuestData(zonegroup)
 	if groupdata ~= false then
 		return groupdata[zoneid]
 	else
@@ -1559,13 +1569,13 @@ end
 
 function addon:GetColor(hex)
 	if hex == 1 then
-		return 0,1,0
+		return .3,.9,.4
 	elseif hex == -1 then
-		return 1,0,0
+		return 1,.3,.25
 	elseif hex == 2 then
-		return 0,.807,.019
+		return .62,.62,.65
 	elseif hex == 0 then
-		return 1,1,0
+		return 1,.72,.2
 	elseif hex == 99 then -- Unknown
 		return 1,1,1
 	end
@@ -1613,7 +1623,7 @@ function addon:timeDiff(timestamp)
 			end
 		else
 			if hours ~= 0 then
-				return sfmt(L["1 day %d hr ago"], days, hours) -- timeDiff string, %d = digit
+				return sfmt(L["1 day %d hr ago"], hours) -- timeDiff string, %d = digit (was passed 'days', so it always read "1 hr")
 			else
 				return L["1 day ago"] -- timeDiff string
 			end

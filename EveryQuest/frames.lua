@@ -33,7 +33,7 @@ function addon:SetupFrames()
 	addon.frames.ShownTT:SetScript("OnEnter", function()
 		--GameTooltip:SetOwner(addon.frames.ShownTT, "ANCHOR_TOPRIGHT");
 		GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
-		GameTooltip:SetText(string.format(L["%d Shown"], cshown), 1, 1, 1) -- Main frame list count tooltip
+		GameTooltip:SetText(string.format(L["%d Shown"], addon.cshown), 1, 1, 1) -- Main frame list count tooltip
 		GameTooltip:AddLine(addon:Colorize(EQ_TextColors["s2"].hex, string.format(L["%d Turned In"], addon.cdone))) -- Main frame list count tooltip
 		GameTooltip:AddLine(addon:Colorize(EQ_TextColors["s1"].hex, string.format(L["%d Completed"], addon.ccompleted))) -- Main frame list count tooltip
 		GameTooltip:AddLine(addon:Colorize(EQ_TextColors["s0"].hex, string.format(L["%d In Progress"], addon.cprogress))) -- Main frame list count tooltip

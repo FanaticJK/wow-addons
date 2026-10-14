@@ -66,7 +66,10 @@ function HealthCurrent:GetPercent(unit)
 	if (self.dbx.deadAsFullHealth and UnitIsDeadOrGhost(unit)) then
 		return 1
 	end
-	return UnitHealth(unit) / UnitHealthMax(unit)
+	-- UnitHealthMax is 0 for a unit whose data has not arrived yet; 0/0 would feed NaN to the bars
+	local max = UnitHealthMax(unit)
+	if max == 0 then return 0 end
+	return UnitHealth(unit) / max
 end
 
 function HealthCurrent:GetTextDefault(unit)

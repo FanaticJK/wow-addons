@@ -162,7 +162,7 @@ function ZygorTalentAdvisorPopout_Update()
 				self.scroll.child['group'..tabn]:SetText(tab)
 				s = ""
 				for n,levels in ipairs(talents) do
-					talent = "|T"..levels.tex..":0:0:0:0|t "..levels.name
+					local talent = "|T"..levels.tex..":0:0:0:0|t "..levels.name
 					if #s>0 then s=s.."\n" end
 					if levels[1]==0 then
 						s=s..talent

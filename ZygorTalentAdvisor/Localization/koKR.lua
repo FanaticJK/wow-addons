@@ -1,5 +1,5 @@
 if GetLocale()~="koKR" then return end
 
-ZygorTalentAdvisor_L("Main", "koKR", function() return {
+ZygorTalentAdvisor_L("main", "koKR", function() return {
 	-- ["English"] = "Localized",
 } end)

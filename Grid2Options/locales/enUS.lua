@@ -2,7 +2,7 @@ local L =  LibStub:GetLibrary("AceLocale-3.0"):NewLocale("Grid2Options", "enUS",
 if not L then return end
 
 L["General Settings"] = true
-L["GRID2_DESC"] = "Welcome to Grid2"
+L["GRID2_DESC"] = "Grid2 shows your party and raid as a compact grid of unit frames.\n\n|cff9e9ea6Layout|r picks which groups are shown and where, |cff9e9ea6frame|r sets the size of each unit, |cff9e9ea6indicator|r places the bars, icons, squares and texts on a frame, and |cff9e9ea6status|r decides what each of them shows (health, debuffs, your HoTs, range...).\n\nType |cffffd100/grid2|r to open these options."
 
 L["Debug"] = true
 L["debugging"] = true
@@ -248,6 +248,9 @@ L["Create a new status."] = true
 L["Current Statuses"] = true
 L["Current statuses in order of priority"] = true
 L["Delete"] = true
+L["Delete this status. Indicators that show it stop showing it."] = true
+L["Delete this indicator from every unit frame."] = true
+L["Delete this location. Indicators placed here need a new location."] = true
 L["Display status only if the buff is not active."] = true
 L["Display status only if the buff was cast by you."] = true
 L["Display status only if the buff was not cast by you."] = true

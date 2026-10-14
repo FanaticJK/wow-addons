@@ -91,6 +91,23 @@ local function subjectHoverOut(self)
 	GameTooltip:Hide()
 end
 
+-- Shared tooltip for Postal's own buttons: gold title, muted grey explanation.
+-- Uses its own field names so it never collides with a Blizzard template's tooltipText.
+function Postal.ShowButtonTooltip(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	GameTooltip:SetText(self.postalTooltipTitle, 1, 0.82, 0)
+	if self.postalTooltipText then
+		GameTooltip:AddLine(self.postalTooltipText, 0.62, 0.62, 0.65, 1)
+	end
+	GameTooltip:Show()
+end
+function Postal.SetButtonTooltip(button, title, text)
+	button.postalTooltipTitle = title
+	button.postalTooltipText = text
+	button:SetScript("OnEnter", Postal.ShowButtonTooltip)
+	button:SetScript("OnLeave", subjectHoverOut)
+end
+
 
 ---------------------------
 -- Postal Core Functions --
@@ -134,6 +151,7 @@ function Postal:OnInitialize()
 		ToggleDropDownMenu(1, nil, Postal_DropDownMenu, self:GetName(), 0, 0)
 	end)
 	Postal_ModuleMenuButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
+	Postal.SetButtonTooltip(Postal_ModuleMenuButton, "Postal", L["Modules, opening speed and profiles."])
 
 	-- Create 7 buttons for mouseover on long subject lines
 	for i = 1, 7 do
@@ -428,13 +446,15 @@ function Postal:CreateAboutFrame()
 	if not aboutFrame or not aboutFrame.editBox then
 		aboutFrame = CreateFrame("Frame", "PostalAboutFrame", UIParent)
 		tinsert(UISpecialFrames, "PostalAboutFrame")
+		-- Slim tooltip-border chrome on a dark translucent fill (shared addon style)
 		aboutFrame:SetBackdrop({
-			bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
-			edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-			tile = true, tileSize = 16, edgeSize = 16,
-			insets = { left = 3, right = 3, top = 5, bottom = 3 }
+			bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+			edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+			tile = true, tileSize = 16, edgeSize = 14,
+			insets = { left = 3, right = 3, top = 3, bottom = 3 }
 		})
-		aboutFrame:SetBackdropColor(0,0,0,1)
+		aboutFrame:SetBackdropColor(0, 0, 0, 0.8)
+		aboutFrame:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 		aboutFrame:SetWidth(500)
 		aboutFrame:SetHeight(400)
 		aboutFrame:SetPoint("CENTER", UIParent, "CENTER")
@@ -461,6 +481,11 @@ function Postal:CreateAboutFrame()
 
 		local close = CreateFrame("Button", nil, aboutFrame, "UIPanelCloseButton")
 		close:SetPoint("TOPRIGHT", aboutFrame, "TOPRIGHT")
+
+		-- Title in the 30px band above the scroll area, aligned with its left edge
+		local title = aboutFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		title:SetPoint("TOPLEFT", aboutFrame, "TOPLEFT", 12, -11)
+		title:SetText("Postal")
 	end
 	Postal.aboutFrame = aboutFrame
 	Postal.CreateAboutFrame = nil -- Kill ourselves

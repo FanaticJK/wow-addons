@@ -17,7 +17,7 @@ function Grid2:SetupIndicators(setup, objects)
 		if (setupFunc) then
 			setupFunc(baseKey, dbx)
 		else
-print("      *Could not find setupFunc for indicator", baseKey)
+			self:Debug("Setup: no setup function for indicator", baseKey, "type", dbx.type)
 		end
 	end
 end
@@ -31,10 +31,10 @@ function Grid2:SetupStatuses(setup, objects)
 			if (object) then
 				if (object.UpdateDB) then
 					object.UpdateDB(dbx)
-					print("SetupStatuses UpdateDB -->", baseKey)
+					self:Debug("Setup: UpdateDB", baseKey)
 				end
 			else
-				print("SetupStatuses did not find", dbx.object)
+				self:Debug("Setup: object not found", dbx.object)
 			end
 		else
 --print("SetupStatuses:", baseKey, dbx.type, self.setupFunc[dbx.type])
@@ -54,11 +54,12 @@ function Grid2:SetupStatusMap(setup, objects)
 				if (status and tonumber(priority)) then
 					indicator:RegisterStatus(status, priority)
 				else
-print("      ***failed mapping:", statusKey, "status:", status, "priority:", priority, "layer:", layer, "indicator:", baseKey)
+					-- e.g. a status of a disabled plugin (raid-debuffs) still mapped in the saved setup
+					self:Debug("Setup: indicator", baseKey, "skips unavailable status", statusKey, "layer", layer)
 				end
 			end
 		else
-print("      ***Could not find mapped indicator baseKey:", baseKey, "layerKey:", layer)
+			self:Debug("Setup: status map names unknown indicator", baseKey, "layer", layer)
 		end
 	end
 end
@@ -104,7 +105,7 @@ function Grid2:MakeDebuffColorHandler(status)
 	local dbx = status.dbx
 	local colorCount = dbx.colorCount or 1
 	if (colorCount <= 0) then
-		self:Print("Invalid number of colors for debuff %s", status.name)
+		self:Printf("Invalid number of colors for debuff %s", status.name)
 		return
 	end
 

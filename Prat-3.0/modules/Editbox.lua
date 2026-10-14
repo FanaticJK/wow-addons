@@ -493,7 +493,7 @@ Prat:SetModuleDefaults(mod.name, {
 		background = "Blizzard Tooltip",
 		border = "Blizzard Tooltip",
 		hideDialog = true,
-		backgroundColor = {r = 0, g = 0, b = 0, a = 1},
+		backgroundColor = {r = 0, g = 0, b = 0, a = 0.8},
 		borderColor = {r = 1, g = 1, b = 1, a = 1},
 		inset = 3,
 		edgeSize = 12,
@@ -743,7 +743,9 @@ function mod:ChatEdit_DeactivateChat(frame)
 	end
 end
 function mod:GetOptions()
-	return options
+	-- Nothing calls this (options go through Prat:SetModuleOptions); it used to
+	-- return a global `options` that is never set anywhere.
+	return nil
 end
 
 function mod:SetBackdrop()
@@ -769,18 +771,21 @@ function mod:SetBorderByChannel(...)
 	for index, frame in ipairs(self.frames) do
 		local f = _G["ChatFrame"..index.."EditBox"]
 		local attr = f:GetAttribute("chatType")
-	if attr == "CHANNEL" then
+		-- Colours come from ChatTypeInfo, the FrameXML table 3.3.5 itself uses for chat
+		-- colours (GetMessageTypeColor is not a 3.3.5 API). Unknown types keep the
+		-- configured border colour instead of erroring on every header update.
+		local info
+		if attr == "CHANNEL" then
 			local chan = f:GetAttribute("channelTarget")
-		if chan == 0 then
-			local c = self.db.profile.borderColor
-				frame:SetBackdropBorderColor(c.r, c.g, c.b, c.a)
-		else	
-			local r, g, b = GetMessageTypeColor("CHANNEL" .. chan)
-				frame:SetBackdropBorderColor(r, g, b, 1)
+			info = chan and chan ~= 0 and ChatTypeInfo["CHANNEL" .. chan]
+		else
+			info = attr and ChatTypeInfo[attr]
 		end
-	else
-		local r, g, b = GetMessageTypeColor(attr)
-			frame:SetBackdropBorderColor(r, g, b, 1)
+		if info then
+			frame:SetBackdropBorderColor(info.r, info.g, info.b, 1)
+		else
+			local c = self.db.profile.borderColor
+			frame:SetBackdropBorderColor(c.r, c.g, c.b, c.a)
 		end
 	end
 end

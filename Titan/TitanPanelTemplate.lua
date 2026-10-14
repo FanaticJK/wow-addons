@@ -543,9 +543,10 @@ function TitanPanelButton_OnDragStop(self, ChildButton)
 		end
 		
 		-- switching sides is not allowed
-		local from_on_right = (TitanGetVar(TITAN_PANEL_MOVE_ADDON, "DisplayOnRightSide") or false)
-		local to_on_right = (TitanGetVar(TITAN_PANEL_MOVE_ADDON, "DisplayOnRightSide") or false)
-		if (to_on_right == true and from_on_right == false) or (to_on_right == false and from_on_right == true) then
+		-- (this compared the moved plugin with itself, and TitanGetVar returns 1 rather than
+		-- true, so the guard never fired; TitanPanel_GetPluginSide also covers icon plugins)
+		if TITAN_PANEL_DROPOFF_ADDON
+		and TitanPanel_GetPluginSide(TITAN_PANEL_MOVE_ADDON) ~= TitanPanel_GetPluginSide(TITAN_PANEL_DROPOFF_ADDON) then
 			TITAN_PANEL_DROPOFF_ADDON = nil;
 		end
 		

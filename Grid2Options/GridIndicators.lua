@@ -87,7 +87,7 @@ function Grid2Options.GetIndicatorStatus(info, statusKey)
 	return false
 end
 
-function GetParentOption(info, objectKey)
+local function GetParentOption(info, objectKey) -- was a global with a generic name
 	local settings = info.options.args.indicator.args.indicators
 	return settings.args[objectKey].args.statusesCurrent 
 end
@@ -424,6 +424,8 @@ function Grid2Options:AddIndicatorDeleteOptions(indicator, options)
 	    type = "execute",
 		order = 83,
 	    name = L["Delete"],
+		desc = L["Delete this indicator from every unit frame."],
+		confirm = true,
 	    func = DeleteIndicator,
 		arg = indicator,
 	}
@@ -997,12 +999,16 @@ local function NewIndicatorDisabled()
 	return true
 end
 
-function ResetIndicators()
+--[[ Disabled like ResetLocations in GridLocations.lua: Grid2:SetupDefaultIndicators,
+     Grid2Options:AddSetupIndicatorsOptions and Grid2.db.profile.setup no longer exist, so the
+     "Reset Indicators" tab raised a Lua error. Debug > Reset restores every default.
+local function ResetIndicators()
 	local setup = Grid2.db.profile.setup
 	Grid2:SetupDefaultIndicators(setup)
 	Grid2Frame:UpdateAllFrames()
 	Grid2Options:AddSetupIndicatorsOptions(setup, true)
 end
+--]]
 
 local function AddIndicatorsGroup(reset)
 	local options = {
@@ -1073,6 +1079,7 @@ local function AddIndicatorsGroup(reset)
 				args = {}
 				--list of existing indicators go here:
 			},
+--[[
 		   reset = {
 			   type = "group",
 			   order = 400,
@@ -1088,6 +1095,7 @@ local function AddIndicatorsGroup(reset)
 				   },
 			   },
 		   },
+--]]
 		},
 	}
 	
@@ -1149,10 +1157,10 @@ function Grid2Options:MakeIndicatorOptions(dblData, reset)
 			if (funcMakeOptions) then
 				funcMakeOptions(indicator)
 			else
-				print("    **MakeIndicatorOptions no funcMakeOptions for", layer, baseKey, dbx.type)
+				Grid2:Debug("Options: no option builder for indicator", baseKey, "type", dbx.type, "layer", layer)
 			end
 		else
-			print("    **MakeIndicatorOptions no dbx for", layer, baseKey)
+			Grid2:Debug("Options: no settings for indicator", baseKey, "layer", layer)
 		end
 	end
 end

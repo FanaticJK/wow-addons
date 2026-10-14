@@ -4,8 +4,7 @@
 ## Version: 3.1.15 - Release
 ## Author: Mirrikat45
 ## SavedVariables: GS_Data, GS_Settings
-## Dependencies: BonusScanner
-## OptionalDeps: Ace3, LibQTip-1.0, LibQTipClick-1.1, LibDataBroker-1.1, Recount
+## OptionalDeps: BonusScanner, Ace3, LibQTip-1.0, LibQTipClick-1.1, LibDataBroker-1.1, Recount
 
 
 embeds.xml

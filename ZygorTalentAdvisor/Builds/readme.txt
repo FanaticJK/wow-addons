@@ -1,4 +1,4 @@
-Place your builds in files Build01.txt, Build02.txt, ... in this directory, to have them auto-loaded and startup.
+Place your builds in files Build01.lua, Build02.lua, ... in this directory, then uncomment the matching line in Autoload.xml, to have them auto-loaded at startup.
 You may place multiple builds in one file.
 The syntax of a build file is as follows:
 

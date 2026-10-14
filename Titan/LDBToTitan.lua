@@ -66,7 +66,7 @@ local Tablet, LibQTip = nil, nil
 local media = LibStub("LibSharedMedia-3.0")
 local LDBAttrs = {};
 local AceTimer = LibStub("AceTimer-3.0")
-local iconTitanDefault = "Interface\\PVPFrame\\\PVP-ArenaPoints-Icon"; -- generic icon in case the DO does not provide one
+local iconTitanDefault = "Interface\\PVPFrame\\PVP-ArenaPoints-Icon"; -- generic icon in case the DO does not provide one
 
 LDBToTitan:RegisterEvent("PLAYER_LOGIN")
 LDBToTitan:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -585,7 +585,7 @@ TitanDebug("TitanLDBCreateObject "
    
    -- Apparently some launchers are using a malformed spec by setting a "launcher" attribute to true
    -- so...(sigh) we need to compensate for this by...guessing that it MAY happen
-   if obj.launcher and obj.type~="data source" and (obj.launcher == true or obj.launcher == yes or obj.launcher == "yes") then
+   if obj.launcher and obj.type~="data source" and (obj.launcher == true or obj.launcher == "yes") then
    	ldbtype = "launcher";
    end
    

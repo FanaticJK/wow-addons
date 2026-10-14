@@ -38,6 +38,7 @@ function Postal_BlackBook:OnEnable()
 			ToggleDropDownMenu(1, nil, Postal_DropDownMenu, self:GetName(), 0, 0)
 		end)
 		Postal_BlackBookButton:SetScript("OnHide", Postal_DropDownMenu.HideMenu)
+		Postal.SetButtonTooltip(Postal_BlackBookButton, L["Contacts"], L["Pick a recipient from your contacts, recent mail, alts, friends or guild."])
 	end
 
 	SendMailNameEditBox:SetHistoryLines(15)
@@ -87,7 +88,9 @@ function Postal_BlackBook:BN_FRIEND_INFO_CHANGED(presenceID)
 		local presenceID, givenName, surname, toonName, toonID, client, isOnline, lastOnline, isAFK, isDND, broadcastText, noteText, isFriend, broadcastTime = BNGetFriendInfo(i)
 		if givenName and surname and toonID then
 			local hasFocus, toonName, client, realmName, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(toonID)
-			if client == BNET_CLIENT_WOW then
+			-- BNGetToonInfo can hand back nil fields before the toon's data has arrived;
+			-- ("%s"):format(nil) below would then error, so wait for the next update.
+			if client == BNET_CLIENT_WOW and toonName and realmName and faction and level and class then
 				-- Convert data to non-localized form
 				for token, loc_male in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 					if loc_male == class then class = token end
@@ -95,7 +98,7 @@ function Postal_BlackBook:BN_FRIEND_INFO_CHANGED(presenceID)
 				for token, loc_female in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 					if loc_female == class then class = token end
 				end
-				faction = PLAYER_FACTION_GROUP[faction]
+				faction = PLAYER_FACTION_GROUP[faction] or faction
 				-- Insert the toon into our global db
 				local nameStr = givenName.."|"..surname
 				local toonStr = ("%s|%s|%s|%s|%s"):format(toonName, realmName, faction, level, class)

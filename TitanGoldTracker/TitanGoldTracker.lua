@@ -41,9 +41,36 @@ local TITAN_GOLDTRACKER_ID = "GoldTracker";
 local TITAN_GOLDTRACKER_COUNT_FORMAT = "%d";
 local TITAN_GOLDTRACKER_VERSION = TITAN_VERSION;
 local TITAN_GOLDTRACKER_SPACERBAR = "--------------------";
-local TITAN_GOLDTRACKER_BLUE = {r=0.4,b=1,g=0.4};
-local TITAN_GOLDTRACKER_RED = {r=1,b=0,g=0};
-local TITAN_GOLDTRACKER_GREEN = {r=0,b=0,g=1};
+-- shared design tokens (Bagnon/utility/style.lua): muted secondary text, good / bad
+local TITAN_GOLDTRACKER_BLUE = {r=0.62,g=0.62,b=0.65};	-- starting gold: secondary info, muted
+local TITAN_GOLDTRACKER_RED = {r=1,g=0.3,b=0.25};
+local TITAN_GOLDTRACKER_GREEN = {r=0.3,g=0.9,b=0.4};
+local TITAN_GOLDTRACKER_MUTED = {r=0.62,g=0.62,b=0.65};
+local TITAN_GOLDTRACKER_CHAT = {1, 0.82, 0};	-- accent gold for this plugin's chat lines
+
+-- copper -> "12[g] 3[s] 4[c]" with the coin icons, skipping empty denominations;
+-- locale independent, same look as Bagnon's Style:FormatMoney
+local GOLD_ICON = "|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t";
+local SILVER_ICON = "|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t";
+local COPPER_ICON = "|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t";
+local function TitanGoldTracker_FormatMoney(money)
+	money = floor(tonumber(money) or 0);
+	if money < 0 then money = 0 end
+	local gold = floor(money / (COPPER_PER_SILVER * SILVER_PER_GOLD));
+	local silver = floor((money - gold * COPPER_PER_SILVER * SILVER_PER_GOLD) / COPPER_PER_SILVER);
+	local copper = mod(money, COPPER_PER_SILVER);
+	local text = "";
+	if gold > 0 then
+		text = gold..GOLD_ICON;
+	end
+	if silver > 0 then
+		text = text..(text ~= "" and " " or "")..silver..SILVER_ICON;
+	end
+	if copper > 0 or text == "" then
+		text = text..(text ~= "" and " " or "")..copper..COPPER_ICON;
+	end
+	return text;
+end
 local updateTable = {TITAN_GOLDTRACKER_ID, TITAN_PANEL_UPDATE_TOOLTIP };
 -- ******************************** Variables *******************************
 local GOLDTRACKER_INITIALIZED = false;
@@ -155,7 +182,14 @@ end
 function TitanPanelGoldTrackerButton_GetTooltipText()
      -- the following code will parse the database and then display all members from the same faction/server
      -- to the user
-          
+
+     -- Titan shows the button at PLAYER_ENTERING_WORLD, but the array is only built once
+     -- VARIABLES_LOADED has fired as well (3.x often sends it later); hovering in that gap
+     -- indexed GoldArray[""] and did arithmetic on a nil starting gold.
+     if not GOLDTRACKER_INITIALIZED then
+          return LB["TITAN_GOLDTRACKER_TOOLTIPTEXT"]..": "..L["TITAN_NA"];
+     end
+
      local server = GetCVar("realmName").."::"..UnitFactionGroup("Player");
      GoldArray[GOLDTRACKER_INDEX] = TitanPanelGoldTracker_ParseArray(GoldArray[GOLDTRACKER_INDEX]);
     local currentMoneyRichText = ""; -- initialize the variable to hold the array
@@ -184,13 +218,13 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
           if (character) then
                if (charserver == server) then
                     if (mod(GoldArray[GoldArraySorted[i]],10) == 0) then
-                         currentMoneyRichText = currentMoneyRichText.."\n"..character.."\t"..TitanUtils_GetHighlightText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(floor(GoldArray[GoldArraySorted[i]]/10))));                    
+                         currentMoneyRichText = currentMoneyRichText.."\n"..character.."\t"..TitanUtils_GetHighlightText(TitanGoldTracker_FormatMoney(floor(GoldArray[GoldArraySorted[i]]/10)));                    
                     end
                end
           end
      end
 
-     currentMoneyRichText = currentMoneyRichText.."\n"..TITAN_GOLDTRACKER_SPACERBAR.."\n"..LB["TITAN_GOLDTRACKER_TTL_GOLD"].."\t"..TitanUtils_GetHighlightText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(TitanPanelGoldTrackerButton_TotalGold())));
+     currentMoneyRichText = currentMoneyRichText.."\n"..TitanUtils_GetColoredText(TITAN_GOLDTRACKER_SPACERBAR, TITAN_GOLDTRACKER_MUTED).."\n"..LB["TITAN_GOLDTRACKER_TTL_GOLD"].."\t"..TitanUtils_GetHighlightText(TitanGoldTracker_FormatMoney(TitanPanelGoldTrackerButton_TotalGold()));
 
      -- find session earnings and earning per hour
      local sesstotal = GetMoney("player") - GOLDTRACKER_STARTINGGOLD;
@@ -201,9 +235,10 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
      end
 
      local sesslength = GetTime() - GOLDTRACKER_SESSIONSTART;
-     local perhour = math.floor(sesstotal / sesslength * 3600);
+     -- 0/0 at the very start of a session would be NaN, which formats as garbage
+     local perhour = sesslength > 0 and math.floor(sesstotal / sesslength * 3600) or 0;
 
-     local sessionMoneyRichText = "\n\n"..TitanUtils_GetHighlightText(LB["TITAN_GOLDTRACKER_STATS_TITLE"]).."\n"..LB["TITAN_GOLDTRACKER_START_GOLD"].."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(GOLDTRACKER_STARTINGGOLD)),TITAN_GOLDTRACKER_BLUE).."\n";
+     local sessionMoneyRichText = "\n\n"..TitanUtils_GetHighlightText(LB["TITAN_GOLDTRACKER_STATS_TITLE"]).."\n"..LB["TITAN_GOLDTRACKER_START_GOLD"].."\t"..TitanUtils_GetColoredText(TitanGoldTracker_FormatMoney(GOLDTRACKER_STARTINGGOLD),TITAN_GOLDTRACKER_BLUE).."\n";
 
      if (negative) then
           GOLDTRACKER_COLOR = TITAN_GOLDTRACKER_RED;
@@ -215,10 +250,10 @@ function TitanPanelGoldTrackerButton_GetTooltipText()
           GOLDTRACKER_PERHOUR_STATUS = LB["TITAN_GOLDTRACKER_PERHOUR_EARNED"];
      end     
 
-          sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_SESS_STATUS.."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(sesstotal)),GOLDTRACKER_COLOR).."\n";
+          sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_SESS_STATUS.."\t"..TitanUtils_GetColoredText(TitanGoldTracker_FormatMoney(sesstotal),GOLDTRACKER_COLOR).."\n";
           
           if (GoldArray["DISPLAYGPH"]) then
-               sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_PERHOUR_STATUS.."\t"..TitanUtils_GetColoredText(format(L["TITAN_MONEY_FORMAT"], TitanPanelGoldTracker_BreakMoney(perhour)),GOLDTRACKER_COLOR);
+               sessionMoneyRichText = sessionMoneyRichText..GOLDTRACKER_PERHOUR_STATUS.."\t"..TitanUtils_GetColoredText(TitanGoldTracker_FormatMoney(perhour),GOLDTRACKER_COLOR);
           end
      
      
@@ -436,7 +471,7 @@ function TitanPanelGoldTrackerButton_ClearData(self)
      GoldArray["SORTBYNAME"] = REMEMBER_SORTBYNAME;
      GoldArray["DISPLAYGPH"] = REMEMBER_SHOWGPH;
           
-     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_DB_CLEARED"], 1.0, 0.0, 1.0 );
+     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_DB_CLEARED"], unpack(TITAN_GOLDTRACKER_CHAT));
 end
 
 -- **************************************************************************
@@ -534,7 +569,7 @@ function TitanPanelGoldTrackerButton_ResetSession()
      GOLDTRACKER_STARTINGGOLD = GetMoney("player");
      GOLDTRACKER_SESSIONSTART = GetTime();
      
-     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_SESSION_RESET"], 1.0, 0.0, 1.0 );
+     DEFAULT_CHAT_FRAME:AddMessage(LB["TITAN_GOLDTRACKER_SESSION_RESET"], unpack(TITAN_GOLDTRACKER_CHAT));
 end
      
 -- *******************************************************************************************
@@ -557,8 +592,8 @@ end
 --       be shown/included or not, while also updating the toon's gold information
 -- *******************************************************************************************
 function TitanPanelGoldTracker_ParseArray(tooninfo)
-     TitanGoldTracker_ShowToon = mod(tooninfo,10);
-     local finalvalue = (GetMoney("player") * 10) + TitanGoldTracker_ShowToon;
+     local showToon = mod(tooninfo,10);
+     local finalvalue = (GetMoney("player") * 10) + showToon;
      return finalvalue;
 end
 
@@ -568,15 +603,15 @@ end
 -- *******************************************************************************************
 function TitanPanelGoldTrackerShowToon_Toggle()
      if (mod(GoldArray[GOLDTRACKER_INDEX],10)==0) then
-          local newvalue = (floor(GoldArray[GOLDTRACKER_INDEX],10)*10)+1;
+          local newvalue = (floor(GoldArray[GOLDTRACKER_INDEX]/10)*10)+1; -- floor() takes one argument: was floor(x,10)*10, i.e. x*10
           GoldArray[GOLDTRACKER_INDEX] = newvalue;
           local character, charserver = string.match(GOLDTRACKER_INDEX, '(.*)_(.*)');
-          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_HIDE"], 1.0, 0.0, 1.0 );
+          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_HIDE"], unpack(TITAN_GOLDTRACKER_CHAT));
      else
-          local newvalue = floor(GoldArray[GOLDTRACKER_INDEX],10)*10;
+          local newvalue = floor(GoldArray[GOLDTRACKER_INDEX]/10)*10;
           GoldArray[GOLDTRACKER_INDEX] = newvalue;
           local character, charserver = string.match(GOLDTRACKER_INDEX, '(.*)_(.*)');
-          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_SHOW"], 1.0, 0.0, 1.0 );
+          DEFAULT_CHAT_FRAME:AddMessage("Titan Gold Tracker: "..character.." "..LB["TITAN_GOLDTRACKER_STATUS_PLAYER_SHOW"], unpack(TITAN_GOLDTRACKER_CHAT));
      end
 
      MoneyFrame_Update("TitanPanelGoldTrackerButton", TitanPanelGoldTrackerButton_FindGold());
@@ -632,7 +667,7 @@ end
 function TitanGoldTracker_OpenCoinPickupFrame(multiplier, maxMoney, parent)    
      CoinPickupFrame:Hide();
      
-     position = TitanUtils_GetRealPosition(TITAN_GOLDTRACKER_ID);
+     local position = TitanUtils_GetRealPosition(TITAN_GOLDTRACKER_ID);
 
 
      local scale = TitanPanelGetVar("Scale");

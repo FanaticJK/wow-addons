@@ -607,6 +607,7 @@ function TitanRepair_GetStatus(index, bag)
    local max = 0;
    local cost = 0;
    local hasItem, repairCost, itemName, itemRarity, itemType, itemSubType, itemColor
+   local _ -- discarded GetItemInfo / GetItemQualityColor returns stay out of the global table
 
    TitanRepairTooltip:ClearLines();
 
@@ -703,7 +704,9 @@ function TitanRepair_GetStatusStr(index, short)
    local item_frac = item_status.values.item_frac;
 
 	-- skip if empty slot
-	if (item_status.max == 0) then
+	-- max lives in .values (item_status.max was always nil, so this branch never ran and
+	-- empty slots were listed as "0 / 0" with "show undamaged items")
+	if (item_status.values.max == 0) then
 		if (short) then
 			if (not TPR.WholeScanInProgress) then
 				valueText =  TitanRepair_AutoHighlight(TPR.LastKnownItemFrac, valueText
@@ -1409,7 +1412,9 @@ end
 -- **************************************************************************
 function TitanRepair_DurabilityFrame()
    if TitanGetVar(TITAN_REPAIR_ID,"ShowDurabilityFrame") then   
-   	if not DurabilityFrame:IsVisible() then
+   	-- IsShown, not IsVisible: this runs from a hook on DurabilityFrame:Show(), and while
+   	-- UIParent is hidden (Alt+Z) IsVisible stays false, so Show() re-entered this hook forever
+   	if not DurabilityFrame:IsShown() then
     	DurabilityFrame:Show()
    	end
    else
@@ -1493,7 +1498,7 @@ function TitanRepair_RepairItems()
   			withdrawLimit = min(withdrawLimit, guildBankMoney)
   		end
   	
-  		if withdrawLimit > cost then
+  		if withdrawLimit >= cost then
   			RepairAllItems(1)
   			-- disable repair all icon in merchant
    			SetDesaturation(MerchantRepairAllIcon, 1);
@@ -1516,7 +1521,7 @@ function TitanRepair_RepairItems()
   
   -- Use own funds
   if not TitanGetVar(TITAN_REPAIR_ID,"UseGuildBank") then
-  	if money > cost then
+  	if money >= cost then
   		RepairAllItems()
   		-- disable repair all icon in merchant
    		SetDesaturation(MerchantRepairAllIcon, 1);

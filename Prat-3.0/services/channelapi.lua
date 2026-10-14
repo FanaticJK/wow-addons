@@ -44,6 +44,7 @@ local strsub = strsub
 local wipe = table.wipe
 local pairs = pairs
 local tostring = tostring
+local tonumber = tonumber -- GetChannelNumber needs it; bare globals are nil after setfenv
 
 -- Isolate the environment
 setfenv(1, SVC_NAMESPACE)

@@ -5,7 +5,7 @@ by comparing his prospective build to subbuilds of order 1..n
 Don't warn if the distance is less than their REMAINING talents after the purchase-to-be
 --]]
 
-SAFEMODE=false
+local SAFEMODE=false  -- developer switch; was a global
 
 
 local me = LibStub("AceAddon-3.0"):NewAddon("ZygorTalentAdvisor", "AceConsole-3.0","AceEvent-3.0","AceTimer-3.0")
@@ -115,7 +115,7 @@ function me:OnEnable()
 		text = "",
 		button1 = YES,
 		button2 = NO,
-		OnAccept = function (self) if SAFEMODE then self:Debug("learning "..data.tab..","..data.talent) return nil end  Old_LearnTalent(self.data.tab,self.data.talent,self.data.pet) end,
+		OnAccept = function (self) if SAFEMODE then ZygorTalentAdvisor:Debug("learning "..self.data.tab..","..self.data.talent) return nil end  Old_LearnTalent(self.data.tab,self.data.talent,self.data.pet) end,
 		OnCancel = function (self) end,
 		OnHide = function (self) self.data = nil; self.selectedIcon = nil; end,
 		hideOnEscape = 1,
@@ -127,7 +127,7 @@ function me:OnEnable()
 		text = "",
 		button1 = YES,
 		button2 = NO,
-		OnAccept = function (self) if SAFEMODE then self:Debug("learning previewed") return nil end  LearnPreviewTalents(self.data.pet) end,
+		OnAccept = function (self) if SAFEMODE then ZygorTalentAdvisor:Debug("learning previewed") return nil end  LearnPreviewTalents(self.data.pet) end,
 		OnCancel = function (self) end,
 		OnHide = function (self) self.data = nil; self.selectedIcon = nil; end,
 		hideOnEscape = 1,
@@ -384,7 +384,9 @@ function me:SetupConfig()
 					   local k,v
 					   for k,v in ipairs(self.registeredBuilds) do
 						if v.pettype then
-							local mypettype,_,_,mypettype_en = GetTalentTabInfo(1,false,true) or ""
+							-- "f() or x" kept only the first return, so the pet type was always nil; and the 4th return is "HunterPet<Type>"
+							local _,_,_,mypettype_en = GetTalentTabInfo(1,false,true)
+							if mypettype_en then mypettype_en=mypettype_en:match("HunterPet(.+)") end
 							local color = (mypettype_en==v.pettype and "" or "|cffbbbbbb")
 							t[k]=color..v.title.."  - "..L['opt_petbuild_'..string.lower(v.pettype)]
 						end
@@ -850,7 +852,7 @@ function me:LearnSuggestedTalents(pet,loud)
 			self:Print("|cffffffff"..tab.."|r:")
 			local s
 			for n,levels in ipairs(talents) do
-				talent = "|T"..levels.tex..":0:0:0:0|t |cffffdd00"..GetTalentLink(levels.tab,levels.talent,false,pet,GetActiveTalentGroup())
+				local talent = "|T"..levels.tex..":0:0:0:0|t |cffffdd00"..GetTalentLink(levels.tab,levels.talent,false,pet,GetActiveTalentGroup())
 				if levels[1]==0 then
 					s=talent
 				else
@@ -997,7 +999,7 @@ function LearnTalent(tab,talent,pet,group)
 	end
 
 	if SAFEMODE then
-		self:Debug("Learning\n"..name)
+		ZygorTalentAdvisor:Debug("Learning\n"..name)  -- 'self' is not a parameter of this global override
 	else
 		Old_LearnTalent(tab,talent,pet)
 	end
@@ -1255,7 +1257,7 @@ function me:MakeSuggestion(pet,preview)
 		return {},status
 	end
 
-	AddSuggestion = function (tab,talent,pet)
+	local AddSuggestion = function (tab,talent,pet)
 		suggestion[tab.."."..talent] = (suggestion[tab.."."..talent] or 0) + 1
 		table.insert(suggestion,{tab=tab,talent=talent})
 		--self:Debug(tab,talent)
@@ -1267,7 +1269,7 @@ function me:MakeSuggestion(pet,preview)
 		-- somehow exceeded
 		local status = {code="BLACK",msg=L["status_black_exceeded"]:format(#build,self:GetTalentsSpent(pet))}
 		return {},status
-	elseif #build==self.GetTalentsSpent(pet) then
+	elseif #build==self:GetTalentsSpent(pet) then
 		-- complete or altogether different
 		local alltaken=true
 		for i=1,#build do
@@ -1368,6 +1370,7 @@ function me:SetCurrentBuild(num,pet)
 
 
 		local error
+		local msg
 
 		-- check for pet build
 		if pet then
@@ -1614,9 +1617,9 @@ function me:DumpTalents()
 		end
 
 		s=s.."\nSuggestion: \n"
-		dumpSuggestion(self.suggestion[who])
+		dumpSuggestion(self.suggestion[who],pet)
 
-		s=s..("\nTalents left: %d\n"):format(GetUnspentTalentPoints(pet))
+		s=s..("\nTalents left: %d\n"):format(GetUnspentTalentPoints(false,pet))
 	end
 	
 	DoDump(false)
@@ -1669,13 +1672,15 @@ function me:CreateDumpFrame()
 
 	local frame = CreateFrame("Frame", name, UIParent)
 	self.dumpFrame = frame
+	-- slim tooltip-border chrome on a dark translucent fill (same as the Zygor Guides Viewer report window)
 	frame:SetBackdrop({
-	bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
-	edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-	tile = true, tileSize = 16, edgeSize = 16,
-	insets = { left = 3, right = 3, top = 5, bottom = 3 }
+	bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
+	edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+	tile = true, tileSize = 16, edgeSize = 14,
+	insets = { left = 3, right = 3, top = 3, bottom = 3 }
 	})
-	frame:SetBackdropColor(0,0,0,1)
+	frame:SetBackdropColor(0,0,0,0.85)
+	frame:SetBackdropBorderColor(0.6,0.6,0.6,1)
 	frame:SetWidth(500)
 	frame:SetHeight(400)
 	frame:SetPoint("CENTER", UIParent, "CENTER")
@@ -1701,7 +1706,7 @@ function me:CreateDumpFrame()
 	scrollArea:SetScrollChild(editBox)
 	
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+	close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 2, 2)
 
 	local title = frame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
 	self.dumpFrame.title = title

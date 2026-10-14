@@ -48,7 +48,10 @@ do
 				return f:SetScript("OnUpdate", nil)
 			end
 			if IsSpellInRange(spell, target) == 0 then
-				r, g, b = castBar:GetStatusBarColor()
+				-- remember the cast colour once; on later ticks the bar already shows the range colour
+				if not modified then
+					r, g, b = castBar:GetStatusBarColor()
+				end
 				modified = true
 				castBar:SetStatusBarColor(unpack(db.rangecolor))
 			elseif modified then

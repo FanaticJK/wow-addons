@@ -34,7 +34,7 @@ function dataobject:OnEnter()
 		local cached = id and core.already_cached[id]
 		tooltip:AddLine(name,
 			("%s%s"):format((level and level > 0) and level or '?', elite and '+' or ''),
-			BCT[creature_type],
+			creature_type, -- GetMob already localized it
 			count,
 			core:FormatLastSeen(lastseen),
 			(tameable and 'Tameable' or '') .. ((tameable and cached) and ', ' or '') .. (cached and 'Cached' or '')

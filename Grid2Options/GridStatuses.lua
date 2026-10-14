@@ -104,6 +104,8 @@ function Grid2Options:MakeStatusDeleteOptions(status, options, optionParams)
 			type = "execute",
 			order = 201,
 			name = L["Delete"],
+			desc = L["Delete this status. Indicators that show it stop showing it."],
+			confirm = true,
 			func = DeleteStatus,
 			arg = {status = status, group = group},
 		}
@@ -700,7 +702,7 @@ local NewAuraHandlerMT = {
 			--Create the status options
 			local funcMakeOptions = Grid2Options.typeMakeOptions[dbx.type]
 			local optionParams = Grid2Options.optionParams[dbx.type]
-			local options, subType = funcMakeOptions(self, status, options, optionParams)--, nil, baseKey, statuses)
+			local options, subType = funcMakeOptions(self, status, nil, optionParams) -- nil, not the global "options" another addon may have leaked
 			if subType then
 				Grid2Options:AddElementSubType("status", subType, status, options)
 			elseif options then
@@ -810,15 +812,20 @@ NewDebuffHandler.options = {
 }
 NewDebuffHandler:Init()
 
-function ResetStatuses()
+--[[ Disabled like ResetLocations in GridLocations.lua: Grid2:SetupDefaultStatus and
+     Grid2.db.profile.setup are from the pre-LibDBLayers design and no longer exist, so the
+     button raised a Lua error. Debug > Reset restores every default.
+local function ResetStatuses()
 	local setup = Grid2.db.profile.setup
 	Grid2:SetupDefaultStatus(setup)
 	Grid2Frame:UpdateAllFrames()
 	Grid2Options:MakeStatusOptions(setup, true)
 end
+--]]
 
 local function AddStatusesGroup(reset)
 	local options = {
+--[[
 		resetStatuses = {
 			type = "execute",
 			order = 11,
@@ -826,6 +833,7 @@ local function AddStatusesGroup(reset)
 			desc = L["Reset statuses to defaults."],
 			func = ResetStatuses,
 		},
+--]]
 	}
 	Grid2Options:AddElementGroup("status", options, 60, reset)
 end
@@ -1043,17 +1051,17 @@ function Grid2Options:MakeStatusOptions(dblData, reset)
 			local funcMakeOptions = Grid2Options.typeMakeOptions[dbx.type]
 			if (funcMakeOptions) then
 				local optionParams = Grid2Options.optionParams[dbx.type]
-				local options, subType = funcMakeOptions(self, status, options, optionParams)--, nil, baseKey, statuses)
+				local options, subType = funcMakeOptions(self, status, nil, optionParams) -- nil, not the global "options" another addon may have leaked
 				if (subType) then
 					Grid2Options:AddElementSubType("status", subType, status, options)
 				elseif (options) then
 					Grid2Options:AddElement("status", status, options)
 				end
 			else
-print("    ***No Options function", baseKey, layer, "type:", dbx.type)
+				Grid2:Debug("Options: no option builder for status", baseKey, "type", dbx.type, "layer", layer)
 			end
 		else
-print("    ***No dbx / status:", baseKey, layer, "dbx:", dbx, "status:", status)
+			Grid2:Debug("Options: status", baseKey, "is not loaded (layer", layer, ")")
 		end
 	end
 end

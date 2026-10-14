@@ -48,7 +48,7 @@ function me:CacheSkills()
 	for i=1,70 do
 		local skillName, header, isExpanded, skillRank, numTempPoints, skillModifier, skillMaxRank, isAbandonable, stepCost, rankCost, minLevel, skillCostType, skillDescription = GetSkillLineInfo(i)
 
-		if not header and not child and skillName then 
+		if not header and skillName then
 			local pro = self.skills[skillName]
 			if not pro then
 				pro={

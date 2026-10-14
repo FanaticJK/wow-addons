@@ -87,7 +87,7 @@ end
 function TitanPanelTitanRegenButton_OnEvent(self, event, a1, ...)
      if ( event == "PLAYER_ENTERING_WORLD") then
           if (UnitManaMax("player") == 0) then
-               TitanSetVar(TITAN_REGEN_ID, "ShowMPRegen", 0);
+               TitanSetVar(TITAN_REGEN_ID, "ShowMPRegen", nil); -- was 0: truthy, so the menu showed it ticked
           end
      end
      
@@ -176,7 +176,7 @@ function TitanPanelTitanRegenButton_GetButtonText(id)
      if (TitanGetVar(TITAN_REGEN_ID,"ShowHPRegen") == 1) then
           labelTextHP = L["TITAN_REGEN_BUTTON_TEXT_HP"];
           if (TitanGetVar(TITAN_REGEN_ID,"ShowPercentage") == 1) then
-               valueTextHP = format(TITAN_REGEN_HP_FORMAT_PERCENT, (TITAN_RegenHP/UnitHealthMax("player"))*100);
+               valueTextHP = format(TITAN_REGEN_HP_FORMAT_PERCENT, UnitHealthMax("player") > 0 and (TITAN_RegenHP/UnitHealthMax("player"))*100 or 0);
           else
                valueTextHP = format(TITAN_REGEN_HP_FORMAT, TITAN_RegenHP);     
           end
@@ -190,12 +190,12 @@ function TitanPanelTitanRegenButton_GetButtonText(id)
      if (TitanGetVar(TITAN_REGEN_ID,"ShowMPRegen") == 1) then
           labelTextMP = L["TITAN_REGEN_BUTTON_TEXT_MP"];
           if (TitanGetVar(TITAN_REGEN_ID,"ShowPercentage") == 1) then
-               valueTextMP = format(TITAN_REGEN_MP_FORMAT_PERCENT, (TITAN_RegenMP/UnitManaMax("player"))*100);
+               valueTextMP = format(TITAN_REGEN_MP_FORMAT_PERCENT, UnitManaMax("player") > 0 and (TITAN_RegenMP/UnitManaMax("player"))*100 or 0);
           else
                valueTextMP = format(TITAN_REGEN_MP_FORMAT, TITAN_RegenMP);               
           end
           if (TitanGetVar(TITAN_REGEN_ID, "ShowColoredText")) then
-               valueTextMP = TitanRegenTemp_GetColoredTextRGB(valueTextMP, 0.0, 0.0, 1.0);
+               valueTextMP = TitanRegenTemp_GetColoredTextRGB(valueTextMP, 0.4, 0.6, 1.0); -- pure 0,0,1 blue was unreadable on the dark bar
           else
                valueTextMP = TitanUtils_GetHighlightText(valueTextMP);
           end               
@@ -219,7 +219,7 @@ function TitanPanelTitanRegenButton_GetTooltipText()
 
      if (TitanGetVar(TITAN_REGEN_ID,"ShowMPRegen") == 1) then
           local regenPercent;          
-          regenPercent = (TITAN_RegenMPDuringCombat/UnitManaMax("player"))*100;
+          regenPercent = UnitManaMax("player") > 0 and (TITAN_RegenMPDuringCombat/UnitManaMax("player"))*100 or 0;
           
           return ""..
                format(L["TITAN_REGEN_TOOLTIP1"], UnitHealth("player"),UnitHealthMax("player"),UnitHealthMax("player")-UnitHealth("player")).."\n"..

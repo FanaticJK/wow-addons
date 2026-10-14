@@ -24,7 +24,7 @@ function Step:IsComplete()
 
 	-- 'or' logic: one or-positive goal marks all or-positive goals as done. Will collect completed or's in here.
 	--local orlist = {}
-	local orneeded = 0
+	local orneeded = nil  -- was 0, which is truthy in Lua, so "orneeded or goal.orlogic" below never took the goal's count
 	local orcount = 0
 	local orcomplete = false
 
@@ -43,7 +43,7 @@ function Step:IsComplete()
 			end
 		end
 	end
-	orcomplete = (orneeded>0 and orcount>=orneeded)
+	orcomplete = (orneeded and orneeded>0 and orcount>=orneeded) and true or false
 
 	for i,goal in ipairs(self.goals) do
 		status = goal.status

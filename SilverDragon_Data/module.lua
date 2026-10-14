@@ -35,7 +35,7 @@ function module:Import()
 					local new_x, new_y = core:GetXY(loc)
 					local newloc = true
 					for _, oldloc in pairs(gdb.mob_locations[name]) do
-						local old_x, old_y = core:GetXY(loc)
+						local old_x, old_y = core:GetXY(oldloc)
 						if math.abs(new_x - old_x) < 0.05 and math.abs(new_y - old_y) < 0.05 then
 							newloc = false
 							break

@@ -251,7 +251,10 @@ function Goal:IsComplete()
 	elseif self.action=="rep" then
 		local rep = ZGV:GetReputation(self.faction)
 		if rep then
-			return rep.standing>=self.rep, true, 1-(rep:CalcTo(self.rep)/(rep.max-rep.min)) or 0
+			-- CalcTo returns nil when the target is more than one standing away, and the
+			-- placeholder rep for an unknown faction has max==min; both made this line error/NaN.
+			local togo,span = rep:CalcTo(self.rep), rep.max-rep.min
+			return rep.standing>=self.rep, true, (togo and span>0) and 1-togo/span or 0
 		else
 			return nil,nil,nil
 		end
@@ -263,7 +266,7 @@ function Goal:IsComplete()
 end
 
 function FindPetActionInfo(action)
-	if type(action)==number then return action,GetPetActionInfo(action) end
+	if type(action)=="number" then return action,GetPetActionInfo(action) end
 	for i=1,12 do
 		local name,x,tex = GetPetActionInfo(i)
 		if name and (name:find(action) or tex:find(action)) then return i,name,x,tex end
@@ -285,7 +288,7 @@ function Goal:IsFitting()
 	if self.wrong then return nil end
 	if not self.requirement then return true end
 	self.wrong = not ZygorGuidesViewer:RaceClassMatch(self.requirement)
-	return not wrong
+	return not self.wrong
 end
 
 function Goal:NeedsTranslation()
@@ -468,7 +471,7 @@ function Goal:GetText(showcompleteness)
 				text = ""
 				for i,mob in ipairs(self.mobs) do
 					if #text>0 then text = text .. ", " end
-					text = text .. COLOR_MONSTER(plural(mob.name,nil,mob.pl and 2 or 1))
+					text = text .. COLOR_MONSTER(plural(mob.name,mob.pl and 2 or 1))
 				end
 			end
 		else
@@ -677,6 +680,7 @@ function Goal:IsAuxiliary()
 		local step=self.parentStep
 		for i=1,5 do
 			step=step:GetNextStep()
+			if not step then return false end  -- end of the last guide in the chain
 			while (step.requirement) do
 				step=step:GetNextStep()
 				if not step then return false end

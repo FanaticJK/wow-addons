@@ -232,6 +232,7 @@ function CastBarTemplate:UNIT_SPELLCAST_START(event, unit)
 	self.endTime = endTime
 	self.delay = 0
 	self.fadeOut = nil
+	self.stopTime = nil -- a new cast invalidates the previous cast's fade-out clock
 
 	self.Bar:SetStatusBarColor(unpack(self.casting and Quartz3.db.profile.castingcolor or Quartz3.db.profile.channelingcolor))
 

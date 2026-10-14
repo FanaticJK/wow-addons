@@ -55,6 +55,8 @@ function GearScoreLDB:OnClick(pFrame, pButton)
 		end
 	else
 		GearScore_DontDisplayDataAfterClosingOptions = true
+		-- the options panel is a child of the profile window; open that first or the panel stays invisible
+		if not GS_DisplayFrame:IsShown() then GS_SCANSET("") end
 		GearScore_ShowOptions()
 	end
 end

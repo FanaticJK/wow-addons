@@ -142,7 +142,7 @@ end
 -- Cast Bar Hooks
 
 function Player:OnHide()
-	local Latency = Quartz3:GetModule(L["Latency"],true)
+	local Latency = Quartz3:GetModule("Latency",true) -- module name, not the localized label
 	if Latency then
 		if Latency:IsEnabled() and Latency.lagbox then
 			Latency.lagbox:Hide()

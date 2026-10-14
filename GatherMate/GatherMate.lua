@@ -28,13 +28,15 @@ local defaults = {
 				["*"] = true,
 			},
 		},
+		-- node-name colours in pin tooltips and the tracking circle: same hues as before, toned
+		-- down from pure 0/1 primaries to the softer palette the other addons here use
 		trackColors = {
-			["Herb Gathering"] = {Red = 0, Green = 1, Blue = 0, Alpha = 1},
-			["Fishing"]        = {Red = 1, Green = 1, Blue = 0, Alpha = 1},
-			["Mining"]         = {Red = 1, Green = 0, Blue = 0, Alpha = 1},
-			["Extract Gas"]    = {Red = 0, Green = 1, Blue = 1, Alpha = 1},
-			["Treasure"]    	   = {Red = 1, Green = 0, Blue = 1, Alpha = 1},
-			["*"]              = {Red = 1, Green = 0, Blue = 1, Alpha = 1},
+			["Herb Gathering"] = {Red = 0.3, Green = 0.9, Blue = 0.4, Alpha = 1},
+			["Fishing"]        = {Red = 1, Green = 0.82, Blue = 0, Alpha = 1},
+			["Mining"]         = {Red = 1, Green = 0.3, Blue = 0.25, Alpha = 1},
+			["Extract Gas"]    = {Red = 0.3, Green = 0.85, Blue = 1, Alpha = 1},
+			["Treasure"]    	   = {Red = 0.85, Green = 0.45, Blue = 1, Alpha = 1},
+			["*"]              = {Red = 0.85, Green = 0.45, Blue = 1, Alpha = 1},
 		},
 		trackDistance = 100,
 		trackShow = "always",

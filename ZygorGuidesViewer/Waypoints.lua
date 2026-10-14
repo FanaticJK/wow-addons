@@ -119,7 +119,7 @@ me.SetWaypointFunctions = {
 					if way then
 						table.insert(points,way)
 					else
-						self:Print("Unable to create waypoint: "..goal.map.." "..goal.x.." "..goal.y)
+						self:Print("Unable to create waypoint: "..tostring(goal.map).." "..tostring(goal.x).." "..tostring(goal.y))
 					end
 				end
 			end

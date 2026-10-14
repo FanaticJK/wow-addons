@@ -9,7 +9,9 @@ local InCombatLockdown	= _G.InCombatLockdown;
 --Determines the optimal magic number based on resolution
 local menuBarTop = 55;
 local width, height = string.match((({GetScreenResolutions()})[GetCurrentResolution()] or ""), "(%d+).-(%d+)");
-	if ( tonumber(width) / tonumber(height ) > 4/3 ) then
+	-- guard: an unmatched resolution string (e.g. a windowed size not in the list) used to
+	-- error here at file load and take the whole of TitanMovable.lua down with it
+	if ( tonumber(width) and tonumber(height) and tonumber(height) > 0 and tonumber(width) / tonumber(height ) > 4/3 ) then
 		--Widescreen resolution
 		menuBarTop = 75;
 	end
@@ -40,7 +42,7 @@ function TitanMovableFrame_AdjustBlizzardFrames()
 end
 
 function TitanMovableFrame_CheckFrames(position)
-	local top, bottom, panelYOffset, frameTop;
+	local top, bottom, panelYOffset, frameTop, frameBottom;
 	
 	TitanMovable = {};
 		

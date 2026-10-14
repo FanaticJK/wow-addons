@@ -64,6 +64,7 @@ function Postal_Select:OnEnable()
 		openButton:SetText(L["Open"])
 		openButton:SetScript("OnClick", function() Postal_Select:HandleSelect(1) end)
 		openButton:SetFrameLevel(openButton:GetFrameLevel() + 1)
+		Postal.SetButtonTooltip(openButton, L["Open"], L["Take the items and gold from the checked mail."])
 	end
 
 	--create the return button
@@ -75,6 +76,7 @@ function Postal_Select:OnEnable()
 		returnButton:SetText(L["Return"])
 		returnButton:SetScript("OnClick", function() Postal_Select:HandleSelect() end)
 		returnButton:SetFrameLevel(returnButton:GetFrameLevel() + 1)
+		Postal.SetButtonTooltip(returnButton, L["Return"], L["Return the checked mail to its sender."])
 	end
 
 	--indent to make room for the checkboxes
@@ -323,7 +325,7 @@ function Postal_Select:ProcessNext()
 		else
 			-- Return mode
 			if Postal.db.profile.Select.SpamChat and attachIndex == ATTACHMENTS_MAX_RECEIVE then
-				Postal:Print(L["Return"].." "..mailIndex..": "..msgSubject)
+				Postal:Print(L["Return"].." "..mailIndex..": "..(msgSubject or ""))
 			end
 			if not wasReturned and canReply then
 				self:RegisterEvent("MAIL_INBOX_UPDATE")
@@ -331,7 +333,7 @@ function Postal_Select:ProcessNext()
 				selectedMail[mailIndex] = nil
 				mailIndex = mailIndex - 1
 			else
-				Postal:Print(L["Skipping"].." "..mailIndex..": "..msgSubject)
+				Postal:Print(L["Skipping"].." "..mailIndex..": "..(msgSubject or ""))
 				mailIndex = mailIndex - 1
 				return self:ProcessNext() -- tail call
 			end

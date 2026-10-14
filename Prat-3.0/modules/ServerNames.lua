@@ -305,7 +305,7 @@ function module:AddServer(server)
 end
 
 function module:GetServerSettings(serverKey)
-    opts = self.db.profile.serveropts[serverKey]
+    local opts = self.db.profile.serveropts[serverKey]
 	if not opts then
 		self.db.profile.serveropts[serverKey] = {}
 		opts = self.db.profile.serveropts[serverKey]

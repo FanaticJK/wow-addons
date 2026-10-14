@@ -847,7 +847,7 @@ function module:AddPatternOptions(o, pattern, mode, key)
 
 	self.SetSinkStorage(settings, settings)
 
-	outputmessageonly = {
+	local outputmessageonly = { -- unused option stub; was leaked as a global
         type = "toggle",
         name = L["Output Message Only"],
         desc = L["Only output the message portion of the chat text, leave out the channel, and playername etc."],
@@ -953,6 +953,7 @@ module.modulePatterns = {}
 function module:RegisterPattern(matchopts, mode)
     local mode = mode
     local matchopts = matchopts
+    local matchtype
     if mode == "inbound" then 
         matchtype = "FRAME"
     else

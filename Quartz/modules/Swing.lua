@@ -192,13 +192,20 @@ function Swing:UNIT_SPELLCAST_SUCCEEDED(event, unit, spell)
 		if resetspells[spell] then
 			self:MeleeSwing()
 		elseif spell == slam and slamstart then
-			starttime = starttime + GetTime() - slamstart
+			-- no swing timed yet this session (Slam as the opener): nothing to push back
+			if starttime then
+				starttime = starttime + GetTime() - slamstart
+			end
 			slamstart = nil
 		end
 	elseif swingmode == 1 then
 		if spell == autoshotname then
 			self:Shoot()
 		end
+	end
+	-- a Slam that finishes after auto-attack stopped must not leave OnUpdate paused forever
+	if spell == slam then
+		slamstart = nil
 	end
 	if resetautoshotspells[spell] then
 		swingmode = 1

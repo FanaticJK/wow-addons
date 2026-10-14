@@ -12,6 +12,16 @@ addon.sellButton = CreateFrame("Button", nil, MerchantFrame, "OptionsButtonTempl
 addon.sellButton:SetPoint("TOPRIGHT", -41, -40)
 addon.sellButton:SetText(L["SELLJUNK"])
 addon.sellButton:SetScript("OnClick", function() SellJunk:Sell() end)
+addon.sellButton:SetScript("OnEnter", function(self)
+  GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+  GameTooltip:SetText(L["SELLJUNK"], 1, 0.82, 0)
+  GameTooltip:AddLine(L["SELL_TOOLTIP"], 0.62, 0.62, 0.65, true)
+  if SellJunk.db and SellJunk.db.char.max12 then
+    GameTooltip:AddLine(L["MAX12"], 1, 0.72, 0.2)
+  end
+  GameTooltip:Show()
+end)
+addon.sellButton:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
 -- upvalues
 local floor = floor
@@ -83,7 +93,11 @@ function addon:Sell()
         local found = string_find(item,"|cff9d9d9d")
 
         if ((found) and (not addon:isException(item))) or ((not found) and (addon:isException(item))) then
-          currPrice = select(11, GetItemInfo(item)) * select(2, GetContainerItemInfo(bag, slot))
+          -- vendor price is nil while the item is not cached; a locked slot is one already
+          -- being sold (button clicked twice before the server answered), skip both
+          local _, itemCount, locked = GetContainerItemInfo(bag, slot)
+          local vendorPrice = select(11, GetItemInfo(item))
+          currPrice = (not locked and vendorPrice and itemCount) and vendorPrice * itemCount or 0
           -- this should get rid of problems with grey items, that cant be sell to a vendor
           if currPrice > 0 then
             addon:AddProfit(currPrice)
@@ -96,6 +110,12 @@ function addon:Sell()
             if addon.db.char.max12 then
               limit = limit + 1
               if limit == 12 then
+                -- report this batch now instead of carrying its total into a later, unrelated sale
+                if self.db.char.printGold then
+                  self:PrintGold()
+                end
+                self.total = 0
+                self:Print(L["MORE_JUNK"])
                 return
               end
             end
@@ -119,7 +139,13 @@ end
 function addon:Destroy(count)
   local limit = 9001 -- it's over NINE THOUSAND!!!
   if count ~= nil then
-    limit = count
+    -- "/sj destroy foo" used to error on the arithmetic below; never fall back to "destroy all"
+    limit = tonumber(count)
+    if not limit or limit < 1 then
+      self:Print(L["DESTROY_USAGE"])
+      return
+    end
+    limit = floor(limit)
   end
   for bag = 0,4 do
     for slot = 1,GetContainerNumSlots(bag) do
@@ -157,13 +183,14 @@ function addon:PrintGold()
 	local gold = floor(self.total / (COPPER_PER_SILVER * SILVER_PER_GOLD));
 	local silver = floor((self.total - (gold * COPPER_PER_SILVER * SILVER_PER_GOLD)) / COPPER_PER_SILVER);
 	local copper = mod(self.total, COPPER_PER_SILVER);
+	-- coin colours, as the default UI's money strings use them
 	if gold > 0 then
-		ret = gold.." "..L["GOLD"].." "
+		ret = "|cffffd700"..gold.." "..L["GOLD"].."|r "
 	end
 	if silver > 0 or gold > 0 then
-		ret = ret..silver .." "..L["SILVER"].." "
+		ret = ret.."|cffc7c7cf"..silver .." "..L["SILVER"].."|r "
 	end
-	ret = ret..copper.." "..L["COPPER"]
+	ret = ret.."|cffeda55f"..copper.." "..L["COPPER"].."|r"
 	if silver > 0 or gold > 0  or copper > 0 then
 		self:Print(L["GAINED"].." "..ret)
 	end
@@ -175,7 +202,7 @@ function addon:Add(link, global)
 	link = strtrim(link)
 
 	-- extract name from an itemlink
-  local found, _, name = string_find(link, "^|c%x+|H.+|h.(.*)\].+")
+  local found, _, name = string_find(link, "^|c%x+|H.+|h.(.*)%].+")
 
 	-- if it's not an itemlink, guess it's name of an item
 	if not found then
@@ -221,7 +248,7 @@ function addon:Rem(link, global)
 	link = strtrim(link)
 
 	-- extract name from an itemlink
-  local isLink, _, name = string_find(link, "^|c%x+|H.+|h.(.*)\].+")
+  local isLink, _, name = string_find(link, "^|c%x+|H.+|h.(.*)%].+")
 
 	-- if it's not an itemlink, guess it's name of an item
 	if not isLink then
@@ -238,7 +265,7 @@ function addon:Rem(link, global)
 			end
 
 			-- extract name from itemlink (only for compatibility with old saved variables)
-			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)\].+")
+			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)%].+")
 			if isLink then
 				-- comparing exception list entry with given name
 				if exception:lower() == name:lower() then
@@ -272,7 +299,7 @@ function addon:Rem(link, global)
 			end
 
 			-- extract name from itemlink (only for compatibility with old saved variables)
-			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)\].+")
+			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)%].+")
 			if isLink then
 				-- comparing exception list entry with given name
 				if exception:lower() == name:lower() then
@@ -293,7 +320,7 @@ function addon:Rem(link, global)
 			if ( GetLocale() == "koKR" ) then
 				self:Print(link.."|1이;가; "..L["CHAR_EXC"]..L["FROM"] .." "..L["REMOVED"]) 
 			else
-				self:Print(L["REMOVED"].." "..link..L["FROM"].." "..L["CHAR_EXC"])
+				self:Print(L["REMOVED"].." "..link.." "..L["FROM"].." "..L["CHAR_EXC"])
 			end
 		end
 	end
@@ -303,7 +330,7 @@ function addon:isException(link)
 	local exception = nil
 
 	-- extracting name of an item from the itemlink
-	local isLink, _, name = string_find(link, "^|c%x+|H.+|h.(.*)\].+")
+	local isLink, _, name = string_find(link, "^|c%x+|H.+|h.(.*)%].+")
 
 	-- it's not an itemlink, so guess it's name of the item
 	if not isLink then
@@ -321,7 +348,7 @@ function addon:isException(link)
 			end
 
 			-- extract name from itemlink (only for compatibility with old saved variables)
-			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)\].+")
+			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)%].+")
 			if isLink then
 				-- comparing exception list entry with given name
 				if exception:lower() == name:lower() then
@@ -343,7 +370,7 @@ function addon:isException(link)
       end
 
 			-- extract name from itemlink (only for compatibility with old saved variables)
-			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)\].+")
+			isLink, _, exception = string_find(v, "^|c%x+|H.+|h.(.*)%].+")
 			if isLink then
 				-- comparing exception list entry with given name
 				if exception:lower() == name:lower() then

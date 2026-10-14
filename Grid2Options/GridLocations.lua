@@ -216,6 +216,8 @@ local function AddLocationOptions(baseKey)
 		    type = "execute",
 			order = 83,
 		    name = L["Delete"],
+			desc = L["Delete this location. Indicators placed here need a new location."],
+			confirm = true,
 		    func = DeleteLocation,
 			arg = passValue,
 		}
@@ -278,12 +280,15 @@ local function NewLocationDisabled()
 	return true
 end
 
-function ResetLocations()
+--[[ Dead code: its button is commented out below, and it called Grid2:SetupDefaultLocations
+     and read the undefined globals "locations"/"objects" (pre-LibDBLayers design).
+local function ResetLocations()
 	local setup = Grid2.db.profile.setup
 	Grid2:SetupDefaultLocations(setup)
 	Grid2Frame:UpdateAllFrames()
 	Grid2Options:MakeLocationOptions(locations, objects, Grid2.dblData.layerOrder.locations, true)
 end
+--]]
 
 local function AddLocationGroup(reset)
 	local options = {

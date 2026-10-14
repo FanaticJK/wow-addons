@@ -87,12 +87,13 @@ function Recount:FixUnitString(Name) -- This is to handle caps of default unit s
 end
 
 function Recount:ResetDefaultWindowColors()
-	Recount.Colors:SetColor("Window", "Title", { r = 1, g = 0, b = 0, a = 1})
-	Recount.Colors:SetColor("Window", "Background", { r = 24/255, g = 24/255, b = 24/255, a = 1})
-	Recount.Colors:SetColor("Window", "Title Text", { r = 1, g = 1, b = 1, a = 1})
-	Recount.Colors:SetColor("Other Windows", "Title", { r = 1, g = 0, b = 0, a = 1})
-	Recount.Colors:SetColor("Other Windows", "Background", { r = 24/255, g = 24/255, b = 24/255, a = 1})
-	Recount.Colors:SetColor("Other Windows", "Title Text", { r = 1, g = 1, b = 1, a = 1})
+	-- keep in step with Default_Profile.Colors in Recount.lua
+	Recount.Colors:SetColor("Window", "Title", { r = 0.2, g = 0.2, b = 0.22, a = 1})
+	Recount.Colors:SetColor("Window", "Background", { r = 24/255, g = 24/255, b = 24/255, a = 0.8})
+	Recount.Colors:SetColor("Window", "Title Text", { r = 1, g = 0.82, b = 0, a = 1})
+	Recount.Colors:SetColor("Other Windows", "Title", { r = 0.2, g = 0.2, b = 0.22, a = 1})
+	Recount.Colors:SetColor("Other Windows", "Background", { r = 24/255, g = 24/255, b = 24/255, a = 0.8})
+	Recount.Colors:SetColor("Other Windows", "Title Text", { r = 1, g = 0.82, b = 0, a = 1})
 end
 
 function Recount:ResetDefaultClassColors()
@@ -884,7 +885,7 @@ function me:SetupDeletionOptions(parent)
 	theFrame.AutodeleteRConf:SetPoint("TOPLEFT",theFrame,"TOPLEFT",36,-169)	
 	theFrame.AutodeleteRConf:SetScript("OnClick",function(this) if this:GetChecked() then this:SetChecked(true); Recount.db.profile.ConfirmDeleteRaid = true; else this:SetChecked(false); Recount.db.profile.ConfirmDeleteRaid = false; end end)
 
-	i=6
+	local i=6
 
 	theFrame.Title3=theFrame:CreateFontString(nil,"OVERLAY","GameFontNormal")
 	theFrame.Title3:SetText(L["Fight Segmentation"])

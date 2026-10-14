@@ -176,7 +176,7 @@ function Skillet:CollectRecipeInformation()
 			self:ItemDataAddRecipeSource(itemID, recipeID)
 		end
 
-		if reagengString ~= "-" then
+		if reagentString ~= "-" then
 			local reagentList = { string.split(":",reagentString) }
 			local numReagents = #reagentList / 2
 
@@ -316,12 +316,12 @@ function Skillet:GetRecipeName(id)
 	local name = "unknown"
 
 	for n,m in pairs(self.recipeDataModules) do
-		if recipeName == "unknown" then
-			recipeName = m.GetRecipeName(m, id)
+		if name == "unknown" then
+			name = m.GetRecipeName(m, id)
 		end
 	end
 
-	return recipeName
+	return name, id
 end
 
 
@@ -601,9 +601,11 @@ DebugSpam("Scanning Trade "..(profession or "nil")..":"..(tradeID or "nil").." "
 
 
 	for i = 1, numSkills, 1 do
+		-- declared outside the repeat block: the "if gotNil and recipeID" check after "until true" reads it
+		local recipeID
 		repeat
 --DebugSpam("scanning index "..i)
-			local skillName, skillType, isExpanded, subSpell, extra
+			local skillName, skillType, isExpanded, subSpell, extra, _
 
 
 			skillName, skillType, _, isExpanded = GetTradeSkillInfo(i)
@@ -643,7 +645,7 @@ DebugSpam("Scanning Trade "..(profession or "nil")..":"..(tradeID or "nil").." "
 					Skillet:RecipeGroupAddSubGroup(mainGroup, currentGroup, i)
 				else
 					local recipeLink = GetTradeSkillRecipeLink(i)
-					local recipeID = Skillet:GetItemIDFromLink(recipeLink)
+					recipeID = Skillet:GetItemIDFromLink(recipeLink)
 
 					if not recipeID then
 						gotNil = true
@@ -999,7 +1001,7 @@ end
 
 -- [3273] = "|cffffd000|Htrade:3274:148:150:23F381A:zD<<t=|h[First Aid]|h|r",
 
-local allDataInitialize = false
+local allDataInitialized = false
 function Skillet:InitializeAllDataLinks(name)
 	if allDataInitialized then return end
 
@@ -1122,7 +1124,7 @@ end
 
 
 function Skillet:StopCastCheckUnit(unit, spell, rank)
-DebugSpam(event.." "..(unit or "nil"))
+DebugSpam((AceEvent.currentEvent or "?").." "..(unit or "nil"))
 	if unit == "player" then
 		self:StopCast(spell)
 --		AceEvent:ScheduleEvent("Skillet_StopCast", self.StopCast, 0.1,self,event,spell)
@@ -1461,9 +1463,11 @@ DebugSpam("Scanning Trade "..(profession or "nil")..":"..(tradeID or "nil").." "
 	local numHeaders = 0
 
 	for i = 1, numSkills, 1 do
+		-- declared outside the repeat block: the "if gotNil and recipeID" check after "until true" reads it
+		local recipeID
 		repeat
 --DebugSpam("scanning index "..i)
-			local skillName, skillType, isExpanded, subSpell, extra
+			local skillName, skillType, isExpanded, subSpell, extra, _
 
 
 			skillName, skillType, _, isExpanded = GetTradeSkillInfo(i)
@@ -1501,7 +1505,7 @@ DebugSpam("Scanning Trade "..(profession or "nil")..":"..(tradeID or "nil").." "
 					Skillet:RecipeGroupAddSubGroup(mainGroup, currentGroup, i)
 				else
 					local recipeLink = API.GetRecipeLink(i)
-					local recipeID = Skillet:GetItemIDFromLink(recipeLink)
+					recipeID = Skillet:GetItemIDFromLink(recipeLink)
 
 					if not recipeID then
 						gotNil = true
@@ -1846,7 +1850,7 @@ function Skillet:GenerateAltKnowledgeBase()
 							local recipeID = skill.id
 
 							if skill.id then
-								spellID = skill.id
+								local spellID = skill.id
 
 								unknownRecipes[spellID] = spellID
 								unknownCount = unknownCount + 1
@@ -2170,7 +2174,7 @@ function SkilletARL:RecipeFilterOperator(skillIndex)
 
 		local _, recipeList, mobList, trainerList = AckisRecipeList:InitRecipeData()
 
-		recipeData = AckisRecipeList:GetRecipeData(skill.id)
+		local recipeData = AckisRecipeList:GetRecipeData(skill.id)
 
 		if recipeData == nil and not ARLProfessionInitialized[Skillet.currentTrade] then
 			local profession = GetSpellInfo(Skillet.currentTrade)
@@ -2183,7 +2187,7 @@ function SkilletARL:RecipeFilterOperator(skillIndex)
 
 
 		if recipeData then
-			recipeSource = recipeData["Acquire"]
+			local recipeSource = recipeData["Acquire"]
 
 			for i,data in pairs(recipeSource) do
 				if data["Type"] == 1 and Skillet:GetTradeSkillOption("recipeSourceFilter-trainer") then
@@ -2221,7 +2225,10 @@ end
 
 function SkilletARL:Enable()
 
-	if AckisRecipeList then
+	-- the recipe-source filter needs the old ARL data API (InitRecipeData/GetRecipeData);
+	-- ARL 1.0 r2817 in this workspace does not have it, and once switched on the filter errored on
+	-- every list refresh. Same guard the details pane in UI/MainFrame.lua already uses.
+	if AckisRecipeList and AckisRecipeList.InitRecipeData and AckisRecipeList.GetRecipeData then
 		Skillet:RegisterRecipeFilter("arlRecipeSource", self, self.RecipeSourceButtonInit, self.RecipeFilterOperator)
 
 		Skillet.defaultOptions["recipeSourceFilter"] = false

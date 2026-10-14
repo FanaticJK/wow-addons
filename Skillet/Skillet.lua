@@ -457,7 +457,7 @@ function Skillet:OnInitialize()
 end
 
 function EchoEvent(...)
-	DEFAULT_CHAT_FRAME:AddMessage("echo event: "..(event or "no event"))
+	DEFAULT_CHAT_FRAME:AddMessage("echo event: "..(AceEvent.currentEvent or "no event"))
 end
 
 
@@ -714,6 +714,7 @@ function Skillet:SkilletShow()
 DebugSpam("SHOW WINDOW (was showing "..(self.currentTrade or "nil")..")");
 
 	if (IsTradeSkillLinked()) then
+		local _
 		_, self.currentPlayer = IsTradeSkillLinked()
 		if (self.currentPlayer == UnitName("player")) then
 			self.currentPlayer = "All Data"
@@ -812,6 +813,8 @@ DebugSpam("SkilletShow: "..self.currentTrade)
 end
 
 
+-- keeps the first data table referenced (was the global "cache", which any addon could clobber)
+local cache
 function Skillet:FreeCaches()
 --	collectgarbage("collect")
 	if not cache then
@@ -1313,7 +1316,7 @@ function ProfessionPopup_Init(menuFrame, level)
 
 		local i=1
 		for player, gatherModule in pairs(Skillet.dataGatheringModules) do
-			skillData = gatherModule.ScanPlayerTradeSkills(gatherModule, player)
+			local skillData = gatherModule.ScanPlayerTradeSkills(gatherModule, player)
 
 			if skillData then
 				playerMenu.text = player

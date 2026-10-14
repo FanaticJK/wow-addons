@@ -22,13 +22,14 @@
 	<Include file="PointerMarkerTemplates.xml" />
 
 	<Script file="Foglight.lua"/>
-	<Script file="MapCoords.lua"/>
+	<!-- Developer-only files, not shipped in release builds: MapCoords.lua (its option is commented out in Options.lua), Dev.lua (ZGV_DEV hook, guarded in ZygorGuidesViewer.lua), SpinArrow.xml (unused; the arrow template lives in PointerMarkerTemplates.xml). -->
+	<!-- <Script file="MapCoords.lua"/> -->
 
-	<Script file="Dev.lua"/>
+	<!-- <Script file="Dev.lua"/> -->
 
 		<!-- <Script file="ZygorGuidesViewerOptions.lua"/> -->
 	<Include file="ZygorMapIcon.xml"/>
-	<Include file="SpinArrow.xml"/>
+	<!-- <Include file="SpinArrow.xml"/> -->
 	<Include file="ZygorGuidesViewerFrame.xml"/>
 	<!-- <Include file="ZygorGuidesViewerMiniFrame.xml"/> -->
 </Ui>

@@ -30,6 +30,7 @@ local db, getOptions
 local GetTime = GetTime
 local unpack = unpack
 local SPELLINTERRUPTOTHERSELF, UNKNOWN = SPELLINTERRUPTOTHERSELF, UNKNOWN
+local bit_band = bit.band
 
 local defaults = {
 	profile = {
@@ -54,7 +55,8 @@ function Interrupt:ApplySettings()
 end
 
 function Interrupt:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, combatEvent, _, sourceName, _, _, _, destFlags)
-	if combatEvent == "SPELL_INTERRUPT" and destFlags == 0x511 then
+	-- mask, not ==: dstFlags also carries the target/focus/raid-icon bits (0x511 is COMBATLOG_FILTER_ME)
+	if combatEvent == "SPELL_INTERRUPT" and bit_band(destFlags, 0x511) == 0x511 then
 		Player.Bar.Text:SetFormattedText(L["INTERRUPTED (%s)"], (sourceName or UNKNOWN):upper())
 		Player.Bar.Bar:SetStatusBarColor(unpack(db.interruptcolor))
 		Player.Bar.stopTime = GetTime()

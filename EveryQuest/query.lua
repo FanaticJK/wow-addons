@@ -1,7 +1,6 @@
 ﻿local EveryQuest = LibStub("AceAddon-3.0"):GetAddon("EveryQuest")
 local L = LibStub("AceLocale-3.0"):GetLocale("EveryQuest")
-local buildnumber
-_, buildnumber = GetBuildInfo()
+local buildnumber = select(2, GetBuildInfo()) -- was "_, buildnumber = ...", which leaked a global _
 local Quixote = LibStub("LibQuixote-2.0")
 local MODNAME = "Query"
 local Query = EveryQuest:NewModule(MODNAME, "AceEvent-3.0")
@@ -162,7 +161,7 @@ function Query:SetCompleted(uid)
 		--uid = Quixote:GetQuest(title)
 		EveryQuest:Debug("Query:SetCompleted - " .. tostring(uid))
 		--local _, _, _, _, _, _, completed, _, _, category = Quixote:GetQuestByUid(uid)
-		local zone = EveryQuest:AddQuest(uid)
+		local zone, daily, weekly = EveryQuest:AddQuest(uid) -- daily/weekly were read from undefined globals
 		-- if type(zone) ~= "number" then print(tostring(uid) .. ", " .. type(zone)) end
 		if zone ~= false and zone ~= nil and type(zone) == "number" then
 			EveryQuest:Debug("Query:SetCompleted - zoneid:"..tostring(zone))
@@ -176,15 +175,16 @@ function Query:SetCompleted(uid)
 				EveryQuest.dbpc.profile.history[zone][uid] = {}
 			end
 			-- if (EveryQuest.dbpc.profile.history[zone][uid].status ~= nil and EveryQuest.dbpc.profile.history[zone][uid].status < 2) or (zone ~= nil and uid ~= nil) then
-			if EveryQuest.dbpc.profile.history[zone][uid].status < 2 then
+			local status = EveryQuest.dbpc.profile.history[zone][uid].status
+			if status == nil or status < 2 then -- nil after "Forget"; comparing nil errored
 				if EveryQuest.dbpc.profile.history[zone][uid].completed == nil then
 					EveryQuest.dbpc.profile.history[zone][uid]["imported"] = 3
 				end
 				EveryQuest.dbpc.profile.history[zone][uid].status = 2
 				addcount = addcount + 1
-				if daily then
+				if daily or weekly then
 					if EveryQuest.dbpc.profile.history[zone][uid].count ~= nil then
-						EveryQuest.dbpc.profile.history[zone][uid].count = EveryQuest.dbpc.history[zone][uid].count +1
+						EveryQuest.dbpc.profile.history[zone][uid].count = EveryQuest.dbpc.profile.history[zone][uid].count +1
 					else
 						EveryQuest.dbpc.profile.history[zone][uid].count = 1
 					end

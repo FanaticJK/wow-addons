@@ -213,7 +213,7 @@ end
 
 function Pointer:GetWaypointBearings(way)
 	--local dx,dy = 
-	if type(way)==number then way=self.Waypoints[way] end
+	if type(way)=="number" then way=self.Waypoints[way] end
 
 end
 

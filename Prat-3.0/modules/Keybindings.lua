@@ -330,9 +330,15 @@ Prat:SetModuleInit(module,
 
 -- /script keybindings:CycleChatTabs()
 function module:CycleChatTabs()
-    local current = SELECTED_DOCK_FRAME
+    -- 3.3.5 moved docking into FCFDock_* on GENERAL_CHAT_DOCK; fall back to the
+    -- pre-3.3.5 globals only when that API is absent, and never ipairs(nil).
+    local dock = GENERAL_CHAT_DOCK
+    local useDock = dock and FCFDock_GetChatFrames and FCFDock_GetSelectedWindow and FCFDock_SelectWindow
+    local frames = useDock and FCFDock_GetChatFrames(dock) or DOCKED_CHAT_FRAMES
+    if not frames then return end
+    local current = useDock and FCFDock_GetSelectedWindow(dock) or SELECTED_DOCK_FRAME
     local idx
-    for i, v in ipairs(DOCKED_CHAT_FRAMES) do
+    for i, v in ipairs(frames) do
         if v == current then
             idx = i
         end
@@ -341,11 +347,15 @@ function module:CycleChatTabs()
     if idx == nil then return end
 
     idx = idx + 1
-    if DOCKED_CHAT_FRAMES[idx] == nil then
+    if frames[idx] == nil then
         idx = 1
     end
 
-    FCF_SelectDockFrame(DOCKED_CHAT_FRAMES[idx])
+    if useDock then
+        FCFDock_SelectWindow(dock, frames[idx])
+    else
+        FCF_SelectDockFrame(frames[idx])
+    end
 end
 
   return

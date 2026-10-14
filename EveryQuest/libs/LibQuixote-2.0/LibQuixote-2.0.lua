@@ -803,7 +803,7 @@ end
 -- Utility:
 
 function lib:IsQuestWatchedByUid(uid)
-	local quid = self.quests[uid] and self.quests[uid].id
+	local qid = self.quests[uid] and self.quests[uid].id -- was "quid", so the check below read an undefined global and this always returned nil
 	if qid then
 		return IsQuestWatched(qid)
 	end

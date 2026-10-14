@@ -74,7 +74,7 @@ end
 function Postal_Express:InboxFrame_OnClick(button, index)
 	if IsShiftKeyDown() then
 		local cod = select(6, GetInboxHeaderInfo(index))
-		if cod <= 0 then
+		if cod and cod <= 0 then
 			AutoLootMailItem(index)
 		end
 		--button:SetChecked(not button:GetChecked())

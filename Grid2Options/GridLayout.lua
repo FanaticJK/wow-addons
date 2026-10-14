@@ -27,6 +27,8 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 					Grid2Layout:CheckVisibility()
 				end,
 				values={["Always"] = L["Always"], ["Grouped"] = L["Grouped"], ["Raid"] = L["Raid"]},
+				-- shows/hides the frame that anchors the secure headers: not allowed in combat
+				disabled = InCombatLockdown,
 			},
 			["horizontal"] = {
 				type = "toggle",
@@ -50,6 +52,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function()
 					Grid2Layout:FrameLock()
 				end,
+				disabled = InCombatLockdown,
 			},
 			["clickthrough"] = {
 				type = "toggle",
@@ -62,7 +65,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 					Grid2Layout.db.profile.ClickThrough = v
 					Grid2Layout.frame:EnableMouse(not v)
 				end,
-				disabled = function () return not Grid2Layout.db.profile.FrameLock end,
+				disabled = function () return not Grid2Layout.db.profile.FrameLock or InCombatLockdown() end,
 			},
 
 			["DisplayHeader"] = {
@@ -118,6 +121,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 						  Grid2Layout.db.profile.ScaleSize = v
 						  Grid2Layout:Scale()
 					  end,
+				disabled = InCombatLockdown,
 			},
 			["border"] = {
 				type = "color",
@@ -194,6 +198,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 						  Grid2Layout.db.profile.clamp = not Grid2Layout.db.profile.clamp
 						  Grid2Layout:SetClamp()
 					  end,
+				disabled = InCombatLockdown,
 			},
 			["reset"] = {
 				type = "execute",
@@ -221,7 +226,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 						  Grid2Layout.db.profile.layouts.solo = v
 						  if Grid2Layout.partyType == "solo" then
-							Grid2Layout:LoadLayout(v)
+							Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 						  end
 					  end,
 				values = {},
@@ -237,7 +242,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.party = v
 					if Grid2Layout.partyType == "party" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -253,7 +258,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.arena = v
 					if Grid2Layout.partyType == "arena" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -269,7 +274,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.raid10 = v
 					if Grid2Layout.partyType == "raid10" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -285,7 +290,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.raid15 = v
 					if Grid2Layout.partyType == "raid15" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -301,7 +306,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.raid20 = v
 					if Grid2Layout.partyType == "raid20" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -317,7 +322,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.raid25 = v
 					if Grid2Layout.partyType == "raid25" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -333,7 +338,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.raid40 = v
 					if Grid2Layout.partyType == "raid40" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},
@@ -349,7 +354,7 @@ Grid2Options:AddModule("Grid2", "Grid2Layout", Grid2Layout, {
 				set = function (_, v)
 					Grid2Layout.db.profile.layouts.pvp = v
 					if Grid2Layout.partyType == "pvp" then
-						Grid2Layout:LoadLayout(v)
+						Grid2Layout:ReloadLayout() -- combat-safe: queued until combat ends
 					end
 				end,
 				values = {},

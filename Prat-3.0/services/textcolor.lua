@@ -199,8 +199,9 @@ end
 
 function CLR:HSLtoRGB(hue, saturation, luminance)
 	local red, green, blue
+	local var1, var2
 	
-	if ( S == 0 ) then
+	if ( saturation == 0 ) then
 		red, green, blue = luminance, luminance, luminance
 	else
 		if luminance < 0.5 then 
@@ -224,7 +225,7 @@ function CLR:HueToColor(var1, var2, hue)
 	if hue < 0 then hue = hue + 1 end
 
 	if ( 6 * hue ) < 1 then 
-		return hue + ( var2 - var1 ) * 6 * hue  
+		return var1 + ( var2 - var1 ) * 6 * hue  
 	elseif ( 2 * hue ) < 1 then 
 		return var2 
 	elseif ( 3 * hue ) < 2 then 

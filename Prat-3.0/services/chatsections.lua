@@ -501,8 +501,10 @@ function SplitChatMessage(frame, event, ...)
             s.Ff = ""
         end
 
-        if arg15 then
-            s.MOBILE = ChatFrame_GetMobileEmbeddedTexture(info.r, info.g, info.b)
+        -- arg15 (mobile chat) and its texture helper are MoP+; on 3.3.5 this never runs.
+        -- Read it through _G: this file runs in SVC_NAMESPACE, where a bare global is nil.
+        if arg15 and _G.ChatFrame_GetMobileEmbeddedTexture then
+            s.MOBILE = _G.ChatFrame_GetMobileEmbeddedTexture(info.r, info.g, info.b)
         end
 
         local arg3 = safestr(arg3)

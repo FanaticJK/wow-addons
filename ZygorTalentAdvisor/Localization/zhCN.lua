@@ -1,5 +1,5 @@
 if GetLocale()~="zhCN" then return end
 
-ZygorTalentAdvisor_L("Main", "zhCN", function() return {
+ZygorTalentAdvisor_L("main", "zhCN", function() return {
 	-- ["English"] = "Localized",
 } end)

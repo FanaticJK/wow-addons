@@ -5,6 +5,9 @@ local L = LibStub("AceLocale-3.0"):GetLocale("SexyMap")
 local db
 
 local dragUpdate
+-- defined in the do-block further down; declared here so they are file locals instead of
+-- leaking into the global table (mod:WatchFrame_Update below calls reanchorWatchFrame)
+local reanchorWatchFrame, updateWatchFrameHeight
 
 local options = {
 	type = "group",
@@ -207,14 +210,18 @@ do
 				
 				f:ClearAllPoints()
 				f:SetAllPoints()
-				if f:GetTop() - f:GetBottom() < 30 then
+				-- GetTop/GetBottom/GetLeft/GetRight are nil until the parent has a resolvable
+				-- rect (e.g. a capture bar that has never been laid out); treat that as "too small"
+				local top, bottom = f:GetTop(), f:GetBottom()
+				if not top or not bottom or top - bottom < 30 then
 					f:ClearAllPoints()
 					f:SetPoint("TOPLEFT", pf, "TOPLEFT")
 					f:SetPoint("TOPRIGHT", pf, "TOPRIGHT")
 					f:SetHeight(40)
 				end
 				
-				if f:GetRight() - f:GetLeft() < 30 then
+				local right, left = f:GetRight(), f:GetLeft()
+				if not right or not left or right - left < 30 then
 					f:ClearAllPoints()
 					f:SetPoint("TOPLEFT", pf, "TOPLEFT")
 					f:SetHeight(40)
@@ -283,7 +290,7 @@ do
 				end
 			end
 			if highest ~= -9999 and lowest ~= 9999 then
-				ht = highest - lowest + 50
+				local ht = highest - lowest + 50
 				WatchFrame:SetHeight(ht)
 				WatchFrame.realHeight = ht
 			end

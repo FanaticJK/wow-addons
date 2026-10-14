@@ -65,6 +65,8 @@ function CalculateClasicItemScore_two(ItemLink, Tooltip, Red, Green, Blue)
 end
 
 function CalculateClasicItemScore(ItemLink, Tooltip, Red, Green, Blue)
+		-- SpecScores are built from BonusScanner's stat parse; without that addon there is nothing to show.
+		if not BonusScanner then return end
 		local Class, englishClass = GS_Settings["CurrentClassMouseoverItem"]; local ShowSpecScores = true
 		if not Class then Class, englishClass = UnitClass("player"); Class = englishClass; ShowSpecScores = false; end; --if englishClass then Class = englishClass; end
 		local ItemName, ItemLink, ItemRarity, ItemLevel, ItemMinLevel, ItemType, ItemSubType, ItemStackCount, ItemEquipLoc, ItemTexture = GetItemInfo(ItemLink)
@@ -167,6 +169,12 @@ end
 
 
 function GearScoreClassScan(Name)
+	-- The spec bars and the stat breakdown need BonusScanner (an optional dependency). Without it,
+	-- hide the bars rather than leave them showing template text with a hover that has no data.
+	if not BonusScanner then
+		for i = 1, 4 do _G["GS_SpecBar"..i]:Hide() end
+		return
+	end
 
 	GS_WeightsTips = {}
 	PlayersSumBonuses = {}; local TotalStats = 0; local SumStats = 0; local FinalTable = {}; local SumTotalStats = 0; local TitanGrip = 0; local MissingEnchantTable = {}; 

@@ -1109,7 +1109,7 @@ end
 function module:updateRaid()
   --  self:Debug("updateRaid -->")
     local Name, Class, SubGroup, Level, Server
-	local _, zone, online, isDead, role, isML
+	local _, rank, zone, online, isDead, role, isML
 	for k,v in pairs(self.Subgroups) do
 	    self.Subgroups[k] = nil
 	end
@@ -1430,7 +1430,7 @@ function module:Prat_FrameMessage(info, message, frame, event)
     local class, level, subgroup = self:GetData(Name)
 
 	if (class == nil) and message and message.ORG and message.ORG.GUID and message.ORG.GUID:len() > 0 then 		
-		_, class = GetPlayerInfoByGUID(message.ORG.GUID)
+		class = select(2, GetPlayerInfoByGUID(message.ORG.GUID))
 
         if class ~= nil and EVENTS_FOR_CACHE_GUID_DATA[event] then
             self:addName(Name, message.SERVER, class, level, subgroup, "GUID")
@@ -1663,6 +1663,15 @@ function module:Player_Link(link, text, button, ...)
     return true
 end
 
+-- CanGroupInvite() is a Cataclysm API; on 3.3.5 apply the same rule with the APIs it has:
+-- not grouped, party leader, or raid leader/assistant.
+local function canGroupInvite()
+    if CanGroupInvite then return CanGroupInvite() end
+    if GetNumRaidMembers() > 0 then return IsRaidLeader() or IsRaidOfficer() end
+    if GetNumPartyMembers() > 0 then return IsPartyLeader() end
+    return true
+end
+
 function module:ScanForLinks(text, name)
     if text == nil then 
         return ""
@@ -1670,9 +1679,10 @@ function module:ScanForLinks(text, name)
 
 	local enabled = self.db.profile.linkinvite
 
-    	if enabled and CanGroupInvite() then
+    	if enabled and canGroupInvite() then
 
-		if EVENTS_FOR_INVITE[event] then
+		-- the chat event lives on the message being split (a bare `event` global was always nil)
+		if EVENTS_FOR_INVITE[Prat.SplitMessage.EVENT] then
        			return  self:InviteLink(text, name)
     		end
 	end

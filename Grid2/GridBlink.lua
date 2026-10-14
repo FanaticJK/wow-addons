@@ -11,11 +11,10 @@ function Grid2Blink:Blink(elapsed)
 	for frame, t in pairs(registry) do
 		t = (t + elapsed) % 2
 		registry[frame] = t
-		if t > 1 then
-			frame:Show()
-		else
-			frame:Hide()
-		end
+		-- Toggle alpha instead of Show()/Hide(): a text indicator blinks its whole unit
+		-- button, which is a secure frame (Hide() is blocked in combat), and a frame that
+		-- was removed while in its "off" phase used to stay hidden for good.
+		frame:SetAlpha(t > 1 and (self.alpha[frame] or 1) or 0)
 	end
 end
 

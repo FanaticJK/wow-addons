@@ -162,14 +162,16 @@ Grid2Layout.defaultDB = {
 		Padding = 1,
 		Spacing = 10,
 		ScaleSize = 1,
-		BorderR = .5,
-		BorderG = .5,
-		BorderB = .5,
+		-- slim, dark chrome by default (same palette as the rest of the UI pass);
+		-- colors a user picked in the options are saved and keep winning over these
+		BorderR = .35,
+		BorderG = .35,
+		BorderB = .38,
 		BorderA = 1,
-		BackgroundR = .1,
-		BackgroundG = .1,
-		BackgroundB = .1,
-		BackgroundA = .65,
+		BackgroundR = 0,
+		BackgroundG = 0,
+		BackgroundB = 0,
+		BackgroundA = .7,
 
 		anchor = "BOTTOMLEFT",
 		groupAnchor = "BOTTOMLEFT",
@@ -238,9 +240,12 @@ end
 
 local reloadLayoutQueued, updateSizeQueued, restorePositionQueued
 function Grid2Layout:PLAYER_REGEN_ENABLED()
-	if reloadLayoutQueued then return self:ReloadLayout() end
-	if updateSizeQueued then return self:UpdateSize() end
-	if restorePositionQueued then return self:RestorePosition() end
+	-- Run every queued job: an early return here used to drop a queued RestorePosition
+	-- whenever a layout reload was queued in the same fight. ReloadLayout already ends in
+	-- UpdateSize (which clears updateSizeQueued), so nothing runs twice.
+	if reloadLayoutQueued then self:ReloadLayout() end
+	if updateSizeQueued then self:UpdateSize() end
+	if restorePositionQueued then self:RestorePosition() end
 end
 
 function Grid2Layout:Grid_GroupTypeChanged(_, type)
@@ -252,7 +257,8 @@ end
 --}}}
 
 function Grid2Layout:StartMoveFrame(button)
-	if not self.db.profile.FrameLock and button == "LeftButton" then
+	-- The layout frame anchors the secure group headers, so moving it is blocked in combat.
+	if not self.db.profile.FrameLock and button == "LeftButton" and not InCombatLockdown() then
 		self.frame:StartMoving()
 		self.frame.isMoving = true
 	end
@@ -314,14 +320,14 @@ function Grid2Layout:CreateFrame()
 	f:SetFrameLevel(0)
 	f:SetBackdrop({
 				 bgFile = "Interface\\ChatFrame\\ChatFrameBackground", tile = true, tileSize = 16,
-				 edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 16,
-				 insets = {left = 4, right = 4, top = 4, bottom = 4},
+				 edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 14,
+				 insets = {left = 3, right = 3, top = 3, bottom = 3},
 			 })
-	-- create bg texture
+	-- create bg texture (inset matches the backdrop insets above)
 	f.texture = f:CreateTexture(nil, "BORDER")
 	f.texture:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
-	f.texture:SetPoint("TOPLEFT", f, "TOPLEFT", 4, -4)
-	f.texture:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -4, 4)
+	f.texture:SetPoint("TOPLEFT", f, "TOPLEFT", 3, -3)
+	f.texture:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -3, 3)
 	f.texture:SetBlendMode("ADD")
 	f.texture:SetGradientAlpha("VERTICAL", .1, .1, .1, 0, .2, .2, .2, 0.5)
 
@@ -642,7 +648,7 @@ function Grid2Layout:SetFrameLock(FrameLock, ClickThrough)
 		ClickThrough = false
 	end
 	p.ClickThrough = ClickThrough
-	self.Frame:EnableMouse(not ClickThrough)
+	self.frame:EnableMouse(not ClickThrough)
 end
 
 --}}}

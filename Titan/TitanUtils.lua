@@ -98,7 +98,8 @@ local function TitanUtils_RegisterPluginProtected(plugin)
 	local issue = nil
 	local id = nil
 	local cat = nil
-	
+	local ptype = nil
+
 	local self = plugin.self
 	local isChildButton = (plugin.isChild and true or false)
 	
@@ -212,7 +213,8 @@ TitanDebug("_RegisterPlugin: "
 				plugin.plugin_type = ret_val.ptype
 			else
 				plugin.status = TITAN_REGISTER_FAILED
-				plugin.issue = (ret_val.issue or "Unknown error")
+				-- on failure pcall returns the error message itself, not a table
+				plugin.issue = (ret_val and tostring(ret_val) or "Unknown error")
 				plugin.name = "?"
 			end
 		else
@@ -240,13 +242,15 @@ function TitanUtils_RegisterPluginList()
 	local issue = ""
 	local id
 	if TitanPluginToBeRegisteredNum > 0 then
-		TitanDebug(L["TITAN_PANEL_REGISTER_START"])
+		-- Registration runs silently: the two "Register Titan plugins..." / "Registration
+		-- process done." chat lines printed on every login were noise. A plugin that fails
+		-- still prints its own error line (TitanUtils_RegisterPlugin), and the full list
+		-- stays available under Interface Options > Titan Panel > Attempts.
 		for index, value in ipairs(TitanPluginToBeRegistered) do
 			if TitanPluginToBeRegistered[index] then
 				TitanUtils_RegisterPlugin(TitanPluginToBeRegistered[index])
 			end
 		end
-		TitanDebug(L["TITAN_PANEL_REGISTER_END"])
 	end
 end
 
@@ -304,9 +308,10 @@ end
 function TitanUtils_ShiftButtonOnBarLeft(name)
 	-- Find the button to the left. If there is one, swap it in the array
 	local from_idx = TitanUtils_GetCurrentIndex(TitanPanelSettings.Buttons,name)
+	local to_idx = nil
 	local side = TitanPanel_GetPluginSide(name)
 	local bar = TitanUtils_GetWhichBar(name)
-	
+
 	-- This is needed because buttons on Left are placed L to R; 
 	-- buttons on Right are placed R to L
 	if side and side == "Left" then
@@ -551,9 +556,9 @@ function TitanUtils_CloseAllControlFrames()
 end
 
 function TitanUtils_IsAnyControlFrameVisible()
-	for index, value in TitanPlugins do
+	for index, value in pairs(TitanPlugins) do
 		local frame = _G["TitanPanel"..index.."ControlFrame"];
-		if (frame:IsVisible()) then
+		if (frame and frame:IsVisible()) then
 			return true;
 		end
 	end
@@ -724,7 +729,7 @@ function TitanUtils_PrintArray(array)
 		TitanDebug("array is nil");
 	else
 		TitanDebug("{");
-		for i, v in array do
+		for i, v in pairs(array) do
 			TitanDebug("array[" .. tostring(i) .. "] = " .. tostring(v));
 		end
 		TitanDebug("}");
@@ -1004,7 +1009,7 @@ end
 
 function TitanPanelRightClickMenu_AllVarNil(id, toggleTable)
 	if ( toggleTable ) and type(toggleTable)== "table" then
-		for i, v in toggleTable do
+		for i, v in pairs(toggleTable) do
 			if ( TitanGetVar(id, v) ) then
 				return;
 			end

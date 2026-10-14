@@ -54,7 +54,9 @@ function Mana:IsActive(unit)
 end
 
 function Mana:GetPercent(unit)
-	return UnitMana(unit) / UnitManaMax(unit)
+	local max = UnitManaMax(unit)
+	if max == 0 then return 0 end -- 0/0 is NaN (offline or not yet loaded units)
+	return UnitMana(unit) / max
 end
 
 function Mana:GetTextDefault(unit)

@@ -89,7 +89,9 @@ function Heals:GetText(unit)
 end
 
 function Heals:GetPercent(unit)
-	return (get_effective_heal_amount(unit) + UnitHealth(unit)) / UnitHealthMax(unit)
+	local max = UnitHealthMax(unit)
+	if max == 0 then return 0 end -- same NaN guard as health-current
+	return (get_effective_heal_amount(unit) + UnitHealth(unit)) / max
 end
 
 local function Create(baseKey, dbx)

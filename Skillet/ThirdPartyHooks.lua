@@ -175,9 +175,9 @@ end
 -- @param skill_index the index of the currently selected recipe
 --
 function Skillet:GetReagentLabel(tradeskill, skill_index)
-    if (FRC_PriceSource ~= nill and FRC_CraftFrame_SetSelection and FRC_TradeSkillFrame_SetSelection) then
+    if (FRC_PriceSource ~= nil and FRC_CraftFrame_SetSelection and FRC_TradeSkillFrame_SetSelection) then
         -- Support for Fizzwidget's Reagent Cost
-        if self:IsCraft() then
+        if self.IsCraft and self:IsCraft() then	-- IsCraft is gone (no crafts since 3.0); only old FRC builds get here
             local Orig_CraftFrame_SetSelection = FRC_Orig_CraftFrame_SetSelection;
             FRC_Orig_CraftFrame_SetSelection = Skillet_NOP;
             FRC_CraftFrame_SetSelection(skill_index);

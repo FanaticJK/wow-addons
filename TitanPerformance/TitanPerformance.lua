@@ -269,7 +269,8 @@ function TitanPanelPerformanceButton_SetTooltip()
 			  	i.value = 0;	
 			end
 
-		Stats_UpdateAddonsList(self, GetCVar('scriptProfile') == '1' and not IsModifierKeyDown())
+		-- first argument is unused; this used to pass the undefined global 'self'
+		Stats_UpdateAddonsList(nil, GetCVar('scriptProfile') == '1' and not IsModifierKeyDown())
 	end     
 
 	GameTooltip:AddLine(TitanUtils_GetGreenText(L["TITAN_PERFORMANCE_TOOLTIP_HINT"]));
@@ -572,7 +573,8 @@ function Stats_UpdateAddonsList(self, watchingCPU)
 				  GameTooltip:AddDoubleLine(NORMAL_FONT_COLOR_CODE..addon.name," |cffffffff"..format("%.3f",addon.value)..L["TITAN_MILLISECOND"]);
 				  end
 			else
-				local diff = addon.value - (memUsageSinceGC[addon.name])
+				-- unfilled top-N slots have name '' and no baseline entry
+				local diff = addon.value - (memUsageSinceGC[addon.name] or 0)
 				if diff < 0 or memUsageSinceGC[addon.name]== 0 then
 					memUsageSinceGC[addon.name] = addon.value;
 				end
@@ -664,7 +666,7 @@ function TitanPanelPerfControlSlider_OnShow(self)
      self:SetMinMaxValues(1, 40);
      self:SetValueStep(1);
      self:SetValue(41 - TitanGetVar(TITAN_PERFORMANCE_ID, "NumOfAddons"));
-     TitanPanelPerfControlFrame:SetBackdropColor(0, 0, 0, 1)
+     TitanPanelPerfControlFrame:SetBackdropColor(0.04, 0.04, 0.05, 0.9)
      	
 		TitanPanelPerfControlFrame:ClearAllPoints();
 		TitanPanelPerfControlFrame:SetPoint("LEFT", "DropDownList2Button4ExpandArrow","RIGHT", 9/DropDownList2Button4ExpandArrow:GetScale(),0);
@@ -731,8 +733,9 @@ end
 -- **************************************************************************
 function TitanPanelPerfControlFrame_OnLoad(self)
      _G[self:GetName().."Title"]:SetText(L["TITAN_PERFORMANCE_CONTROL_TITLE"]);
-     self:SetBackdropBorderColor(1, 1, 1);
-     self:SetBackdropColor(0, 0, 0, 1);
+     -- shared window chrome (Bagnon style tokens): muted border, dark translucent fill
+     self:SetBackdropBorderColor(0.55, 0.55, 0.6, 1);
+     self:SetBackdropColor(0.04, 0.04, 0.05, 0.9);
 end
 
 -- **************************************************************************

@@ -43,11 +43,16 @@ function Skillet:GetTradeSkillLevelColor(id, rank)
 
 	local orange, yellow, green, gray = self:GetTradeSkillLevels(id)
 
+	-- no level data (the optional TradeskillLevels set is not installed): every breakpoint is 0,
+	-- which used to paint every recipe "trivial" grey. Return nil so callers keep the
+	-- difficulty colour the Blizzard API reported.
+	if gray == 0 or not rank then return nil end
+
 	if rank >= gray then return skillColors["trivial"] end
 
 	if rank >= green then return skillColors["easy"] end
 
-	if rank >= yellow then return skillColors["moderate"] end
+	if rank >= yellow then return skillColors["medium"] end
 
 	if rank >= orange then return skillColors["optimal"] end
 

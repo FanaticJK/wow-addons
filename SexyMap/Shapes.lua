@@ -283,15 +283,21 @@ local minimapShape
 
 function mod:ApplyShape(shape)
 	shape = legacyMappings[shape] or shape
-	dbShape = db.shape and legacyMappings[db.shape] or db.shape
+	local dbShape = db.shape and legacyMappings[db.shape] or db.shape
 	if shape or dbShape then
-		minimapShape = (shape or dbShape).shape or "ROUND"
+		-- look the texture path up in the shapes table; indexing the path string itself
+		-- always gave nil, so every shape reported "ROUND"
+		local info = shapes[shape or dbShape]
+		minimapShape = info and info.shape or "ROUND"
 		db.shape = shape or dbShape or "Textures\\MinimapMask"
 		Minimap:SetMaskTexture(db.shape)
 	end
 	self.callbacks:Fire("SexyMap_ShapeChanged")
 end
 
-function GetMininmapShape()
+-- GetMinimapShape is the community convention minimap-button code queries (LibDBIcon,
+-- FuBarPlugin, GatherMate, Astrolabe) and the name HudMap.lua hooks; it was misspelled
+-- "GetMininmapShape", so nothing ever saw a square / corner minimap.
+function GetMinimapShape()
 	return minimapShape or "ROUND"
 end

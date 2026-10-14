@@ -488,7 +488,7 @@ function addon:ChatEdit_ParseText(editBox, send)
 -- Hack from blizzard's code
 	if ( cmd and strfind(cmd, "^#") ) then
 		-- This is a hack, but the "USE" code below handles bags and slots
-		cmd = SLASH_USE1;
+		cmd = _G.SLASH_USE1; -- Prat env has no _G fallback: a bare SLASH_USE1 was always nil
 	end
 
     if cmd and IsSecureCmd(cmd) then

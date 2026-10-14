@@ -184,42 +184,43 @@ popup:SetMovable(true)
 popup:SetUserPlaced(true)
 popup:SetClampedToScreen(true)
 popup:SetFrameStrata("FULLSCREEN_DIALOG")
-popup:SetNormalTexture("Interface\\AchievementFrame\\UI-Achievement-Parchment-Horizontal")
-
-local back = popup:GetNormalTexture()
-back:SetDrawLayer("BACKGROUND")
-back:ClearAllPoints()
-back:SetPoint("BOTTOMLEFT", 3, 3)
-back:SetPoint("TOPRIGHT", -3, -3)
-back:SetTexCoord(0, 1, 0, 0.25)
+-- (the achievement-parchment normal texture was replaced by the dark backdrop set below)
 
 -- Just a note:
 -- The anchors in this next section are incomplete. The frame isn't finished until
 -- module.ShowModel is called.
 local title = popup:CreateFontString(nil, "OVERLAY", "GameFontHighlightMedium");
 popup.title = title
-title:SetPoint("TOPLEFT", popup, "TOPLEFT", 6, -6)
-title:SetPoint("RIGHT", popup, "RIGHT", -4, 0)
+title:SetPoint("TOPLEFT", popup, "TOPLEFT", 8, -8)
+title:SetPoint("RIGHT", popup, "RIGHT", -8, 0)
+title:SetJustifyH("LEFT")
+title:SetTextColor(1, 0.82, 0)
 popup:SetFontString(title)
 
 local model = CreateFrame("PlayerModel", nil, popup)
 popup.model = model
 
-local details = popup:CreateFontString(nil, "OVERLAY", "GameFontBlackTiny")
+local details = popup:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 popup.details = details
+details:SetJustifyH("LEFT")
 details:SetPoint("RIGHT", title)
 
-local subtitle = popup:CreateFontString(nil, "OVERLAY", "GameFontBlackTiny")
+local subtitle = popup:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 popup.subtitle = subtitle
+subtitle:SetJustifyH("LEFT")
+subtitle:SetTextColor(0.62, 0.62, 0.65)
 subtitle:SetPoint("TOPLEFT", details, "BOTTOMLEFT", 0, -4)
 subtitle:SetPoint("RIGHT", details)
 subtitle:SetText("Click to Target")
 
--- Border
+-- Slim tooltip-border chrome over a dark translucent fill (was parchment with black text)
 popup:SetBackdrop({
-	tile = true, edgeSize = 16,
+	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	tile = true, tileSize = 16, edgeSize = 14,
+	insets = {left = 3, right = 3, top = 3, bottom = 3},
 })
+popup:SetBackdropColor(0, 0, 0, 0.8)
 popup:SetBackdropBorderColor( 0.7, 0.15, 0.05 )
 
 -- Drag frame
@@ -252,8 +253,18 @@ texture:SetTexCoord(0, 0.78125, 0, 0.66796875)
 
 popup:SetAttribute("type", "macro")
 
-local on_enter = function() popup:SetBackdropBorderColor(1, 1, 0.15) end
-local on_leave = function() popup:SetBackdropBorderColor(0.7, 0.15, 0.05) end
+local on_enter = function()
+	popup:SetBackdropBorderColor(1, 0.82, 0)
+	GameTooltip:SetOwner(popup, "ANCHOR_TOP")
+	GameTooltip:SetText(popup:GetText() or "SilverDragon", 1, 0.82, 0)
+	GameTooltip:AddLine("Click to target this rare.", 1, 1, 1)
+	GameTooltip:AddLine("Hold Alt and drag to move this frame.", 0.62, 0.62, 0.65)
+	GameTooltip:Show()
+end
+local on_leave = function()
+	popup:SetBackdropBorderColor(0.7, 0.15, 0.05)
+	GameTooltip:Hide()
+end
 local on_show = function()
 	UIFrameFadeRemoveFrame(popup.glow)
 	UIFrameFlashRemoveFrame(popup.glow)

@@ -390,7 +390,7 @@ function me:RefreshDeathDetails()
 	local Data=Recount.DetailWindow.DeathMode.Data
 	local size
 	
-	if data then
+	if Data then -- was the global `data` (always nil): the scroll bar saw 0 rows, deaths past 17 were unreachable
 		size = table.getn(Data)
 	else
 		size = 0
@@ -435,7 +435,7 @@ function Recount:WrapFontString(fontstring,maxwidth)
 	
 	while fontstring:GetStringWidth()>maxwidth do		
 		Temp=string.reverse(Text)
-		_,NextWhite=string.find(Temp,"( +)")
+		local _; _,NextWhite=string.find(Temp,"( +)")
 		
 		Returning=string.sub(Text,string.len(Text)-NextWhite+1,string.len(Text))..Returning
 		Text=string.sub(Text, 1, string.len(Text)-NextWhite)
@@ -1287,7 +1287,7 @@ function Recount:UpdateSummaryMode(name)
 	local damagetake = data2.DamageTaken or 0
 	local dot_time = data2.DOT_Time or 0
 	theFrame.Damage.Total:SetValue(damage)
-	theFrame.Damage.Taken:SetValue(damagetaken)
+	theFrame.Damage.Taken:SetValue(damagetake) -- was the never-set global damagetaken (blank field)
 	theFrame.Damage.PerSec:SetValue((math.floor(10*damage/(activetime)+0.5)/10))	
 	theFrame.Damage.Time:SetValue(timedamage.."s ("..math.floor(100*timedamage/TotalTime+0.5).."%)")
 	theFrame.Damage.Misc:SetValue(math.floor(10*dot_time/(activetime)+0.5)/10)

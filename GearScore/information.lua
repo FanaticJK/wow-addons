@@ -143,26 +143,9 @@ GS_EnglishClasses = {
 	["MA"] = "MAGE",
 }
 
-GS_Texture = {
-	[1] = GS_Slot1,
-	[2] = GS_Slot2,
-	[3] = GS_Slot3,
-	[4] = GS_Slot4,
-	[5] = GS_Slot5,
-	[6] = GS_Slot6,
-	[7] = GS_Slot7,
-	[8] = GS_Slot8,
-	[9] = GS_Slot9,
-	[10] = GS_Slot10,
-	[11] = GS_Slot11,
-	[12] = GS_Slot12,
-	[13] = GS_Slot13,
-	[14] = GS_Slot14,
-	[15] = GS_Slot15,
-	[16] = GS_Slot16,
-	[17] = GS_Slot17,
-	[18] = GS_Slot18,
-}
+-- Was a list of GS_Slot1..GS_Slot18, globals that are never created anywhere, so every entry was nil
+-- and the table was always empty. Nothing reads GS_Texture; kept as an empty table for compatibility.
+GS_Texture = {}
 
 
 GS_ClassInfo = {

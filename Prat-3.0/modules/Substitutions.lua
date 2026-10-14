@@ -1133,7 +1133,7 @@ do
 	local function TargetGender()
 		local sex = L["<notarget>"]
 		if UnitExists("target") then
-			s = UnitSex("target")
+			local s = UnitSex("target")
 			if(s == 2) then
 				sex = L["male"]
 			elseif (s == 3) then

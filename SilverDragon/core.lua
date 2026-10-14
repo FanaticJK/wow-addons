@@ -37,13 +37,26 @@ function addon:OnInitialize()
 		},
 	})
 	globaldb = self.db.global
+	-- a different profile can have a different scan frequency
+	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateScanTimer")
+	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateScanTimer")
+	self.db.RegisterCallback(self, "OnProfileReset", "UpdateScanTimer")
 end
 
 function addon:OnEnable()
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+	self:UpdateScanTimer()
+end
+
+-- (re)starts the nearby-rare scan; called again when the scan frequency option changes
+function addon:UpdateScanTimer()
+	if self.scanTimer then
+		self:CancelTimer(self.scanTimer, true)
+		self.scanTimer = nil
+	end
 	if self.db.profile.scan > 0 then
-		self:ScheduleRepeatingTimer("CheckNearby", self.db.profile.scan)
+		self.scanTimer = self:ScheduleRepeatingTimer("CheckNearby", self.db.profile.scan)
 	end
 end
 
@@ -285,13 +298,16 @@ function addon:ScanCache(zone)
 		local id = globaldb.mob_id[mob]
 		if id and (not globaldb.mob_tameable[mob] or self.db.profile.cache_tameable) and not already_cached[id] and is_cached(id) then
 			already_cached[id] = true
-			self.events:Fire("Seen", zone, mob, x, y, false, false, "cache", false, id)
+			-- no coordinates for a cache hit (this read the globals x/y, which other addons leak)
+			self.events:Fire("Seen", zone, mob, nil, nil, false, false, "cache", false, id)
 		end
 	end
 	first_cachescan = false
 end
 addon.RegisterCallback(addon, "Import", function()
-	if first_cachescan then
+	-- re-prime after an import, so mobs that were already in the cache are not all announced
+	-- at once (the test was inverted, so this never ran)
+	if not first_cachescan then
 		table.wipe(already_cached)
 		first_cachescan = true
 	end

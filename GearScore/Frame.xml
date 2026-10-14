@@ -211,7 +211,7 @@
 
 	
 		<OnLoad>
-			tinsert(UISpecialFrames, this:GetName());
+			tinsert(UISpecialFrames, self:GetName());
 
 	self:EnableMouse(true)
 	self:SetMovable(true)
@@ -237,16 +237,17 @@
 				
 			</Anchor>
 		</Anchors>
-		<Backdrop bgFile="Interface\AchievementFrame\UI-Achievement-StatsBackground" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="false">
+		<Backdrop bgFile="Interface\AchievementFrame\UI-Achievement-StatsBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="false">
 			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11" />
+				<AbsInset left="3" right="3" top="3" bottom="3" />
 			</BackgroundInsets>
 			<TileSize>
-				<AbsValue val="32" />
+				<AbsValue val="16" />
 			</TileSize>
 			<EdgeSize>
-				<AbsValue val="32" />
+				<AbsValue val="14" />
 			</EdgeSize>
+			<BorderColor r="0.6" g="0.6" b="0.6" a="1" />
 		</Backdrop>
 		<Frames>
 	<Frame name="GS_DefaultFrame" parent="GS_DisplayFrame" toplevel="true" movable="true" enableMouse="true">
@@ -473,16 +474,18 @@
 						<Offset x="299" y="-70" />
 					</Anchor>
 				</Anchors>
-				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+				<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 					<BackgroundInsets>
-						<AbsInset left="11" right="12" top="12" bottom="11" />
+						<AbsInset left="3" right="3" top="3" bottom="3" />
 					</BackgroundInsets>
 					<TileSize>
-						<AbsValue val="32" />
+						<AbsValue val="16" />
 					</TileSize>
 					<EdgeSize>
-						<AbsValue val="32" />
+						<AbsValue val="14" />
 					</EdgeSize>
+					<Color r="0" g="0" b="0" a="0.55" />
+					<BorderColor r="0.6" g="0.6" b="0.6" a="1" />
 				</Backdrop>
 			</DressUpModel>
 			<Button name="GS_Frame1" id="1" inherits="GS_GearSlotTemplate" parent="GS_GearFrame" toplevel="true" movable="true" enableMouse="true">
@@ -1317,14 +1320,14 @@
 			</Anchors>
 			<Scripts>
 				<OnLoad>
-					getglobal(this:GetName().."High"):SetText("30");
-					getglobal(this:GetName().."Low"):SetText("1");
-					this:SetMinMaxValues(1,30);
-					this:SetValueStep(1);
-					getglobal(this:GetName().."Text"):SetText("Keep data for: 30 days.")
+					getglobal(self:GetName().."High"):SetText("30");
+					getglobal(self:GetName().."Low"):SetText("1");
+					self:SetMinMaxValues(1,30);
+					self:SetValueStep(1);
+					getglobal(self:GetName().."Text"):SetText("Keep data for: 30 days.")
 				</OnLoad>
 				<OnValueChanged> 
-					getglobal(this:GetName().."Text"):SetText("Keep data for: "..GS_DatabaseAgeSlider:GetValue().." days.")
+					getglobal(self:GetName().."Text"):SetText("Keep data for: "..GS_DatabaseAgeSlider:GetValue().." days.")
 					--if ( GS_Settings ) then GS_Settings["DatabaseAgeSlider"] = GS_DatabaseAgeSlider:GetValue(); end
 				</OnValueChanged>
 				</Scripts>
@@ -1566,7 +1569,7 @@
 			self:Hide()
 		</OnEscapePressed>
 		<OnLoad>
-		tinsert(UISpecialFrames, this:GetName());
+		tinsert(UISpecialFrames, self:GetName());
 			self:Hide()
 	self:EnableMouse(true)
 	self:SetMovable(true)
@@ -1583,16 +1586,18 @@
 				<Offset x="0" y="0" />
 			</Anchor>
 		</Anchors>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+		<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11" />
+				<AbsInset left="3" right="3" top="3" bottom="3" />
 			</BackgroundInsets>
 			<TileSize>
-				<AbsValue val="32" />
+				<AbsValue val="16" />
 			</TileSize>
 			<EdgeSize>
-				<AbsValue val="32" />
+				<AbsValue val="14" />
 			</EdgeSize>
+			<Color r="0" g="0" b="0" a="0.8" />
+			<BorderColor r="0.6" g="0.6" b="0.6" a="1" />
 		</Backdrop>
 
 	<Frames>
@@ -1702,16 +1707,18 @@
 				<Offset x="820" y="0" />
 			</Anchor>
 		</Anchors>
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+		<Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11" />
+				<AbsInset left="3" right="3" top="3" bottom="3" />
 			</BackgroundInsets>
 			<TileSize>
-				<AbsValue val="32" />
+				<AbsValue val="16" />
 			</TileSize>
 			<EdgeSize>
-				<AbsValue val="32" />
+				<AbsValue val="14" />
 			</EdgeSize>
+			<Color r="0" g="0" b="0" a="0.8" />
+			<BorderColor r="0.6" g="0.6" b="0.6" a="1" />
 		</Backdrop>
 		<Frames>
 		<Slider name="GS_Slider" inherits="OptionsSliderTemplate">
@@ -1725,13 +1732,13 @@
 			</Anchors>
 			<Scripts>
 				<OnLoad>
-					getglobal(this:GetName().."High"):SetText("25");
-					getglobal(this:GetName().."Low"):SetText("1");
-					this:SetMinMaxValues(1,25);
-					this:SetValueStep(1);
+					getglobal(self:GetName().."High"):SetText("25");
+					getglobal(self:GetName().."Low"):SetText("1");
+					self:SetMinMaxValues(1,25);
+					self:SetValueStep(1);
 				</OnLoad>
 				<OnValueChanged> 
-					getglobal(this:GetName().."Text"):SetText("Top: "..GS_Slider:GetValue())
+					getglobal(self:GetName().."Text"):SetText("Top: "..GS_Slider:GetValue())
 					if ( GS_Settings ) then GS_Settings["Slider"] = GS_Slider:GetValue(); end
 				</OnValueChanged>
 				</Scripts>

@@ -188,7 +188,9 @@ do
 						get = function()
 							return ""
 						end,
-						set = function(info, name)
+						set = function(info, key)
+							-- values is the thistimers array, so AceConfig hands us the index, not the name
+							local name = thistimers[key]
 							if name then
 								external[name] = nil
 								for k, v in ipairs(thistimers) do

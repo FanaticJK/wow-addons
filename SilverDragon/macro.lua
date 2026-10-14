@@ -89,6 +89,7 @@ end
 
 function module:PLAYER_REGEN_ENABLED()
 	if self.waiting then
+		self.waiting = nil
 		self:Update()
 	end
 end

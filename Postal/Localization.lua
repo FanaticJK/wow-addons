@@ -102,6 +102,13 @@ L["TradeBlock"] = true
 L["Use Postal's auto-complete"] = true
 L["Verbose mode"] = true
 L["Wire"] = true
+-- Button tooltips (added in the 3.3.5 modernization pass; other locales fall back to these)
+L["Modules, opening speed and profiles."] = true
+L["Take the items and gold from every mail, using the filters in the menu next to this button. Shift-Click to ignore the filters."] = true
+L["Choose which kinds of mail Open All takes."] = true
+L["Take the items and gold from the checked mail."] = true
+L["Return the checked mail to its sender."] = true
+L["Pick a recipient from your contacts, recent mail, alts, friends or guild."] = true
 
 if GetLocale() == "enUS" or GetLocale() == "enGB" then return end
 end

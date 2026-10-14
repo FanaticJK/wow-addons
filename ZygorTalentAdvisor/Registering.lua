@@ -124,7 +124,7 @@ end
 function me:ParseLines(text,multi)
 	local table={}
 	local index=1
-	local st,en
+	local st,en,line  -- 'line' was a global leak
 	text = text .. "\n"
 	local count
 	while (index<#text) do

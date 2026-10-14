@@ -105,7 +105,8 @@ end
 -- DESC : Display time on button based on set variables
 -- **************************************************************************
 function TitanPanelClockButton_GetButtonText()
-	local clocktime = "";	
+	local _ -- keeps the discarded first return value out of the global table
+	local clocktime = "";
 	local labeltext = "";
 	if TitanGetVar(TITAN_CLOCK_ID, "TimeMode") == "Server" then
 		_,clocktime = TitanPanelClockButton_GetTime("Server", 0)
@@ -181,12 +182,12 @@ function TitanPanelClockButton_GetTime(displaytype, offset)
                hour = 12;
           end
           if (isAM) then
-               return nil, format(TEXT(TIME_TWELVEHOURAM), hour, minute);
+               return nil, format(TIME_TWELVEHOURAM, hour, minute);
           else
-               return nil, format(TEXT(TIME_TWELVEHOURPM), hour, minute);
+               return nil, format(TIME_TWELVEHOURPM, hour, minute);
           end
      else
-          twentyfour = format(TEXT(TIME_TWENTYFOURHOURS), hour, minute);
+          twentyfour = format(TIME_TWENTYFOURHOURS, hour, minute);
           if (hour < 10) then
                twentyfour = "0" .. twentyfour
           end
@@ -412,8 +413,9 @@ end
 -- **************************************************************************
 function TitanPanelClockControlFrame_OnLoad(self)
      _G[self:GetName().."Title"]:SetText(L["TITAN_CLOCK_CONTROL_TITLE"]);
-     self:SetBackdropBorderColor(1, 1, 1);
-     self:SetBackdropColor(0, 0, 0, 1);
+     -- shared window chrome (Bagnon style tokens): muted border, dark translucent fill
+     self:SetBackdropBorderColor(0.55, 0.55, 0.6, 1);
+     self:SetBackdropColor(0.04, 0.04, 0.05, 0.9);
 end
 
 -- **************************************************************************

@@ -62,6 +62,11 @@ local function tradeskillOnUpdate()
 			castBarSpark:Hide()
 			castBarParent:SetScript("OnUpdate", Player.Bar.OnUpdate)
 			castBar:SetMinMaxValues(0, 1)
+			-- batch over (all done or interrupted): forget it, or the next tradeskill-type cast that
+			-- does not go through DoTradeSkill (Disenchant, Prospecting...) inherits a finished count
+			if bail or completedcasts >= repeattimes then
+				repeattimes, completedcasts = nil, 0
+			end
 		else
 			local elapsed = duration * completedcasts
 			castBar:SetValue(elapsed)

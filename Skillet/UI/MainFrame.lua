@@ -986,7 +986,8 @@ function Skillet:internal_UpdateTradeSkillWindow()
 	-- and fill them in with data or hide them, as necessary
 	for i=1, button_count, 1 do
 
-
+		-- was a global, so the hide_button() call below got the previous row's index
+		local skillIndex
 		local rawSkillIndex = i + skillOffset
 
 		local button, buttonDrag = get_recipe_button(i)
@@ -1118,7 +1119,8 @@ function Skillet:internal_UpdateTradeSkillWindow()
 
 					if level and level > 1 then
 						local _, _, rarity = GetItemInfo("item:"..recipe.itemID)
-						local r, g, b = GetItemQualityColor(rarity)
+						local r, g, b
+						if rarity then r, g, b = GetItemQualityColor(rarity) end
 						if r and g and b then
 							levelText:SetTextColor(r, g, b)
 						end
@@ -1127,7 +1129,7 @@ function Skillet:internal_UpdateTradeSkillWindow()
 					end
 				end
 
-				text = (self:GetRecipeNamePrefix(self.currentTrade, skillIndex) or "") .. skill.name
+				local text = (self:GetRecipeNamePrefix(self.currentTrade, skillIndex) or "") .. skill.name
 
 				if #recipe.reagentData > 0 then
 
@@ -1255,8 +1257,8 @@ function Skillet:internal_UpdateTradeSkillWindow()
 					SkilletHighlightFrame:SetWidth(button:GetWidth())
 					SkilletHighlightFrame:SetFrameLevel(button:GetFrameLevel())
 
-					if color then
-						SkilletHighlight:SetTexture(color.r, color.g, color.b, 0.4)
+					if skill_color then
+						SkilletHighlight:SetTexture(skill_color.r, skill_color.g, skill_color.b, 0.4)
 					else
 						SkilletHighlight:SetTexture(0.7, 0.7, 0.7, 0.4)
 					end
@@ -1367,7 +1369,7 @@ function Skillet:SkillButton_OnEnter(button)
 
 	buttonName:SetTextColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
 
-	local recipe = self:GetRecipe(skill.recipeID) or skilletUnknownRecipe
+	local recipe = self:GetRecipe(skill.recipeID) or self.unknownRecipe
 
 	local tip = SkilletSkillTooltip
 
@@ -1539,7 +1541,7 @@ function Skillet:SetTradeSkillToolTip(skillIndex)
 			if EnhTooltip and EnhTooltip.TooltipCall then
 				local name, link, quality = GetItemInfo("item:"..recipe.itemID)
 
-				quantity = recipe.numMade
+				local quantity = recipe.numMade
 
 				EnhTooltip.TooltipCall(GameTooltip, name, link, quality, quantity)
 			end
@@ -1727,12 +1729,12 @@ function Skillet:UpdateDetailsWindow(skillIndex)
 
 	lastUpdateSpellID = skill.id
 
-	local recipe = skilletUnknownRecipe
+	local recipe = self.unknownRecipe
 
 	if not skill then return end
 
 	if skill then
-		recipe = self:GetRecipe(skill.id) or skilletUnknownRecipe
+		recipe = self:GetRecipe(skill.id) or self.unknownRecipe
 	-- Name of the skill
 		SkilletSkillName:SetText(recipe.name)
 		SkilletRecipeNotesButton:Show()
@@ -1763,7 +1765,7 @@ function Skillet:UpdateDetailsWindow(skillIndex)
 		end
 
 	else
-		recipe = skilletUnknownRecipe
+		recipe = self.unknownRecipe
 		SkilletSkillName:SetText("unknown")
 	end
 
@@ -1961,6 +1963,7 @@ function Skillet:UpdateDetailsWindow(skillIndex)
 
 
 			if combineID then
+				local _
 				_, extra_text = self:TSIGetRecipeSources(combineID, false)
 
 				if not extra_text then
@@ -2123,7 +2126,7 @@ function Skillet:UpdateQueueWindow()
 				local recipe = self:GetRecipe(queueCommand.recipeID)
 				--self.db.account.recipeData[queueCommand.recipeID]
 
-				queueName:SetText((self:GetTradeName(recipe.tradeID) or recipe.tradeID)..":"..(recipe.name or recipeID))
+				queueName:SetText((self:GetTradeName(recipe.tradeID) or recipe.tradeID)..":"..(recipe.name or queueCommand.recipeID))
 				queueCount:SetText(queueCommand.count)
 			end
 
@@ -2368,13 +2371,12 @@ function Skillet:SkillButton_DeleteSelected()
 
 		for i=1,sortedSkillList.count do
 			if sortedSkillList[i].selected and not (sortedSkillList[i].parent and sortedSkillList[i].parent.selected) then
-				self:RecipeGroupDeleteEntry(sortedSkillList[i], newGroup)
+				self:RecipeGroupDeleteEntry(sortedSkillList[i])
 			end
 		end
 
 		self.selectedSkill = nil
 
-		self:RecipeGroupAddSubGroup(parentGroup, newGroup, index)
 
 		self:SortAndFilterRecipes()
 		self:UpdateTradeSkillWindow()
@@ -2707,7 +2709,7 @@ function Skillet:ReagentButtonSkillSelect(player, id)
 	GameTooltip:Hide()
 --	button:Hide()					-- hide the button so that if a new button is shown in this slot, a new "OnEnter" event will fire
 
-	newRecipe = self:GetRecipe(id)
+	local newRecipe = self:GetRecipe(id)
 
 	self:PushSkill(self.currentPlayer, self.currentTrade, self.selectedSkill)
 	self:SetTradeSkill(player, newRecipe.tradeID, skillIndexLookup[id])
@@ -3113,7 +3115,8 @@ function Skillet:SkilletSkillMenu_Show(button)
 		end
 	else
 		if button:GetText() == "" then
-			EasyMenu(skillMenuListEmpty, SkilletSkillMenu, getglobal("UIParent"), x/uiScale,y/uiScale, "MENU", 5)
+			-- empty row: same menu minus "Link Recipe" (skillMenuListEmpty never existed, EasyMenu(nil) errored)
+			EasyMenu(skillMenuListHidden, SkilletSkillMenu, getglobal("UIParent"), x/uiScale,y/uiScale, "MENU", 5)
 		else
 			EasyMenu(skillMenuList, SkilletSkillMenu, getglobal("UIParent"), x/uiScale,y/uiScale, "MENU", 5)
 		end

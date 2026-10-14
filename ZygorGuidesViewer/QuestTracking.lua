@@ -116,7 +116,7 @@ function me:QuestTracking_CacheQuestLog()
 		local strQuestLogTitleText, strQuestLevel, strQuestTag, numPlayers, isHeader, isCollapsed, isComplete, isDaily, questID = GetQuestLogTitle(i)
 
 		if not isHeader and strQuestLogTitleText then
-			strQuestLogTitleText = strQuestLogTitleText:gsub(" ?\[[0-9D\+]+\] ?","") -- fix for [12] level display
+			strQuestLogTitleText = strQuestLogTitleText:gsub(" ?%[[0-9D%+]+%] ?","") -- fix for [12] level display
 			local goals,goalsNamed = GetQuestLeaderBoards(i)
 
 			local quest = {
@@ -157,7 +157,7 @@ function me:QuestTracking_CacheQuestLog()
 	-- any abandoned?
 	if #oldquests>0 then
 		for qi,q in pairs(oldquests) do
-			if not self.questsbyid[q.id] and not self.db.char.completedQuests[id] then
+			if not self.questsbyid[q.id] and not self.db.char.completedQuests[q.id] then
 				table.insert(lostquests,q)
 				self.recentlyAcceptedQuests[q.id]=nil
 				self.recentlyAcceptedQuests[q.title]=nil

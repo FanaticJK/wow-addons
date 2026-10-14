@@ -32,7 +32,7 @@ local function Icon_Create(self, parent)
 	CooldownText:SetFontObject(GameFontHighlightSmall)
 	CooldownText:SetFont(CooldownText:GetFont(), self.dbx.fontSize)
 	CooldownText:SetJustifyH("CENTER")
-	CooldownText:SetJustifyV("CENTER")
+	CooldownText:SetJustifyV("MIDDLE")
 	CooldownText:Hide()
 
 	parent[self.name] = f

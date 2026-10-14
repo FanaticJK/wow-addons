@@ -8,6 +8,7 @@ local server = GetRealmName()
 local playername = UnitName("player")
 local options
 local clrimportchk = false
+local sfmt = string.format -- used below but never defined
 
 local function getOptions()
 	if not options then
@@ -125,7 +126,8 @@ function Import:ImportQuestHistory()
 				questid = tonumber(currentid["lk"]:match(":(%d+):"))
 			else -- Bummer, no link, you're a bitch QuestHistory, but wait, I already wrote code to do this right? Somewhere...
 				-- lets try to get a quest ID from the title [t] and the category [c], to sure it up, we can even add in the level [l]
-				quest, zone = EveryQuest:GetQuestData(nil, currentid["c"], currentid["t"])
+				local _, quest, qzone = EveryQuest:GetQuestData(nil, currentid["c"], currentid["t"]) -- returns uid, quest, zoneid
+				zone = qzone
 				if (quest and quest.id) then
 					questid = quest.id
 				end
@@ -170,17 +172,20 @@ end
 
 function Import:ImportQuest(questid, zoneid, status, from)
 	EveryQuest:Debug("We're trying to import quest "..tostring(questid).. " which is from zone "..tostring(zoneid).. " with a status of " .. tostring(status) .. " from addon " .. tostring(from)..".")
+	if status == nil then return false end
+	local _, quest -- GetQuestData returns uid, quest, zoneid (the first value was being used as the quest table)
 	if (not zoneid) then
 		--- we need to try to get the zoneid here for quests without one passed in, super bummer here because it's a pain
-		quest, zoneid = EveryQuest:GetQuestData(questid)
+		_, quest, zoneid = EveryQuest:GetQuestData(questid)
 	else
-		quest, zoneid = EveryQuest:GetQuestData(questid, nil, nil, zoneid)
+		_, quest, zoneid = EveryQuest:GetQuestData(questid, nil, nil, zoneid)
 	end
+	if not quest then return false end
 	local b = -2
 	-- next lets check to see if we even need to import it, as in we may have seen it in EQ
 	if (dbpc[zoneid] and dbpc[zoneid][quest.id]) then
 		-- we've seen it in EQ already, check the status
-		b = dbpc[zoneid][quest.id]["status"]
+		b = dbpc[zoneid][quest.id]["status"] or -2 -- nil after "Forget"; cmpstatus would compare against nil
 	end
 	
 	if (cmpstatus(status, b) == 1) then

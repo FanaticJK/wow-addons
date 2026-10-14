@@ -115,7 +115,9 @@ end
 local Enable = function(self)
 	local health = self.Health
 	if(health) then
-		if(health.frequentUpdates and (self.unit and not self.unit:match'%w+target$') or not self.unit) then
+		-- parenthesised: "a and b or c" polled every header-spawned frame (no unit yet) with
+		-- an OnUpdate even when the layout never asked for frequentUpdates
+		if(health.frequentUpdates and ((self.unit and not self.unit:match'%w+target$') or not self.unit)) then
 			health.disconnected = true
 			health:SetScript('OnUpdate', OnHealthUpdate)
 		else

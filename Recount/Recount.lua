@@ -261,18 +261,22 @@ local Default_Profile={
 	profile={
 		Colors={
 			["Window"]={
-				["Title"] = { r = 1, g = 0, b = 0, a = 1},
-				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 1},
-				["Title Text"] = {r = 1, g = 1, b = 1, a = 1},
+				-- Title band: dark slate instead of saturated red; gold title text; translucent body.
+				-- (Only the default: colours a user picked in Config > Colors are kept by AceDB.)
+				["Title"] = { r = 0.2, g = 0.2, b = 0.22, a = 1},
+				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 0.8},
+				["Title Text"] = {r = 1, g = 0.82, b = 0, a = 1},
 			},
 			["Bar"]={
 				["Bar Text"] = {r = 1, g = 1, b = 1},
 				["Total Bar"] = { r = 0.75, g = 0.75, b = 0.75},
 			},
 			["Other Windows"]={
-				["Title"] = { r = 1, g = 0, b = 0, a = 1},
-				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 1},
-				["Title Text"] = {r = 1, g = 1, b = 1, a = 1},
+				-- Title band: dark slate instead of saturated red; gold title text; translucent body.
+				-- (Only the default: colours a user picked in Config > Colors are kept by AceDB.)
+				["Title"] = { r = 0.2, g = 0.2, b = 0.22, a = 1},
+				["Background"]= { r = 24/255, g = 24/255, b = 24/255, a = 0.8},
+				["Title Text"] = {r = 1, g = 0.82, b = 0, a = 1},
 			},
 			["Detail Window"]={
 			},
@@ -1410,20 +1414,20 @@ function Recount:AddCombatant(name,owner,nameGUID,nameFlags,ownerGUID)
 			if isPlayer then -- Player Units
 				if Recount.PlayerName == name then
 					combatant.type = "Self"
-					_, combatant.enClass=UnitClass("player")
+					local _; _, combatant.enClass=UnitClass("player")
 					combatant.level = UnitLevel("player")
 				-- Handle Friendly grouped combatants
 				elseif inGroup then
 					local unit = Recount:FindUnitFromFlags(name,nameFlags)
 					combatant.type = "Grouped"
-					_, combatant.enClass=UnitClass(unit)
+					local _; _, combatant.enClass=UnitClass(unit)
 					combatant.level = UnitLevel(unit)
 				-- Handle Friendly ungrouped combatants
 				else
 					combatant.type = "Ungrouped"
 					local unit = Recount:FindTargetedUnit(name)
 					if unit then
-						_, combatant.enClass=UnitClass(unit)
+						local _; _, combatant.enClass=UnitClass(unit)
 						combatant.level = UnitLevel(unit)
 					else
 						combatant.enClass = "UNGROUPED" -- Check for target uid here
@@ -1441,7 +1445,7 @@ function Recount:AddCombatant(name,owner,nameGUID,nameFlags,ownerGUID)
 			combatant.type = "Hostile"
 			local unit = Recount:FindTargetedUnit(name)
 			if unit then
-				_, combatant.enClass=UnitClass(unit)
+				local _; _, combatant.enClass=UnitClass(unit)
 				combatant.level = UnitLevel(unit)
 			else
 				combatant.enClass = "HOSTILE" -- Check for target uid here

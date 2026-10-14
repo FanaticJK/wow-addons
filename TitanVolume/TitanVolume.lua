@@ -313,8 +313,9 @@ function TitanPanelVolumeControlFrame_OnLoad(self)
 	_G[self:GetName().."AmbienceTitle"]:SetText(LB["TITAN_VOLUME_AMBIENCE_CONTROL_TITLE"]);
 	_G[self:GetName().."MicrophoneTitle"]:SetText(LB["TITAN_VOLUME_MICROPHONE_CONTROL_TITLE"]);
 	_G[self:GetName().."SpeakerTitle"]:SetText(LB["TITAN_VOLUME_SPEAKER_CONTROL_TITLE"]);
-	self:SetBackdropBorderColor(1, 1, 1);
-	self:SetBackdropColor(0, 0, 0, 1);
+	-- shared window chrome (Bagnon style tokens): muted border, dark translucent fill
+	self:SetBackdropBorderColor(0.55, 0.55, 0.6, 1);
+	self:SetBackdropColor(0.04, 0.04, 0.05, 0.9);
 end
 
 function TitanPanelVolumeControlFrame_OnUpdate(self, elapsed)

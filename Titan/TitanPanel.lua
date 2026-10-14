@@ -761,20 +761,6 @@ name = "Titan "..L["TITAN_PANEL_MENU_OPTIONS"],
 	}
  }
 
-TXT_XYZ =  optionsAddons
-TXT_XYZ1 =  {}
-TXT_XYZ2 =  {}
-TXT_XYZ_info =  {}
-TXT_XYZ_arg1 =  {}
-local function TXT_XYZ_info_copy(info)
-	TXT_XYZ_info = {}
-	TXT_XYZ_info.info1 = (info[1] or "nyl")
-	TXT_XYZ_info.info2 = (info[2] or "nyl")
-	TXT_XYZ_info.info3 = (info[3] or "nyl")
-	TXT_XYZ_info.info_ = (info[#info] or "nyl")
-	TXT_XYZ_info.arg = (info.arg or "nyl")
-end
-
 local optionsAddonAttempts = {
 	name = "Titan ".."Attempts", --L["TITAN_PANEL_MENU_OPTIONS_BARS"],
 	type = "group",
@@ -1158,7 +1144,7 @@ function TitanUpdateConfigAddons()
 				name = "< "..L["TITAN_PANEL_SHIFT_LEFT"].."  ",
 				order = 51,
 				func = function(info, arg1)
-					name = info[1]
+					local name = info[1]
 					if TitanPanel_IsPluginShown(name) then
 						TitanUtils_ShiftButtonOnBarLeft(name)
 					end
@@ -1170,7 +1156,7 @@ function TitanUpdateConfigAddons()
 				name = "> "..L["TITAN_PANEL_SHIFT_RIGHT"],
 				order = 52,
 				func = function(info, arg1)
-					name = info[1]
+					local name = info[1]
 					if TitanPanel_IsPluginShown(info[1]) then
 						TitanUtils_ShiftButtonOnBarRight(name)
 					end
@@ -1499,7 +1485,7 @@ function TitanPanel_RegisterSlashCmd(cmd)
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING8"]);
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING9"]);
    DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING10"]);
-   DEFAULT_CHAT_FRAME:AddMessage(L["TITAN_PANEL_SLASH_STRING11"]);
+   -- SLASH_STRING11 advertised "/bscan" (BonusScanner), a separate addon that is not part of Titan.
 end
 
 -- Register slash commands for Titan Panel
@@ -2594,7 +2580,7 @@ end
 function TitanPanel_LoadError(ErrorMsg) 
 	StaticPopupDialogs["LOADING_ERROR"] = {
 		text = ErrorMsg,
-		button1 = TEXT(OKAY),
+		button1 = OKAY,
 		showAlert = 1,
 		timeout = 0,
 	};
@@ -2638,7 +2624,7 @@ function TitanPanel_SaveCustomProfile()
 
 StaticPopupDialogs["TITAN_RELOADUI"] = {
 		text = TitanUtils_GetNormalText(L["TITAN_PANEL_MENU_TITLE"]).."\n\n"..L["TITAN_PANEL_MENU_PROFILE_RELOADUI"],
-		button1 = TEXT(OKAY),
+		button1 = OKAY,
 		OnAccept = function(self)
 		ReloadUI();
 		end,
@@ -2973,8 +2959,10 @@ function TitanPanel_PlayerSettingsMenu()
 			info.text = L["TITAN_PANEL_MENU_DELETE_SETTINGS"];
 			info.value = index;
 			info.func = function()			  
-				if TitanSettings.Players[info.value] then
-					TitanSettings.Players[info.value] = nil;
+				-- use the loop's own 'index': 'info' is reassigned for every later menu entry,
+				-- so reading info.value here could name a different profile
+				if TitanSettings.Players[index] then
+					TitanSettings.Players[index] = nil;
 					local tempstring = string.find (index, "@");
 					local profname =  string.sub(index, 1, tempstring-1);
 					DEFAULT_CHAT_FRAME:AddMessage(_G["GREEN_FONT_COLOR_CODE"]..L["TITAN_PANEL_MENU_TITLE"].._G["FONT_COLOR_CODE_CLOSE"]..": "..L["TITAN_PANEL_MENU_PROFILE"].."|cffff8c00"..profname.."|r"..L["TITAN_PANEL_MENU_PROFILE_DELETED"]);
@@ -3250,8 +3238,6 @@ function TitanPanel_ResetBar()
 	local playerName = UnitName("player");
 	local serverName = GetCVar("realmName");
 
-	TitanCopyPlayerSettings = TitanSettings.Players[playerName.."@"..serverName];
-	TitanCopyPluginSettings = TitanCopyPlayerSettings["Plugins"];
 
 	for index, id in pairs (TitanPanelSettings["Buttons"]) do
 		local currentButton = TitanUtils_GetButton(TitanPanelSettings["Buttons"][index]);

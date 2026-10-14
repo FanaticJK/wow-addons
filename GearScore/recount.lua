@@ -14,13 +14,12 @@ local GearScore_Recount = LibStub("AceAddon-3.0"):NewAddon("GearScore_Recount", 
 
 function GearScore_Recount:DataModesGearScore(data, num)
 	if not data then return 0,0 end
-	MyVariable = data
-	TempName = data.unit
+	local TempName = data.unit
 	local damage, dps = Recount:MergedPetDamageDPS(data,Recount.db.profile.CurDataSet);
 	local hps = (data.Fights[Recount.db.profile.CurDataSet].Healing or 0)/((data.Fights[Recount.db.profile.CurDataSet].ActiveTime or 0) + 0);
 	hps = (floor(hps*10)/10)
 	dps = (floor(dps*10)/10)
-	local ttps = ""
+	local ttps, tps = ""
 	if ( hps > dps ) then 
 		tps = hps
 		ttps = "HPS - "
@@ -40,7 +39,7 @@ end
 
 function GearScore_Recount:DataModesPerformanceGearScore(data, num)
 	if not data then return 0,0 end
-	TempName = data.unit
+	local TempName = data.unit
 	local damage, dps = Recount:MergedPetDamageDPS(data,Recount.db.profile.CurDataSet);
 --	local hps = (data.Fights[Recount.db.profile.CurDataSet].Healing or 0)/((data.Fights[Recount.db.profile.CurDataSet].ActiveTime or 0) + 0);
 --	hps = (floor(hps*10)/10); dps = (floor(dps*10)/10)
@@ -83,12 +82,16 @@ function GearScore_Recount:TooltipFuncsGearScore(name,data)
 	local damage, dps = Recount:MergedPetDamageDPS(data,Recount.db.profile.CurDataSet);
 	local hps = (data.Fights[Recount.db.profile.CurDataSet].Healing or 0)/((data.Fights[Recount.db.profile.CurDataSet].ActiveTime or 0) + 0);
 
-	local GS_GearScore = GS_Data[GetRealmName()].Players[GS_Target].GearScore
+	-- most combatants (pets, anyone never inspected) have no GearScore record
+	local GS_Record = GS_Data[GetRealmName()].Players[GS_Target]
+	local GS_GearScore = GS_Record and GS_Record.GearScore
 	if not ( GS_GearScore ) then GS_GearScore = 0; end
 	local GS_QualityRed, GS_QualityBlue, GS_QualityGreen, GS_QualityDescription = GearScore_GetQuality(GS_GearScore)
 	GameTooltip:AddLine("GearScore: "..GS_GearScore, GS_QualityRed, GS_QualityGreen, GS_QualityBlue)
 
-	if hps > dps then
+	if GS_GearScore <= 0 then
+		-- no score to divide by
+	elseif hps > dps then
 		GameTooltip:AddLine( "Healing Performance / GearScore: ".. (floor((hps * 100) / GS_GearScore)) )
 	else
 		GameTooltip:AddLine( "Damage Performance / GearScore: ".. (floor((dps * 100) / GS_GearScore)) )

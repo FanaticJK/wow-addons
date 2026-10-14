@@ -380,6 +380,9 @@ end
 
 function status:OnDisable()
 	frame:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
+	-- UpdateZoneSpells registered UNIT_AURA; without this the debuff scan kept running
+	-- for every aura change after the status was unmapped from all indicators
+	frame:UnregisterEvent("UNIT_AURA")
 	self:UnregisterMessage("Grid_UnitLeft")
 end
 
@@ -433,7 +436,7 @@ frame:SetScript("OnEvent", function (self, event, ...)
 			local p_duration = durations[unit]
 			local p_expiration = expirations[unit]
 
-			local n_state, n_texture, n_count, n_expiration, n_duration, _
+			local n_state, n_texture, n_count, n_type, n_expiration, n_duration, _ -- n_type was a leaked global
 			n_state = true
 			_, _, n_texture, n_count, n_type, n_duration, n_expiration = UnitDebuff(unit, auraIndex)
 
@@ -487,7 +490,8 @@ local prev_UpgradeDefaults = Grid2.UpgradeDefaults
 function Grid2:UpgradeDefaults(dblData, ...)
 	local flatten = prev_UpgradeDefaults(self, dblData, ...)
 
-	local Grid2StatusRaidDebuffsOptions = Grid2Options.plugins["Grid2StatusRaidDebuffsOptions"]
+	-- Grid2Options is load-on-demand and may be disabled; Grid2's own hook guards it the same way
+	local Grid2StatusRaidDebuffsOptions = Grid2Options and Grid2Options.plugins["Grid2StatusRaidDebuffsOptions"]
 	if (Grid2StatusRaidDebuffsOptions) then
 		flatten = DBL:UpgradeDefaults("Grid2StatusRaidDebuffsOptions", dblData, Grid2StatusRaidDebuffsOptions.UpgradeDefaults, "account", 1) or flatten
 	end

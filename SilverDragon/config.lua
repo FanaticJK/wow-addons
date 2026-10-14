@@ -10,8 +10,9 @@ end
 local options = {
 	type = "group",
 	name = "SilverDragon",
-	get = function(info) return db[info[#info]] end,
-	set = function(info, v) db[info[#info]] = v end,
+	-- read core.db.profile each time: a cached profile table goes stale when the user switches profiles
+	get = function(info) return core.db.profile[info[#info]] end,
+	set = function(info, v) core.db.profile[info[#info]] = v end,
 	args = {
 		general = {
 			type = "group",
@@ -21,14 +22,16 @@ local options = {
 				scan = {
 					type = "range",
 					name = "Scan frequency",
-					desc = "How often to scan for nearby rares (0 disables scanning)",
+					desc = "Seconds between scans for nearby rares (0 disables scanning).",
 					min = 0, max = 10, step = 0.1,
 					order = 10,
+					-- apply right away instead of after the next reload
+					set = function(info, v) core.db.profile.scan = v; core:UpdateScanTimer() end,
 				},
 				delay = {
 					type = "range",
 					name = "Recording delay",
-					desc = "How long to wait before recording the same rare again",
+					desc = "Seconds to wait before recording the same rare again.",
 					min = 30, max = (60 * 60), step = 10,
 					order = 20,
 				},
@@ -67,6 +70,8 @@ local options = {
 					name = "Clear all rares",
 					desc = "Forget all seen rares.",
 					order = 60,
+					confirm = true,
+					confirmText = "Forget every rare SilverDragon has recorded? This cannot be undone.",
 					func = function() core:DeleteAllMobs() end,
 				},
 			},

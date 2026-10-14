@@ -139,10 +139,12 @@ function lib.AddButton(id, texture, priority, globalname, quiet)
 		button:SetPoint("TOPLEFT", frame, "TOPLEFT", 0,0)
 		button:SetWidth(30)
 		button:SetHeight(30)
-		button:SetScript("OnMouseDown", function (...) private.MouseDown(this.frame, this, ...) end)
-		button:SetScript("OnMouseUp", function (...) private.MouseUp(this.frame, this, ...) end)
-		button:SetScript("OnEnter", function (...) private.PopOut(this.frame, this, ...) end)
-		button:SetScript("OnLeave", function (...) private.PopBack(this.frame, this, ...) end)
+		-- The handler's own 'self' replaces the legacy 'this' global (identical value for a
+		-- SetScript handler); the argument list passed on is unchanged.
+		button:SetScript("OnMouseDown", function (self, ...) private.MouseDown(self.frame, self, self, ...) end)
+		button:SetScript("OnMouseUp", function (self, ...) private.MouseUp(self.frame, self, self, ...) end)
+		button:SetScript("OnEnter", function (self, ...) private.PopOut(self.frame, self, self, ...) end)
+		button:SetScript("OnLeave", function (self, ...) private.PopBack(self.frame, self, self, ...) end)
 		button.icon = button:CreateTexture("", "BACKGROUND")
 		button.icon:SetTexCoord(0.025, 0.975, 0.025, 0.975)
 		button.icon:SetPoint("TOPLEFT", button, "TOPLEFT", 0,0)
@@ -235,7 +237,9 @@ function lib.ApplyLayout(useLayout)
 	end
 
 	position = tonumber(position) or 180
-	wide = tonumber(wide)
+	-- a damaged saved value must not reach the '#layout < wide' comparison below
+	wide = tonumber(wide) or 10
+	if wide < 1 then wide = 1 end
 	side = side:lower()
 	if not active or active == "0" or active == 0 then
 		active = false
@@ -375,10 +379,12 @@ else
 	frame:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-		tile = true, tileSize = 32, edgeSize = 16,
-		insets = { left = 4, right = 4, top = 4, bottom = 4 }
+		tile = true, tileSize = 32, edgeSize = 14,
+		insets = { left = 3, right = 3, top = 3, bottom = 3 }
 	})
-	frame:SetBackdropColor(0,0,0, 0.5)
+	-- shared chrome tokens: dark translucent fill, muted border
+	frame:SetBackdropColor(0.04,0.04,0.05, 0.65)
+	frame:SetBackdropBorderColor(0.55,0.55,0.6, 1)
 	frame:EnableMouse(true)
 	frame:SetScript("OnEnter", function(...) private.PopOut(...) end)
 	frame:SetScript("OnLeave", function(...) private.PopBack(...) end)
@@ -386,14 +392,15 @@ else
 	frame:SetScript("OnMouseUp", function(...) private.EndMove(...) end)
 	frame:SetScript("OnUpdate", function(...) private.Popper(...) end)
 	frame:SetScript("OnEvent", function(...)
-		private.loadElements(strsplit(";", SlideBarConfig or ""))
+		-- SlideBarConfig is a "key=value;key=value" string; anything else is a damaged file
+		private.loadElements(strsplit(";", type(SlideBarConfig) == "string" and SlideBarConfig or ""))
 		private.startCounter = 10
 		frame:UnregisterEvent("PLAYER_LOGIN")
 	end)
 	frame:RegisterEvent("PLAYER_LOGIN")
 
 	frame.Tab = frame:CreateTexture()
-	frame.Tab:SetTexture(0.98, 0.78, 0)
+	frame.Tab:SetTexture(1, 0.82, 0) -- accent gold
 	frame.buttons = {}
 
 	SLASH_NSIDEBAR1 = "/sbar"
@@ -450,7 +457,7 @@ if not lib.tooltip then
 		end
 		lib.tooltip:Show()
 		lib.tooltip:SetAlpha(0)
-		lib.tooltip:SetBackdropColor(0,0,0, 1)
+		lib.tooltip:SetBackdropColor(0.04,0.04,0.05, 0.9)
 		lib.tooltip:SetPoint("TOP", frame, "BOTTOM", 10, -5)
 		lib.tooltip.schedule = GetTime() + 1
 	end
@@ -465,10 +472,11 @@ if not lib.tooltip then
 	lib.tooltip:SetBackdrop({
 		bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-		tile = true, tileSize = 32, edgeSize = 16,
-		insets = { left = 4, right = 4, top = 4, bottom = 4 }
+		tile = true, tileSize = 32, edgeSize = 14,
+		insets = { left = 3, right = 3, top = 3, bottom = 3 }
 	})
-	lib.tooltip:SetBackdropColor(0,0,0.3, 1)
+	lib.tooltip:SetBackdropColor(0.04,0.04,0.05, 0.9)
+	lib.tooltip:SetBackdropBorderColor(0.55,0.55,0.6, 1)
 	--lib.tooltip:SetClampedToScreen(true)
 end
 
@@ -528,7 +536,8 @@ function private:PerformOpen(useLayout)
 	frame:ClearAllPoints()
 	frame.isOpen = true
 	lib.ApplyLayout(useLayout)
-	for _,button in ipairs(frame.buttons) do
+	-- frame.buttons is keyed by button id (a string), so ipairs never visited anything
+	for _,button in pairs(frame.buttons) do
 		if button.OnOpen then button:OnOpen() end
 	end
 end
@@ -539,8 +548,8 @@ function private:PerformClose(useLayout)
 	frame:ClearAllPoints()
 	frame.isOpen = false
 	lib.ApplyLayout(useLayout)
-	for _,button in ipairs(frame.buttons) do
-		if button.OnOpen then button:OnClose() end
+	for _,button in pairs(frame.buttons) do
+		if button.OnClose then button:OnClose() end
 	end
 end
 
@@ -636,13 +645,13 @@ function private.CommandHandler(msg)
 	if (not msg or msg == "") then msg = "help" end
 	local a, b, c = strsplit(" ", msg:lower())
 	if (a == "help") then
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb top | left | bottom | right  |cff1020ff Set the anchor for the sidebar |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb <n>  |cff1020ff Set the position for the sidebar |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb fadeout | nofade  |cff1020ff Set whether the sidebar fades or not |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb size <n>  |cff1020ff Set the number of icons before the bar wraps |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb lock | unlock  |cff1020ff Lock/Unlock the bar's drag mode |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb reset  |cff1020ff Reset the bar to factory defaults |r")
-		DEFAULT_CHAT_FRAME:AddMessage("/nsb off | on | toggle  |cff1020ff Disable/Enable/Toggle bar's visibility |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb top | left | bottom | right  |cff9e9ea6Set the anchor for the sidebar |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb <n>  |cff9e9ea6Set the position for the sidebar |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb fadeout | nofade  |cff9e9ea6Set whether the sidebar fades or not |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb size <n>  |cff9e9ea6Set the number of icons before the bar wraps |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb lock | unlock  |cff9e9ea6Lock/Unlock the bar's drag mode |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb reset  |cff9e9ea6Reset the bar to factory defaults |r")
+		DEFAULT_CHAT_FRAME:AddMessage("/nsb off | on | toggle  |cff9e9ea6Disable/Enable/Toggle bar's visibility |r")
 		return
 	end
 

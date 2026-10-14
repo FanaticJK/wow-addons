@@ -511,8 +511,12 @@ function module:OnModuleEnable()
     end
 
     -- Disable blizz timestamps
-    SetCVar("showTimestamps", "none")
-    InterfaceOptionsSocialPanelTimestamps.cvar = "none"
+    -- Guarded: the Blizzard timestamp option (CVar + Social panel control) may not exist on
+    -- this client, and indexing a missing panel control aborted the rest of this enable.
+    if InterfaceOptionsSocialPanelTimestamps then
+        SetCVar("showTimestamps", "none")
+        InterfaceOptionsSocialPanelTimestamps.cvar = "none"
+    end
 
    
     self:RawHook("ChatChannelDropDown_PopOutChat", true)

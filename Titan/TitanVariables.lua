@@ -169,7 +169,10 @@ function TitanVariables_InitPlayerSettings()
 		return;
 	end
 
-	if (TitanSettings.Players[playerName] and not TitanSettings[playerName .. "@" .. serverName]) then
+	-- migrate a pre-realm "Name" profile only when no "Name@Realm" profile exists yet
+	-- (the check used to look in TitanSettings instead of TitanSettings.Players, so an old
+	-- entry overwrote the current profile)
+	if (TitanSettings.Players[playerName] and not TitanSettings.Players[playerName .. "@" .. serverName]) then
 		TitanSettings.Players[playerName.."@"..serverName] = TitanSettings.Players[playerName];
 		TitanSettings.Players[playerName]=nil;
 	end
@@ -349,7 +352,7 @@ function TitanVariables_GetPanelStrata(value)
 end
 
 function TitanVariables_SetPanelStrata(value)
-	strata = TitanVariables_GetPanelStrata(value)
+	local strata = TitanVariables_GetPanelStrata(value)
 	for index, id in pairs(TitanPluginsIndex) do
 		local button = TitanUtils_GetButton(id);
 		button:SetFrameStrata(strata)

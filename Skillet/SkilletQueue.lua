@@ -330,7 +330,8 @@ end
 	local queue = self.db.server.queueData[self.currentPlayer]
 
 	if spell == self.processingSpell then
-		if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		-- AceEvent-2.0 handler: the event name is AceEvent.currentEvent, not the legacy global "event"
+		if AceEvent.currentEvent == "UNIT_SPELLCAST_SUCCEEDED" then
 			if not queue[1] then
 				self.db.server.queueData[self.currentPlayer] = {}
 --				AceEvent:TriggerEvent("Skillet_Queue_Complete")
@@ -479,7 +480,7 @@ function Skillet:ReserveReagentsForQueuedRecipes(playername)
 								local reagent = recipe.reagentData[j]
 								local needed = count * reagent.numNeeded
 
-								list[reagentID] = needed
+								list[reagent.id] = (list[reagent.id] or 0) + needed
 							end
                         end
 

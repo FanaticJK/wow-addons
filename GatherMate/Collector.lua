@@ -6,6 +6,8 @@ local Display = nil
 -- prevSpell, curSpell are markers for what has been cast now and the lastcast
 -- gatherevents if a flag for wether we are listening to events
 local prevSpell, curSpell, foundTarget, gatherEvents, ga
+-- gas-loot state shared by SpellStarted and Loot (were the globals "gam" and "Obj")
+local gam, Obj
 
 --[[
 Convert for 2.4 spell IDs
@@ -113,7 +115,7 @@ function Collector:ZoneChange()
 	local inInstance, instanceType = IsInInstance()
 	if inInstance and gatherEvents then
 		self:UnregisterGatherEvents()
-	elseif not gatherEvents then
+	elseif not inInstance and not gatherEvents then -- logging in inside an instance used to register
 		self:RegisterGatherEvents()
 	end
 end
@@ -136,30 +138,39 @@ end
 	This funktion analyzes the Loot and shows him to a gas occurence.
 ]]
 function Collector:Loot(eventl,was)
-	if ga ~= gasSpell then return	end	
+	if ga ~= gasSpell then return	end
 	if not was then return end
+	-- the mote names come from GetItemInfo at load; on a cold item cache they were "", and
+	-- strfind(msg, "") matches everything, so every gas loot was filed as a Steam Cloud.
+	-- Retry the lookup here and never match an empty name.
+	if Dampf == "" then Dampf = (GetItemInfo(37705)) or "" end
+	if Windig == "" then Windig = (GetItemInfo(22572)) or "" end
+	if Sumpf == "" then Sumpf = (GetItemInfo(22578)) or "" end
+	if Teufel == "" then Teufel = (GetItemInfo(22577)) or "" end
+	if Arkan == "" then Arkan = (GetItemInfo(22576)) or "" end
+	local function has(name) return name ~= "" and strfind(was, name, 1, true) end
 	if eventl == "CHAT_MSG_LOOT" and ga == gasSpell  then			
-	if gam == "0" and strfind(was, Dampf) then		
+	if gam == "0" and has(Dampf) then		
 		foundTarget = true	
 	    Obj = NL["Steam Cloud"]
 		self:addItem(ga,Obj)		
 		gam = "1"			
-	elseif gam == "0" and  strfind(was, Windig) then
+	elseif gam == "0" and  has(Windig) then
 		foundTarget = true		
 	    Obj = NL["Windy Cloud"]
 		self:addItem(ga,Obj)		
 		gam = "1"
-	elseif gam == "0" and  strfind(was, Sumpf) then
+	elseif gam == "0" and  has(Sumpf) then
 		foundTarget = true	
 	    Obj = NL["Swamp Gas"]
 		self:addItem(ga,Obj)		
 		gam = "1"
-	elseif gam == "0" and  strfind(was, Teufel) then
+	elseif gam == "0" and  has(Teufel) then
 		foundTarget = true	
 	    Obj = NL["Felmist"]
 		self:addItem(ga,Obj)		
 		gam = "1"
-	elseif gam == "0" and  strfind(was, Arkan) then
+	elseif gam == "0" and  has(Arkan) then
 		foundTarget = true	
 	    Obj = NL["Arcane Vortex"]
 		self:addItem(ga,Obj)
@@ -269,7 +280,9 @@ function Collector:addItem(skill,what)
 	end
 	local range = GatherMate.db.profile.cleanupRange[node_type]
 	-- special case for fishing and gas extraction guage the pointing direction
-	if node_type == fishSpell or node_type == gasSpell then
+	-- compare the spell (localized), not the database name: "Fishing"/"Extract Gas" only equal
+	-- the spell names on English clients
+	if skill == fishSpell or skill == gasSpell then
 		local yw, yh = GatherMate:GetZoneSize(zone)
 		if yw == 0 or yh == 0 then return end -- No zone size data
 		x,y = self:GetFloatingNodeLocation(x, y, yw, yh)

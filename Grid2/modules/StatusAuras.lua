@@ -34,7 +34,7 @@ end
 local DebuffCache = {}
 local DebuffTypeStatus = {}
 
-function CreateDebuffType(baseKey, dbx)
+local function CreateDebuffType(baseKey, dbx)
 	local type = dbx.subType
 
 	local c = {}
@@ -85,6 +85,7 @@ do
 			local _, class = UnitClass(unit)
 			local result = self.source[class]
 			self[unit] = result
+			return result -- without this the first lookup of a filtered unit returned nil
 		end,
 	}
 	local filters = {}
@@ -148,7 +149,9 @@ do
 	status_IsActiveBlink = function (self, unit)
 		local filtered = self.filtered
 		if (filtered and filtered[unit]) or not self.states[unit] then return nil end
-		if self.expirations[unit] - GetTime() < self.blinkThreshold then
+		-- an aura without a duration reports expirationTime 0; it never runs out, so never blink
+		local expiration = self.expirations[unit]
+		if expiration and expiration > 0 and expiration - GetTime() < self.blinkThreshold then
 			return "blink"
 		else
 			return true
@@ -159,7 +162,8 @@ do
 		local filtered = self.filtered
 		if filtered and filtered[unit] then return nil end
 		if not self.states[unit] then return true end
-		if self.expirations[unit] - GetTime() < self.blinkThreshold then
+		local expiration = self.expirations[unit]
+		if expiration and expiration > 0 and expiration - GetTime() < self.blinkThreshold then
 			return "blink"
 		else
 			return false

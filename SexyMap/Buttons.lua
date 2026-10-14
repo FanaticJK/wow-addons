@@ -375,7 +375,9 @@ function mod:Update()
 		elseif hide == "never" then
 			for _, f in ipairs(v) do
 				f = type(f) == "string" and _G[f] or f
-				if f.Hide then
+				-- the frame may not exist: MinimapToggleButton is gone in 3.3, and
+				-- TimeManagerClockButton only exists once Blizzard_TimeManager has loaded
+				if type(f) == "table" and f.Hide then
 					f:Hide()
 				end
 			end			

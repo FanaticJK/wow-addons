@@ -467,7 +467,7 @@ function me:RefreshGraph()
 						end
 
 						
-						_, DataMax=me:FindMax(Filtered)
+						local _; _, DataMax=me:FindMax(Filtered)
 
 						me:SetMin(Filtered,0)
 
@@ -486,7 +486,7 @@ function me:RefreshGraph()
 						Recount:FreeTableRecurse(Filtered)
 					else
 						--Stacked Graph Data needs to be stored for the moment
-						_, DataMax=me:FindMax(Filtered)
+						local _; _, DataMax=me:FindMax(Filtered)
 						Temp=Recount:GetTable()
 						Temp[1]=DataMax
 						Temp[2]=Filtered
@@ -535,7 +535,7 @@ function me:RefreshGraph()
 		
 		table.sort(Stacked,SortForDisplay)
 		if Stacked[1] and Stacked[1][2] then
-			_, MaxAmount=me:FindMax(Stacked[1][2])
+			local _; _, MaxAmount=me:FindMax(Stacked[1][2])
 
 			for k,v in pairs(Stacked) do
 				Length=v[2][1][table.maxn(v[2][1])]-v[2][1][1]
@@ -1264,7 +1264,6 @@ function Recount:CreateGraphWindow()
 	Normalize.Enabled:SetPoint("LEFT",Normalize.Text,"RIGHT",6,0)
 	Normalize.Enabled:SetWidth(18)
 	Normalize.Enabled:SetHeight(18)
-	Normalize.Enabled.id=CurRow
 	Normalize.Enabled:SetScript("OnClick",function(this) if this:GetChecked() then this:SetChecked(true);theFrame.NormalizeOn=true else this:SetChecked(false);theFrame.NormalizeOn=false end me:RefreshGraph() end)
 	Normalize.Enabled:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
 	Normalize.Enabled:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
@@ -1288,7 +1287,6 @@ function Recount:CreateGraphWindow()
 	Integrate.Enabled:SetPoint("LEFT",Integrate.Text,"RIGHT",6,0)
 	Integrate.Enabled:SetWidth(18)
 	Integrate.Enabled:SetHeight(18)
-	Integrate.Enabled.id=CurRow
 	Integrate.Enabled:SetScript("OnClick",function(this) if this:GetChecked() then this:SetChecked(true);theFrame.IntegrateOn=true else this:SetChecked(false);theFrame.IntegrateOn=false end me:RefreshGraph() end)
 	Integrate.Enabled:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
 	Integrate.Enabled:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")
@@ -1313,7 +1311,6 @@ function Recount:CreateGraphWindow()
 	Stacked.Enabled:SetPoint("LEFT",Stacked.Text,"RIGHT",6,0)
 	Stacked.Enabled:SetWidth(18)
 	Stacked.Enabled:SetHeight(18)
-	Stacked.Enabled.id=CurRow
 	Stacked.Enabled:SetScript("OnClick",function(this) if this:GetChecked() then this:SetChecked(true);theFrame.StackedOn=true else this:SetChecked(false);theFrame.StackedOn=false end me:RefreshGraph() end)
 	Stacked.Enabled:SetNormalTexture("Interface\\Buttons\\UI-CheckBox-Up")
 	Stacked.Enabled:SetPushedTexture("Interface\\Buttons\\UI-CheckBox-Down")

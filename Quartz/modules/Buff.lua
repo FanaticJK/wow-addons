@@ -825,6 +825,8 @@ function Buff:OnDisable()
 
 	media.UnregisterCallback(self, "LibSharedMedia_SetGlobal")
 	media.UnregisterCallback(self, "LibSharedMedia_Registered")
+	-- AceTimer cancels every timer on disable; drop the stale handle so a re-enable schedules a new one
+	self.autoUpdateTimer = nil
 end
 
 function Buff:UNIT_AURA(units)
@@ -1187,7 +1189,7 @@ do
 					direction = -1
 					bar:SetPoint("TOPLEFT", anchorframe, "BOTTOMLEFT", offset, -1 * gap)
 				elseif position == "leftup" then
-					if iconside == "right" and showicons then
+					if iconside == "right" and icons then
 						offset = offset + height
 					end
 					if qpdb.iconposition == "left" and not qpdb.hideicon then
@@ -1196,7 +1198,7 @@ do
 					direction = 1
 					bar:SetPoint("BOTTOMRIGHT", anchorframe, "BOTTOMLEFT", -1 * offset, gap)
 				elseif position == "leftdown" then
-					if iconside == "right" and showicons then
+					if iconside == "right" and icons then
 						offset = offset + height
 					end
 					if qpdb.iconposition == "left" and not qpdb.hideicon then
@@ -1205,7 +1207,7 @@ do
 					direction = -1
 					bar:SetPoint("TOPRIGHT", anchorframe, "TOPLEFT", -3 * offset, -1 * gap)
 				elseif position == "rightup" then
-					if iconside == "left" and showicons then
+					if iconside == "left" and icons then
 						offset = offset + height
 					end
 					if qpdb.iconposition == "right" and not qpdb.hideicon then
@@ -1214,7 +1216,7 @@ do
 					direction = 1
 					bar:SetPoint("BOTTOMLEFT", anchorframe, "BOTTOMRIGHT", offset, gap)
 				elseif position == "rightdown" then
-					if iconside == "left" and showicons then
+					if iconside == "left" and icons then
 						offset = offset + height
 					end
 					if qpdb.iconposition == "right" and not qpdb.hideicon then

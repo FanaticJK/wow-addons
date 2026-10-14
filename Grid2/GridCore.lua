@@ -145,6 +145,8 @@ end
 
 function Grid2:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("Grid2DB", self.defaults, "profile")
+	-- the saved debug toggle was only applied on a profile change, never at login
+	self.debugging = self.db.profile.debug
 
 	self:RegisterChatCommand("grid2", "OnChatCommand")
 	self:RegisterChatCommand("gr2", "OnChatCommand")

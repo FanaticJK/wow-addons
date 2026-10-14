@@ -4,24 +4,27 @@
     <Size>
       <AbsDimension x="500" y="400"/>
     </Size>
-    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+    <!-- Slim tooltip-border chrome on a dark translucent fill (shared addon style) -->
+    <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
       <BackgroundInsets>
-        <AbsInset left="5" right="5" top="5" bottom="5"/>
+        <AbsInset left="3" right="3" top="3" bottom="3"/>
       </BackgroundInsets>
       <TileSize>
         <AbsValue val="16"/>
       </TileSize>
       <EdgeSize>
-        <AbsValue val="16"/>
+        <AbsValue val="14"/>
       </EdgeSize>
+      <Color r="0" g="0" b="0" a="0.85"/>
+      <BorderColor r="0.6" g="0.6" b="0.6" a="1"/>
     </Backdrop>
     <Layers>
       <Layer level="ARTWORK">
-        <FontString name="PratCCText" inherits="GameFontHighlight">
+        <FontString name="PratCCText" inherits="GameFontNormal">
           <Anchors>
             <Anchor point="TOPLEFT">
               <Offset>
-                <AbsDimension x="5" y="-5"/>
+                <AbsDimension x="12" y="-11"/>
               </Offset>
             </Anchor>
           </Anchors>

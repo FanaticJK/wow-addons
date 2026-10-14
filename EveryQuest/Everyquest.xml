@@ -1,16 +1,16 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 	<Font name="EQFont_Failed" inherits="GameFontNormalLeft" virtual="true">
-		<Color r="1.0" g="0.0" b="0.0"/>
+		<Color r="1.0" g="0.3" b="0.25"/>
 	</Font>
 	<Font name="EQFont_Progress" inherits="GameFontNormalLeft" virtual="true">
-		<Color r="1.0" g="1.0" b="0.0"/>
+		<Color r="1.0" g="0.72" b="0.2"/>
 	</Font>
 	<Font name="EQFont_Complete" inherits="GameFontNormalLeft" virtual="true">
-		<Color r="0.0" g="1.0" b="0.0"/>
+		<Color r="0.3" g="0.9" b="0.4"/>
 	</Font>
 	<Font name="EQFont_TurnedIn" inherits="GameFontNormalLeft" virtual="true">
-		<Color r="0.0" g="0.807" b="0.019"/>
+		<Color r="0.62" g="0.62" b="0.65"/>
 	</Font>
 	<Font name="EQFont_Unknown" inherits="GameFontNormalLeft" virtual="true">
 		<Color r="1.0" g="1.0" b="1.0"/>
@@ -68,7 +68,7 @@
 				self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
 		    </OnLoad>
 			<OnClick>
-				EveryQuest:ButtonClick(self, arg1)
+				EveryQuest:ButtonClick(self, button)
 			</OnClick>
 			<OnEnter>
 				EveryQuest:ButtonEnter(self)
@@ -273,7 +273,7 @@
 				end
 			</OnMouseUp>
 			<OnMouseDown>
-				if ( ( ( not self.isLocked ) or ( self.isLocked == 0 ) ) and ( arg1 == "LeftButton" ) ) then
+				if ( ( ( not self.isLocked ) or ( self.isLocked == 0 ) ) and ( button == "LeftButton" ) ) then
 				  self:StartMoving();
 				  self.isMoving = true;
 				end

@@ -69,6 +69,7 @@ function Postal_OpenAll:OnEnable()
 		button:SetText(L["Open All"])
 		button:SetScript("OnClick", function() Postal_OpenAll:OpenAll() end)
 		button:SetFrameLevel(button:GetFrameLevel() + 1)
+		Postal.SetButtonTooltip(button, L["Open All"], L["Take the items and gold from every mail, using the filters in the menu next to this button. Shift-Click to ignore the filters."])
 	end
 	if not Postal_OpenAllMenuButton then
 		-- Create the Menu Button
@@ -88,6 +89,7 @@ function Postal_OpenAll:OnEnable()
 			ToggleDropDownMenu(1, nil, Postal_DropDownMenu, self:GetName(), 0, 0)
 		end)
 		Postal_OpenAllMenuButton:SetFrameLevel(Postal_OpenAllMenuButton:GetFrameLevel() + 1)
+		Postal.SetButtonTooltip(Postal_OpenAllMenuButton, L["Open All"], L["Choose which kinds of mail Open All takes."])
 	end
 
 	self:RegisterEvent("MAIL_SHOW")
@@ -184,7 +186,7 @@ function Postal_OpenAll:ProcessNext()
 		else
 			-- AH mail, check if its from faction or neutral AH
 			local factionEnglish, factionLocale = UnitFactionGroup("player")
-			if not strfind(sender, factionLocale) then
+			if sender and not strfind(sender, factionLocale) then
 				mailType = "Neutral"..mailType
 			end
 			-- Skip AH mail types according to user options

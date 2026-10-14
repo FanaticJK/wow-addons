@@ -57,7 +57,7 @@ local info = {}
 local function deletePin(button, mapFile, coord)
 	local name = core:GetMobByCoord(mapFile, coord)
 	core:DeleteMob(mapFile, name)
-	module:SendMessage("HandyNotes_NotifyUpdate", "SilverDragon")
+	module:UpdateNodes() -- rebuild, or the deleted pin stays on the map until a reload
 end
 
 local function createWaypoint(button, mapFile, coord)
@@ -65,12 +65,9 @@ local function createWaypoint(button, mapFile, coord)
 	local x, y = HandyNotes:getXY(coord)
 	local name = core:GetMobByCoord(mapFile, coord)
 	if TomTom then
+		-- TomTom defaults (persistent, on minimap and world map); the old "if temporary" branch
+		-- read a global nothing sets
 		local persistent, minimap, world
-		if temporary then
-			persistent = true
-			minimap = false
-			world = false
-		end
 		TomTom:AddZWaypoint(c, z, x*100, y*100, name, persistent, minimap, world)
 	elseif Cartographer_Waypoints then
 		Cartographer_Waypoints:AddWaypoint(NotePoint:new(HandyNotes:GetCZToZone(c, z), x, y, name))

@@ -75,7 +75,7 @@ local function f(Text)
 		content = durationFormatLarge:format(timeLeft)
 	end
 	local stack = stacks[Text]
-	if (stack) then
+	if (stack and stack ~= "") then -- "" = no stack count, do not print a dangling "-"
 		content = stackDurationFormat:format(content, stack)
 	end
 	Text:SetText(content)
@@ -89,11 +89,23 @@ local function Text_OnUpdateDS(self, parent, unit, status)
 	if (status) then
 		local contentDuration, contentStack
 		if (stack and status.GetCount) then
-			contentStack = tostring(status:GetCount(unit))
+			local count = status:GetCount(unit)
+			if (count) then
+				contentStack = tostring(count)
+			end
 		end
 		if (duration) then
-			if (status.GetExpirationTime and status.GetDuration) then
-				local expirationTime = status:GetExpirationTime(unit)
+			-- A "missing" aura status has no expiration (nil) and a permanent aura reports 0:
+			-- neither has a time left to show, and nil used to raise an arithmetic error.
+			local expirationTime = status.GetExpirationTime and status.GetDuration and status:GetExpirationTime(unit)
+			if (not expirationTime or expirationTime <= 0) then
+				if (durationTimers[Text]) then
+					Grid2:CancelTimer(durationTimers[Text])
+					durationTimers[Text] = nil
+					expirations[Text] = nil
+					stacks[Text] = nil
+				end
+			else
 				local now = GetTime()
 				local timeLeft = expirationTime - now
 				if (timeLeft < 0) then
@@ -125,10 +137,10 @@ local function Text_OnUpdateDS(self, parent, unit, status)
 		end
 
 		local content
-		if (stack and duration) then
-			if (contentStack or contentDuration) then
-				content = stackDurationFormat:format(contentDuration, contentStack)
-			end
+		-- "%s-%s" needs both parts: formatting a nil part raised "string expected, got nil"
+		-- whenever the status had a duration but no stack count (or the reverse)
+		if (contentStack and contentDuration) then
+			content = stackDurationFormat:format(contentDuration, contentStack)
 		elseif (contentDuration) then
 			content = contentDuration
 		elseif (contentStack) then

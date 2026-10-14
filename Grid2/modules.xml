@@ -23,6 +23,10 @@
 <Script file="modules\StatusThreat.lua"/>
 <Script file="modules\StatusVehicle.lua"/>
 <Script file="modules\StatusVoiceComm.lua"/>
+<!-- StatusTest.lua was a developer-only test status that is not shipped with Grid2 r533.
+     The client skips a missing file with an error in FrameXML.log; to use your own test
+     status again, drop modules\StatusTest.lua in place and restore the line below.
 <Script file="modules\StatusTest.lua"/>
+-->
 
 </Ui>

@@ -7,13 +7,13 @@
 		</Size>
 		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 			<EdgeSize>
-				<AbsValue val="16"/>
+				<AbsValue val="14"/>
 			</EdgeSize>
 			<TileSize>
 				<AbsValue val="16"/>
 			</TileSize>
 			<BackgroundInsets>
-				<AbsInset left="5" right="5" top="5" bottom="5"/>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
 			</BackgroundInsets>
 		</Backdrop>
 		<Layers>

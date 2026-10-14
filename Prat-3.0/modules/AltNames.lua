@@ -189,7 +189,7 @@ L:AddLocale("enUS",
 	["Import options"] = true,
 	["Imports alt names from a Guild Greet database, if present"] = true,
 	["Imports alt names from the guild roster by checking for members with the rank \"alt\" or \"alts\", or guild / officer notes like \"<name>'s alt\""] = true,
-	["Imports data from LOKWhoIsWho, if present (drop your SavedVariablesLOKWhoIsWho.lua in the Prat directory to be able to use this)."] = true,
+	["Imports data from LOKWhoIsWho, if present (drop your SavedVariablesLOKWhoIsWho.lua in the Prat directory to be able to use this)."] = "Imports data from LOKWhoIsWho, if present (drop your SavedVariables\\LOKWhoIsWho.lua in the Prat directory to be able to use this).",
 	["LOKWhoIsWho data not found"] = true,
 	["LOKWhoIsWho import"] = true,
 	["LOKWhoIsWho lua file not found, sorry."] = true,
@@ -1295,7 +1295,7 @@ Prat:SetModuleOptions(module, {
 			-- imports: LOKWhoIsWho - SavedVariables
 			importfromlok = {
 				name	= L["LOKWhoIsWho import"],
-				desc	= L["Imports data from LOKWhoIsWho, if present (drop your SavedVariables\LOKWhoIsWho.lua in the Prat directory to be able to use this)."],
+				desc	= L["Imports data from LOKWhoIsWho, if present (drop your SavedVariablesLOKWhoIsWho.lua in the Prat directory to be able to use this)."],
 				type	= "execute",
 				func	= "importFromLOK",
 				confirm	= true,
@@ -1447,7 +1447,7 @@ end
 function module:OnValueChanged(info, b)
 	local field = info[#info]
 	if field == "autoguildalts" then
-		AutoImportGuildAlts(b)
+		self:AutoImportGuildAlts(b)
 	end
 end
 
@@ -1821,7 +1821,7 @@ function module:importFromLOK()
 	end
 
 	local server	= GetRealmName()
-	local lokalts	= LOKWhoIsWho_Config[server]['players']
+	local lokalts	= LOKWhoIsWho_Config[server] and LOKWhoIsWho_Config[server]['players']
 
 	if lokalts == nil then
 		self:print(L["LOKWhoIsWho data not found"])
@@ -1858,8 +1858,8 @@ function module:importGGAlts()
 				-- not sure whether this would be useful:
 				-- if player['alt'] and player['alt'] ~= "" and not player['own'] then
 				if player['alt'] and player['alt'] ~= "" then
-					mainname	= player['alt']
-					altname		= name
+					local mainname	= player['alt']
+					local altname	= name
 
 					self:addAlt(string.format('%s %s', altname, mainname))
 				end
@@ -2115,7 +2115,7 @@ function module:OnTooltipSetUnit()
 
 			-- check if the user wants the mainame name shown on alts' tooltips
 			if self.db.profile.tooltip_showmain then
-				local mainname = self:getMain(charname)
+				mainname = self:getMain(charname)
 
 				if mainname then
 					-- add the character's main name to the tooltip
@@ -2127,7 +2127,7 @@ function module:OnTooltipSetUnit()
 			local width = GameTooltip:GetWidth()
 			-- check if the user wants a list of alts shown on mains' tooltips
 			if self.db.profile.tooltip_showalts then
-				local alts	= self:getAlts(charname) or self:getAlts(mainame)
+				local alts	= self:getAlts(charname) or self:getAlts(mainname)
 
 				if alts then
 					-- build the string listing alts

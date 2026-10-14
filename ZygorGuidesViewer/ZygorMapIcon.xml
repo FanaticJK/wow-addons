@@ -37,8 +37,8 @@
 				ZygorGuidesViewer:OpenOptions()
 			end
 			</OnClick>
-			<OnDragStart> this:StartMoving() </OnDragStart>
-			<OnDragStop> this:StopMovingOrSizing() </OnDragStop>
+			<OnDragStart> self:StartMoving() </OnDragStart>
+			<OnDragStop> self:StopMovingOrSizing() </OnDragStop>
 			<OnLoad>
 				self:RegisterForClicks("LeftButtonUp","RightButtonUp")
 				self:RegisterForDrag("LeftButton")

@@ -380,7 +380,7 @@ PowaAuras:MergeTables(PowaAuras.Text,
 	nomReasonNotInParty = "不在小隊中",
 	nomReasonNotInRaid = "不在團隊中",
 	nomReasonNoFocus = "沒有焦點目標",	
-	nomReasonNoCustomUnit = "找不到你定義的單位:$1,不在隊伍\團隊中,或攜帶寵物",
+	nomReasonNoCustomUnit = "找不到你定義的單位:$1,不在隊伍/團隊中,或攜帶寵物",
 
 	nomReasonNotMounted = "不在騎乘",
 	nomReasonMounted = "騎乘狀態",		

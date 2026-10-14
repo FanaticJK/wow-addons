@@ -1,7 +1,7 @@
 if not ZygorGuidesViewer then return end
 
 function TableKeys (tab)
-	local t={},k,v
+	local t={}
 	for k,v in pairs(tab) do table.insert(t,k) end
 	return t
 end

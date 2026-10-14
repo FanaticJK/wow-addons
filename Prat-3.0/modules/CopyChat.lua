@@ -537,7 +537,7 @@ function module:DoCopyChatScroll(frame, noshow)
             self.str = "[bgcolor=black]"..self.str.."[/bgcolor]"
         end
 
-        PratCCText:SetText(L["ChatFrame"]..frame:GetName():gsub("ChatFrame", "")..L[" Text"], lines)
+        PratCCText:SetText(L["ChatFrame"]..frame:GetName():gsub("ChatFrame", "")..L[" Text"])
         PratCCFrameScrollText:SetText(self.str or "")
         PratCCFrame:Show()
     end
@@ -556,7 +556,7 @@ function module:DoCopyChat(frame, oldsize, noshow)
     wipe(self.lines)
 
     if oldsize then
-        FCF_SetChatWindowFontSize(frame, oldsize)
+        FCF_SetChatWindowFontSize(nil, frame, oldsize) -- 3.3.5 signature is (self, chatFrame, size), as at line 531
     end
     
     if not noshow then 
@@ -564,7 +564,7 @@ function module:DoCopyChat(frame, oldsize, noshow)
             self.str = "[bgcolor=black]"..self.str.."[/bgcolor]"
         end
 
-        PratCCText:SetText(L["ChatFrame"]..frame:GetName():gsub("ChatFrame", "")..L[" Text"], lines)
+        PratCCText:SetText(L["ChatFrame"]..frame:GetName():gsub("ChatFrame", "")..L[" Text"])
         PratCCFrameScrollText:SetText(self.str or "")
         PratCCFrame:Show()
     end

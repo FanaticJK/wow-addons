@@ -104,7 +104,10 @@ local function createShoppingListFrame(self)
 	local tradeSkillLocation = {
 		prefix = "shoppingListLocation_"
 	}
-	windowManger:RegisterConfig(frame, self.db.char, shoppingListLocation)
+	-- this always passed the never-defined global "shoppingListLocation" (nil), so the position
+	-- has been saved under the plain x/y/point/scale keys of db.char; keep using them so
+	-- nobody loses a saved window position
+	windowManger:RegisterConfig(frame, self.db.char, nil)
 	windowManger:RestorePosition(frame)  -- restores scale also
 	windowManger:MakeDraggable(frame)
 
@@ -124,7 +127,7 @@ function Skillet:ShoppingListButton_OnEnter(button)
 	GameTooltip:Show()
 
 	if EnhTooltip and EnhTooltip.TooltipCall then
-		quantity = button.count
+		local quantity = button.count
 
 		EnhTooltip.TooltipCall(GameTooltip, name, link, quality, quantity)
 	end
@@ -211,7 +214,8 @@ end
 
 -- Called when the bank frame is opened
 function Skillet:BANKFRAME_OPENED()
-	if event == "BANKFRAME_OPENED" then
+	-- also registered for GUILDBANKFRAME_OPENED; AceEvent-2.0 exposes which one fired
+	if AceLibrary("AceEvent-2.0").currentEvent == "BANKFRAME_OPENED" then
 		if not self.db.profile.display_shopping_list_at_bank then
 			return
 		end
@@ -484,7 +488,7 @@ function Skillet:UpdateShoppingListWindow(use_cached_recipes)
 
 		if itemIndex <= numItems then
 			count:SetText(self.cachedShoppingList[itemIndex].count)
-			name:SetText(GetItemInfo(self.cachedShoppingList[itemIndex].id) or id)
+			name:SetText(GetItemInfo(self.cachedShoppingList[itemIndex].id) or self.cachedShoppingList[itemIndex].id)
 			player:SetText(self.cachedShoppingList[itemIndex].player)
 
 			if LSW then

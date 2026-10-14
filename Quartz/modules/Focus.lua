@@ -32,7 +32,9 @@ local defaults = {
 	profile = Quartz3:Merge(Quartz3.CastBarTemplate.defaults,
 	{
 		--x =  -- applied automatically in :ApplySettings()
-		y = 250,
+		-- was 250, the Target bar's spot: both auto-centre, so a fresh install stacked Focus exactly
+		-- on Target. 335 sits just above the Pet bar (y 300, 28px tall).
+		y = 335,
 		h = 18,
 		w = 200,
 		texture = "LiteStep",

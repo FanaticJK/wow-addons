@@ -635,7 +635,7 @@
 												</Layers>
 												<Scripts>
 													<OnLoad> self:EnableMouseWheel(1) </OnLoad>
-													<OnMouseWheel> ZygorGuidesViewer:SkipStep(-arg1) </OnMouseWheel>
+													<OnMouseWheel> ZygorGuidesViewer:SkipStep(-delta) </OnMouseWheel>
 												</Scripts>
 											</Frame>
 
@@ -727,7 +727,7 @@
 
 						<Scripts>
 							<OnUpdate>
-								if this:GetVerticalScrollRange()==0 then
+								if self:GetVerticalScrollRange()==0 then
 									--ZygorGuidesViewerFrameScroll_ScrollFill:Hide()
 								else
 									--ZygorGuidesViewerFrameScroll_ScrollFill:Show()

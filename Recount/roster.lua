@@ -117,7 +117,7 @@ function Recount:FindTargetedUnit(name)
 end
 
 function Recount:FindOwnerPetFromGUID(petName,petGUID)
-	local ownerName
+	local ownerName, ownerRealm
 	local ownerGUID
 
 	for i = 1, GetNumRaidMembers(), 1 do 

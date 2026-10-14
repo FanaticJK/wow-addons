@@ -140,14 +140,17 @@ function Quartz3:ShowUnlockDialog()
 		f:SetClampedToScreen(true)
 		f:SetWidth(360)
 		f:SetHeight(110)
+		-- slim tooltip-border chrome on a dark translucent fill
 		f:SetBackdrop{
-			bgFile="Interface\\DialogFrame\\UI-DialogBox-Background" ,
-			edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border",
+			bgFile="Interface\\ChatFrame\\ChatFrameBackground" ,
+			edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
 			tile = true,
-			insets = {left = 11, right = 12, top = 12, bottom = 11},
-			tileSize = 32,
-			edgeSize = 32,
+			insets = {left = 3, right = 3, top = 3, bottom = 3},
+			tileSize = 16,
+			edgeSize = 14,
 		}
+		f:SetBackdropColor(0, 0, 0, 0.8)
+		f:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 		f:SetPoint("TOP", 0, -50)
 		f:Hide()
 		f:SetScript("OnShow", function() PlaySound("igMainMenuOption") end)
@@ -161,12 +164,12 @@ function Quartz3:ShowUnlockDialog()
 		header:SetWidth(256); header:SetHeight(64)
 		header:SetPoint("TOP", 0, 12)
 
-		local title = f:CreateFontString("ARTWORK")
+		local title = f:CreateFontString(nil, "ARTWORK")
 		title:SetFontObject("GameFontNormal")
 		title:SetPoint("TOP", header, "TOP", 0, -14)
 		title:SetText(L["Quartz3"])
 
-		local desc = f:CreateFontString("ARTWORK")
+		local desc = f:CreateFontString(nil, "ARTWORK")
 		desc:SetFontObject("GameFontHighlight")
 		desc:SetJustifyV("TOP")
 		desc:SetJustifyH("LEFT")
@@ -197,7 +200,8 @@ local copyExclude = {
 
 function Quartz3:CopySettings(from, to)
 	for k,v in pairs(from) do
-		if to[k] and not copyExclude[k] and type(v) ~= "table" then
+		-- ~= nil, not truthiness: a false setting (hideicon, hidetimetext...) must be copyable too
+		if to[k] ~= nil and not copyExclude[k] and type(v) ~= "table" then
 			to[k] = v
 		end
 	end

@@ -46,7 +46,9 @@ function Vehicle:GetIcon(unit)
 end
 
 function Vehicle:GetPercent(unit)
-	return UnitHasVehicleUI(unit) and self.dbx.color1.a
+	-- same owner-aware test as IsActive: the frame of a driver shows the vehicle unit, and
+	-- returning false there made a bar indicator call SetValue(false)
+	return self:IsActive(unit) and self.dbx.color1.a or nil
 end
 
 local text = L["vehicle"]

@@ -11,7 +11,7 @@ L["AUTO_SELL_DESC"] = "Toggles the automatic selling of junk when the merchant w
 L["CHAR_EXC"] = "Character specific exceptions"
 L["CLEAR_CHAR"] = "Clear character"
 L["CLEAR_CHAR_DESC"] = "Removes all character specific exceptions from list."
-L["CLEARED"] = "Exceptions succesfully cleared."
+L["CLEARED"] = "Exceptions successfully cleared."
 L["CLEAR_GLOBAL"] = "Clear global"
 L["CLEAR_GLOBAL_DESC"] = "Removes all exceptions from global list."
 L["CLEAR_HEADER"] = "Clear exceptions"
@@ -38,6 +38,9 @@ L["SILVER"] = "silver"
 L["SOLD"] = "Sold:"
 L["THIS_CHAR"] = "an exception for this character."
 L["TO"] = "to"
+L["SELL_TOOLTIP"] = "Sells every grey item in your bags, except grey items on an exception list, plus any better item you put on an exception list."
+L["MORE_JUNK"] = "Sold 12 items (the buy-back limit). Click Sell Junk again to sell the rest."
+L["DESTROY_USAGE"] = "Usage: /sj destroy [number of items] - number must be 1 or more."
 
 
 end

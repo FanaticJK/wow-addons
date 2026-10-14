@@ -26,7 +26,7 @@ end
 --]]
 
 me.actionmeta = {
-	goto = { skippable = true },
+	["goto"] = { skippable = true },  -- quoted: `goto` is a keyword in Lua 5.2+
 	fpath = { skippable = true },
 	home = { skippable = true },
 	hearth = { skippable = true },

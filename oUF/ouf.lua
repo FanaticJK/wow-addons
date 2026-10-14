@@ -361,14 +361,19 @@ do
 
 		local curev = self[event]
 		if(type(curev) == 'table' and func) then
+			-- table.remove instead of curev[k] = nil: the nil left a hole, and the ipairs in
+			-- event_metatable.__call stopped there, silently dropping every later handler.
 			for k, infunc in ipairs(curev) do
 				if(infunc == func) then
-					curev[k] = nil
+					table.remove(curev, k)
 
 					if(#curev == 0) then
-						table.remove(curev, k)
+						-- clear the empty list too, or a later RegisterEvent would append to it
+						-- without ever re-registering the event with the client
+						self[event] = nil
 						UnregisterEvent(self, event)
 					end
+					break
 				end
 			end
 		else

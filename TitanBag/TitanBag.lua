@@ -152,7 +152,8 @@ function TitanPanelBagButton_GetButtonText(id)
 	end
 
 	if ( TitanGetVar(TITAN_BAG_ID, "ShowColoredText") ) then     
-		color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, usedSlots / totalSlots);
+		-- same zero guard as the tooltip below: before the bag data arrives totalSlots is 0
+		color = TitanUtils_GetThresholdColor(TITAN_BAG_THRESHOLD_TABLE, totalSlots > 0 and usedSlots / totalSlots or 1);
 		bagRichText = TitanUtils_GetColoredText(bagText, color);
 	else
 		bagRichText = TitanUtils_GetHighlightText(bagText);

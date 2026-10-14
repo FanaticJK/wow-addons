@@ -192,7 +192,7 @@ function Skillet:RecipeGroupAddRecipe(group, recipeID, skillIndex, noDB)
 			
 			currentEntry = newEntry
 		else	
-			currentEntry.subGroup = subGroup
+			currentEntry.subGroup = nil		-- was the never-defined global "subGroup": a recipe entry has no sub-group
 			currentEntry.skillIndex = skillIndex
 			currentEntry.name, currentEntry.spellID = self:GetRecipeName(recipeID)
 			currentEntry.parent = group
