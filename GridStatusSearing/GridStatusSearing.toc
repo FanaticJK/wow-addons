@@ -1,0 +1,14 @@
+﻿## Interface: 40300
+## Author: kliegs
+## Title: GridStatusSearing
+## Notes: Adds Searing Plasma Icon status to Grid with health remaining
+## Version: 1.00
+## Dependencies: Grid
+## X-Curse-Packaged-Version: v1.00beta
+## X-Curse-Project-Name: GridStatusSearing
+## X-Curse-Project-ID: gridstatussearing
+## X-Curse-Repository-ID: wow/gridstatussearing/mainline
+
+GridStatusSearing-localization-enUS.lua
+
+GridStatusSearing.lua

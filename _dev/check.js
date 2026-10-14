@@ -50,9 +50,16 @@ const defined = new Set(), used = new Map();   // name -> [{file,line}]
 const readText = f => fs.readFileSync(f, 'latin1').replace(/^﻿|^ï»¿/, '');
 const rel = f => path.relative(ROOT, f).split(String.fromCharCode(92)).join('/');
 
+// skip.txt lists folders that are present but deliberately not part of the 3.3.5 set, each with
+// its reason. Only read for the real workspace: a fixture root passed on the command line has none.
+const SKIP_FILE = path.join(__dirname, 'skip.txt');
+const SKIP = new Set(ROOT === path.resolve(__dirname, '..') && fs.existsSync(SKIP_FILE)
+  ? fs.readFileSync(SKIP_FILE, 'utf8').split(/\r?\n/).map(l => l.replace(/#.*/, '').trim()).filter(Boolean)
+  : []);
+
 function walkAddons() {
   return fs.readdirSync(ROOT, { withFileTypes: true })
-    .filter(d => d.isDirectory() && !d.name.startsWith('.') && d.name !== '_dev' && d.name !== 'node_modules')
+    .filter(d => d.isDirectory() && !d.name.startsWith('.') && d.name !== '_dev' && d.name !== 'node_modules' && !SKIP.has(d.name))
     .map(d => {
       const dir = path.join(ROOT, d.name);
       const toc = fs.readdirSync(dir).find(f => f.toLowerCase().endsWith('.toc'));

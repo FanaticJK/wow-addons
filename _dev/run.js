@@ -74,8 +74,12 @@ function readAddon(dir) {
   return { name: path.basename(dir), dir, meta, files, problems };
 }
 
+// skip.txt: folders that are present but deliberately not part of the 3.3.5 set (see the file)
+const SKIP = new Set(fs.readFileSync(path.join(DEV, 'skip.txt'), 'utf8').split(/\r?\n/)
+  .map(l => l.replace(/#.*/, '').trim()).filter(Boolean));
+
 const addons = fs.readdirSync(ROOT, { withFileTypes: true })
-  .filter(d => d.isDirectory() && !d.name.startsWith('.') && d.name !== '_dev' && d.name !== 'node_modules')
+  .filter(d => d.isDirectory() && !d.name.startsWith('.') && d.name !== '_dev' && d.name !== 'node_modules' && !SKIP.has(d.name))
   .map(d => readAddon(path.join(ROOT, d.name)))
   .filter(Boolean);
 
@@ -109,14 +113,25 @@ if (preload) {
 // compile every addon file up front and stash it in __CHUNKS[relativePath]
 lua.lua_newtable(L);
 lua.lua_setglobal(L, to_luastring('__CHUNKS'));
+// report every file that does not compile, not just the first: one bad escape in a folder no
+// scenario loads still fails every scenario, so the whole list is what is needed to fix it
+const compileErrors = [];
 for (const a of addons) {
   for (const f of a.files) {
     const key = path.relative(ROOT, f).split(path.sep).join('/');
     lua.lua_getglobal(L, to_luastring('__CHUNKS'));
-    if (lauxlib.luaL_loadbuffer(L, readBytes(f), null, to_luastring('@' + key)) !== lua.LUA_OK) fail('compiling ' + key);
+    if (lauxlib.luaL_loadbuffer(L, readBytes(f), null, to_luastring('@' + key)) !== lua.LUA_OK) {
+      compileErrors.push(key + ': ' + Buffer.from(lua.lua_tostring(L, -1)).toString('latin1'));
+      lua.lua_pop(L, 2);
+      continue;
+    }
     lua.lua_setfield(L, -2, to_luastring(key));
     lua.lua_pop(L, 1);
   }
+}
+if (compileErrors.length) {
+  for (const e of compileErrors) console.log('FATAL compiling ' + e);
+  process.exit(1);
 }
 
 // describe the addons to the Lua side
