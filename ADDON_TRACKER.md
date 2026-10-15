@@ -18,9 +18,10 @@ node all.js        # full gate: static check + 3 runtime scenarios
 node all.js -v     # verbose
 ```
 
-Gate must stay green before and after any change. Current baseline (2026-10-13): **6/6 green**
-(checker self-test 6; 742 lua files parse, 0 errors, 0 unknown globals; smoke 156, migrate 51,
-garbage 7, QuestItemHelper 79 — all 0 failures).
+Gate must stay green before and after any change. Current baseline (2026-10-14): **6/6 green**
+(checker self-test 6; 1756 lua files parse, 0 errors, 0 unknown globals; smoke 205, migrate 51,
+garbage 7, QuestItemHelper 79 — all 0 failures). Folders listed in `_dev/skip.txt`
+(GridStatusSearing, TomTomLite — both Cataclysm builds) are deliberately outside the gate.
 Work counts for QuestItemHelper: `node _dev/run.js _dev/qihbench.lua` (not part of the gate).
 
 `known.txt` accepts two kinds of entry: a bare name (a real 3.3.5 global, accepted everywhere) and
@@ -43,13 +44,16 @@ Work counts for QuestItemHelper: `node _dev/run.js _dev/qihbench.lua` (not part 
   - `Altoholic` + `Altoholic_Achievements` need the entire **DataStore** family (`DataStore`, `DataStore_Achievements`, `_Auctions`, `_Characters`, `_Containers`, `_Crafts`, `_Currencies`, `_Inventory`, `_Mails`, `_Pets`, `_Quests`, `_Reputations`, `_Skills`, `_Spells`, `_Stats`, `_Talents`). **None present.**
   - `Auc-Advanced` needs **Stubby**. **Not present.**
 - **Auction ecosystem incomplete** vs the plan: `Enchantrix`, `Enchantrix-Barker` and `Informant` are **not present**. `Stubby` was added 2026-10-01 and `BeanCounter` 2026-10-02, so Auc-Advanced's hard dependency now resolves and BeanCounter's own `## Dependencies: Stubby` is satisfied.
-- **Priority-list addons not in this workspace at all:** EveryQuest, ZygorGuidesViewer, TomTomLite, GatherMate, SilverDragon, GearScore, Grid2, PowerAuras, Quartz, Recount, Postal, Prat-3.0, Titan, SCT, SellJunk, Overachiever, BonusScanner, MobInfo2. (`BankStack` and, since 2026-10-02, `Bartender4` are present.) Phases 4/5/8/9/10/11 in the master plan cannot start until those folders exist.
+- **Priority-list addons still not in this workspace:** SCT, Overachiever, BonusScanner, and a 3.3.5 TomTom. Everything else on the list arrived in `4e5109d` (2026-10-14) — see [2026-10-14 additions](#2026-10-14-additions--static-only--audited). `Informant` arrived too; `Enchantrix`/`Enchantrix-Barker` are still absent.
+  - **BonusScanner** is GearScore's optional stat source: without it GearScore loads (since `d5ec249`) but spec scores and the spec bars stay hidden.
+  - **TomTomLite** is a Cataclysm build that was not ported (excluded via `_dev/skip.txt`). Zygor's waypoint arrow uses TomTom when present (`## OptionalDeps`) and otherwise uses its own pointer (`Pointer.lua`).
+- **GridStatusSearing** is a Cataclysm plugin for the original Grid (not Grid2), for a Dragon Soul encounter. Excluded via `_dev/skip.txt`; candidate for removal.
 
 ---
 
 ## Addon inventory & status
 
-53 addon folders. Grouped by ecosystem.
+105 addon folders (53 before 2026-10-14). Grouped by ecosystem.
 
 ### Bagnon family — bags/bank (author: Tuller) — **Done**
 | Folder | Ver | SavedVariables | Status | Notes |
@@ -142,6 +146,41 @@ core declares `## Dependencies: DataStore`. Deep audit done — 32 bugs fixed ac
 | AllStats | 1.1 | — | Static-only + audited | Paperdoll stats panel. No changes. One `PaperDollFrame_Set*` signature claim held pending a client — see [Needs a client](#needs-a-client). |
 | !Swatter | 5.8.4723 | SwatterData | Static-only + audited | Error catcher (Auctioneer lib). Fixed realm-suffix gsub `\.`→`%.` and a stale-error-id check. One `UIParent_OnEvent` signature claim held pending a client. |
 
+### 2026-10-14 additions — **Static-only + audited**
+
+Added in `4e5109d`, audited in `d5ec249` (189 fixes) plus uncommitted main-thread follow-ups (10 fixes, 7 windows restyled). Full detail: MODERNIZATION_LOG.md, "2026-10-14 pass". Nothing here has been executed by a runtime scenario.
+
+| Folder | Ver | SavedVariables | Status | Notes |
+|---|---|---|---|---|
+| EveryQuest (+11 data modules) | 2.3r162 | EveryQuestDB, EQ2DB / EveryQuestDBPC, EQ2DBPC(char) | Static-only + audited | 12 fixes: tooltip scan had no owner (names never localized), `ChatFrameEditBox` link crash, history import, daily/weekly counts. Status colours softened. |
+| GatherMate | v.1.25 | GatherMateDB + 5 node DBs | Static-only + audited | 4 fixes, incl. every gas loot recorded as Steam Cloud on a cold cache. Track colours softened. |
+| GatherMate_Data | 1.0 | — | Static-only | Node data. No changes. |
+| GearScore | 3.1.15 | GS_Data, GS_Settings | Static-only + audited | 11 fixes. BonusScanner moved to OptionalDeps (it would not load without it); NaN `Average` in SV; Prune crash. **BonusScanner absent** — spec scores hidden. Windows restyled. |
+| Grid2 | 533 | Grid2DB | Static-only + audited | 19 fixes incl. Show/Hide on secure buttons → SetAlpha, combat-locked layout drag, five LibHealComm case typos. **Drives secure frames — needs a client.** |
+| Grid2Options | 533 | Grid2OptionsDB | Static-only + audited | 4 fixes. Layout options disabled/queued in combat; broken Reset tabs removed; confirm dialogs. |
+| Grid2StatusRaidDebuffs(+Options) | 3.3.0.533 | — | Static-only + audited | 2 fixes (UNIT_AURA leak on disable, LoD Grid2Options nil). |
+| GridStatusSearing | — | — | **Excluded** | Cataclysm plugin for the original Grid. Candidate for removal. |
+| Informant | 5.8.4723 | InformantConfig, InformantLocalUpdates | Static-only + audited | 1 fix (`onOff` ignored booleans). Info window restyled. |
+| MobInfo2 | v3.75 | MobInfoConfig, MobInfoDB, MobHealthDB + 4 | Static-only + audited | No defects fixed. Pre-2.4 combat-log strings are harmless (nil entries drop out). `MI2_Import.lua` is user-supplied by design. Options restyled. |
+| Postal | 3.4.0 | Postal3DB | Static-only + audited | 7 fixes (nil subject/sender crashes, TradeBlock clearing the user's setting). Button tooltips, About frame. |
+| PowerAuras | 3.0.0S | PowaGlobalSet, PowaGlobalListe / PowaSet, PowaMisc, PowaTimer, PowaPlayerListe, PowaState(char) | Static-only + audited | 5 fixes (raid-only check never applied, `UnitDefence` crash in `%df`, stack text, editor page switch, animation preview) + locale escapes. Options/editor/import windows restyled (lava rock gone). |
+| Prat-3.0 | 3.4.4 | Prat3DB | Static-only + audited | 19 fixes incl. `GetMessageTypeColor`/`DOCKED_CHAT_FRAMES`/`CanGroupInvite` (absent on 3.3.5), CJK short channel names. "Delay GMOTD" now works and defaults on. |
+| Prat-3.0_HighCPUUsageModules | — | Prat3HighCPUPerCharDB(char) | Static-only | No changes (its `..\` include was a checker false positive). |
+| Prat-3.0_Libraries | — | — | Static-only + audited | LibAlts `IsAlt` fix, LibSink escape. |
+| Quartz | 3.0.3.1 | Quartz3DB | Static-only + audited | 13 fixes (interrupt bitmask, Slam swing crash, non-enUS Latency lookup, Focus default on top of Target). |
+| Recount | — | RecountDB / RecountPerCharDB(char) | Static-only + audited | 2 fixes. Title band red → slate, gold title. |
+| SellJunk | 2.6.3 | SellJunkDB | Static-only + audited | 5 fixes (double-sell of a locked slot, buyback-cap total). Coin colours, tooltip. |
+| SexyMap | — | SexyMapDB | Static-only + audited | 7 fixes. Now defines the real `GetMinimapShape` (was misspelled) — button libraries re-layout for square shapes. |
+| SilverDragon (+_Data) | v2.3.4 | SilverDragon2DB | Static-only + audited | 8 fixes (cache re-prime inverted, import never added locations). Popup restyled. |
+| Skillet | 1.10-LS | SkilletDB / SkilletDBPC(char) | Static-only + audited | Interface 30200→30300. 15 fixes (reagent reservation crash, ARL filter crash, shopping-list stack merge). Info box restyled. |
+| SlideBar | 5.8.4723 | SlideBarConfig | Static-only + audited | 3 fixes (OnOpen/OnClose hooks never fired). Restyled. |
+| Titan | 4.3.8.30300 r386 | TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat | Static-only + audited | 6 fixes (TitanMovable dead at load, Lua 5.0 loops, profile migration overwrite). Login chat quieter. |
+| Titan plugins (Ammo, Bag, Clock, Coords, GoldTracker, LootType, Performance, Regen, Repair, Volume, XP) | 4.3.8.30300 | GoldArray (GoldTracker) | Static-only + audited | 14 fixes: GoldTracker ×10 gold corruption (old inflation not repaired), Repair stack overflow under Alt+Z and `>`→`>=` auto-repair, Coords clobbering `message()`. |
+| TomTomLite | v40300-0.1.3 | TomTomLiteDB | **Excluded** | Cataclysm build on 4.x map APIs. Not ported; candidate for removal. |
+| ZygorGuidesViewer | 2.0 | ZygorGuidesViewerSettings | Static-only + audited | 17 fixes. Empty guide slots commented out of Autoload.xml — **a dropped-in `GuideNN.lua` must be uncommented to load.** |
+| ZygorTalentAdvisor | 2.0.240 | ZygorTalentAdvisorSettings | Static-only + audited | 6 fixes (load order vs CallbackHandler, translations never loaded, pet builds). Same Autoload note for `BuildNN.lua`. |
+| oUF | 1.3.24 | — | Static-only + audited | 2 fixes (UnregisterEvent hole, needless OnUpdate polling). |
+
 ---
 
 ## Work queue
@@ -165,11 +204,12 @@ Ordered by value, given no in-game client.
 5. ~~Guard Altoholic against absent DataStore~~ — **moot**: the DataStore family was added 2026-10-01, so Altoholic's hard dependency chain resolves. No guards needed (and they were rejected on the same grounds in the Altoholic audit).
 
 ### Blocked (need folders added to workspace)
-- Phase 4 leveling integration (Carbonite + EveryQuest + Zygor + TomTom): EveryQuest/Zygor/TomTom absent.
-- Phase 5 EveryQuest improvements: absent.
-- Phase 8 Postal: absent.
-- Phases 9–11 dungeon/raid (GearScore, Grid2, PowerAuras, Quartz, Recount): all absent.
-- Complete auction suite (Enchantrix, Enchantrix-Barker, Informant): absent. **Stubby added 2026-10-01, BeanCounter added 2026-10-02.**
+- Phase 4 leveling integration (Carbonite + EveryQuest + Zygor + TomTom): EveryQuest and Zygor present since 2026-10-14; a 3.3.5 TomTom is still absent (TomTomLite is a Cataclysm build).
+- GearScore spec scores: need **BonusScanner**.
+- Complete auction suite: Enchantrix, Enchantrix-Barker absent. **Stubby added 2026-10-01, BeanCounter 2026-10-02, Informant 2026-10-14.**
+
+### Unblocked 2026-10-14 (folders now present, static pass + audit done)
+- Phases 5 (EveryQuest), 8 (Postal) and 9–11 (GearScore, Grid2, PowerAuras, Quartz, Recount): first pass done in `d5ec249` + follow-ups. Next step for each is in-game verification; Grid2 is the second addon here (after Bartender4) that drives secure frames, so its combat behaviour needs a client most.
 
 ### Always-outstanding
 - **In-game testing** of everything (see MODERNIZATION_LOG "What still needs a real client").

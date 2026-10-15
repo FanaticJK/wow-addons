@@ -2,3 +2,4 @@
 # One folder per line, then '#' and the reason. Remove a line to bring a folder back under the gate.
 
 GridStatusSearing   # Cataclysm 4.3 (## Interface: 40300) plugin for the original Grid, not Grid2. It tracks Searing Plasma on Spine of Deathwing (Dragon Soul), an encounter that does not exist on 3.3.5, and Grid itself is not in this workspace. Nothing to port; candidate for removal.
+TomTomLite          # Cataclysm 4.3 build (## Interface: 40300, ## DefaultState: disabled). Every waypoint path runs through 4.x-only map APIs (SetMapByID, GetCurrentMapAreaID, GetQuestIndexForWatch, QuestPOI icon constants) and a Cataclysm LibMapData, plus an archaeology source. Porting means rewriting it; the 3.3.5 TomTom release covers the same job. Candidate for removal.

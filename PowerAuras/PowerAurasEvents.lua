@@ -406,7 +406,7 @@ function PowaAuras:RUNE_TYPE_UPDATE(...)
 	local runeId = ...;
 	if (self.ModTest == false) then
 		if (self.DebugEvents) then
-			self:ShowText("PLAYER_TOTEM_UPDATE slot=", slot);
+			self:ShowText("RUNE_TYPE_UPDATE rune=", runeId);
 		end
 		self.DoCheck.Runes = true;
 	end

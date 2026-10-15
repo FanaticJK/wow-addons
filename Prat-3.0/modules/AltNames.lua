@@ -1635,6 +1635,7 @@ function module:delAlt(altname)
 	altname = self:formatCharName(altname)
 
 	if self.Alts[altname] then
+		local mainname = self.Alts[altname]
 		self.Alts[altname]		= nil
 		self.db.realm.alts[altname]	= nil
 

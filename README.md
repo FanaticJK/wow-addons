@@ -2,7 +2,8 @@
 
 A maintained set of **World of Warcraft: Wrath of the Lich King 3.3.5a** addons
 (`## Interface: 30300`), with bug fixes, a cleaned-up UI and a verification harness.
-33 addon folders across seven groups.
+105 addon folders. The tables below describe the original 33; the folders added since then are
+listed under [Added later](#added-later).
 
 | | |
 |---|---|
@@ -16,9 +17,9 @@ A maintained set of **World of Warcraft: Wrath of the Lich King 3.3.5a** addons
 | **Utility** | AllStats (full stat list beside the character sheet), Swatter (readable Lua error catcher) |
 | **Status** | Static analysis and mock-runtime checks pass. **Not yet tested in a live game client** (see [Testing status](#testing-status)) |
 
-> **Two groups need folders that are not in this repository.** Altoholic needs the DataStore
-> family and Auctioneer needs Stubby. Neither is bundled here, and WoW will not load an addon
-> whose hard dependency is missing. See [Missing dependencies](#missing-dependencies).
+> **Every hard dependency is now bundled.** DataStore (for Altoholic) and Stubby (for Auctioneer)
+> were added later. A few *optional* companions are still absent — see
+> [Missing dependencies](#missing-dependencies).
 
 > **Upgrading from the original versions?** Your saved settings and offline character data are
 > kept. Nothing is renamed or wiped. See [Saved data](#saved-data).
@@ -41,6 +42,7 @@ A maintained set of **World of Warcraft: Wrath of the Lich King 3.3.5a** addons
   - [AllStats](#allstats)
   - [Swatter](#swatter)
   - [Carbonite](#carbonite)
+- [Added later](#added-later)
 - [What changed](#what-changed)
 - [Saved data](#saved-data)
 - [Testing status](#testing-status)
@@ -130,22 +132,46 @@ Auctioneer needs **at least one** `Auc-Stat-*` module enabled or it has nothing 
 | `AllStats` | 1.1 | Shows every stat from the character-sheet dropdowns at once, beside the paperdoll | Always | — |
 | `!Swatter` | 5.8.4723 | Catches Lua errors and shows them in a readable window with the call stack. The `!` keeps it first in load order so it can catch errors in other addons | Always | — |
 
+### Added later
+
+Folders added after the original 33. Each had the same static check, deep audit and bug-fix pass;
+per-addon detail is in [MODERNIZATION_LOG.md](MODERNIZATION_LOG.md) and the status of each folder
+in [ADDON_TRACKER.md](ADDON_TRACKER.md).
+
+| Area | Folders |
+|---|---|
+| Libraries / support | `Stubby` (Auctioneer loader), the 17 `DataStore*` modules (Altoholic's data layer), `BeanCounter` (AH transaction history), `Informant` (item info tooltips), `SlideBar` (Norganna launcher bar) |
+| Action bars & unit frames | `Bartender4`, `oUF` |
+| Quests & leveling | `EveryQuest` + 11 data modules, `ZygorGuidesViewer`, `ZygorTalentAdvisor`, `QuestItemHelper` |
+| Raid & combat | `Grid2`, `Grid2Options`, `Grid2StatusRaidDebuffs(+Options)`, `PowerAuras`, `Quartz`, `Recount`, `GearScore` |
+| Chat & mail | `Prat-3.0`, `Prat-3.0_HighCPUUsageModules`, `Prat-3.0_Libraries`, `Postal` |
+| Gathering & map | `GatherMate`, `GatherMate_Data`, `SexyMap`, `SilverDragon`, `SilverDragon_Data`, `MobInfo2` |
+| Professions & vendors | `Skillet`, `SellJunk` |
+| Info bar | `Titan` + `TitanAmmo`, `TitanBag`, `TitanClock`, `TitanCoords`, `TitanGoldTracker`, `TitanLootType`, `TitanPerformance`, `TitanRegen`, `TitanRepair`, `TitanVolume`, `TitanXP` |
+| Not for 3.3.5 | `TomTomLite`, `GridStatusSearing` — Cataclysm builds, see [Missing dependencies](#missing-dependencies) |
+
+Zygor guide and talent-build slots (`GuideNN.lua`, `BuildNN.lua`) are commented out of
+`Guides/Autoload.xml` and `Builds/Autoload.xml` because the files are not shipped. If you drop a
+guide or build file in, uncomment its line (see the `readme.txt` next to each).
+
 ---
 
 ## Missing dependencies
 
-Two groups declare hard `## Dependencies` on folders that are **not in this repository**. WoW
-silently refuses to load an addon whose hard dependency is absent, so these will sit greyed out
-in the AddOns list until you add the missing folders yourself.
+Every hard `## Dependencies` entry in this repository now resolves: the **DataStore** family
+(needed by Altoholic) and **Stubby** (needed by Auctioneer) are bundled. What is still absent is
+optional:
 
-| Group | Needs | Where it comes from |
+| Missing | Used by | Effect without it |
 |---|---|---|
-| `Altoholic`, `Altoholic_Achievements` | The whole **DataStore** family: `DataStore`, `DataStore_Achievements`, `_Auctions`, `_Characters`, `_Containers`, `_Crafts`, `_Currencies`, `_Inventory`, `_Mails`, `_Pets`, `_Quests`, `_Reputations`, `_Skills`, `_Spells`, `_Stats`, `_Talents` | Shipped alongside Altoholic in its original 3.3.5 distribution |
-| `Auc-Advanced` and every `Auc-*` module | **Stubby** | Shipped inside the Auctioneer Suite installer |
+| **BonusScanner** | `GearScore` | GearScore loads and scores gear; the per-spec scores and spec bars stay hidden |
+| `Enchantrix`, `Enchantrix-Barker` | Auctioneer suite | No disenchant prices or Barker ads (`BeanCounter` and `Informant` *are* bundled) |
+| A 3.3.5 **TomTom** | `ZygorGuidesViewer` | Zygor uses its own waypoint pointer instead of the TomTom arrow |
 
-The rest of the Auctioneer Suite (`BeanCounter`, `Enchantrix`, `Enchantrix-Barker`, `Informant`)
-is also absent. Those are optional — Auctioneer runs without them — but the AH tooltip lines and
-purchase history they provide will not be there.
+Two folders in the repository are **Cataclysm builds that will not run on 3.3.5** and are kept
+out of the verification harness: `TomTomLite` (built on 4.x map APIs) and `GridStatusSearing`
+(a Dragon Soul plugin for the original Grid, which is not here). Leave both disabled, or delete
+them.
 
 Everything else in this repository is self-contained: the libraries each addon needs
 (Ace2, Ace3, LibStub, Dewdrop, Tablet, Waterfall, Configator, FuBar shims, LibGratuity and the

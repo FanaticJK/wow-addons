@@ -30,13 +30,15 @@ local function createInfoBox()
     infoBox:SetWidth(500)
     infoBox:SetHeight(400)
     infoBox:SetPoint("CENTER")
+    -- Slim tooltip-border chrome on a dark translucent fill (shared addon style)
     infoBox:SetBackdrop({
-        bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
+        bgFile = [[Interface\ChatFrame\ChatFrameBackground]],
         edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
-        tile = true, tileSize = 16, edgeSize = 16,
-        insets = { left = 5, right = 5, top = 5, bottom = 5 }
+        tile = true, tileSize = 16, edgeSize = 14,
+        insets = { left = 3, right = 3, top = 3, bottom = 3 }
     })
-    infoBox:SetBackdropColor(0,0,0,1)
+    infoBox:SetBackdropColor(0, 0, 0, 0.8)
+    infoBox:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
 
     local text = infoBox:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge")
     infoBox.title = text

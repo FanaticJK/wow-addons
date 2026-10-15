@@ -326,7 +326,7 @@ local function findBagForItem(itemID, count)
 			for slot = 1, bag_size, 1 do
 				local bagitem = GetContainerItemLink(container, slot)
 				if bagitem then
-					if id == Skillet:GetItemIDFromLink(bagitem) then
+					if itemID == Skillet:GetItemIDFromLink(bagitem) then
 						-- found some of the same, it is a full stack or locked?
 						local _, num_in_bag, locked  = GetContainerItemInfo(container, slot)
 						local space_available = itemStackCount - num_in_bag

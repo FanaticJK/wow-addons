@@ -330,7 +330,7 @@ function cPowaAura:GetAuraText()
 	text = self:SubstituteInText(text , "%%spi", function() return UnitStat("player", 5) end, PowaAuras.Text.Unknown);
 	text = self:SubstituteInText(text , "%%sp", function() return self:SpellPower() end, PowaAuras.Text.Unknown);
 	text = self:SubstituteInText(text , "%%ap", function() return UnitAttackPower("player") end, PowaAuras.Text.Unknown);
-	text = self:SubstituteInText(text , "%%df", function() return UnitDefence("player") end, PowaAuras.Text.Unknown);
+	text = self:SubstituteInText(text , "%%df", function() local base, modifier = UnitDefense("player"); return base + modifier end, PowaAuras.Text.Unknown);
 	text = self:SubstituteInText(text , "%%u", 
 function()
 	if (self.DisplayUnit==nil) then return nil; end
@@ -480,7 +480,7 @@ function cPowaAura:CheckState(giveReason)
 	end
         
     --- raid
-	if (self.raid and numrm == 0) then --- raidcheck yes, but not in raid
+	if (self.raid and GetNumRaidMembers() == 0) then --- raidcheck yes, but not in raid
 		if (not giveReason) then return false; end
 		return false, PowaAuras.Text.nomReasonNotInRaid;
 	end
@@ -1920,7 +1920,7 @@ function cPowaEnchant:SetForEnchant(loc, slot, charges, index)
 			self:SetIcon(GetInventoryItemTexture("player", slot));
 		end
 		if (self.Stacks) then
-			self.Stacks:SetStackCount(count);
+			self.Stacks:SetStackCount(charges);
 		end			
 		return true;
 	end

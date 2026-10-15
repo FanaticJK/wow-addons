@@ -193,7 +193,7 @@ function onOff(state, chatprint)
 		state = 'toggle'
 	end
 
-	if (state == 'on' or state == 'off' or type(param) == "boolean") then
+	if (state == 'on' or state == 'off' or type(state) == "boolean") then
 		Informant.Settings.SetSetting('all', state)
 
 	elseif (state == 'toggle') then

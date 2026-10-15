@@ -218,7 +218,7 @@ function PowaAuras:MainListClick(owner)
 	self.CurrentAuraId = ((self.MainOptionPage-1)*24)+1;
 	self.CurrentAuraPage = self.MainOptionPage;
 	-- change de page dans l'editeur d'effet ou cache l'editeur
-	if (self.Auras[auraId] ~= nil and self.Auras[self.CurrentAuraId].buffname ~= "" and self.Auras[ self.CurrentAuraId].buffname ~= " ") then
+	if (self.Auras[self.CurrentAuraId] ~= nil and self.Auras[self.CurrentAuraId].buffname ~= "" and self.Auras[ self.CurrentAuraId].buffname ~= " ") then
 		self:InitPage(); 
 	else
 		self:EditorClose();
@@ -2210,7 +2210,7 @@ function PowaAuras.DropDownMenu_OnClickBegin(self)
 	--UIDropDownMenu_SetSelectedValue(PowaDropDownAnimBegin, optionName);
 
 	PowaAuras.Auras[PowaAuras.CurrentAuraId].begin = self.value;
-	PowaAuras:RedisplayAura(auraId);
+	PowaAuras:RedisplayAura(PowaAuras.CurrentAuraId);
 end
 
 function PowaAuras.DropDownMenu_OnClickEnd(self)

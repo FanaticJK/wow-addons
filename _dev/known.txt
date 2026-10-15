@@ -1672,3 +1672,891 @@ BeanCounter/Support/LibRevision.lua: addition
 DataStore_Crafts/libs/LibPeriodicTable-3.1-Tradeskill/LibPeriodicTable-3.1-Tradeskill.lua: m
 Stubby/Libs/DebugLib/Support/LibRevision.lua: addition
 Stubby/Support/LibRevision.lua: addition
+
+
+# ===== 2026-10-14 pass: combat group =====
+# Proposed _dev/known.txt entries from the combat group pass (Recount, Quartz, PowerAuras, GearScore).
+# One entry per line; the reason is on the comment line above each entry or group.
+
+# --- Shared 3.3.5 client API / FrameXML globals (used by more than one of these folders) ---
+# 3.3.5 unit/instance API functions
+IsInInstance
+UnitInRaid
+UnitIsGhost
+UnitIsConnected
+UnitIsVisible
+UnitIsTrivial
+UnitBuff
+NotifyInspect
+# COMBATLOG_OBJECT_* bit constants, defined by the client since 2.4 (FrameXML Constants)
+COMBATLOG_OBJECT_AFFILIATION_MINE
+COMBATLOG_OBJECT_AFFILIATION_PARTY
+COMBATLOG_OBJECT_AFFILIATION_RAID
+COMBATLOG_OBJECT_AFFILIATION_OUTSIDER
+COMBATLOG_OBJECT_AFFILIATION_MASK
+COMBATLOG_OBJECT_REACTION_FRIENDLY
+COMBATLOG_OBJECT_REACTION_NEUTRAL
+COMBATLOG_OBJECT_REACTION_HOSTILE
+COMBATLOG_OBJECT_REACTION_MASK
+COMBATLOG_OBJECT_CONTROL_PLAYER
+COMBATLOG_OBJECT_CONTROL_NPC
+COMBATLOG_OBJECT_CONTROL_MASK
+COMBATLOG_OBJECT_TYPE_PLAYER
+COMBATLOG_OBJECT_TYPE_NPC
+COMBATLOG_OBJECT_TYPE_PET
+COMBATLOG_OBJECT_TYPE_GUARDIAN
+COMBATLOG_OBJECT_TYPE_OBJECT
+COMBATLOG_OBJECT_TYPE_MASK
+COMBATLOG_OBJECT_TARGET
+COMBATLOG_OBJECT_FOCUS
+COMBATLOG_OBJECT_MAINTANK
+COMBATLOG_OBJECT_MAINASSIST
+COMBATLOG_OBJECT_RAIDTARGET1
+COMBATLOG_OBJECT_RAIDTARGET2
+COMBATLOG_OBJECT_RAIDTARGET3
+COMBATLOG_OBJECT_RAIDTARGET4
+COMBATLOG_OBJECT_RAIDTARGET5
+COMBATLOG_OBJECT_RAIDTARGET6
+COMBATLOG_OBJECT_RAIDTARGET7
+COMBATLOG_OBJECT_RAIDTARGET8
+COMBATLOG_OBJECT_NONE
+COMBATLOG_OBJECT_SPECIAL_MASK
+COMBATLOG_FILTER_ME
+# BonusScanner addon's global object (optional dependency of GearScore; every live read is now guarded,
+# PowerAurasDump.lua reads it behind an `if BonusScanner` check)
+BonusScanner
+
+# --- Recount ---
+# 3.3.5 API functions / FrameXML
+UnitIsFeignDeath
+GetChannelList
+GetInstanceInfo
+FillLocalizedClassList
+UIDropDownMenu_SetAnchor
+NUM_CHAT_WINDOWS
+# !ClassColors addon global (OptionalDeps); every read is guarded with `if CUSTOM_CLASS_COLORS`
+CUSTOM_CLASS_COLORS
+# RecountDeathTrack plug-in addon's global object; all 21 reads are behind `if RecountDeathTrack`
+RecountDeathTrack
+
+# --- Quartz ---
+# Blizzard cast bar frames (FrameXML CastingBarFrame.xml / PetFrame) that Quartz hides
+CastingBarFrame
+PetCastingBarFrame
+# 3.3.5 API / GlobalStrings / FrameXML constants
+IsSpellInRange
+GetMirrorTimerInfo
+GetMirrorTimerProgress
+GetCorpseRecoveryDelay
+MIRRORTIMER_NUMTIMERS
+READY_CHECK
+SPELLINTERRUPTOTHERSELF
+# FlightMap addon function (OptionalDeps); read once at load behind `if FlightMapTimes_BeginFlight then`
+Quartz/modules/Flight.lua: FlightMapTimes_BeginFlight
+
+# --- GearScore ---
+# 3.3.5 API / Blizzard frames
+CanInspect
+GetZoneText
+GetComparisonStatistic
+SetAchievementComparisonUnit
+ClearAchievementComparisonUnit
+PaperDollFrame
+# font string created by PaperDollFrame:CreateFontString("PersonalGearScore") (check.js does not register
+# CreateFontString names); used from several functions in this one file
+GearScore/GearScore.lua: PersonalGearScore
+# deliberate always-nil feature switches the author left in (a disabled "look at current target" path
+# and a disabled fury-warrior rule); reading them as nil is the intended behaviour
+GearScore/weights.lua: LookAtCurrentTarget
+GearScore/weights.lua: SuperTotallyFakeVariable2
+# vendored LibCompress (unused by GearScore): `if not type(uncompressed)=="string"` reads a never-set
+# global; upstream bug, the check can never fire. Vendored library, not edited.
+GearScore/Libs/LibCompress/LibCompress.lua: uncompressed
+
+# ===== 2026-10-14 pass: raid group =====
+# --- Grid2 / Grid2Options / Grid2StatusRaidDebuffs(Options) ---
+# Published by Grid2Options/core.lua as `_G.Grid2Options = Grid2Options` (the checker only sees
+# plain global assignments). Grid2 core reads it guarded (`if Grid2Options then`) because the
+# options addon is load-on-demand; the plugins read it after Grid2Options has loaded.
+Grid2Options
+# Published by Grid2/GridLayout.lua as `_G.Grid2Layout = Grid2Layout` (module object).
+Grid2Layout
+# Published by Grid2/GridFrame.lua as `_G.Grid2Frame = Grid2Frame` (it is a file-local upvalue there).
+Grid2Frame
+# Deliberate optional hook: a user/dev may create a frame named Grid2DebugFrame to receive debug
+# output; otherwise ChatFrame1 is used (`Grid2DebugFrame or ChatFrame1`). Never defined in the workspace.
+Grid2/GridCore.lua: Grid2DebugFrame
+# Vendored Grid2/Libs/UTF8: the case tables come from utf8data.lua, which the Grid2 .toc
+# deliberately leaves commented out; every read is guarded (`and utf8_lc_uc then`).
+Grid2/Libs/UTF8/utf8.lua: utf8_lc_uc
+Grid2/Libs/UTF8/utf8.lua: utf8_uc_lc
+# Vendored LibHealComm-4.0 (minor 66): exports HealComm.ABSORB_SHIELDS / ALL_DATA from globals
+# that are never defined (the local ALL_DATA is commented out upstream), so both fields are nil.
+# Harmless, nothing in the workspace reads them; left as shipped.
+Grid2/Libs/LibHealComm-4.0/LibHealComm-4.0.lua: ABSORB_SHIELDS
+Grid2/Libs/LibHealComm-4.0/LibHealComm-4.0.lua: ALL_DATA
+#
+# Real 3.3.5a client API / FrameXML globals (all present in 3.3.x; none is Cata+):
+UnitAura
+UnitIsDead
+UnitIsCharmed
+UnitIsPVP
+UnitIsPVPFreeForAll
+UnitCanAssist
+UnitCreatureType
+UnitThreatSituation
+UnitInRange
+CheckInteractDistance
+GetRaidDifficulty
+IsRaidLeader
+IsRaidOfficer
+IsPartyLeader
+GetPartyAssignment
+GetReadyCheckStatus
+GetReadyCheckTimeLeft
+GetNumGlyphSockets
+# CastSpellByID exists since 3.2 (LibHealComm's own comment); it is also read behind `if CastSpellByID`.
+CastSpellByID
+# FrameXML SecureTemplates.lua / UnitFrame.lua
+SecureButton_GetModifiedUnit
+UnitFrame_OnEnter
+UnitFrame_OnLeave
+# FrameXML texture constants used by the Blizzard ready-check UI
+READY_CHECK_WAITING_TEXTURE
+READY_CHECK_READY_TEXTURE
+READY_CHECK_NOT_READY_TEXTURE
+READY_CHECK_AFK_TEXTURE
+# GlobalStrings.lua ("Main Assist" / "Main Tank")
+MAIN_ASSIST
+MAIN_TANK
+#
+# --- oUF ---
+# (no entries needed: oUF is clean against _dev/known.txt)
+
+# ===== 2026-10-14 pass: leveling group =====
+# Proposed known.txt entries from the leveling group (ZygorGuidesViewer, ZygorTalentAdvisor,
+# EveryQuest + data modules). TomTomLite has no entries: it is a Cataclysm addon that was not
+# ported (see the report); its unknowns are 4.x APIs, not 3.3.5 globals.
+
+# --- ZygorGuidesViewer ---
+# 3.3.5 client API functions
+GetMapContinents
+EasyMenu
+UnitInVehicle
+IsUsableSpell
+GetMacroIndexByName
+CreateMacro
+DeleteMacro
+GetNumActiveQuests
+GetActiveTitle
+SelectActiveQuest
+GetNumAvailableQuests
+GetAvailableTitle
+SelectAvailableQuest
+GetGossipActiveQuests
+GetNumGossipActiveQuests
+SelectGossipActiveQuest
+GetGossipAvailableQuests
+GetNumGossipAvailableQuests
+SelectGossipAvailableQuest
+IsQuestCompletable
+IsFlying
+SaveView
+IsMouselooking
+# 3.3.5 FrameXML functions and frames
+WorldMapBlobFrame
+WorldMapDetailFrame
+WorldMapFrame_Update
+WorldMap_OpenToQuest
+MinimapZoomOut
+MinimapZoomIn
+DropDownList2
+GameTooltipTexture1
+ChatFontSmall
+InterfaceOptionsFrameAddOns
+InterfaceOptionsFrameCategories
+InterfaceOptionsFrameAddOnsList
+InterfaceOptionsFrameAddOnsListScrollBar
+AudioOptionsFrame
+VideoOptionsFrame
+ChatConfigFrame
+# 3.3.5 GlobalStrings
+QUEST_MONSTERS_KILLED
+QUEST_OBJECTS_FOUND
+QUEST_FACTION_NEEDED
+QUEST_ITEMS_NEEDED
+RETRIEVING_ITEM_INFO
+ERR_QUEST_COMPLETE_S
+ERR_NEWTAXIPATH
+FACTION_STANDING_DECREASED
+# Defined as function _G.ZygorGuidesViewer_L in Localization/Base.lua (the checker misses _G.x = ...)
+ZygorGuidesViewer_L
+# Set by the bundled Astrolabe/DongleStub.lua via g.DongleStub = new
+DongleStub
+# Named children of ZygorGuidesViewerFrameScrollScrollBar (inherits UIPanelScrollBarTemplate, which check.js does not expand)
+ZygorGuidesViewerFrameScrollScrollBarScrollUpButton
+ZygorGuidesViewerFrameScrollScrollBarScrollDownButton
+ZygorGuidesViewerFrameScrollScrollBarThumbTexture
+# Created with ScrollBar:CreateTexture("ZygorGuidesViewerFrameScrollScrollBarTrackerTexture") in ZygorGuidesViewerFrame.lua (check.js only registers CreateFrame names)
+ZygorGuidesViewer/ZygorGuidesViewer.lua: ZygorGuidesViewerFrameScrollScrollBarTrackerTexture
+# Optional developer hook, guarded with "if ZGV_DEV then" (Dev.lua is not shipped)
+ZygorGuidesViewer/ZygorGuidesViewer.lua: ZGV_DEV
+# Optional third-party addon Chatter, guarded with "if Chatter then" in the dev-only ListQuests
+ZygorGuidesViewer/ZygorGuidesViewer.lua: Chatter
+# Optional third-party Cartographer_QuestInfo, used only by the developer helper ListQuests
+ZygorGuidesViewer/ZygorGuidesViewer.lua: Cartographer_QuestInfo
+# Optional dependency Cartographer3 (## OptionalDeps), read behind "Cartographer3 and Cartographer3.db"
+ZygorGuidesViewer/Waypoints.lua: Cartographer3
+# TomTom's arrow frame (## OptionalDeps TomTom), only touched behind "TomTom and TomTom.defaults"
+ZygorGuidesViewer/Waypoints.lua: TomTomCrazyArrow
+# GlobalStrings whose 3.3.5 presence is not certain; read into a table walked with ipairs (stops at the first nil) by a handler that is never registered
+ZygorGuidesViewer/Faction.lua: FACTION_STANDING_DECREASED_GENERIC
+ZygorGuidesViewer/Faction.lua: FACTION_STANDING_INCREASED_BONUS
+ZygorGuidesViewer/Faction.lua: FACTION_STANDING_INCREASED_GENERIC
+# Vendored Astrolabe: 'level' only appears inside an argcheck error-message string
+ZygorGuidesViewer/Libs/Astrolabe/Astrolabe.lua: level
+ZygorGuidesViewer/Libs/Astrolabe/AstrolabeMapMonitor.lua: level
+# Vendored LibBetterBlizzOptions: Mac-only frame, read behind "if MacOptionsFrame then"
+ZygorGuidesViewer/Libs/LibBetterBlizzOptions-1.0/LibBetterBlizzOptions-1.0.lua: MacOptionsFrame
+# Vendored LibTaxi: QuestHelper's saved variable, read behind "if QuestHelper_KnownFlightRoutes then"
+ZygorGuidesViewer/Libs/LibTaxi-1.0/LibTaxi-1.0.lua: QuestHelper_KnownFlightRoutes
+# Vendored AceGUI TreeGroup: "self.Filter = Filter" copies a never-defined method (harmless nil); same AceGUI copy in both Zygor addons
+ZygorGuidesViewer/Libs/AceGUI-3.0/widgets/AceGUIWidget-TreeGroup.lua: Filter
+
+# --- ZygorTalentAdvisor ---
+# 3.3.5 client API functions
+GetUnspentTalentPoints
+GetGroupPreviewTalentPointsSpent
+LearnPreviewTalents
+ResetGroupPreviewTalentPoints
+# 3.3.5 FrameXML / Blizzard_TalentUI / Blizzard_GlyphUI globals (load-on-demand UIs, loaded via TalentFrame_LoadUI or guarded)
+TalentFrame_LoadUI
+ToggleTalentFrame
+TalentFrame_Update
+PlayerTalentFrame_Refresh
+PlayerTalentFrame_Open
+PlayerTalentFrameLearnButton
+PlayerTalentFrameLearnButton_OnClick
+PlayerSpecTab1
+GlyphFrame
+NUM_GLYPH_SLOTS
+PanelTemplates_GetSelectedTab
+PET_TALENTS_PER_TIER
+PLAYER_TALENTS_PER_TIER
+MAX_NUM_TALENTS
+TutorialFrame_NewTutorial
+SystemFont_Tiny
+CONFIRM_LEARN_PREVIEW_TALENTS
+# Defined as function _G.ZygorTalentAdvisor_L in Localization/Base.lua
+ZygorTalentAdvisor_L
+# The author disabled tutorials by commenting out "local LibTutorial = LibStub(...)"; the global is never set, so every "if LibTutorial then" is deliberately false
+ZygorTalentAdvisor/ZygorTalentAdvisor.lua: LibTutorial
+# Vendored LibTutorial: undefined 'warn' and 'tutorial' in code paths that only run when the (disabled) tutorials are used
+ZygorTalentAdvisor/Libs/LibTutorial-1.0/LibTutorial-1.0.lua: warn
+ZygorTalentAdvisor/Libs/LibTutorial-1.0/LibTutorial-1.0.lua: tutorial
+# Vendored AceGUI TreeGroup (same copy as ZygorGuidesViewer)
+ZygorTalentAdvisor/Libs/AceGUI-3.0/widgets/AceGUIWidget-TreeGroup.lua: Filter
+
+# --- EveryQuest ---
+# 3.3.5 client API / FrameXML
+UIDropDownMenu_SetButtonWidth
+AddQuestWatch
+QuestLog_SetSelection
+# 3.3.5 GlobalStrings (used by the bundled LibQuixote-2.0)
+ELITE
+GROUP
+RAID
+PVP
+LFG_TYPE_DUNGEON
+DUNGEON_DIFFICULTY2
+QUEST_PLAYERS_KILLED
+COMBATLOG_FILTER_STRING_HOSTILE_PLAYERS
+FACTION_STANDING_LABEL1_FEMALE
+FACTION_STANDING_LABEL2_FEMALE
+FACTION_STANDING_LABEL3_FEMALE
+FACTION_STANDING_LABEL4_FEMALE
+FACTION_STANDING_LABEL5_FEMALE
+FACTION_STANDING_LABEL6_FEMALE
+FACTION_STANDING_LABEL7_FEMALE
+FACTION_STANDING_LABEL8_FEMALE
+# Set with _G.EVERYQUEST_RELEASE_REVISION = ... in Core.lua
+EVERYQUEST_RELEASE_REVISION
+# Set with _G["EQDropdown"] = addon.frames.Menu in frames.lua
+EveryQuest/Core.lua: EQDropdown
+# Text line of CreateFrame("GameTooltip", "EveryQuestScanningTooltip", UIParent, "GameTooltipTemplate")
+EveryQuest/Core.lua: EveryQuestScanningTooltipTextLeft1
+# Button child of CreateFrame("Frame", "EQ_Menu", ..., "UIDropDownMenuTemplate")
+EveryQuest/frames.lua: EQ_MenuButton
+# Optional third-party addons: Loremaster (read behind "Loremaster and"), beql / LightHeaded (behind IsAddOnLoaded)
+EveryQuest/Core.lua: Loremaster
+EveryQuest/Core.lua: beql
+EveryQuest/Core.lua: LightHeaded
+# Saved variables of the import sources QuestGuru / QuestHistory, read behind nil checks
+EveryQuest/import.lua: QuestGuru_Quests
+EveryQuest/import.lua: QuestHistory_List
+
+
+# ===== 2026-10-14 pass: chat / utility / titan groups (triaged in the main pass) =====
+
+# --- 3.3.5 client API (functions) ---
+GetTrackingTexture
+UnitCanAttack
+UnitClassBase
+LootSlotIsCoin
+LootSlotIsItem
+UIDropDownMenu_GetSelectedID
+UIDropDownMenu_SetSelectedName
+PanelTemplates_UpdateTabs
+PanelTemplates_Tab_OnClick
+GameTooltip_UnitColor
+TEXT
+strlenutf8
+BNGetNumFriends
+BNGetFriendInfo
+BNGetToonInfo
+CanCooperateWithToon
+DeleteInboxItem
+InboxItemCanDelete
+ClickSendMailItemButton
+SendMailFrame_SendMail
+InboxNextPage
+InboxPrevPage
+AutoLootMailItem
+TakeInboxItem
+InboxFrame_Update
+ClosePetition
+SendMailMoney
+GetActionInfo
+GetActionText
+IsCurrentAction
+IsAutoRepeatAction
+IsAttackAction
+GetActionCount
+GetSpellTexture
+GetTotemInfo
+GetNumTrackingTypes
+GetTrackingInfo
+GetPartyLeaderIndex
+UnitIsCorpse
+UnitPlayerOrPetInParty
+UnitPlayerOrPetInRaid
+UnitAttackBothHands
+UnitCreatureFamily
+UnitIsPartyLeader
+UnitIsTapped
+UnitIsTappedByPlayer
+UnitPower
+UnitPVPName
+UnitPVPRank
+UnitRangedAttack
+IsMounted
+GetWeaponEnchantInfo
+GetShapeshiftForm
+GetInstanceDifficulty
+ClearInspectPlayer
+CloseMenus
+ChatEdit_ParseText
+ChatEdit_DeactivateChat
+ChatEdit_UpdateHeader
+ChatFrame_SendTell
+ChatFrame_SystemEventHandler
+ChatFrame_TimeBreakDown
+FCF_MinimizeFrame
+FCF_SelectDockFrame
+FCF_FlashTab
+FCF_IsValidChatFrame
+FCF_FadeOutChatFrame
+FCF_StopAlertFlash
+FCF_SetChatWindowFontSize
+FCF_GetCurrentChatFrame
+FCF_DockUpdate
+FCFDock_GetChatFrames
+FCFDock_GetSelectedWindow
+FCFDock_SelectWindow
+FloatingChatFrame_Update
+GetChatWindowChannels
+ChangeChatColor
+EnumerateServerChannels
+SetChatWindowSize
+LoggingChat
+LoggingCombat
+GetGuildRosterMOTD
+GetNumWhoResults
+GetWhoInfo
+SendWho
+GetRaidTargetIndex
+GetPlayerInfoByGUID
+CanGroupInvite
+GetUnitName
+UnitIsSameServer
+UIFrameFlash
+UIFrameIsFlashing
+UIFrameFlashRemoveFrame
+UIFrameFade
+UIFrameFadeRemoveFrame
+CombatText_AddMessage
+CombatText_StandardScroll
+RaidNotice_AddMessage
+DeleteCursorItem
+PickupMerchantItem
+CalendarGetNumPendingInvites
+HasNewMail
+GetNumVoiceSessions
+IsVoiceChatEnabled
+CanHearthAndResurrectFromArea
+GetLFGMode
+Minimap_ZoomOutClick
+Minimap_ZoomInClick
+GetNumMacros
+TradeSkillFrame_SetSelection
+TradeSkillFrame_Update
+CloseTradeSkill
+SetTradeSkillItemNameFilter
+SetTradeSkillItemLevelFilter
+GetTradeSkillTools
+StopTradeSkillRepeat
+BuildColoredListString
+BuyMerchantItem
+GetCurrentResolution
+GetScreenResolutions
+updateContainerFrameAnchors
+HasPetUI
+PetHasActionBar
+GetInventoryItemDurability
+ToggleCalendar
+GetBindLocation
+GetLootMethod
+GetLootThreshold
+GetDungeonDifficulty
+SetDungeonDifficulty
+SetRaidDifficulty
+RandomRoll
+RepairAllItems
+# WoW's degree-based math globals; SexyMap's angles are in degrees
+atan
+tan
+
+# --- 3.3.5 FrameXML frames ---
+WorldMapTooltip
+WorldMapButton
+WorldMapPositioningGuide
+MiniMapCompassRing
+MiniMapMailFrame
+MiniMapBattlefieldFrame
+MiniMapInstanceDifficulty
+MiniMapTracking
+MiniMapTrackingButton
+MiniMapVoiceChatFrame
+MinimapBackdrop
+MinimapBorderTop
+MinimapZoneTextButton
+MinimapZoneText
+BattlefieldFrame
+OpenMailScrollFrame
+SendMailFrame
+SendMailSubjectEditBox
+InboxTooMuchMail
+MailItem1
+PetitionFrame
+FriendsMicroButton
+ChatFrameMenuButton
+InterfaceOptionsSocialPanelTimestamps
+RaidWarningFrame
+LowHealthFrame
+TradeSkillCreateButton
+TradeSkillListScrollFrame
+TradeSkillListScrollFrameScrollBar
+TradeSkillReagentLabel
+ConsolidatedBuffs
+WorldStateAlwaysUpFrame
+ReputationWatchStatusBar
+GMChatStatusFrame
+MultiBarBottomLeft
+MultiBarBottomRight
+ContainerFrame1
+PlayerFrame
+TargetFrame
+PartyMemberFrame1
+TicketStatusFrame
+TemporaryEnchantFrame
+BuffFrame
+GameTimeFrame
+DropDownList2Button4ExpandArrow
+DurabilityFrame
+MerchantRepairAllIcon
+MerchantRepairAllButton
+MerchantGuildBankRepairButtonIcon
+MerchantGuildBankRepairButton
+
+# --- 3.3.5 FrameXML / GlobalStrings constants ---
+KEY_UNBOUND_ERROR
+KEY_BOUND
+TOOLTIP_UNIT_LEVEL
+UNIT_SKINNABLE_LEATHER
+CORPSE
+PLAYER_FACTION_GROUP
+AUTOCOMPLETE_FLAG_ALL
+AUTOCOMPLETE_FLAG_NONE
+AUTOCOMPLETE_FLAG_FRIEND
+AUTOCOMPLETE_FLAG_IN_GUILD
+AUTOCOMPLETE_LIST
+BATTLENET_NAME_FORMAT
+BATTLENET_FRIEND
+BNET_CLIENT_WOW
+ITEM_PURCHASED_COLON
+SOLD_BY_COLON
+AMOUNT_PAID_COLON
+ITEM_SOLD_COLON
+PURCHASED_BY_COLON
+SALE_PRICE_COLON
+DEPOSIT_COLON
+AUCTION_HOUSE_CUT_COLON
+AMOUNT_RECEIVED_COLON
+DELETE_MAIL_CONFIRMATION
+DELETE_MONEY_CONFIRMATION
+DELETE
+MAIL_RETURN
+ATTACHMENTS_MAX_SEND
+ERR_INV_FULL
+FACTION
+COPPER_AMOUNT
+SILVER_AMOUNT
+GOLD_AMOUNT
+MAX_SKILLLINE_TABS
+NUM_SHAPESHIFT_SLOTS
+GRAY_FONT_COLOR
+GREEN_FONT_COLOR
+RED_FONT_COLOR
+LIGHTYELLOW_FONT_COLOR_CODE
+CHAT_PARTY_GUIDE_GET
+ChatTypeGroup
+UnitPopupMenus
+UnitPopupButtons
+UIDROPDOWNMENU_MAXBUTTONS
+ICON_TAG_LIST
+ICON_LIST
+ICON_TAG_RAID_TARGET_STAR1
+CHAT_TELL_ALERT_TIME
+CHAT_FRAME_TAB_SELECTED_MOUSEOVER_ALPHA
+CHAT_BUTTON_FLASH_TIME
+GENERAL_CHAT_DOCK
+DOCKED_CHAT_FRAMES
+CHANNEL
+TIME_DAYHOURMINUTESECOND
+SHOW_COMBAT_TEXT
+SAY
+PARTY
+BATTLEGROUND
+GUILD_CHAT
+OFFICER_CHAT
+YELL
+RAID_WARNING
+MAX_ACCOUNT_MACROS
+COPPER
+SILVER
+GOLD
+DAY_ONELETTER_ABBR
+HOUR_ONELETTER_ABBR
+MINUTE_ONELETTER_ABBR
+SECOND_ONELETTER_ABBR
+DAYS_ABBR
+HOURS_ABBR
+MINUTES_ABBR
+SECONDS_ABBR
+SPELL_REAGENTS
+INVTYPE_BAG
+INVTYPE_HEAD
+INVTYPE_SHOULDER
+INVTYPE_CHEST
+INVTYPE_WAIST
+INVTYPE_LEGS
+INVTYPE_FEET
+INVTYPE_WRIST
+INVTYPE_HAND
+INVTYPE_WEAPONMAINHAND
+INVTYPE_WEAPONOFFHAND
+INVTYPE_RANGED
+INVTYPE_THROWN
+INVENTORY_ALERT_STATUS_SLOTS
+UNKNOWNOBJECT
+# Blizzard's own misspelling; GlobalStrings.lua really defines UKNOWNBEING ("Unknown Being")
+UKNOWNBEING
+TIME_TWELVEHOURAM
+TIME_TWELVEHOURPM
+TIME_TWENTYFOURHOURS
+SANCTUARY_TERRITORY
+CONTESTED_TERRITORY
+FACTION_CONTROLLED_TERRITORY
+PERFORMANCEBAR_LOW_LATENCY
+PERFORMANCEBAR_MEDIUM_LATENCY
+
+# --- Informant ---
+# Babylonian is the locale helper shipped with the Auctioneer suite; the locale command only
+# reaches it when that suite is loaded
+Informant/InfCommand.lua: Babylonian
+# debug-only argument (debugPrint discards it unless debugging is on)
+Informant/InfSettings.lua: ENX_INFO
+# Vendored Configator / LibExtraTip / LibRevision (shared Norganna libraries, not edited): upstream
+# reads of never-assigned names. Each yields nil in a path that tolerates it (a colour texture with
+# nil components, a nil frame name, extra fields left nil, a nil anchor width, a nil tooltip result).
+Informant/Libs/Configator/Configator.lua: r
+Informant/Libs/Configator/Configator.lua: g
+Informant/Libs/Configator/Configator.lua: b
+Informant/Libs/Configator/Configator.lua: a
+Informant/Libs/Configator/Configator.lua: maxLabelLength
+Informant/Libs/Configator/Configator.lua: height
+Informant/Libs/Configator/Configator.lua: n
+Informant/Libs/Configator/Configator.lua: myName
+Informant/Libs/Configator/Configator.lua: catId
+Informant/Libs/Configator/Configator.lua: tabName
+Informant/Libs/LibExtraTip/LibExtraTip.lua: lr
+Informant/Libs/LibExtraTip/LibExtraTip.lua: lg
+Informant/Libs/LibExtraTip/LibExtraTip.lua: lb
+Informant/Libs/LibExtraTip/LibExtraTip.lua: item
+Informant/Support/LibRevision.lua: addition
+
+# --- MobInfo2 ---
+# Pre-3.0 XML event globals. The 3.3.5 client still sets event/argN for XML OnEvent handlers,
+# which is how MobInfo2 dispatches.
+MobInfo2/MI2_Events.lua: event
+MobInfo2/MI2_Events.lua: arg3
+MobInfo2/MI2_Events.lua: arg7
+# Pre-2.4 combat-log GlobalStrings. An absent one is nil, so its MI2_ChatScanStrings entry simply
+# does not exist and the pairs() scan loop never sees it; safe either way.
+MobInfo2/MI2_Events.lua: OPEN_LOCK_SELF
+MobInfo2/MI2_Events.lua: SELFKILLOTHER
+MobInfo2/MI2_Events.lua: COMBATLOG_XPGAIN_FIRSTPERSON
+MobInfo2/MI2_Events.lua: COMBATHITSELFOTHER
+MobInfo2/MI2_Events.lua: COMBATHITCRITSELFOTHER
+MobInfo2/MI2_Events.lua: SPELLLOGSELFOTHER
+MobInfo2/MI2_Events.lua: SPELLLOGSCHOOLSELFOTHER
+MobInfo2/MI2_Events.lua: SPELLLOGCRITSELFOTHER
+MobInfo2/MI2_Events.lua: PERIODICAURADAMAGESELFOTHER
+MobInfo2/MI2_Events.lua: COMBATHITOTHEROTHER
+MobInfo2/MI2_Events.lua: COMBATHITCRITOTHEROTHER
+MobInfo2/MI2_Events.lua: SPELLLOGOTHEROTHER
+MobInfo2/MI2_Events.lua: SPELLLOGCRITOTHEROTHER
+MobInfo2/MI2_Events.lua: IMMUNESPELLSELFOTHER
+MobInfo2/MI2_Events.lua: SPELLIMMUNESELFOTHER
+MobInfo2/MI2_Events.lua: SPELLRESISTSELFOTHER
+MobInfo2/MI2_Events.lua: SPELLLOGCRITSCHOOLSELFOTHER
+MobInfo2/MI2_Events.lua: AURAADDEDOTHERHARMFUL
+# Optional third-party integrations, each read behind an existence check: myAddOns, Khaos,
+# TipTac, CowTip, KC_Items, ISync, ItemDataCache, Auctioneer, the separate MobHealth addon
+MobInfo2/MI2_Config.lua: MYADDONS_ACTIVE_OPTIONSFRAME
+MobInfo2/MI2_Config.lua: myAddOnsFrame
+MobInfo2/MI2_Events.lua: Khaos
+MobInfo2/MI2_Events.lua: myAddOnsFrame_Register
+MobInfo2/MI2_Events.lua: MobHealth_OnLoad
+MobInfo2/MI2_Slash.lua: K_HEADER
+MobInfo2/MI2_Slash.lua: K_BUTTON
+MobInfo2/MI2_Slash.lua: MYADDONS_CATEGORY_OTHERS
+MobInfo2/MI2_Slash.lua: MI2_UpdatePrices
+MobInfo2/MI2_Tooltip.lua: TipTac_Config
+MobInfo2/MI2_Tooltip.lua: CowTip
+MobInfo2/MobInfo2.lua: KC_Common
+MobInfo2/MobInfo2.lua: ISync
+MobInfo2/MobInfo2.lua: ItemDataCache
+MobInfo2/MobInfo2.lua: Auctioneer_GetVendorSellPrice
+# Text child of the MI2_OptUseGameTT check button (template $parentText)
+MobInfo2/MI2_Config.lua: MI2_OptUseGameTTText
+# DPS help string missing from every locale file; the option shows no help line (cosmetic)
+MobInfo2/MI2_Config.lua: MI_HLP_DPS
+
+# --- Postal ---
+# Optional third-party addons, read behind existence checks: MrPlow (bag stacking), Chatter
+Postal/Modules/OpenAll.lua: MrPlow
+Postal/Postal.lua: Chatter
+Postal/Postal.lua: ChatterCopyFrame
+
+# --- PowerAuras ---
+# Children of XML templates (OptionsSliderTemplate $parentLow/High/Text, button $parentText,
+# GameTooltip $parentTextLeft1); check.js does not expand template children
+PowerAuras/PowerAuras.lua: PowaAction_TooltipTextLeft1
+PowerAuras/PowerAurasEvents.lua: PowaBarAuraTextureSliderHigh
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordSliderLow
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordSliderHigh
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordXSliderLow
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordXSliderHigh
+PowerAuras/PowerOptions.lua: PowaBarAuraDurationSliderLow
+PowerAuras/PowerOptions.lua: PowaBarAuraTextureSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraAlphaSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraSizeSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraCoordXSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraAnimSpeedSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraSymSliderText
+PowerAuras/PowerOptions.lua: PowaBarAuraDeformSliderText
+PowerAuras/PowerOptions.lua: PowaBarThresholdSliderText
+PowerAuras/PowerOptions.lua: PowaTimerAlphaSliderText
+PowerAuras/PowerOptions.lua: PowaTimerSizeSliderText
+PowerAuras/PowerOptions.lua: PowaTimerCoordSliderText
+PowerAuras/PowerOptions.lua: PowaTimerCoordXSliderText
+PowerAuras/PowerOptions.lua: PowaTimerDurationSliderText
+PowerAuras/PowerOptions.lua: PowaStacksAlphaSliderText
+PowerAuras/PowerOptions.lua: PowaStacksSizeSliderText
+PowerAuras/PowerOptions.lua: PowaStacksCoordSliderText
+PowerAuras/PowerOptions.lua: PowaStacksCoordXSliderText
+PowerAuras/PowerOptions.lua: PowaOptionsUpdateSlider2Text
+PowerAuras/PowerOptions.lua: PowaOptionsAnimationsSlider2Text
+PowerAuras/PowerOptions.lua: PowaOptionsTimerUpdateSlider2Text
+PowerAuras/PowerOptions.lua: PowaTimerCoordSliderLow
+PowerAuras/PowerOptions.lua: PowaTimerCoordSliderHigh
+PowerAuras/PowerOptions.lua: PowaTimerCoordXSliderLow
+PowerAuras/PowerOptions.lua: PowaTimerCoordXSliderHigh
+PowerAuras/PowerOptions.lua: PowaStacksCoordSliderLow
+PowerAuras/PowerOptions.lua: PowaStacksCoordSliderHigh
+PowerAuras/PowerOptions.lua: PowaStacksCoordXSliderLow
+PowerAuras/PowerOptions.lua: PowaStacksCoordXSliderHigh
+PowerAuras/PowerOptions.lua: PowaMineButtonText
+PowerAuras/PowerOptions.lua: PowaExtraButtonText
+PowerAuras/PowerOptions.lua: PowaTargetFriendButtonText
+# Optional third-party addons, read behind existence checks: GTFO, CT_RaidAssist, RDX, oRA
+PowerAuras/PowerAurasAuraClasses.lua: GTFO
+PowerAuras/PowerAurasDump.lua: CT_RA_MainTanks
+PowerAuras/PowerAurasDump.lua: RDX
+PowerAuras/PowerAurasDump.lua: RDXM
+PowerAuras/PowerAurasDump.lua: oRA_MainTank
+# developer hook: `if (TestPA==nil)` takes the normal path unless a test harness defines it
+PowerAuras/PowerAurasEvents.lua: TestPA
+# arguments to PowaAuras:Message inside `if (self.Debug)` blocks only; they print as nil
+PowerAuras/PowerAurasAuraClasses.lua: bag
+PowerAuras/PowerAurasAuraClasses.lua: slot
+PowerAuras/PowerAurasAuraClasses.lua: itemStackCount
+
+# --- Prat-3.0 ---
+# addon.lua runs under setfenv(1, Prat); `db` resolves to Prat.db
+Prat-3.0/addon/addon.lua: db
+# Optional third-party addons, read behind existence checks: LOKWhoIsWho, GuildGreet, WIM, TasteTheNaimbow
+Prat-3.0/modules/AltNames.lua: LOKWhoIsWho_Config
+Prat-3.0/modules/AltNames.lua: GLDG_Data
+Prat-3.0/modules/WIM.lua: WIM
+Prat-3.0/modules/PlayerNames.lua: TasteTheNaimbow_Loaded
+Prat-3.0/modules/PlayerNames.lua: TasteTheNaimbowExternalColor
+# GetCommonCLR passes an undefined `name` to TasteTheNaimbow; only reached with that addon loaded
+# and its option on. Upstream, left as is.
+Prat-3.0/modules/PlayerNames.lua: name
+# GlobalStrings chat-type labels, read with `or` fallbacks
+Prat-3.0/modules/CustomFilters.lua: CHAT_MSG_SAY
+Prat-3.0/modules/CustomFilters.lua: CHAT_MSG_CHANNEL_LIST
+Prat-3.0/modules/CustomFilters.lua: CHAT_MSG_WHISPER_INFORM
+
+# --- Prat-3.0_Libraries (LibSink-2.0) ---
+# Optional scrolling-combat-text sinks, each read behind an existence check
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: Parrot
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: SCT
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: MikSBT
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: MSBTProfiles
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: BlinkCombatFeedback
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: bcfDB
+# Upstream LibSink: RegisterSink asserts on a global `scrollAreas` instead of its parameter. The
+# global is nil, so the assert always passes. Vendored library, not edited.
+Prat-3.0_Libraries/LibSink-2.0/LibSink-2.0.lua: scrollAreas
+
+# --- SexyMap ---
+# Optional third-party addons, read behind existence checks
+SexyMap/Borders.lua: TexBrowser
+SexyMap/Buttons.lua: ElkBuffBars
+SexyMap/HudMap.lua: GatherMate
+SexyMap/HudMap.lua: QuestHelper
+SexyMap/HudMap.lua: Routes
+# Vendored AceGUI-3.0-SharedMediaWidgets: AddCloseButton is only called on the multiselect path,
+# which SexyMap never enables. Upstream, not edited.
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/FontWidget.lua: AddCloseButton
+# Vendored LibBetterBlizzOptions: Mac-only frame, read behind "if MacOptionsFrame then"
+SexyMap/Libs/LibBetterBlizzOptions-1.0/LibBetterBlizzOptions-1.0.lua: MacOptionsFrame
+
+# --- Skillet ---
+# Vendored Ace2 / Window-1.0 / LibPeriodicTable (not edited): upstream reads of never-set
+# names in debug/tostring paths, optional callbacks, or as a nil metatable, all tolerant of nil
+Skillet/Libs/AceAddon-2.0/AceAddon-2.0.lua: addon
+Skillet/Libs/AceAddon-2.0/AceAddon-2.0.lua: module
+Skillet/Libs/AceConsole-2.0/AceConsole-2.0.lua: passTable
+Skillet/Libs/AceConsole-2.0/AceConsole-2.0.lua: hasAlpha
+Skillet/Libs/AceDB-2.0/AceDB-2.0.lua: realName
+Skillet/Libs/LibPeriodicTable-3.1/LibPeriodicTable-3.1-Tradeskill/LibPeriodicTable-3.1-Tradeskill.lua: m
+Skillet/Libs/Window-1.0/Window-1.0.lua: scale
+# Pre-3.0 Craft API, used only by SkilletData:ScanEnchantingGroups, which nothing calls
+Skillet/SkilletData.lua: GetCraftSlots
+Skillet/SkilletData.lua: SetCraftFilter
+Skillet/SkilletData.lua: GetNumCrafts
+Skillet/SkilletData.lua: GetCraftRecipeLink
+# Pre-3.0 CraftFrame label, behind an IsCraft() check that is always false on 3.3.5
+Skillet/ThirdPartyHooks.lua: CraftReagentLabel
+# Optional third-party addons, read behind existence checks: Fizzwidget Reagent Cost, TradeJunkie,
+# AutoCraft, Ackis Recipe List, EnhTooltip, TradeskillInfo, WIM, LilSparky's Workshop
+Skillet/ThirdPartyHooks.lua: FRC_PriceSource
+Skillet/ThirdPartyHooks.lua: FRC_CraftFrame_SetSelection
+Skillet/ThirdPartyHooks.lua: FRC_TradeSkillFrame_SetSelection
+Skillet/ThirdPartyHooks.lua: TJ_OpenButtonTradeSkill
+Skillet/ThirdPartyHooks.lua: TradeJunkie_Attach
+Skillet/ThirdPartyHooks.lua: AC_Craft
+Skillet/ThirdPartyHooks.lua: AC_ToggleButton
+Skillet/ThirdPartyHooks.lua: AC_UseButton
+Skillet/SkilletData.lua: AckisRecipeList
+Skillet/SkilletData.lua: ARLRecipeSourceTrainerButton
+Skillet/UI/MainFrame.lua: EnhTooltip
+Skillet/UI/MainFrame.lua: TradeskillInfo
+Skillet/UI/MainFrame.lua: TradeskillInfo_UnknownNPC_Text
+Skillet/UI/MainFrame.lua: TradeskillInfo_UnknownSource_Text
+Skillet/UI/MainFrame.lua: WIM_EditBoxInFocus
+Skillet/UI/ShoppingList.lua: LSW
+# Text child of the SkilletShowQueuesFromAllAlts check button (template $parentText)
+Skillet/UI/ShoppingList.lua: SkilletShowQueuesFromAllAltsText
+
+# --- Titan family ---
+# Icon textures created by TitanPanelButtonTemplate ($parentIcon) for these named buttons
+Titan/TitanAutoHide.lua: TitanPanelAutoHideButtonIcon
+Titan/TitanAutoHide.lua: TitanPanelAuxAutoHideButtonIcon
+TitanXP/TitanXP.lua: TitanPanelXPButtonIcon
+# CleanMinimap addon, read behind an existence check
+Titan/TitanMovable.lua: CleanMinimap
+
+
+# Optional third-party addon globals that several files read, each behind an existence check
+# (MikSBT/Parrot/SCT/BlinkCombatFeedback sinks, myAddOns/Khaos, Ackis Recipe List, MrPlow,
+# EnhTooltip, TradeJunkie, AutoCraft)
+MikSBT
+MSBTProfiles
+Parrot
+SCT
+BlinkCombatFeedback
+bcfDB
+Khaos
+myAddOnsFrame_Register
+AckisRecipeList
+MrPlow
+EnhTooltip
+TJ_OpenButtonTradeSkill
+AC_Craft
+AC_ToggleButton
+AC_UseButton
+# Template child (OptionsSliderTemplate $parentHigh) of the PowerAuras texture slider
+PowerAuras/PowerOptions.lua: PowaBarAuraTextureSliderHigh
+# Same upstream LibSink scrollAreas assert, SilverDragon copy
+SilverDragon/lib/LibSink-2.0/LibSink-2.0.lua: scrollAreas
+# Same upstream LibRevision nil read, other bundled copies
+Informant/Libs/Babylonian/Support/LibRevision.lua: addition
+Informant/Libs/DebugLib/Support/LibRevision.lua: addition
+Informant/Libs/Configator/Support/LibRevision.lua: addition
+# Same unused multiselect AddCloseButton path, other SharedMediaWidgets files
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/BackgroundWidget.lua: AddCloseButton
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/BorderWidget.lua: AddCloseButton
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SharedFunctions.lua: AddCloseButton
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SoundWidget.lua: AddCloseButton
+SexyMap/Libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/StatusbarWidget.lua: AddCloseButton
+# SilverDragon and SlideBar copies of the same upstream library reads
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/BackgroundWidget.lua: AddCloseButton
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/BorderWidget.lua: AddCloseButton
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/FontWidget.lua: AddCloseButton
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/SharedFunctions.lua: AddCloseButton
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/SoundWidget.lua: AddCloseButton
+SilverDragon/lib/AceGUI-3.0-SharedMediaWidgets/StatusbarWidget.lua: AddCloseButton
+SlideBar/Support/LibRevision.lua: addition
+# Titan copy of the same SharedMediaWidgets multiselect path
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/BackgroundWidget.lua: AddCloseButton
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/BorderWidget.lua: AddCloseButton
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/FontWidget.lua: AddCloseButton
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SharedFunctions.lua: AddCloseButton
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SoundWidget.lua: AddCloseButton
+Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/StatusbarWidget.lua: AddCloseButton

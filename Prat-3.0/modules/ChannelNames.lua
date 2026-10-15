@@ -484,7 +484,7 @@ Prat:SetModuleDefaults(module.name, {
     chanSave = {},
     shortnames = 
 		-- zhCN
-		PratCNlocal == "zhCN" and {
+		GetLocale() == "zhCN" and {
         say = "[说]",
         whisper = "[密]",
         whisperincome = "[收]",
@@ -509,7 +509,7 @@ Prat:SetModuleDefaults(module.name, {
         channel10 = "[10]",
     }
 		--zhTW
-		or PratCNlocal == "zhTW" and {
+		or GetLocale() == "zhTW" and {
         say = "[說]",
         whisper = "[密]",
         whisperincome = "[聽]",
@@ -534,7 +534,7 @@ Prat:SetModuleDefaults(module.name, {
         channel10 = "[10]",
     }
 		--koKR
-		or PratCNlocal == "koKR" and {
+		or GetLocale() == "koKR" and {
         say = "[대화]",
         whisper = "[귓말]",
         whisperincome = "[받은귓말]",

@@ -76,7 +76,7 @@ plus a clean pass through the scripted runtime harness in `_dev/`. See
 
 ## Where things stand
 
-Last worked on: **2026-10-13**.
+Last worked on: **2026-10-14**.
 
 - All six Bagnon-family addons have had the full pass. No addon is half-finished.
 - The four Carbonite folders had a **static-only** pass (see [Carbonite](#carbonite--334)):
@@ -110,6 +110,12 @@ Last worked on: **2026-10-13**.
   audit (the one cancelled on 2026-09-28) was finally done; the static checker was hardened** (see
   [the 2026-10-13 pass](#2026-10-13-pass--questitemhelper-auctioneer-deep-audit-checker-hardening)).
   Everything up to commit `be4f6e6` is committed; this pass is uncommitted in the working tree.
+- **2026-10-14: 52 new folders (EveryQuest, GatherMate, GearScore, Grid2, Informant, MobInfo2,
+  Postal, PowerAuras, Prat-3.0, Quartz, Recount, SellJunk, SexyMap, SilverDragon, Skillet, SlideBar,
+  the Titan family, both Zygor addons, oUF and their data/option modules) given the static gate, a
+  deep audit and the UI polish** (see [the 2026-10-14 pass](#2026-10-14-pass--52-new-folders-static-gate-deep-audit-ui-polish)).
+  The audit itself is commit `d5ec249`; the main-thread follow-ups are uncommitted. GridStatusSearing
+  and TomTomLite (both Cataclysm builds) are excluded from the gate via `_dev/skip.txt`.
 - Current gate state: **6 of 6 green** (see below).
 
 ## How to verify
@@ -1173,6 +1179,205 @@ not reverted, because it was a deliberate choice. `DIALOG` is the strata of `Sta
 and the colour picker, and `InterfaceOptionsFrame` sits at `HIGH`. So **Bagnon's own options panel,
 opened from the window's options button, can now open underneath the bag window**, and clicking the
 bags can raise them over a "Delete item?" popup. Needs a look in the client.
+
+### 2026-10-14 pass — 52 new folders: static gate, deep audit, UI polish
+
+**Added in `4e5109d`:**
+- EveryQuest plus its 11 data modules.
+- GatherMate and GatherMate_Data.
+- GearScore.
+- Grid2, Grid2Options, Grid2StatusRaidDebuffs(+Options) and GridStatusSearing.
+- Informant and MobInfo2.
+- Postal and PowerAuras.
+- Prat-3.0, Prat-3.0_HighCPUUsageModules and Prat-3.0_Libraries.
+- Quartz, Recount, SellJunk, SexyMap, SilverDragon(+_Data), Skillet and SlideBar.
+- Titan plus 11 Titan plugins.
+- TomTomLite, ZygorGuidesViewer, ZygorTalentAdvisor and oUF.
+
+**How the pass was run:**
+- The audit ran as six parallel group audits: raid, chat, combat, titan, leveling and utility.
+- Their edits were committed as `d5ec249`. The main thread then re-verified that commit, finished the static triage the group audits did not complete, and applied the follow-up fixes listed below. Those follow-ups are uncommitted.
+- Standard is the same as every pass before: static gate first, then a manual logic/event read. Every candidate is re-read against the source before a fix. Vendored libraries are recorded but not edited, except where the bug is a real runtime failure.
+
+**Gate:** 6/6 green.
+- 1756 Lua files parsed, 0 errors, 0 unknown globals.
+- Smoke 205, migrate 51, garbage 7, QuestItemHelper 79, all with 0 failures.
+
+#### Excluded from the gate (`_dev/skip.txt`)
+
+- **GridStatusSearing** (`## Interface: 40300`). A Cataclysm plugin for the *original* Grid, not Grid2. It tracks Searing Plasma on Spine of Deathwing (Dragon Soul), which does not exist on 3.3.5, and Grid itself is not in the workspace. Nothing to port; candidate for removal.
+- **TomTomLite** (`## Interface: 40300`, `## DefaultState: disabled`). Every waypoint path runs through 4.x-only map APIs: `SetMapByID`, `GetCurrentMapAreaID`, `GetQuestIndexForWatch` and the QuestPOI icon constants. It also needs a Cataclysm LibMapData and has an archaeology source. Porting it means rewriting it, so it was not ported. The 3.3.5 TomTom release does the same job. Candidate for removal.
+
+#### Packaging fixes in `d5ec249`
+
+- **Skillet:**
+  - `## Interface` bumped from 30200 to 30300.
+  - The missing `LibPeriodicTable-3.1-TradeskillLevels.lua` entry is commented out. Without that data, recipes keep Blizzard's difficulty colour instead of all showing trivial grey.
+- **GearScore:** BonusScanner moved from `## Dependencies` to `## OptionalDeps`.
+  - The addon would not load at all without it.
+  - It now loads. Spec scores and the four spec bars hide when BonusScanner is absent.
+  - **BonusScanner is not in the workspace.**
+- **Grid2:** the missing `modules\StatusTest.lua` include is commented out.
+- **ZygorGuidesViewer / ZygorTalentAdvisor:** the empty user slots (`GuideNN.lua`, `BuildNN.lua`, trial and daily files, `Dev.lua`, `MapCoords.lua`, `SpinArrow.xml`) are commented out in the Autoload/files XML. `readme.txt` explains how to re-enable a slot. This is a behaviour change: a user guide dropped into a slot no longer autoloads until its line is uncommented.
+- **ZygorTalentAdvisor:** the CallbackHandler include moved ahead of the Ace libraries. Before, ZTA failed to load unless another addon had loaded CallbackHandler first.
+- **Bad escapes fixed:**
+  - PowerAuras locales (deDE, zhCN, zhTW). In zhCN/zhTW the "party/raid" slash now shows again.
+  - LibSink-2.0 (Prat and SilverDragon copies).
+  - SellJunk.
+  - Skillet Waterfall-1.0.
+  - Titan LDBToTitan.
+  - Zygor QuestTracking.
+- **Zygor `Parser.lua`:** `goto =` became `["goto"] =`. Valid in 5.1 either way.
+
+#### Bug fixes in `d5ec249` — 189 across 31 folders
+
+Counts exclude hygiene: leaked locals, and `this`/`arg1`/`event` swaps, which change nothing on 3.3.5 because the client still sets those globals. Highlights by folder:
+
+- **EveryQuest (12):**
+  - Quest names were never localized: the scan tooltip had no owner.
+  - Shift-click linking crashed on `ChatFrameEditBox`.
+  - Quest-history import crashed, using a uid as the quest table.
+  - LibQuixote's `IsQuestWatchedByUid` was always nil (`quid`/`qid` typo).
+  - Daily and weekly repeat counts were never incremented.
+- **GatherMate (4):**
+  - Every gas loot was recorded as Steam Cloud on a cold item cache, because `strfind(msg, "")` matches everything.
+  - Gather events were registered inside instances.
+  - The fishing/gas special case only worked on enUS.
+  - `hidePin` restored the wrong world-map blob handler.
+- **GearScore (11):**
+  - Loads without BonusScanner.
+  - Prune read a record it had already removed, which aborted `ADDON_LOADED`.
+  - `Average` wrote NaN/inf to SavedVariables.
+  - The `SetInventoryItem` hook dropped Blizzard's return values.
+  - The database-view whisper crashed on `ChatFrameEditBox`.
+  - The throttle OnUpdate ran forever.
+- **Grid2 (19), Grid2Options (4), Grid2StatusRaidDebuffs (2):**
+  - Blinking used Show/Hide on secure unit buttons. It now uses SetAlpha.
+  - Layout drag and layout/scale options are blocked in combat, and layout reloads queue until combat ends.
+  - LibHealComm-4.0 had five case typos (`commtype`, `spellname`, `endtime`, plus a `lastGroup` read-before-assign) that silently dropped heal-update messages and group changes.
+  - Permanent auras blinked as "about to expire".
+  - `StatusVehicle` passed `false` to `SetValue`.
+  - The Reset Indicators/Statuses buttons called functions that no longer exist. They were removed; Debug > Reset covers them.
+- **Postal (7):**
+  - Six nil-concatenation crashes on mail with a missing subject or sender, or an unresolved BNet toon.
+  - TradeBlock cleared the user's own Block Trades setting on disable.
+- **Prat-3.0 (17), Prat-3.0_Libraries (1):**
+  - Border-by-channel errored on every update because `GetMessageTypeColor` does not exist on 3.3.5.
+  - The cycle-tabs keybind crashed because `DOCKED_CHAT_FRAMES` is nil; it now uses `FCFDock_*`.
+  - `CanGroupInvite` does not exist on 3.3.5, so a shim was added; invite links also never appeared because the global `event` is nil.
+  - "Delay GMOTD" was dead.
+  - The CopyChat font-size call used the wrong 3.3.5 signature.
+  - Channel-colour memory saved nil colours.
+  - Alts of a main never showed in tooltips (shadowed local plus a typo).
+  - LibAlts `IsAlt` was broken by a `TitleCase(alts)` typo.
+- **Quartz (13):**
+  - Interrupts were missed when the target, focus or raid-icon flag bits were set. It now uses a bitmask.
+  - Slam as an opener crashed the swing timer.
+  - Remove-timer removed nothing.
+  - Player→Latency lookup failed on non-enUS clients.
+  - A fresh install put the Focus bar on top of Target.
+- **Recount (2):** deaths past row 17 were unreachable, and summary "Damage Taken" was blank.
+- **SellJunk (5):**
+  - Uncached vendor price crashed.
+  - A double-clicked locked slot was sold twice.
+  - The buyback-cap total carried into the next sale.
+- **SexyMap (7):**
+  - `GetMininmapShape` was misspelled, so button libraries never saw the shape. SexyMap now defines the real global `GetMinimapShape`.
+  - Every shape reported ROUND.
+  - The rotation OnUpdate ran every frame with nothing rotating.
+  - Deleted presets crashed.
+- **SilverDragon (7), SilverDragon_Data (1):**
+  - The inverted `first_cachescan` test announced every cached mob at once.
+  - Scan-frequency changes needed a reload.
+  - Imported locations for already-seen mobs were never added (`loc` compared with itself).
+- **Skillet (14):**
+  - Reserving reagents for queued crafts failed with "table index is nil".
+  - The ARL source filter errored on every list refresh.
+  - The yellow difficulty tier got a nil colour.
+  - Four `skilletUnknownRecipe` crashes.
+  - Right-clicking an empty row crashed.
+- **SlideBar (3):** button OnOpen/OnClose hooks never fired (`ipairs` over an id-keyed table).
+- **Titan (6) and plugins (14):**
+  - TitanMovable died at file load on an unmatched resolution string.
+  - Lua 5.0 `for k,v in tbl do` loops errored.
+  - An old "Name" profile overwrote "Name@Realm".
+  - TitanGoldTracker multiplied stored gold by 10 on every show/hide toggle. Already-inflated values are not repaired.
+  - The TitanRepair `DurabilityFrame` hook overflowed the stack under Alt+Z.
+  - Auto-repair failed with exactly enough gold.
+  - TitanCoords overwrote Blizzard's global `message()` and yanked an open world map back to the current zone.
+- **ZygorGuidesViewer (17), ZygorTalentAdvisor (6):**
+  - `orneeded = 0` is truthy, so OR-goals were never counted.
+  - `IsFitting` was always true.
+  - Completed quests were treated as abandoned.
+  - Changing the scale crashed.
+  - Quest events with no guide loaded crashed.
+  - ZTA translations were registered under "Main" instead of "main", so they never loaded.
+  - Pet builds counted player talents.
+- **oUF (2):**
+  - UnregisterEvent left a hole in the handler list, so later handlers were dropped.
+  - Header frames polled OnUpdate without `frequentUpdates`.
+
+#### Follow-up fixes in the main thread (uncommitted)
+
+Found by triaging the 690 globals the gate did not recognise; every lowercase or non-API name was read at its site.
+
+- **PowerAuras:**
+  - `PowerAurasAuraClasses.lua`, `cPowaEnchant:SetForEnchant`: passed the undefined `count` to `SetStackCount`, so weapon-enchant stack text was always empty. Now `charges`.
+  - Same file: the raid check tested the undefined `numrm == 0`, so "only in raid" auras showed outside raids. Now `GetNumRaidMembers() == 0`.
+  - Same file: the `%df` text token called `UnitDefence`, which does not exist (the API is `UnitDefense`), so any aura text using `%df` errored. Now `base + modifier`.
+  - `PowerOptions.lua`: the page switch tested `self.Auras[auraId]` with an undefined `auraId`, so the editor always closed on page change. Now `self.CurrentAuraId`.
+  - `PowerOptions.lua`, `DropDownMenu_OnClickBegin`: `RedisplayAura(auraId)` with an undefined `auraId`, so the preview never refreshed after changing the begin animation. Now `PowaAuras.CurrentAuraId`.
+  - `PowerAurasEvents.lua`, `RUNE_TYPE_UPDATE`: the debug line printed the undefined `slot`; it now prints `runeId`. Debug only.
+- **Prat-3.0:**
+  - `AltNames.lua`, `delAlt`: read the undefined `mainname`, so the main's cached alt list was never invalidated after deleting an alt. It is now captured before the entry is cleared.
+  - `ChannelNames.lua`: the zhCN/zhTW/koKR short channel names keyed off an undefined `PratCNlocal`, so they were never used. Now `GetLocale()`.
+- **Informant:** `InfCommand.lua`, `onOff`: tested `type(param)` instead of `type(state)`, so a boolean argument (`onOff(true)`/`onOff(false)`, the documented API form) was silently ignored.
+- **Skillet:** `UI/ShoppingList.lua`, `findBagForItem`: compared bag contents to an undefined `id`, so it never found a partial stack to merge into. Now `itemID`.
+
+#### UI polish
+
+The shared addon style is the same as the previous passes:
+- slim tooltip-border chrome: edge 14, insets 3, grey border;
+- dark translucent fill at 0.8;
+- gold titles, muted grey secondary text;
+- softened good/warn/bad colours.
+
+**`d5ec249` applied it to** EveryQuest, GatherMate, GearScore, Grid2(+Options), Postal, Prat-3.0, Quartz, Recount, SellJunk, SilverDragon, SlideBar, Titan (plus Clock, GoldTracker, Performance, Regen, Volume) and both Zygor addons.
+- New shared button tooltips in Postal and SellJunk.
+- A coin-icon money format in TitanGoldTracker.
+- Confirm dialogs on destructive Grid2/SilverDragon options.
+- Quieter login chat in Titan and Grid2.
+
+**The main thread then restyled the remaining thick dialog-border windows:**
+- PowerAuras: options (it was a lava-rock texture), aura editor and import form.
+- MobInfo2: options.
+- Informant: info window.
+- GearScore: GearCheck window.
+- Skillet: info box.
+
+Content offsets were left alone; the slimmer border only adds padding.
+
+Several restyles change *defaults* (Recount title band, Grid2 layout colours, GatherMate track colours, EveryQuest status colours, Quartz Focus position). AceDB does not save defaults, so every user who never customised these will see the new values. Saved user choices are untouched.
+
+#### Recorded, not changed
+
+- Vendored-library upstream bugs: Configator, LibExtraTip, LibRevision, Ace2, Window-1.0, LibSink `scrollAreas`, SharedMediaWidgets `AddCloseButton`. Each is listed with its reason in `_dev/known.txt`.
+- Prat `PlayerNames.lua` `GetCommonCLR` passes an undefined `name` to TasteTheNaimbow. It is only reached with that addon loaded.
+- Skillet `SkilletData:ScanEnchantingGroups` uses the pre-3.0 Craft API, but nothing calls it.
+- MobInfo2 still scans pre-2.4 combat-log GlobalStrings. Absent ones are nil and drop out of the scan table.
+- `d5ec249` behaviour changes users will notice:
+  - Prat "Delay GMOTD" now works and defaults to on.
+  - Titan refuses dragging a plugin onto the other bar side.
+  - SexyMap's `GetMinimapShape` now re-lays out LibDBIcon/FuBar buttons for square shapes.
+
+#### Harness changes
+
+- `_dev/skip.txt` is read by both `check.js` and `run.js`. It lists folders deliberately kept out of the gate, one per line with a reason.
+- `run.js` collects every compile failure, instead of stopping at the first, and decodes error text as latin1, so a non-UTF-8 source byte no longer crashes the reporter.
+- `check.js`:
+  - resolves `.` and `..` in `<Include file>` paths. Prat's `..\frames\*.xml` and HighCPU's `..\Prat-3.0\modules\highcpu.xml` were false "missing file" errors.
+  - takes an `OPTIONAL_TOC_FILES` list for files a `.toc` lists on purpose but the player supplies. Currently only `MobInfo2/MI2_Import.lua`, which the external MobInfo database import tool generates.
+- `known.txt` grew by ~880 lines. Bare names are real 3.3.5 API, FrameXML frames or GlobalStrings. Scoped `path: name` entries cover XML template children, optional third-party addons read behind existence checks, `setfenv` environments, and the vendored-library cases above.
 
 ## What is left
 
