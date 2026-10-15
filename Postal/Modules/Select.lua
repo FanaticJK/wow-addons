@@ -18,6 +18,7 @@ local checkboxFunc = function(self) Postal_Select:ToggleMail(self) end
 local mailIndex, attachIndex
 local lastItem, lastNumAttach, lastNumGold
 local wait
+local waitStart
 local skipFlag
 local invFull
 local lastCheck
@@ -220,6 +221,7 @@ function Postal_Select:ProcessNext()
 
 	if mailIndex > 0 then
 		local msgSubject, msgMoney, msgCOD, _, msgItem, _, wasReturned, msgText, canReply, isGM = select(4, GetInboxHeaderInfo(mailIndex))
+		msgMoney = msgMoney or 0 -- nil once the mail at this index is gone
 
 		if currentMode then
 			-- Open mode
@@ -247,9 +249,15 @@ function Postal_Select:ProcessNext()
 						return self:ProcessNext() -- tail call
 					end
 				else
-					-- Wait longer until something in the mailbox changes
-					updateFrame:Show()
-					return
+					-- Wait longer until something in the mailbox changes. Another addon can veto
+					-- the take (BeanCounter aborts TakeInbox* while it reconciles AH mail), and
+					-- the server can drop it, so after a few seconds take the same slot again
+					-- instead of waiting forever with the inbox disabled.
+					if GetTime() - (waitStart or 0) < 3 then
+						updateFrame:Show()
+						return
+					end
+					wait = false
 				end
 			end
 
@@ -297,6 +305,7 @@ function Postal_Select:ProcessNext()
 
 				lastNumAttach, lastNumGold = Postal:CountItemsAndMoney()
 				wait = true
+				waitStart = GetTime()
 				-- Find next attachment index backwards
 				local attachIndex2 = attachIndex - 1
 				while not GetInboxItemLink(mailIndex, attachIndex2) and attachIndex2 > 0 do
@@ -312,6 +321,7 @@ function Postal_Select:ProcessNext()
 
 				lastNumAttach, lastNumGold = Postal:CountItemsAndMoney()
 				wait = true
+				waitStart = GetTime()
 
 				updateFrame:Show()
 			else

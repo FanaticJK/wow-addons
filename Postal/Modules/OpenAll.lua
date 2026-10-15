@@ -12,6 +12,7 @@ local mailIndex, attachIndex
 local origNumItems, origTotalItems
 local lastItem, lastNumAttach, lastNumGold
 local wait
+local waitStart
 local button
 local Postal_OpenAllMenuButton
 local skipFlag
@@ -158,13 +159,20 @@ function Postal_OpenAll:ProcessNext()
 					return self:ProcessNext() -- tail call
 				end
 			else
-				-- Wait longer until something in the mailbox changes
-				updateFrame:Show()
-				return
+				-- Wait longer until something in the mailbox changes. Another addon can veto
+				-- the take (BeanCounter aborts TakeInbox* while it reconciles AH mail), and
+				-- the server can drop it, so after a few seconds take the same slot again
+				-- instead of waiting forever with the inbox disabled.
+				if GetTime() - (waitStart or 0) < 3 then
+					updateFrame:Show()
+					return
+				end
+				wait = false
 			end
 		end
 
 		local sender, msgSubject, msgMoney, msgCOD, _, msgItem, _, _, msgText, _, isGM = select(3, GetInboxHeaderInfo(mailIndex))
+		msgMoney = msgMoney or 0 -- nil once the mail at this index is gone
 
 		-- Skip mail if it contains a CoD or if its from a GM
 		if (msgCOD and msgCOD > 0) or (isGM) then
@@ -232,6 +240,7 @@ function Postal_OpenAll:ProcessNext()
 
 			lastNumAttach, lastNumGold = Postal:CountItemsAndMoney()
 			wait = true
+			waitStart = GetTime()
 			-- Find next attachment index backwards
 			local attachIndex2 = attachIndex - 1
 			while not GetInboxItemLink(mailIndex, attachIndex2) and attachIndex2 > 0 do
@@ -247,6 +256,7 @@ function Postal_OpenAll:ProcessNext()
 
 			lastNumAttach, lastNumGold = Postal:CountItemsAndMoney()
 			wait = true
+			waitStart = GetTime()
 
 			updateFrame:Show()
 		else
