@@ -787,12 +787,14 @@ function TitanUpdateAddonAttempts()
 		if TitanPluginToBeRegistered[idx] 
 		then
 			local num = tostring(idx)
-			local button = TitanPluginToBeRegistered[idx].button
+			local button = (TitanPluginToBeRegistered[idx].button or "")
 			local name = (TitanPluginToBeRegistered[idx].name or "?")
 			local reason = TitanPluginToBeRegistered[idx].status
-			local issue = TitanPluginToBeRegistered[idx].issue
-			local category = TitanPluginToBeRegistered[idx].category
-			local ptype = TitanPluginToBeRegistered[idx].plugin_type
+			-- a registration that failed inside pcall sets only status/issue/name, so every
+			-- field shown on this page needs a fallback before it is concatenated
+			local issue = (TitanPluginToBeRegistered[idx].issue or "")
+			local category = (TitanPluginToBeRegistered[idx].category or "")
+			local ptype = (TitanPluginToBeRegistered[idx].plugin_type or "")
 --[[
 			if TitanPluginToBeRegistered[idx].button then
 				local reg_but = TitanPluginToBeRegistered[idx].button
@@ -810,7 +812,7 @@ function TitanUpdateAddonAttempts()
 				end
 			end
 --]]
-			local title = num.." "..TitanPluginToBeRegistered[idx].name
+			local title = num.." "..name
 			if reason ~= TITAN_REGISTERED then
 				title = TitanUtils_GetRedText(num)
 				issue = TitanUtils_GetRedText(issue)

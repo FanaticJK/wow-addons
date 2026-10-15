@@ -183,7 +183,8 @@ TitanDebug("RegisterPluginProtected: "
 	ret_val.result = (result or TITAN_REGISTER_FAILED)
 	ret_val.id = (id or "")
 	ret_val.cat = (cat or "General")
-	ret_val.ptype = ptype
+	-- child buttons and failed registrations never set a type; give them a printable value
+	ret_val.ptype = (ptype or (isChildButton and "Child" or ""))
 	return ret_val
 end
 

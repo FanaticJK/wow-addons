@@ -1331,6 +1331,13 @@ Found by triaging the 690 globals the gate did not recognise; every lowercase or
 - **Prat-3.0:**
   - `AltNames.lua`, `delAlt`: read the undefined `mainname`, so the main's cached alt list was never invalidated after deleting an alt. It is now captured before the entry is cleared.
   - `ChannelNames.lua`: the zhCN/zhTW/koKR short channel names keyed off an undefined `PratCNlocal`, so they were never used. Now `GetLocale()`.
+- **Titan (regression from `d5ec249`, reported in game 2026-10-15):** `TitanPanel.lua:864`
+  `attempt to concatenate local 'ptype' (a nil value)` in `TitanUpdateAddonAttempts`. `d5ec249`
+  made `ptype` local in `TitanUtils_RegisterPluginProtected`; it used to be a leaked global, so
+  child buttons and failed registrations silently inherited the previous plugin's type. Now they
+  got nil, and the Attempts options page concatenated it. Fixed both ends: the registrar always
+  returns a printable type (`"Child"` or `""`), and the Attempts page falls back to `""` for every
+  field it concatenates (a pcall failure sets only status/issue/name).
 - **Informant:** `InfCommand.lua`, `onOff`: tested `type(param)` instead of `type(state)`, so a boolean argument (`onOff(true)`/`onOff(false)`, the documented API form) was silently ignored.
 - **Skillet:** `UI/ShoppingList.lua`, `findBagForItem`: compared bag contents to an undefined `id`, so it never found a partial stack to merge into. Now `itemID`.
 
