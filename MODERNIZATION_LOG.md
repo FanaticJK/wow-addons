@@ -1386,6 +1386,17 @@ Several restyles change *defaults* (Recount title band, Grid2 layout colours, Ga
   - takes an `OPTIONAL_TOC_FILES` list for files a `.toc` lists on purpose but the player supplies. Currently only `MobInfo2/MI2_Import.lua`, which the external MobInfo database import tool generates.
 - `known.txt` grew by ~880 lines. Bare names are real 3.3.5 API, FrameXML frames or GlobalStrings. Scoped `path: name` entries cover XML template children, optional third-party addons read behind existence checks, `setfenv` environments, and the vendored-library cases above.
 
+### 2026-10-19 — Skillet: item quality square and quest markers
+
+New file `Skillet/UI/RecipeIndicators.lua`, called from the shared recipe-list renderer in `UI/MainFrame.lua`, so every trade (Blacksmithing, Tailoring, Leatherworking and the rest) gets it.
+
+- **Quality square.** An 8 px square, with a dark 1 px frame, sits in a 12 px gutter at the right edge of the level column, in front of the name. Its colour comes from `GetItemInfo(itemID)` quality through `ITEM_QUALITY_COLORS`, with `GetItemQualityColor` as the fallback. It never reads `skill.difficulty`, so the difficulty colours of the name, the count and the selection highlight are unchanged. Header rows and recipes without an item (enchants) get no square.
+- **Uncached items.** 3.3.5 has no `GET_ITEM_INFO_RECEIVED`. An uncached item shows a dark placeholder. It is requested once per session through a hidden tooltip `SetHyperlink`, and a single debounced redraw is scheduled 1 s later. Resolved name and quality are cached per itemID.
+- **Quest markers.** The 3.3.5 quest log does not expose objective item IDs, only text (`"Linen Cloth: 2/5"`), so item objectives are keyed by name. That name is matched against the client-localized name of the recipe's `itemID`. The recipe name is used only while the item is still uncached. Required counts are summed across quests. The row gets an `ActiveQuestIcon` and `have/need` prefix, yellow while short and green when enough is held. `have` is `GetItemCount` at draw time, so the existing `BAG_UPDATE` redraw keeps it current. The detailed recipe tooltip lists each quest.
+- **Refresh.** The quest log is read lazily on the next draw after `UNIT_QUEST_LOG_CHANGED` (player) or after the window opens, never on scroll. Collapsed headers are expanded for the read and restored afterwards, using the QuestItemHelper pattern. `QUEST_LOG_UPDATE` is deliberately not watched: header expand/collapse fires it, so watching it would make this scan and QuestItemHelper's wake each other forever.
+- Two Appearance toggles, both on by default: `show_item_quality` and `show_quest_items`. Strings are enUS only; AceLocale-2.2 falls back to it.
+- Verified: static gate green. An ad-hoc fengari run of the module against stubs passed 14 checks (quality colours, unrelated recipe unmarked, collapsed headers restored, summed needs, abandon refresh, uncached placeholder plus single query, caching, toggles, tooltip). Not verified in a client: pixel alignment, the real `UNIT_QUEST_LOG_CHANGED` timing on loot progress, and non-`"%s: %d/%d"` objective formats.
+
 ## What is left
 
 1. **In-game testing.** Everything below.

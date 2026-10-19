@@ -80,6 +80,7 @@ UI\Utils.lua
 UI\Sorting.lua
 UI\MainFrame.lua
 UI\MainFrame.xml
+UI\RecipeIndicators.lua
 UI\RecipeNotes.lua
 UI\RecipeNotes.xml
 UI\MerchantWindow.lua

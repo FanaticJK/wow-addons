@@ -1016,7 +1016,7 @@ function Skillet:internal_UpdateTradeSkillWindow()
 			countText:SetWidth(10)
 
 --			buttonText:SetPoint("LEFT", levelText, "RIGHT", skill.depth*8-8, 0)
-			levelText:SetWidth(skill.depth*8+20)
+			levelText:SetWidth(skill.depth*8+20 + self:GetRecipeIndicatorGutter())
 
 			local textAlpha = 1
 
@@ -1062,6 +1062,8 @@ function Skillet:internal_UpdateTradeSkillWindow()
 ]]
 
 			if skill.subGroup then
+				self:HideRecipeIndicators(button)
+
 				if SkillButtonNameEdit.originalButton ~= buttonText then
 					buttonText:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, textAlpha)
 					countText:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, textAlpha)
@@ -1129,7 +1131,10 @@ function Skillet:internal_UpdateTradeSkillWindow()
 					end
 				end
 
-				local text = (self:GetRecipeNamePrefix(self.currentTrade, skillIndex) or "") .. skill.name
+				-- item quality square and quest marker, independent of the difficulty colour above
+				local questPrefix = self:UpdateRecipeIndicators(button, levelText, recipe, skill)
+
+				local text = questPrefix .. (self:GetRecipeNamePrefix(self.currentTrade, skillIndex) or "") .. skill.name
 
 				if #recipe.reagentData > 0 then
 
@@ -1515,6 +1520,9 @@ function Skillet:SkillButton_OnEnter(button)
 	local text = string.format("[%s/%s]", L["reagents in inventory"], L["bank"])
 
 	SkilletTradeskillTooltip:AddDoubleLine("\n", text)
+
+	-- quests that want the crafted item
+	self:AddRecipeQuestTooltip(SkilletTradeskillTooltip, recipe, skill)
 
 
 	-- Do any mods want to add extra info about this recipe?
@@ -2842,6 +2850,9 @@ local old_CloseSpecialWindows
 -- Called when the trade skill window is shown
 function Skillet:Tradeskill_OnShow()
 DebugSpam("Tradeskill_OnShow")
+
+	-- the quest log may have changed while the window was closed
+	self:InvalidateQuestItems()
 
 	-- Need to hook this so that hitting [ESC] will close the Skillet window(s).
 	if not old_CloseSpecialWindows then

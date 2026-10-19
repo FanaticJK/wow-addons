@@ -82,6 +82,10 @@ L:RegisterTranslations("enUS", function() return {
     ["APPEARANCEDESC"]					= "Options that control how Skillet is displayed",
     ["DISPLAYREQUIREDLEVELNAME"]			= "Display required level",
     ["DISPLAYREQUIREDLEVELDESC"]			= "If the item to be crafted requires a minimum level to use, that level will be displayed along with the recipe",
+    ["SHOWITEMQUALITYNAME"]				= "Show item quality",
+    ["SHOWITEMQUALITYDESC"]				= "Show a small square in the quality colour of the crafted item (green, blue, purple, ...) in front of each recipe. It does not depend on your skill level",
+    ["SHOWQUESTITEMSNAME"]				= "Mark quest items",
+    ["SHOWQUESTITEMSDESC"]				= "Mark recipes whose crafted item is needed by a quest in your quest log, with the number held and needed",
     ["Transparency"]					= true,
     ["TRANSPARAENCYDESC"]				= "Transparency of the main trade skill window",
 

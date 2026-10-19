@@ -172,7 +172,7 @@ Added in `4e5109d`, audited in `d5ec249` (189 fixes) plus uncommitted main-threa
 | SellJunk | 2.6.3 | SellJunkDB | Static-only + audited | 5 fixes (double-sell of a locked slot, buyback-cap total). Coin colours, tooltip. |
 | SexyMap | — | SexyMapDB | Static-only + audited | 7 fixes. Now defines the real `GetMinimapShape` (was misspelled) — button libraries re-layout for square shapes. |
 | SilverDragon (+_Data) | v2.3.4 | SilverDragon2DB | Static-only + audited | 8 fixes (cache re-prime inverted, import never added locations). Popup restyled. |
-| Skillet | 1.10-LS | SkilletDB / SkilletDBPC(char) | Static-only + audited | Interface 30200→30300. 15 fixes (reagent reservation crash, ARL filter crash, shopping-list stack merge). Info box restyled. |
+| Skillet | 1.10-LS | SkilletDB / SkilletDBPC(char) | Static-only + audited | Interface 30200→30300. 15 fixes (reagent reservation crash, ARL filter crash, shopping-list stack merge). Info box restyled. 2026-10-19: item-quality square + quest-item markers in the recipe list (`UI/RecipeIndicators.lua`), needs in-game check. |
 | SlideBar | 5.8.4723 | SlideBarConfig | Static-only + audited | 3 fixes (OnOpen/OnClose hooks never fired). Restyled. |
 | Titan | 4.3.8.30300 r386 | TitanSettings, TitanSkins, ServerTimeOffsets, ServerHourFormat | Static-only + audited | 6 fixes (TitanMovable dead at load, Lua 5.0 loops, profile migration overwrite). Login chat quieter. |
 | Titan plugins (Ammo, Bag, Clock, Coords, GoldTracker, LootType, Performance, Regen, Repair, Volume, XP) | 4.3.8.30300 | GoldArray (GoldTracker) | Static-only + audited | 14 fixes: GoldTracker ×10 gold corruption (old inflation not repaired), Repair stack overflow under Alt+Z and `>`→`>=` auto-repair, Coords clobbering `message()`. |

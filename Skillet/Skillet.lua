@@ -52,6 +52,8 @@ Skillet:RegisterDefaults('profile', {
     link_craftable_reagents = true,
     queue_craftable_reagents = true,
     display_required_level = false,
+    show_item_quality = true,
+    show_quest_items = true,
     display_shopping_list_at_bank = false,
     display_shopping_list_at_guildbank = false,
     display_shopping_list_at_auction = false,
@@ -273,6 +275,32 @@ Skillet.options =
                         Skillet:UpdateTradeSkillWindow()
                     end,
                     order = 1
+                },
+                show_item_quality = {
+                    type = "toggle",
+                    name = L["SHOWITEMQUALITYNAME"],
+                    desc = L["SHOWITEMQUALITYDESC"],
+                    get = function()
+                        return Skillet.db.profile.show_item_quality
+                    end,
+                    set = function(value)
+                        Skillet.db.profile.show_item_quality = value
+                        Skillet:UpdateTradeSkillWindow()
+                    end,
+                    order = 1.1
+                },
+                show_quest_items = {
+                    type = "toggle",
+                    name = L["SHOWQUESTITEMSNAME"],
+                    desc = L["SHOWQUESTITEMSDESC"],
+                    get = function()
+                        return Skillet.db.profile.show_quest_items
+                    end,
+                    set = function(value)
+                        Skillet.db.profile.show_quest_items = value
+                        Skillet:UpdateTradeSkillWindow()
+                    end,
+                    order = 1.2
                 },
                 transparency = {
                     type = "range",
