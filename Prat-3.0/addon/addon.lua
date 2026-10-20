@@ -551,6 +551,15 @@ function addon:ChatFrame_MessageEventHandler(this, event, ...)
 
     loading = nil -- clear any batch message loading that may be happening
 
+	-- Private servers can send channel notice types that have no CHAT_<type>_NOTICE
+	-- global string, which makes the default handler call format(nil, ...).
+	-- Register a generic fallback so the notice still displays instead of erroring.
+	if (event == "CHAT_MSG_CHANNEL_NOTICE" or event == "CHAT_MSG_CHANNEL_NOTICE_USER") and type(arg1) == "string" and arg1 ~= "" then
+		if not _G["CHAT_"..arg1.."_NOTICE_BN"] and not _G["CHAT_"..arg1.."_NOTICE"] then
+			_G["CHAT_"..arg1.."_NOTICE"] = "[%s. %s] "..arg1:lower():gsub("_", " ")
+		end
+	end
+
     if not HookedFrames[this:GetName()] then
 		return self.hooks["ChatFrame_MessageEventHandler"](this, event, ...)
     end
