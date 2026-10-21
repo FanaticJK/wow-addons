@@ -126,7 +126,7 @@ Nx.GaR={["NXHerb"]={[47]=46,},["NXMine"]={[6]=9,[17]=20,[23]=22,[25]=24,[26]=24,
 Nx.But.TyD={["AAItem"]={Up="$INV_Misc_QuestionMark",Dn="$INV_Misc_QuestionMark",SiU=16,SiD=16,},["Chk"]={Ski=true,Boo=true,Up="But",Dn="ButChk",},["Close"]={Ski=true,Up="ButClose",Dn="ButClose",Tip="Close/Menu"
 },["CloseLock"]={Ski=true,Up="ButLock",Dn="ButLock",Tip="Close/Unlock"
 },["Color"]={Tip="Pick Color",SiU=22,SiD=22,},["Lock"]={Ski=true,Up="ButLock",Dn="ButLock",Tip="Unlock"
-},["Guide"]={Boo=true,Up="$INV_Misc_QuestionMark",Dn="$INV_Misc_QuestionMark",SiU=24,SiD=28,AlU=.7,AlD=1,},["Max"]={Tip="Maximize",Ski=true,Up="ButMax",Dn="ButMax",VRGBAU="ffffffff",},["MaxOn"]={Tip="Restore",Ski=true,Up="ButMax",Dn="ButMax",VRGBAU="7f7fffff",},["Min"]={Tip="Minimize",Boo=true,Ski=true,Up="ButWatchShow",Dn="ButWatchMini",VRGBAU="ffffff7f",VRGBAD="9f9fffff",},["MapAutoScale"]={Tip="Auto Scale",Boo=true,Ski=true,Up="But",Dn="ButChk",},["MapCombat"]={Up="$Ability_DualWield",SiU=22,SiD=22,},["MapEvents"]={Up="$INV_Misc_Note_03",SiU=22,SiD=22,},["MapFav"]={Up="$INV_Torch_Lit",SiU=22,SiD=22,},["MapGuide"]={Up="$INV_Misc_QuestionMark",SiU=22,SiD=22,},["MapWarehouse"]={Up="$INV_Misc_EngGizmos_17",SiU=22,SiD=22,},["MapQGivers"]={Up="$INV_Misc_Note_02",SiU=22,SiD=22,},["MapZIn"]={Up="$Spell_ChargePositive",SiU=22,SiD=22,},["MapZOut"]={Up="$Spell_ChargeNegative",SiU=22,SiD=22,},["Opts"]={Ski=true,Boo=true,Up="But",Dn="ButChk",SiU=22,SiD=22,},["Scroll"]={Scr1=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\ScrollUp",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\ScrollUp",SiU=14,SiD=12,},["Tab"]={Boo=true,Ski=true,Up="TabOff",Dn="TabOn",},["Toggle"]={Boo=true,Ski=true,Up="But",Dn="ButChk",SiU=14,SiD=14,},["QuestHdr"]={Boo=true,Ski=true,Up="RoundMinus",Dn="RoundPlus",SiU=11,SiD=11,VRGBAU="8f8f8fff",VRGBAD="8f8f8fff",},["QuestWatching"]={Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=11,SiD=11,VRGBAU="ffff3f7f",VRGBAD="dfdf2fef",},["QuestWatchMenu"]={Tip="Menu",Ski=true,Up="ButWatchMenu",Dn="ButWatchMenu",SiU=14,SiD=14,VRGBAU="ffffff7f",VRGBAD="ffffffbf",},["QuestWatchPri"]={Tip="Priorities",Ski=true,Up="ButWatchMenu",Dn="ButWatchMenu",SiU=14,SiD=14,VRGBAU="ffff7f7f",VRGBAD="ffff7fbf",},["QuestWatchShowOnMap"]={Tip="Show Quests On Map",Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=10,SiD=13,VRGBAU="3fff3f8f",VRGBAD="3fff3fdf",},["QuestWatchATrack"]={Tip="Auto Track",Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=10,SiD=13,VRGBAU="ff00ff8f",VRGBAD="ff40ffdf",},["QuestWatchGivers"]={Tip="Quest Givers",Sta1=3,Tx="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",{Siz2=10,VRGBA="ffcf3f8f",},{Siz2=13,VRGBA="ffcf3fdf",},{Siz2=13,VRGBA="8f8fffdf",}
+},["Guide"]={Boo=true,Up="$INV_Misc_QuestionMark",Dn="$INV_Misc_QuestionMark",SiU=24,SiD=28,AlU=.7,AlD=1,},["Max"]={Tip="Maximize",Ski=true,Up="ButMax",Dn="ButMax",VRGBAU="ffffffff",},["MaxOn"]={Tip="Restore",Ski=true,Up="ButMax",Dn="ButMax",VRGBAU="7f7fffff",},["Min"]={Tip="Minimize",Boo=true,Ski=true,Up="ButWatchShow",Dn="ButWatchMini",VRGBAU="ffffff7f",VRGBAD="9f9fffff",},["MapAutoScale"]={Tip="Auto Scale",Boo=true,Ski=true,Up="But",Dn="ButChk",},["MapCombat"]={Up="$Ability_DualWield",SiU=22,SiD=22,},["MapEvents"]={Up="$INV_Misc_Note_03",SiU=22,SiD=22,},["MapFav"]={Up="$INV_Torch_Lit",SiU=22,SiD=22,},["MapGuide"]={Up="$INV_Misc_QuestionMark",SiU=22,SiD=22,},["MapWarehouse"]={Up="$INV_Misc_EngGizmos_17",SiU=22,SiD=22,},["MapQGivers"]={Up="$INV_Misc_Note_02",SiU=22,SiD=22,},["MapZIn"]={Up="$Spell_ChargePositive",SiU=22,SiD=22,},["MapZIdeal"]={Up="$INV_Misc_Spyglass_02",SiU=22,SiD=22,},["MapZOut"]={Up="$Spell_ChargeNegative",SiU=22,SiD=22,},["Opts"]={Ski=true,Boo=true,Up="But",Dn="ButChk",SiU=22,SiD=22,},["Scroll"]={Scr1=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\ScrollUp",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\ScrollUp",SiU=14,SiD=12,},["Tab"]={Boo=true,Ski=true,Up="TabOff",Dn="TabOn",},["Toggle"]={Boo=true,Ski=true,Up="But",Dn="ButChk",SiU=14,SiD=14,},["QuestHdr"]={Boo=true,Ski=true,Up="RoundMinus",Dn="RoundPlus",SiU=11,SiD=11,VRGBAU="8f8f8fff",VRGBAD="8f8f8fff",},["QuestWatching"]={Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=11,SiD=11,VRGBAU="ffff3f7f",VRGBAD="dfdf2fef",},["QuestWatchMenu"]={Tip="Menu",Ski=true,Up="ButWatchMenu",Dn="ButWatchMenu",SiU=14,SiD=14,VRGBAU="ffffff7f",VRGBAD="ffffffbf",},["QuestWatchPri"]={Tip="Priorities",Ski=true,Up="ButWatchMenu",Dn="ButWatchMenu",SiU=14,SiD=14,VRGBAU="ffff7f7f",VRGBAD="ffff7fbf",},["QuestWatchShowOnMap"]={Tip="Show Quests On Map",Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=10,SiD=13,VRGBAU="3fff3f8f",VRGBAD="3fff3fdf",},["QuestWatchATrack"]={Tip="Auto Track",Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=10,SiD=13,VRGBAU="ff00ff8f",VRGBAD="ff40ffdf",},["QuestWatchGivers"]={Tip="Quest Givers",Sta1=3,Tx="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",{Siz2=10,VRGBA="ffcf3f8f",},{Siz2=13,VRGBA="ffcf3fdf",},{Siz2=13,VRGBA="8f8fffdf",}
 },["QuestWatchParty"]={Tip="Show Party Quests",Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=10,SiD=13,VRGBAU="cfcfcf8f",VRGBAD="ffffffdf",},["QuestWatch"]={Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=9,SiD=9,AlU=.3,AlD=.85,},["QuestWatchTip"]={Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=7,SiD=7,VRGBAU="00000050",VRGBAD="00000080",WaT=1
 },["QuestWatchTipItem"]={SiU=11,SiD=11,VRGBAU="ffffffc0",VRGBAD="ffffffff",WaT=1
 },["QuestWatchTarget"]={Boo=true,Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=12,SiD=12,AlU=.4,AlD=1,},["QuestWatchErr"]={Up="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",Dn="Interface\\Addons\\Carbonite\\Gfx\\Buttons\\DotOn",SiU=9,SiD=12,VRGBAU="ff80206f",VRGBAD="ff8020ef",WaE=1
@@ -2554,6 +2554,7 @@ self:MoE(true)
 if self.Win1:ISM() then
 self.Win1:ToS1()
 self:ReV("")
+self.IZP=not self:HasZoomTrack()
 self:DWM()
 if self.GOp["MapMaxRestoreHide"] then
 self.Win1:Show(false)
@@ -3918,7 +3919,7 @@ function Nx.Map:CTB()
 local bar=Nx.ToB:Cre(self:GWN().."TB",self.Frm,22,true,true)
 self.ToB=bar
 bar:SeU(self)
-local dat={{"MapZIn","Zoom In",self.OBZI,false},{"MapZOut","Zoom Out",self.OBZO,false},{"MapFav","-Favorites-",self.OBTF,false},{"MapGuide","-Guide-",self.OBTG,false},{"MapWarehouse","-Warehouse-",self.OBTW,false},{"MapCombat","-Combat-",self.OBTC,false},{"MapEvents","-Events-",self.OBTE,false},}
+local dat={{"MapZIn","Zoom In",self.OBZI,false},{"MapZOut","Zoom Out",self.OBZO,false},{"MapZIdeal","Ideal Zoom (Shift: save current, Ctrl: reset)",self.OBZIdeal,false},{"MapFav","-Favorites-",self.OBTF,false},{"MapGuide","-Guide-",self.OBTG,false},{"MapWarehouse","-Warehouse-",self.OBTW,false},{"MapCombat","-Combat-",self.OBTC,false},{"MapEvents","-Events-",self.OBTE,false},}
 for i,b in ipairs(dat) do
 if Nx.Fre and i>3 then
 break
@@ -19825,6 +19826,27 @@ end
 function Nx.Map:OBZI()
 self:SSOT(2)
 end
+function Nx.Map:OBZIdeal()
+if IsControlKeyDown() then
+self.LOp.NXIdealZoomSpan=nil
+Nx.prt("Ideal zoom reset to default")
+self:IdealZoom()
+elseif IsShiftKeyDown() then
+self.LOp.NXIdealZoomSpan=min(self.MaW,self.MaH)/self.Sca
+Nx.prt("Ideal zoom saved")
+else
+self:IdealZoom()
+end
+end
+function Nx.Map:HasZoomTrack()
+local cX,cY=GetCorpseMapPosition()
+return cX~=0 or cY~=0 or #self.Tra1>0 or next(self.Tar)~=nil or self.TaX~=nil
+end
+function Nx.Map:IdealZoom()
+local spa=self.LOp.NXIdealZoomSpan or 100
+local sca=max(min(self.MaW,self.MaH)/spa,.015)
+self:Mov(self.PlX or self.MPX,self.PlY or self.MPY,sca,10)
+end
 function Nx.War.OB_2()
 local self=Nx.War
 if self.Ena then
@@ -21466,6 +21488,10 @@ self:UpW()
 end
 self.MaW=self.Frm:GetWidth()-self.PaX*2
 self.MaH=self.Frm:GetHeight()-self.TiH
+if self.IZP then
+self.IZP=nil
+self:IdealZoom()
+end
 self.Lev=self.Frm:GetFrameLevel()+1
 local maI=self:GCMI()
 self.Con,self.Zon=self:ITCZ(maI)
