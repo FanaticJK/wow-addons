@@ -19,7 +19,13 @@ ItemFrame.ITEM_SIZE = 39
 local function throttledUpdater_OnUpdate(self, elapsed)
 	local p = self:GetParent()
 	if p:NeedsLayout() then
+		local oldWidth, oldHeight = p:GetWidth(), p:GetHeight()
 		p:Layout()
+
+		--OnSizeChanged is not reliable on 3.3.5, so tell the parent window to resize directly
+		if p:GetWidth() ~= oldWidth or p:GetHeight() ~= oldHeight then
+			p:SendMessage('ITEM_FRAME_SIZE_CHANGE', p:GetFrameID())
+		end
 	end
 	self:Hide()
 end
@@ -33,7 +39,6 @@ function ItemFrame:New(frameID, parent)
 
 	f:SetFrameID(frameID)
 
-	f:SetScript('OnSizeChanged', f.OnSizeChanged)
 	f:SetScript('OnEvent', f.OnEvent)
 	f:SetScript('OnShow', f.OnShow)
 	f:SetScript('OnHide', f.OnHide)
@@ -84,11 +89,6 @@ end
 function ItemFrame:OnHide()
 	self:UpdateEvents()
 end
-
-function ItemFrame:OnSizeChanged()
-	self:SendMessage('ITEM_FRAME_SIZE_CHANGE', self:GetFrameID())
-end
-
 
 --[[ Update Methods ]]--
 
