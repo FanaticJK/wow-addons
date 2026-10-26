@@ -212,10 +212,25 @@ function private.HookAH()
 
 		button.SetAuction = private.SetAuction
 		button:SetScript("OnClick", private.ButtonClick)
+		-- Rows extend past BrowseScrollFrame; capture the wheel so it scrolls the list instead of zooming the camera
+		button:EnableMouseWheel(true)
+		button:SetScript("OnMouseWheel", private.ButtonMouseWheel)
 
 		lastButton = button
 	end
 	NUM_BROWSE_TO_DISPLAY = NEW_NUM_BROWSE
+
+	-- Sub-pixel seams between rows let the wheel fall through to the camera; catch it across the whole list area
+	if not private.wheelCatcher then
+		local catcher = CreateFrame("Frame", nil, AuctionFrameBrowse)
+		catcher:SetPoint("TOPLEFT", private.buttons[1], "TOPLEFT", -2, 2)
+		catcher:SetPoint("BOTTOMRIGHT", lastButton, "BOTTOMRIGHT", 30, -2)
+		catcher:SetFrameLevel(AuctionFrameBrowse:GetFrameLevel())
+		catcher:EnableMouse(false)
+		catcher:EnableMouseWheel(true)
+		catcher:SetScript("OnMouseWheel", private.ButtonMouseWheel)
+		private.wheelCatcher = catcher
+	end
 
 	local function selectHeader(self, ...)
 		local id = self.id
@@ -438,6 +453,12 @@ function private.ButtonClick(me, mouseButton)
 		-- Close any auction related popups
 		CloseAuctionStaticPopups()
 		AuctionFrameBrowse_Update()
+	end
+end
+
+function private.ButtonMouseWheel(this, delta)
+	if BrowseScrollFrame and BrowseScrollFrameScrollBar and BrowseScrollFrame:IsShown() then
+		ScrollFrameTemplate_OnMouseWheel(BrowseScrollFrame, delta or arg1)
 	end
 end
 
