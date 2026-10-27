@@ -103,6 +103,12 @@ function private.HookAH()
 
 	if (not AucAdvanced.Settings.GetSetting("util.compactui.activated")) then
 		private.MyAuctionFrameUpdate = function() end
+		-- Default Blizzard rows: keep the wheel on the list instead of letting it zoom the camera
+		for i = 1, NUM_BROWSE_TO_DISPLAY do
+			private.CaptureWheel(_G["BrowseButton"..i])
+			private.CaptureWheel(_G["BrowseButton"..i.."Item"])
+		end
+		private.CreateWheelCatcher(_G["BrowseButton1"], _G["BrowseButton"..NUM_BROWSE_TO_DISPLAY])
 		return
 	end
 
@@ -213,24 +219,14 @@ function private.HookAH()
 		button.SetAuction = private.SetAuction
 		button:SetScript("OnClick", private.ButtonClick)
 		-- Rows extend past BrowseScrollFrame; capture the wheel so it scrolls the list instead of zooming the camera
-		button:EnableMouseWheel(true)
-		button:SetScript("OnMouseWheel", private.ButtonMouseWheel)
+		private.CaptureWheel(button)
+		private.CaptureWheel(button.IconButton)
 
 		lastButton = button
 	end
 	NUM_BROWSE_TO_DISPLAY = NEW_NUM_BROWSE
 
-	-- Sub-pixel seams between rows let the wheel fall through to the camera; catch it across the whole list area
-	if not private.wheelCatcher then
-		local catcher = CreateFrame("Frame", nil, AuctionFrameBrowse)
-		catcher:SetPoint("TOPLEFT", private.buttons[1], "TOPLEFT", -2, 2)
-		catcher:SetPoint("BOTTOMRIGHT", lastButton, "BOTTOMRIGHT", 30, -2)
-		catcher:SetFrameLevel(AuctionFrameBrowse:GetFrameLevel())
-		catcher:EnableMouse(false)
-		catcher:EnableMouseWheel(true)
-		catcher:SetScript("OnMouseWheel", private.ButtonMouseWheel)
-		private.wheelCatcher = catcher
-	end
+	private.CreateWheelCatcher(private.buttons[1], lastButton)
 
 	local function selectHeader(self, ...)
 		local id = self.id
@@ -456,10 +452,32 @@ function private.ButtonClick(me, mouseButton)
 	end
 end
 
+-- Always consumes the wheel: scrolls the list when possible, otherwise swallows it so the camera does not zoom
 function private.ButtonMouseWheel(this, delta)
+	delta = delta or arg1
+	if not delta then return end
 	if BrowseScrollFrame and BrowseScrollFrameScrollBar and BrowseScrollFrame:IsShown() then
-		ScrollFrameTemplate_OnMouseWheel(BrowseScrollFrame, delta or arg1)
+		ScrollFrameTemplate_OnMouseWheel(BrowseScrollFrame, delta)
 	end
+end
+
+function private.CaptureWheel(frame)
+	if not frame then return end
+	frame:EnableMouseWheel(true)
+	frame:SetScript("OnMouseWheel", private.ButtonMouseWheel)
+end
+
+-- Seams between rows, empty rows and the margin up to the scrollbar have no mouse-enabled frame, so the
+-- wheel falls through to WorldFrame and zooms. A mouse-enabled backdrop under the rows catches it instead.
+function private.CreateWheelCatcher(firstRow, lastRow)
+	if private.wheelCatcher or not (firstRow and lastRow) then return end
+	local catcher = CreateFrame("Frame", nil, AuctionFrameBrowse)
+	catcher:SetPoint("TOPLEFT", firstRow, "TOPLEFT", -4, 4)
+	catcher:SetPoint("BOTTOMRIGHT", lastRow, "BOTTOMRIGHT", 30, -4)
+	catcher:SetFrameLevel(AuctionFrameBrowse:GetFrameLevel())
+	catcher:EnableMouse(true)
+	private.CaptureWheel(catcher)
+	private.wheelCatcher = catcher
 end
 
 function private.IconEnter(this)
