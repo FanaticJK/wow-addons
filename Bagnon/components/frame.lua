@@ -21,6 +21,13 @@ local Frame = Bagnon.Classy:New('Frame')
 Frame:Hide()
 Bagnon.Frame = Frame
 
+--the stack split popup shares the DIALOG strata with a focused bag frame, whose item buttons
+--sit at higher frame levels and would cover it; lift it one strata so it always shows on top
+hooksecurefunc('OpenStackSplitFrame', function()
+	StackSplitFrame:SetFrameStrata('FULLSCREEN_DIALOG')
+	StackSplitFrame:Raise()
+end)
+
 --SmallMoneyFrameTemplate reserves this much empty space right of the copper icon
 local MONEY_FRAME_RIGHT_PADDING = 13
 
@@ -45,6 +52,7 @@ function Frame:New(frameID)
 
 	f:SetScript('OnShow', f.OnShow)
 	f:SetScript('OnHide', f.OnHide)
+	f:SetScript('OnUpdate', f.OnUpdate)
 	f.frameID = frameID
 	f:Rescale()
 	f:UpdateEverything()
@@ -201,11 +209,46 @@ end
 function Frame:OnShow()
 	PlaySound('igBackPackOpen')
 
+	--a freshly opened frame takes focus, so it starts above every other window
+	self.hasFocus = true
 	self:UpdateEvents()
 	self:UpdateLook()
-
-	--bring the frame above other windows sharing its strata every time it opens
 	self:Raise()
+end
+
+--focus tracking: on each new mouse press, the frame takes focus if the press
+--landed on it (or one of its children), and gives it up otherwise
+function Frame:OnUpdate()
+	if not self.tracksFocus then
+		return
+	end
+
+	local isDown = IsMouseButtonDown('LeftButton') or IsMouseButtonDown('RightButton')
+	if isDown and not self.wasMouseDown then
+		self:SetFocused(self:IsAncestorOf(GetMouseFocus()))
+	end
+	self.wasMouseDown = isDown
+end
+
+function Frame:IsAncestorOf(frame)
+	while frame do
+		if frame == self then
+			return true
+		end
+		frame = frame:GetParent()
+	end
+	return false
+end
+
+function Frame:SetFocused(focused)
+	focused = focused and true or false
+	if self.hasFocus ~= focused then
+		self.hasFocus = focused
+		self:UpdateFrameLayer()
+		if focused then
+			self:Raise()
+		end
+	end
 end
 
 function Frame:OnHide()
@@ -404,10 +447,13 @@ end
 
 function Frame:SetFrameLayer(layer)
 	local strata, topLevel = nil, false
+	self.tracksFocus = (layer == 'TOPLEVEL')
 
-	--DIALOG keeps the bags above meter/quest windows (Recount, Carbonite) that sit at HIGH or below
+	--TOPLEVEL is focus aware: while focused (just opened, or last clicked) the frame sits at DIALOG,
+	--above meter/quest windows (Recount, Carbonite) that live at HIGH or below; once the user
+	--clicks anything else it drops to MEDIUM so the clicked window can come to the front
 	if layer == 'TOPLEVEL' then
-		strata = 'DIALOG'
+		strata = self.hasFocus and 'DIALOG' or 'MEDIUM'
 		topLevel = true
 	elseif layer == 'MEDIUMLOW' then
 		strata = 'LOW'

@@ -16,8 +16,11 @@ Bagnon.GuildFrame = Frame
 function Frame:OnShow()
 	PlaySound('GuildVaultOpen')
 
+	--a freshly opened frame takes focus, so it starts above every other window
+	self.hasFocus = true
 	self:UpdateEvents()
 	self:UpdateLook()
+	self:Raise()
 end
 
 function Frame:OnHide()
