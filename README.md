@@ -143,7 +143,7 @@ in [ADDON_TRACKER.md](ADDON_TRACKER.md).
 | Libraries / support | `Stubby` (Auctioneer loader), the 17 `DataStore*` modules (Altoholic's data layer), `BeanCounter` (AH transaction history), `Informant` (item info tooltips), `SlideBar` (Norganna launcher bar) |
 | Action bars & unit frames | `Bartender4`, `oUF` |
 | Quests & leveling | `EveryQuest` + 11 data modules, `ZygorGuidesViewer`, `ZygorTalentAdvisor`, `QuestItemHelper` |
-| Raid & combat | `Grid2`, `Grid2Options`, `Grid2StatusRaidDebuffs(+Options)`, `PowerAuras`, `Quartz`, `Recount`, `GearScore` |
+| Raid & combat | `Grid2`, `Grid2Options`, `Grid2StatusRaidDebuffs(+Options)`, `PowerAuras`, `Quartz`, `Recount`, `GearScore`, `LootRollTooltipFix` (keeps the Need/Greed item tooltip open while you hover the icon) |
 | Chat & mail | `Prat-3.0`, `Prat-3.0_HighCPUUsageModules`, `Prat-3.0_Libraries`, `Postal` |
 | Gathering & map | `GatherMate`, `GatherMate_Data`, `SexyMap`, `SilverDragon`, `SilverDragon_Data`, `MobInfo2` |
 | Professions & vendors | `Skillet`, `SellJunk` |

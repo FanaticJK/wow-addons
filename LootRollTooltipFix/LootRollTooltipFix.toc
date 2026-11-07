@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: Loot Roll Tooltip Fix
+## Notes: Keeps the item tooltip on the Need/Greed roll popup open while the mouse is over the item icon.
+## Author: Sujan Karki
+## Version: 1.0.0
+
+LootRollTooltipFix.lua

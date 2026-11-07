@@ -2560,3 +2560,4 @@ Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/FontWidge
 Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SharedFunctions.lua: AddCloseButton
 Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/SoundWidget.lua: AddCloseButton
 Titan/libs/AceGUI-3.0-SharedMediaWidgets/AceGUI-3.0-SharedMediaWidgets/StatusbarWidget.lua: AddCloseButton
+NUM_GROUP_LOOT_FRAMES
